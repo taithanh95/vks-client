@@ -1,0 +1,192 @@
+<nz-modal *ngIf="data" class="ant-form" nzWidth="1000px" [(nzVisible)]="isVisible" nzTitle="Thêm mới" nzClosable="false" [nzTitle]="title" nzMaskClosable="false">
+  <ng-template #title>
+    Cập nhật Giao nhận hồ sơ
+    <div class="pull-right icon-close">
+      <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+  <ng-container>
+    <table width="100%" class="ui-panelgrid">
+      <tr>
+        <td><label>
+          Loại giao nhận
+        </label></td>
+        <td>
+          <nz-radio-group [disabled]="data.action === 'U'" [(ngModel)]="data.changeid" (ngModelChange)="changeidListener()">
+            <label *ngIf="userfor != 'G1'" nz-radio nzValue="01">VKS - TA</label>
+            <label *ngIf="userfor != 'G1'" nz-radio nzValue="02">TA - VKS</label>
+            <label *ngIf="userfor != 'G2'" nz-radio nzValue="03">VKS - CQĐT</label>
+            <label *ngIf="userfor != 'G2'" nz-radio nzValue="04">CQĐT - VKS</label>
+          </nz-radio-group>
+        </td>
+        <td colspan="2">
+          <ng-container *ngIf="data.changeid === '01' || data.changeid === '04'">
+            <!--<nz-checkbox-group [(ngModel)]="checkOptionsOne" (ngModelChange)="updateSingleChecked()"></nz-checkbox-group>-->
+            <nz-radio-group [disabled]="data.action === 'U'" [(ngModel)]="data.status">
+              <label nz-radio nzValue="Y">{{userfor === 'G1' ? 'Giao nhận hồ sơ để truy tố' : 'Giao nhận hồ sơ để xét xử'}}</label>
+              <label nz-radio nzValue="T">Giao nhận cập nhật trả hồ sơ điều tra bổ sung</label>
+            </nz-radio-group>
+          </ng-container>
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>
+        </td>
+        <td colspan="2" *ngIf="data.status === 'T' && (data.changeid === '01' || data.changeid === '04')">
+          <nz-radio-group [disabled]="data.action === 'U'" [(ngModel)]="data.statustype">
+            <label nz-radio nzValue="C">Công Văn</label>
+            <label nz-radio nzValue="K">Khác</label>
+          </nz-radio-group>
+        </td>
+      </tr>
+      <tr>
+        <td><label>
+          Mã giao nhận
+        </label></td>
+        <td>
+          <input title="Mã giao nhận" nz-input disabled [(ngModel)]="data.transcode"/>
+        </td>
+        <td>
+          <label>
+           Ngày giao nhận <span class="required">*</span>
+          </label>
+        </td>
+        <td>
+          <nz-date-picker #autofocus (ngModelChange)="transdateChange($event)" title="Ngày giao nhận" [(ngModel)]="data.transdate" nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"
+          (input)="onValueTransdate($event)" (keypress)="validateOnlyNumbers($event)"></nz-date-picker>
+        </td>
+      </tr>
+      <tr>
+
+        <td>
+          <label *ngIf="data.changeid === '01' || data.changeid === '03'">
+            Người giao
+          </label>
+          <label *ngIf="data.changeid === '02' || data.changeid === '04'">
+            Người nhận
+          </label>
+        </td>
+        <td>
+          <input style="text-transform:capitalize" title="Người giao" appTitleCase *ngIf="data.changeid === '01' || data.changeid === '03'" nz-input  [(ngModel)]="data.sender"/>
+          <input style="text-transform:capitalize" title="Người nhận" appTitleCase *ngIf="data.changeid === '02' || data.changeid === '04'" nz-input  [(ngModel)]="data.receipter"/>
+        </td>
+        <td>
+          <label *ngIf="data.changeid === '01' || data.changeid === '03'">
+            Người nhận
+          </label>
+          <label *ngIf="data.changeid === '02' || data.changeid === '04'">
+            Người giao
+          </label>
+        </td>
+        <td>
+          <input style="text-transform:capitalize" title="Người nhận" appTitleCase *ngIf="data.changeid === '01' || data.changeid === '03'" nz-input  [(ngModel)]="data.receipter"/>
+          <input style="text-transform:capitalize" title="Người giao" appTitleCase *ngIf="data.changeid === '02' || data.changeid === '04'" nz-input  [(ngModel)]="data.sender"/>
+        </td>
+      </tr>
+      <tr>
+        <td><label>
+          Viện kiểm sát
+        </label></td>
+        <td>
+          <input title="Viện kiểm sát" disabled="disabled" placeholder="" nz-input [(ngModel)]="data.atxSpp" (input)="onInputSpp($event)"
+                 [nzAutocomplete]="autoSpp"/>
+          <nz-autocomplete #autoSpp>
+            <nz-auto-option *ngFor="let option of lstSpps" nzLabel="{{ option.sppid }} - {{ option.name }}" [nzValue]="option">{{ option.sppid }} - {{ option.name }}</nz-auto-option>
+          </nz-autocomplete>
+        </td>
+        <td>
+          <label *ngIf="data.changeid === '01' || data.changeid === '02'">
+            Tòa án <span class="required">*</span>
+          </label>
+          <label *ngIf="data.changeid === '03' || data.changeid === '04'">
+            Cơ quan điều tra
+          </label>
+        </td>
+        <td>
+          <ng-container *ngIf="data.changeid === '01' || data.changeid === '02'">
+            <input title="Tòa án" placeholder="" nz-input [(ngModel)]="data.atxSpc" (input)="onInputSpc($event)"
+                   [nzAutocomplete]="autoSpc"/>
+            <nz-autocomplete #autoSpc>
+              <nz-auto-option *ngFor="let option of lstSpcs" nzLabel="{{ option.SPCID }} - {{ option.NAME }}" [nzValue]="option">{{ option.SPCID }} - {{ option.NAME }}</nz-auto-option>
+            </nz-autocomplete>
+          </ng-container>
+          <ng-container *ngIf="data.changeid === '03' || data.changeid === '04'">
+            <nz-select title="Cơ quan điều tra" [(ngModel)]="data.polid" nzPlaceHolder="--Cơ quan điều tra--" (ngModelChange)="polChangeEvent()">
+              <nz-option *ngFor="let o of lstPols" [nzValue]="o.polid" [nzLabel]="o.name"></nz-option>
+            </nz-select>
+          </ng-container>
+        </td>
+      </tr>
+      <tr *ngIf="showAutoPol(data)">
+        <td></td>
+        <td></td>
+        <td><label>Đơn vị giao nhận <span class="required">*</span></label></td>
+        <td>
+          <ng-container *ngIf="data.polid === '02'">
+            <input placeholder="" nz-input [(ngModel)]="data.atxPol" (input)="onInputPolice($event)"
+                   [nzAutocomplete]="autoPolice"/>
+            <nz-autocomplete #autoPolice>
+              <nz-auto-option *ngFor="let option of lstPolices" [nzLabel]="option.NAME" [nzValue]="option">{{ option.POLICEID }} - {{ option.NAME }}</nz-auto-option>
+            </nz-autocomplete>
+          </ng-container>
+          <ng-container *ngIf="data.polid === '04'">
+            <input placeholder="" nz-input [(ngModel)]="data.atxArmy" (input)="onInputArmy($event)"
+                   [nzAutocomplete]="autoArmy"/>
+            <nz-autocomplete #autoArmy>
+              <nz-auto-option *ngFor="let option of lstArmies" [nzLabel]="option.NAME" [nzValue]="option">{{ option.ARMYID }} - {{ option.NAME }}</nz-auto-option>
+            </nz-autocomplete>
+          </ng-container>
+          <ng-container *ngIf="data.polid === '06'">
+            <input placeholder="" nz-input [(ngModel)]="data.atxCustoms" (input)="onInputCustoms($event)"
+                   [nzAutocomplete]="autoCustom"/>
+            <nz-autocomplete #autoCustom>
+              <nz-auto-option *ngFor="let option of lstCustoms" [nzLabel]="option.NAME" [nzValue]="option">{{ option.CUSTOMID }} - {{ option.NAME }}</nz-auto-option>
+            </nz-autocomplete>
+          </ng-container>
+          <ng-container *ngIf="data.polid === '08'">
+            <input placeholder="" nz-input [(ngModel)]="data.atxRanger" (input)="onInputRangers($event)"
+                   [nzAutocomplete]="autoRanger"/>
+            <nz-autocomplete #autoRanger>
+              <nz-auto-option *ngFor="let option of lstRangers" [nzLabel]="option.NAME" [nzValue]="option">{{ option.RANGID }} - {{ option.NAME }}</nz-auto-option>
+            </nz-autocomplete>
+          </ng-container>
+          <ng-container *ngIf="data.polid === '09'">
+            <input placeholder="" nz-input [(ngModel)]="data.atxBorderGuards" (input)="onInputBorderGuards($event)"
+                   [nzAutocomplete]="autoBorderGuard"/>
+            <nz-autocomplete #autoBorderGuard>
+              <nz-auto-option *ngFor="let option of lstBorderGuards" [nzLabel]="option.NAME" [nzValue]="option">{{ option.BORGUAID }} - {{ option.NAME }}</nz-auto-option>
+            </nz-autocomplete>
+          </ng-container>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>Vật chứng</label>
+        </td>
+        <td>
+          <input nz-input [(ngModel)]="data.evidence">
+        </td>
+        <td>
+          <label>Tổng số bút lục</label>
+        </td>
+        <td>
+          <input nz-input appNumberic [(ngModel)]="data.num_of_pen" />
+        </td>
+      </tr>
+      <tr>
+        <td><label>
+          Ghi chú
+        </label></td>
+        <td colspan="3">
+          <input nz-input [(ngModel)]="data.remark"/>
+        </td>
+      </tr>
+    </table>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="loading">{{'save' | translate }}</button>
+    <button nz-button (click)="handleReset()" *ngIf="data.action == 'I'">Thêm mới</button>
+    <button nz-button (click)="handleCancel()">{{'cancel' | translate }}</button>
+  </div>
+</nz-modal>

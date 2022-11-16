@@ -1,0 +1,114 @@
+<fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+  <div nz-row>
+    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Báo cáo thông tin quyết định</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <nz-select [(ngModel)]="filterItem.typeDecision" placeholder="Báo cáo thông tin quyết định">
+            <nz-option nzValue="1" nzLabel="Theo loại quyết định"></nz-option>
+            <nz-option nzValue="2" nzLabel="Sắp đến hạn"></nz-option>
+            <nz-option nzValue="3" nzLabel="Quá hạn"></nz-option>
+            <nz-option nzValue="4" nzLabel="Sắp đến hạn tạm giam"></nz-option>
+            <nz-option nzValue="5" nzLabel="Quá hạn tạm giam"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+  <div *ngIf="filterItem.typeDecision == '1'" nz-row>
+    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Từ ngày</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <nz-date-picker (input)="onValueFDate($event)"
+                          (keypress)="validateOnlyNumbers($event)"
+                          [(ngModel)]="filterItem.fdateDecision"
+                          nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Đến ngày</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <nz-date-picker (input)="onValueTDate($event)"
+                          (keypress)="validateOnlyNumbers($event)"
+                          [(ngModel)]="filterItem.tdateDecision"
+                          nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-control [nzSpan]="12">(Ngày QĐ)</nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+  <div nz-row>
+    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Giai đoạn</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <nz-select [(ngModel)]="filterItem.usefor" placeholder="Giai đoạn">
+            <nz-option nzValue="G1" nzLabel="Kiểm sát điều tra"></nz-option>
+            <nz-option nzValue="G2" nzLabel="Kiểm sát giải quyết án - Truy tố"></nz-option>
+            <nz-option nzValue="G3" nzLabel="Xét xử sơ thẩm"></nz-option>
+            <nz-option nzValue="G4" nzLabel="Xét xử phúc thẩm"></nz-option>
+            <nz-option nzValue="G5" nzLabel="Xét xử giám đốc thẩm"></nz-option>
+            <nz-option nzValue="G6" nzLabel="Thi hành án"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div *ngIf="filterItem.typeDecision == '1'" nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Quyết định</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <input nz-input placeholder="Nhấn dấu cách để chọn tất cả, hoặc gõ mã hoặc tên để chọn từ danh mục"
+                 [(ngModel)]="filterItem.deciid" [nzAutocomplete]="autodeci" (ngModelChange)="deciChange($event)" (input)="onInputDeci($event)">
+          <nz-autocomplete #autodeci>
+            <nz-auto-option *ngFor="let option of lstDeci" nzLabel="{{option.deciname}}"
+                            [nzValue]="option.deciid">{{ option.deciid}} - {{option.deciname}}</nz-auto-option>
+          </nz-autocomplete>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div *ngIf="['2', '3', '4', '5'].includes(filterItem.typeDecision)" nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Tính đến ngày</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <nz-date-picker (input)="onValueUtilDate($event)"
+                          (keypress)="validateOnlyNumbers($event)"
+                          [(ngModel)]="filterItem.utildate"
+                          nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div *ngIf="lstReasons && lstReasons.length > 0" nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Lý do</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <nz-select nzShowSearch nzAllowClear nzPlaceHolder="" style="width:100%" [(ngModel)]="filterItem.reasonid">
+            <nz-option *ngFor="let option of lstReasons" [nzValue]="option.reasonid" nzLabel="{{option.reasonid}} - {{option.reasonname}}"></nz-option>
+            <nz-option nzValue="99" nzLabel="99 - Lý do khác"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+</fieldset>
+<div class="ui-panel">
+  <div nz-row>
+    <div nz-col [nzSpan]="24" class="search-area">
+      <button nz-button [nzType]="'primary'" (click)="showResult()">
+        <span class="fa fa-fw fa-search"></span>
+        Tìm kiếm
+      </button>
+    </div>
+  </div>
+</div>
+<ng-container *ngIf="isVisibleResult">
+  <app-result-decision [isVisible]="isVisibleResult" (closeModal)="closeModalResult($event)"
+                       [filterItem]="filterItem">
+  </app-result-decision>
+</ng-container>

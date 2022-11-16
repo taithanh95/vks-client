@@ -1,0 +1,290 @@
+<app-accused-details [accused]="accused"></app-accused-details>
+
+<fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+  <legend class="ui-fieldset-legend ui-corner-all ui-state-default mb-0" (click)="toggleCollapse()">
+    <i nz-icon [nzType]="collapse ? 'minus' : 'plus'"></i> Thông tin cấp lệnh
+  </legend>
+  <div class="ui-fieldset-content ant-advanced-search-form p-2" [ngClass]="collapse ? 'show' : 'hide' ">
+    <div nz-row nzJustify="end" class="mb-1">
+      <button nz-button nzType="primary" (click)="showPopupCreate()"><i class="fa fa-fw fa-plus"></i> Thêm mới</button>
+    </div>
+    <nz-table #basicTable nzBordered [nzData]="listOfItems" [nzSize]="'small'" [nzNoResult]="noResultTpl">
+      <thead>
+      <tr>
+        <th>Giai đoạn</th>
+        <th>Tên quyết định</th>
+        <th>Số quyết định</th>
+        <th>Ngày cấp số</th>
+        <th nzWidth="150px">Thao tác</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of basicTable.data">
+        <td nzAlign="center">
+          <span [textContent]="data.stageName"></span>
+        </td>
+        <td>{{ data.decisionCode }} - {{ data.decisionName }}</td>
+        <td nzAlign="center">{{ data.decisionNumAuto }}</td>
+        <td nzAlign="center">{{ data.issuesDate }}</td>
+        <td nzAlign="center">
+          <button nz-button nzType="primary" (click)="onEdit(data)" nz-tooltip nzTooltipTitle="Sửa">
+            <i class="fa fa-fw fa-edit"></i>
+          </button>
+          <nz-divider nzType="vertical"></nz-divider>
+          <button nz-button nz-tooltip nzTooltipTitle="Xóa" (click)="showConfirmDeleteModal(data.id)">
+            <i class="fa fa-fw fa-times"></i>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
+  </div>
+  <ng-template #noResultTpl>
+    <nz-empty nzNotFoundImage="./assets/image/empty.svg" [nzNotFoundContent]="contentTpl">
+      <ng-template #contentTpl>
+        <p>Không tìm thấy kết quả.</p>
+      </ng-template>
+    </nz-empty>
+  </ng-template>
+</fieldset>
+
+<nz-modal nzWidth="768px" [(nzVisible)]="isVisible" nzTitle="Chọn quyết định" [nzTitle]="title" nzClosable="false" nzMaskClosable="false">
+  <ng-template #title>
+    Chọn quyết định
+    <div class="pull-right icon-close">
+      <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+  <div *nzModalContent>
+    <p class="text-danger">Các trường bắt buộc được đánh dấu *</p>
+    <form nz-form [formGroup]="myForm" novalidate>
+      <div class="row">
+        <div class="col-6">
+          <nz-form-item class="row mb-0">
+            <nz-form-label class="col-lg-4 col-sm-12 text-left" nzFor="stage" nzRequired>
+              Giai đoạn
+            </nz-form-label>
+            <nz-form-control class="col-lg-8 col-sm-12" nzErrorTip="Vui lòng chọn Giai đoạn">
+              <nz-select formControlName="stage" id="stage" (nzOpenChange)="onStageChange($event)">
+                <nz-option nzValue="G1" nzLabel="Điều tra"></nz-option>
+                <nz-option nzValue="G2" nzLabel="Truy tố"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div class="col-6">
+          <nz-form-item class="row mb-0">
+            <nz-form-label class="col-lg-4 col-sm-12 text-left" nzFor="inDate" nzRequired>
+              Ngày cấp số
+            </nz-form-label>
+            <nz-form-control class="col-lg-8 col-sm-12" nzErrorTip="Vui lòng chọn Ngày cấp số!">
+              <nz-date-picker [nzMode]="'date'" nzFormat="dd/MM/yyyy" formControlName="issuesDate" id="issuesDate" [nzDisabled]="isDisable"
+                              nzPlaceHolder="dd/MM/yy" #inDatePicker
+                              [nzDisabledDate]="disabledIssueDate"
+                              (input)="onIssueDateValueChange($event)"
+                              (keypress)="numberOnly($event)"
+                              (ngModelChange)="onInDateChange($event)" class="w-100"></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <nz-form-item class="row mb-0">
+            <nz-form-label class="col-lg-2 col-sm-12 text-left" nzRequired nzFor="decisionCode">
+              Tên quyết định
+            </nz-form-label>
+            <nz-form-control class="col-lg-10 col-sm-12" nzErrorTip="Vui lòng chọn Tên quyết định">
+              <nz-select #decisionSelect nzShowSearch nzAllowClear nzPlaceHolder="-Chọn tên quyết định-"
+                         (ngModelChange)="onDecisionChange($event)" [nzDisabled]="isDisable"
+                         formControlName="decisionCode" id="decisionCode">
+                <ng-container *ngFor="let o of listOfOption">
+                  <nz-option [nzValue]="o.value" [nzLabel]="o.value + ' - ' + o.text"></nz-option>
+                </ng-container>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-6">
+          <nz-form-item class="row mb-0">
+            <nz-form-label class="col-lg-4 col-sm-12 text-left" nzRequired nzFor="decisionNumAuto"
+                           nzTooltipTitle="Số QĐ tự sinh khi chọn Tên quyết định">
+              Số QĐ
+            </nz-form-label>
+            <nz-form-control class="col-lg-8 col-sm-12">
+              <nz-input-number id="decisionNumAuto" formControlName="decisionNumAuto" [nzMin]="1" [nzStep]="1"
+                               [nzDisabled]="decisionCode().invalid && issuesDate().invalid" class="w-100"></nz-input-number>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+<!--        <div class="col-6">-->
+<!--          <nz-form-item class="row mb-0">-->
+<!--            <nz-form-label class="col-lg-4 col-sm-12 text-left" nzFor="decisionNum"-->
+<!--                           nzTooltipTitle="Số QĐ thực tế liền kề lớn nhất đã có trong hệ thống theo từng quyết định/lệnh của đơn vị trong năm công tác">-->
+<!--              <span>Số QĐ thực tế</span>-->
+<!--            </nz-form-label>-->
+<!--            <nz-form-control class="col-lg-8 col-sm-12">-->
+<!--              <nz-input-number id="decisionNum" formControlName="decisionNum" [nzMin]="1" [nzStep]="1"-->
+<!--                               [nzDisabled]="issuesDate().invalid && decisionCode().invalid"-->
+<!--                               class="w-100"></nz-input-number>-->
+<!--            </nz-form-control>-->
+<!--          </nz-form-item>-->
+<!--        </div>-->
+      </div>
+
+      <div class="row">
+        <div class="col-6">
+          <nz-form-item class="row mb-0">
+            <nz-form-label class="col-lg-4 col-sm-12 text-left text-wrap" [ngStyle]="{'line-height': '20px'}" nzFor="fromDate">
+              Thời hạn/ hiệu lực từ ngày
+            </nz-form-label>
+            <nz-form-control class="col-lg-8 col-sm-12" [nzErrorTip]="errorTpl">
+              <nz-date-picker #fromDatePicker [nzPlaceHolder]="'Chọn ngày'" nzFormat="dd/MM/yyyy"
+                              formControlName="fromDate" id="fromDate"
+                              (input)="onFromDateValueChange($event)"
+                              (keypress)="numberOnly($event)"
+                              class="w-100"></nz-date-picker>
+              <ng-template #errorTpl let-control>
+                <ng-container *ngIf="control.hasError('confirm')">
+                  Ngày cấp số phải nhỏ hơn hoặc bằng Hiệu lực từ ngày!
+                </ng-container>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div class="col-6">
+          <nz-form-item class="row mb-0">
+            <nz-form-label class="col-lg-4 col-sm-12 text-left text-wrap" [ngStyle]="{'line-height': '20px'}" nzFor="toDate">
+              Thời hạn/ hiệu lực đến ngày
+            </nz-form-label>
+            <nz-form-control class="col-lg-8 col-sm-12">
+              <nz-date-picker #endDatePicker [nzPlaceHolder]="'Chọn ngày'" nzFormat="dd/MM/yyyy"
+                              [nzMode]="'date'" nzPlaceHolder="dd/MM/yyyy"
+                              (input)="onToDateValueChange($event)"
+                              (keypress)="numberOnly($event)"
+                              formControlName="toDate" id="toDate" class="w-100"></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <nz-form-item class="row mb-0">
+            <nz-form-label class="col-lg-2 col-sm-12 text-left" nzRequired>
+              Đơn vị ra QĐ
+            </nz-form-label>
+            <nz-form-control class="col-lg-10 col-sm-12">
+              <input type="text" nz-input [value]="spp.sppId + ' - ' + spp.name" disabled>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-6">
+          <div class="row">
+            <nz-form-item class="w-100">
+              <nz-form-label class="col-4 text-left" nzRequired nzFor="signer">Người ký</nz-form-label>
+              <nz-form-control class="col-8" [nzErrorTip]="signerErrTpl">
+                <input formControlName="signer" nz-input name="signer" type="text" id="signer"
+                       (ngModelChange)="handleChangeSignname()" [nzAutocomplete]="autoInpector"
+                       (input)="onInputInspector($event)">
+                <nz-autocomplete #autoInpector>
+                  <nz-auto-option *ngFor="let option of lstInpectors" [nzLabel]="option.FULLNAME"
+                                  [nzValue]="option.FULLNAME">{{ option.INSPCODE }}
+                    - {{ option.FULLNAME }}</nz-auto-option>
+                </nz-autocomplete>
+              </nz-form-control>
+              <ng-template #signerErrTpl let-control>
+                <ng-container *ngIf="control.hasError('maxlength')">
+                  <small>Độ dài ký tự đã vượt quá giới hạn, yêu cầu kiểm tra lại</small>
+                </ng-container>
+              </ng-template>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="row">
+            <nz-form-item class="w-100">
+              <nz-form-label class="col-4 text-left" nzRequired nzFor="position">Chức vụ</nz-form-label>
+              <nz-form-control class="col-8" [nzErrorTip]="positionErrTpl">
+                <input formControlName="position" nz-input name="position" type="text"
+                       id="position">
+              </nz-form-control>
+              <ng-template #positionErrTpl let-control>
+                <ng-container *ngIf="control.hasError('maxlength')">
+                  <small>Độ dài ký tự đã vượt quá giới hạn, yêu cầu kiểm tra lại</small>
+                </ng-container>
+              </ng-template>
+            </nz-form-item>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <nz-form-item class="row mb-0">
+            <nz-form-label class="col-lg-2 col-sm-12 text-left">
+              Ghi chú
+            </nz-form-label>
+            <nz-form-control class="col-lg-10 col-sm-12" [nzErrorTip]="noteErrTpl">
+              <nz-textarea-count [nzMaxCharacterCount]="2000">
+                <textarea rows="4" formControlName="note" nz-input></textarea>
+              </nz-textarea-count>
+              <ng-template #noteErrTpl let-control>
+                <ng-container *ngIf="control.hasError('maxlength')">
+                  <small class="form-text">Độ dài tối đa 2000 ký tự!</small>
+                </ng-container>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </form>
+  </div>
+  <!-- /.nzModalContent -->
+  <div *nzModalFooter>
+    <button nz-button nzType="primary" type="submit" (click)="handleOk(myForm.value)" [disabled]="myForm.invalid"
+            [nzLoading]="isConfirmLoading">{{'save' | translate }}
+    </button>
+    <button nz-button nzType="default" type="button" (click)="handleCancel()">{{'cancel' | translate }}</button>
+  </div>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isVisibleDeleteConfirm"
+  nzTitle="Bạn có chắc chắn muốn xóa dữ liệu không?"
+  (nzOnCancel)="handleDeleteCancel()"
+>
+  <form nz-form [formGroup]="confirmDeleteForm" (ngSubmit)="submitDeleteForm()">
+    <div *nzModalContent>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="reason">Lý do</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" [nzErrorTip]="errorTpl">
+          <input nz-input formControlName="reason" id="reason" placeholder="Nhập lý do xóa"/>
+          <ng-template #errorTpl let-control>
+            <ng-container *ngIf="control.hasError('required')"><small>Trường Lý do bắt buộc nhập</small></ng-container>
+            <ng-container *ngIf="control.hasError('maxlength')">
+              <small>Trường lý do được nhập tối đa 500 ký tự</small>
+            </ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div *nzModalFooter>
+      <button nz-button nzType="default" (click)="handleDeleteCancel()">{{'no' | translate}}</button>
+      <button nz-button nzType="danger" (click)="handleDeleteOk(confirmDeleteForm.value)"
+              [nzLoading]="isConfirmLoading">{{'yes' | translate}}</button>
+    </div>
+  </form>
+</nz-modal>
+
+<div nz-row nzJustify="center">
+  <button nz-button nzType="primary" (click)="goBack()"><i class="fas fa-backward"></i>  {{'back' | translate }}
+  </button>
+</div>

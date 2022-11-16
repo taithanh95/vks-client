@@ -1,0 +1,109 @@
+<div nz-row>
+  <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="10">Mã kháng cáo</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <input [(ngModel)]="filterItem.appealid" nz-input placeholder="Mã kháng cáo">
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+
+  <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="10">Loại kháng cáo</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <input [(ngModel)]="filterItem.appealname" nz-input placeholder="Loại kháng cáo">
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+</div>
+
+<div nz-row>
+  <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="10">Từ ngày</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <nz-date-picker (input)="onValueFDate($event)"
+                        (keypress)="validateOnlyNumbers($event)"
+                        [(ngModel)]="filterItem.fromdateappeal"
+                        nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"
+                        nz-tooltip nzTooltipTitle="Ngày kháng cáo từ ngày">
+        </nz-date-picker>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+
+  <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="10">Đến ngày</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <nz-date-picker (input)="onValueTDate($event)"
+                        (keypress)="validateOnlyNumbers($event)"
+                        [(ngModel)]="filterItem.todateappeal"
+                        (ngModelChange)="checkDate()"
+                        nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"
+                        nz-tooltip nzTooltipTitle="Ngày kháng cáo đến ngày">
+        </nz-date-picker>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+</div>
+
+<div class="ui-panel">
+  <div nz-row>
+    <div nz-col [nzSpan]="24" class="search-area">
+      <button nz-button [nzType]="'primary'" (click)="doSearch()">
+        <span class="fa fa-fw fa-search"></span>
+        Tìm kiếm
+      </button>
+      <button [disabled]="isDetailBtn" nz-button [nzType]="'primary'" (click)="showDetail()">
+        <span class="fa fa-fw fa-eye"></span>Chi tiết
+      </button>
+      <a target="_blank" [routerLink]="['/report/caseinfo/', selectedItem?.CASECODE]" href="">
+        <button [disabled]="!selectedItem" nz-button nzType="primary">
+          <span class="fa fa-fw fa-eye"></span>
+          Chi tiết vụ án
+        </button>
+      </a>
+    </div>
+  </div>
+</div>
+<ng-container>
+  <div class="data-table">
+    <nz-table #basicTable nzShowSizeChanger [nzFrontPagination]="false" nzSize="small" [nzData]="datas"
+              [nzScroll]="{ x: '1200px' }" [nzLoading]="loading" [nzShowTotal]="rangeTemplate"
+              [nzPageSize]="defaultPage"
+              [nzTotal]="total" [nzPageIndex]="pageIndex" (nzQueryParams)="onQueryParamsChange($event)">
+      <thead>
+      <tr>
+        <th class="text-nowrap" nzWidth="5%">STT</th>
+        <th class="text-nowrap" mat-sort-header="casecode" nzWidth="8%">Mã vụ án</th>
+        <th class="text-nowrap" nzWidth="10%">Tên vụ án</th>
+        <th class="text-nowrap" nzWidth="10%">Người KC</th>
+        <th class="text-nowrap" nzWidth="8%">Ngày KN</th>
+        <th class="text-nowrap" nzWidth="40%">Loại kháng cáo</th>
+        <th class="text-nowrap" nzWidth="8%">Kháng cáo</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of basicTable.data; let i = index;" class="actived" (click)="onRowSelect(data)"
+          [class.selected]="data === selectedItem">
+        <td style="text-align: center" class="text-nowrap">{{getRowIndex(i, basicTable.nzPageIndex,
+          basicTable.nzPageSize)}}</td>
+        <td class="text-nowrap center">{{ data.CASECODE }}</td>
+        <td class="text-nowrap">{{ data.CASENAME }}</td>
+        <td class="text-nowrap">{{ data.PERAPP }}</td>
+        <td class="text-nowrap center">{{ data.INDATE | dateFormat }}</td>
+        <td class="text-nowrap">{{ data.APPEALNAME }}</td>
+        <td class="text-nowrap">{{ data.APPEAFORNAME }}</td>
+      </tr>
+      </tbody>
+    </nz-table>
+    <ng-template #rangeTemplate let-range="range" let-total>
+      {{ range[0] }}-{{ range[1] }} {{'of' | translate }} {{ total }} {{'items' | translate }}
+    </ng-template>
+  </div>
+</ng-container>
+<ng-container *ngIf="isVisibleDetail">
+  <app-lookup-detail (closeModal)="closeDetail($event)" [isVisible]="isVisibleDetail" [data]="data"></app-lookup-detail>
+</ng-container>

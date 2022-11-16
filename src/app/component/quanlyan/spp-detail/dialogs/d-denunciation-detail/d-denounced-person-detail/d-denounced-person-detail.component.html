@@ -1,0 +1,118 @@
+<nz-modal nzWidth="1300px"
+          [(nzVisible)]="isVisibleDialog"
+          [nzAutofocus]="'auto'"
+          nzClosable="false"
+          [nzTitle]="title"
+          nzMaskClosable="false">
+  <ng-template #title>Chi tiết người bị tố giác
+    <div class="pull-right icon-close">
+      <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+
+  <form id="denouncedPersonForm" [formGroup]="denouncedPersonForm" focusInvalidInput>
+    <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+      <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse()">
+        <i nz-icon [nzType]="isCollapse ? 'minus' : 'plus'"></i>Chi tiết người bị tố giác
+      </legend>
+
+      <div class="ui-fieldset-content">
+        <div nz-form class="ant-advanced-search-form" [ngClass]="isCollapse ? 'show' : 'hide' ">
+          <div class="col-12">
+            <div class="row">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="fullName">Họ và tên
+                      <span style="color: red">&nbsp;*</span></nz-form-label>
+                    <nz-form-control class="col-md-8">
+                      <input formControlName="fullName" nz-input type="text"
+                             id="fullName">
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="yearOfBirth">Năm sinh</nz-form-label>
+                    <nz-form-control class="col-md-8">
+                      <input class="text-right" formControlName="yearOfBirth" nz-input name="yearOfBirth" type="text"
+                             id="yearOfBirth"
+                             (blur)="dateOfYearValueChange($event.target['value'])">
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="dateOfBirth">Ngày sinh</nz-form-label>
+                    <nz-form-control class="col-md-8">
+                      <nz-date-picker class="w-100 custom-datepicker-align"
+                                      formControlName="dateOfBirth"
+                                      nzPlaceHolder="dd/MM/yyyy"
+                                      nzFormat="dd/MM/yyyy">
+                      </nz-date-picker>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="job">Nghề nghiệp</nz-form-label>
+                    <nz-form-control class="col-md-8">
+                      <input formControlName="job" nz-input name="job" type="text"
+                             id="job">
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="workplace">Nơi công tác</nz-form-label>
+                    <nz-form-control class="col-md-8">
+                      <input formControlName="workplace" nz-input name="workplace" type="text"
+                             id="workplace">
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-2 text-left" nzFor="address">Địa chỉ</nz-form-label>
+                    <nz-form-control class="col-md-10">
+                    <textarea formControlName="address" nz-input name="address"
+                              id="address" [nzAutosize]="true">
+                    </textarea>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+
+    <div *nzModalFooter>
+      <div class="d-flex align-items-center justify-content-center">
+            <button nz-button (click)="handleCancel()">{{ 'Thoát' }}</button>
+      </div>
+    </div>
+  </form>
+</nz-modal>

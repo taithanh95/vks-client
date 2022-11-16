@@ -1,0 +1,133 @@
+<fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+    <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse()">
+        <i nz-icon [nzType]="isCollapse ? 'minus' : 'plus'"></i>Vụ án
+    </legend>
+    <div class="ui-fieldset-content clearfix" nz-form [ngClass]="isCollapse ? 'show' : 'hide' ">
+        <div style="display: block">
+          <div style="float:left;">
+              <table class="ui-panelgrid table-detail">
+                  <tr>
+                      <td><label>Mã vụ án:</label></td>
+                      <td>
+                          <span>{{sppCase.casecode}}</span>
+                      </td>
+                      <td>
+                          <label>Loại tội phạm</label>
+                      </td>
+                      <td>
+                          <span>{{toCaseType(sppCase.casetype)}}</span>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td><label>Tên vụ án:</label></td>
+                      <td>
+                          <span>{{sppCase.casename}}</span>
+                      </td>
+                      <td><label> Tội danh:</label></td>
+                      <td>
+                          <span title="{{sppCase.lawcode_txt}}">{{sppCase.lawcode_txt}}</span>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td><label>Ngày xảy ra:</label></td>
+                      <td>
+                          <span>{{ sppCase.crimdate | dateFormat}}</span>
+                      </td>
+                      <td><label>Nơi xảy ra:</label>
+                      </td>
+                      <td>
+                          <span>{{ sppCase.crimwhere_txt }}</span>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td><label>Quyết định khởi tố số:</label></td>
+                      <td>
+                          <span>{{ sppCase.begin_setnum }}</span>
+                      </td>
+                      <td><label>Ngày ra quyết định:</label>
+                      </td>
+                      <td>
+                          <span>{{ sppCase.begin_indate | dateFormat }}</span>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td><label>Cơ quan ra quyết định:</label></td>
+                      <td>
+                          <span>{{sppCase.sid_txt}}</span>
+                      </td>
+                      <td><label>Bị can đầu vụ:</label>
+                      </td>
+                      <td>
+                          <span>{{sppCase.firstacc_txt}}</span>
+                      </td>
+                  </tr>
+              </table>
+          </div>
+          <!-- /.nz-row -->
+        </div>
+    </div>
+</fieldset>
+<div class="ui-panel">
+    <div nz-row>
+        <div nz-col [nzSpan]="24" class="search-area">
+            <button nz-button [nzType]="'primary'" (click)="onShowPopupSearch()">
+                <span class="fa fa-fw fa-plus"></span>
+                Chọn vụ án
+            </button>
+            <button 
+                [disabled]="checkBtn(lstSelected)"
+                nz-button nzType="primary"
+                nz-popconfirm
+                nzPopconfirmTitle="Vụ án đã nhập sẽ không nhập thêm hoặc hủy được thao tác đó, bạn có chắc chắn muốn nhập vụ án không?"
+                nzPopconfirmPlacement="top" 
+                nzCancelText="Hủy" 
+                nzOkText="Đồng ý" 
+                (nzOnConfirm)="handleOk()">
+                <span class="fas fa-save"></span>{{'save' | translate }}
+            </button>
+            <button nz-button [nzType]="'primary'" (click)="goToBack()" >
+                <span class="fa fa-fw fa-times"></span> Quay lại
+            </button>
+        </div>
+    </div>
+    <ng-container *ngIf="lstDatas">
+        <div class="data-table">
+            <nz-table #basicTable [nzData]="lstDatas"
+                    [nzScroll]="{ x: '1200px', y: '300px' }"
+                    [nzFrontPagination]="false"
+                    [nzShowPagination]="false"
+                    nzSize="small"
+                    nzShowSizeChanger [nzLoading]="loading">
+                    <thead>
+                        <tr>
+                            <th class="text-nowrap center" nzWidth="5%">STT</th>
+                            <th class="text-nowrap" nzWidth="10%">Mã vụ án</th>
+                            <th class="text-nowrap" nzWidth="35%">Tên vụ án</th>
+                            <th class="text-nowrap center" nzWidth="10%">Số quyết định khởi tố</th>
+                            <th class="text-nowrap" nzWidth="10%">Ngày xảy ra</th>
+                            <th class="text-nowrap" nzWidth="10%">Ngày ra quyết định khởi tố</th>
+                            <th class="text-nowrap" nzWidth="10%">Người tạo</th>
+                            <th class="text-nowrap center" nzWidth="10%">Ngày tạo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of basicTable.data; let i = index;" class="actived">
+                            <td class="text-nowrap center">{{getRowIndex(i, basicTable.nzPageIndex,
+                                basicTable.nzPageSize)}}</td>
+                            <td class="text-nowrap center">{{ data.CASECODE }}</td>
+                            <td class="text-nowrap">{{ data.CASENAME }}</td>
+                            <td class="text-nowrap center"> {{ data.BEGIN_SETNUM }} </td>
+                            <td class="text-nowrap center"> {{ data.CRIMDATE | dateFormat }} </td>
+                            <td class="text-nowrap center"> {{ data.BEGIN_INDATE | dateFormat }}</td>
+                            <td class="text-nowrap">{{ data.CRTUSER }}</td>
+                            <td class="text-nowrap center">{{ data.CRTDATE | dateFormat }}</td>
+                        </tr>
+                    </tbody>
+            </nz-table>
+            <!-- <ng-template #rangeTemplate let-range="range" let-total>
+                {{ range[0] }}-{{ range[1] }} {{'of' | translate }} {{ total }} {{'items' | translate }}
+            </ng-template> -->
+        </div>
+    </ng-container>
+</div>
+<app-search-case-view-join [isVisible]="isVisibleAdd" (closeModal)="onClosePopupSearch()" (submitForm)="onSubmitPopupSearch($event)"></app-search-case-view-join>

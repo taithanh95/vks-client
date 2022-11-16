@@ -1,0 +1,125 @@
+<fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+  <div nz-row>
+    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Loại giám sát</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <nz-select [(ngModel)]="filterItem.typeregister" placeholder="Loại giám sát">
+            <nz-option nzValue="1" nzLabel="Báo cáo tình hình thụ lý sắp hết hạn"></nz-option>
+            <nz-option nzValue="2" nzLabel="Báo cáo tình hình thụ lý quá hạn"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+  <div nz-row>
+    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Từ ngày</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <nz-date-picker (input)="onValueFDate($event)"
+                          (keypress)="validateOnlyNumbers($event)"
+                          [(ngModel)]="filterItem.fdateRegister"
+                          nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Đến ngày</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <nz-date-picker (input)="onValueTDate($event)"
+                          (keypress)="validateOnlyNumbers($event)"
+                          [(ngModel)]="filterItem.tdateRegister"
+                          nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+  <div nz-row>
+    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Giai đoạn</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <nz-select [(ngModel)]="filterItem.usefor" placeholder="Giai đoạn">
+            <nz-option nzValue="G1" nzLabel="Kiểm sát điều tra"></nz-option>
+            <nz-option nzValue="G2" nzLabel="Kiểm sát giải quyết án - Truy tố"></nz-option>
+            <nz-option nzValue="G3" nzLabel="Xét xử sơ thẩm"></nz-option>
+            <nz-option nzValue="G4" nzLabel="Xét xử phúc thẩm"></nz-option>
+            <nz-option nzValue="G5" nzLabel="Xét xử giám đốc thẩm"></nz-option>
+            <nz-option nzValue="G6" nzLabel="Thi hành án"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Kiểm sát viên</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <nz-select (nzOnSearch)="onInputInspector($event)" nzShowSearch nzAllowClear
+                     title="Nhấn phím space hoặc gõ mã hoặc tên để chọn Kiểm sát viên"
+                     [(ngModel)]="filterItem.inspcode"
+                     nzPlaceHolder="Nhấn phím space hoặc gõ mã hoặc tên để chọn Kiểm sát viên">
+            <nz-option *ngFor="let o of lstInsp" [nzValue]="o"
+                       nzLabel="{{ o.INSPCODE}} - {{o.FULLNAME}}"></nz-option>
+          </nz-select>
+          <!--                            <input title="Nhấn phím space hoặc gõ mã hoặc tên để chọn Kiểm sát viên"-->
+          <!--                                   placeholder="Nhấn phím space hoặc gõ mã hoặc tên để chọn Kiểm sát viên" nz-input-->
+          <!--                                   [(ngModel)]="filterItem.inspcode" (input)="onInputInspector($event)"-->
+          <!--                                   [nzAutocomplete]="autoInsp"/>-->
+          <!--                            <nz-autocomplete #autoInsp nzWidth="300">-->
+          <!--                                <nz-auto-option *ngFor="let option of lstInsp"-->
+          <!--                                                nzLabel="{{ option.INSPCODE}} - {{option.FULLNAME}}"-->
+          <!--                                                [nzValue]="option">{{ option.INSPCODE}}-->
+          <!--                                    - {{option.FULLNAME}}</nz-auto-option>-->
+          <!--                            </nz-autocomplete>-->
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+  <div nz-row>
+    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Tính đến ngày</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <nz-date-picker (input)="onValueFlagDate($event)"
+                          (keypress)="validateOnlyNumbers($event)"
+                          [(ngModel)]="filterItem.flagdate"
+                          nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-control [nzSpan]="12">
+          <label nz-checkbox [(ngModel)]="filterItem.special"> Án điểm</label><br>
+          <label nz-checkbox [(ngModel)]="filterItem.movement"
+                 *ngIf="filterItem.usefor == 'G3' || filterItem.usefor =='G4'"> Xét xử lưu
+            động</label>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-control [nzSpan]="12">
+          <label nz-checkbox [(ngModel)]="filterItem.lawyer"> Có luật sư tham gia</label>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+</fieldset>
+<div class="ui-panel">
+  <div nz-row>
+    <div nz-col [nzSpan]="24" class="search-area">
+      <button nz-button [nzType]="'primary'" (click)="showResult()">
+        <span class="fa fa-fw fa-search"></span>
+        Tìm kiếm
+      </button>
+    </div>
+  </div>
+</div>
+<ng-container *ngIf="isVisibleResult">
+  <app-result-register [isVisible]="isVisibleResult" (closeModal)="closeModalResult($event)"
+                       [filterItem]="filterItem">
+  </app-result-register>
+</ng-container>

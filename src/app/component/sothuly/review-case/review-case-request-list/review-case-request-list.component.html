@@ -1,0 +1,86 @@
+<app-review-case-request-detail [isVisibleDialog]="isDialogVisible" [mode]="mode"
+                                [reviewCaseRequest]="denouncedPersonForEdit"
+                                [fullAccusedList]="fullAccusedList"
+                                (onSave)="addOrEditPerson($event)" (onCancel)="this.isDialogVisible = false">
+</app-review-case-request-detail>
+<fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+  <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse()">
+    <i nz-icon [nzType]="isCollapse ? 'minus' : 'plus'"></i>Yêu cầu, kiến nghị, đề nghị
+  </legend>
+  <div class="px-3" [ngClass]="isCollapse ? 'show' : 'hide' ">
+    <div class="data-table mt-0 mb-2">
+      <div *ngIf="mode != modeEnum.VIEW_FROM_PARENT">
+        <button class="float-right mb-2" nz-button (click)="openDetailDialog(modeEnum.CREATE)" nzType="primary"
+                type="button">
+          <span class="fa fa-fw fa-plus"></span>Thêm mới
+        </button>
+      </div>
+      <nz-table #basicTable class="custom-table" [nzData]="visiblePersonList" [nzShowPagination]="true"
+                nzSize="small" nzShowSizeChanger [nzTableLayout]="'fixed'" [nzLoading]="loading" [nzPageSize]="5"
+                [nzPageSizeOptions]="pageSize" [nzFrontPagination]="true" [nzShowTotal]="rangeTemplate">
+        <thead>
+        <tr>
+          <th style="width: 15%">STT</th>
+          <th style="width: 10%">YC,KN,ĐN số</th>
+          <th style="width: 25%">YC,KN,ĐN ngày</th>
+          <th style="width: 25%">Bị cáo</th>
+          <th style="width: 15%">Cơ quan ban hành</th>
+          <th style="width: 15%">Thao tác</th>
+        </tr>
+        </thead>
+        <tbody>
+        <ng-container *ngFor="let data of basicTable.data;let i = index;">
+          <tr class="actived"
+              ngClass="s-{{data.selected}}">
+            <td class="text-center" nzEllipsis nz-tooltip>{{ i + 1}}</td>
+            <td nzEllipsis nz-tooltip [nzTooltipTitle]="data['requestNum']">
+              {{ data['requestNum'] }}</td>
+            <td nzEllipsis nz-tooltip
+                [nzTooltipTitle]="data['dRequestDate']" class="text-center">
+              {{ data['dRequestDate'] | dateFormat}}</td>
+            <td nzEllipsis nz-tooltip [nzTooltipTitle]="data['accusedCode']">
+              {{ getAccusedNameFromCode(data['accusedCode'])}}</td>
+            <td nzEllipsis nz-tooltip [nzTooltipTitle]="data['requestOffice']">
+              {{ data['requestOffice'] }}</td>
+            <td class="text-center">
+              <ng-container *ngIf="mode == modeEnum.VIEW_FROM_PARENT">
+                <button nz-button class="mx-1" type="button" [nzGhost]="true" style="padding-left: 8px !important;"
+                        nz-tooltip nzTooltipTitle="Xem"
+                        (click)="openDetailDialog(modeEnum.VIEW_FROM_PARENT, i)">
+                  <i nz-icon nzType="file" nzTheme="twotone"></i>
+                </button>
+              </ng-container>
+              <ng-container *ngIf="mode != modeEnum.VIEW_FROM_PARENT">
+                <button nz-button class="mx-1" type="button" [nzGhost]="true" style="padding-left: 8px !important"
+                        nz-tooltip nzTooltipTitle="Xem"
+                        (click)="openDetailDialog(modeEnum.VIEW, i)">
+                  <i nz-icon nzType="file" nzTheme="twotone"></i>
+                </button>
+                <button nz-button class="mx-1" type="button" [nzGhost]="true" style="padding-left: 8px !important"
+                        nz-tooltip nzTooltipTitle="Sửa"
+                        (click)="openDetailDialog(modeEnum.UPDATE, i)">
+                  <i nz-icon nzType="edit" nzTheme="twotone"></i>
+                </button>
+                <button nz-button nz-popconfirm
+                        nzPopconfirmTitle="Bạn có muốn xóa yêu cầu, kiến nghị, đề nghị này không?"
+                        [nzGhost]="true" style="padding-left: 8px !important"
+                        nz-tooltip nzTooltipTitle="Xóa"
+                        nzPopconfirmPlacement="bottom" class="mx-1" type="button"
+                        nzOkText="Không" nzCancelText="Có" nzOkType="default"
+                        (nzOnConfirm)="cancelDelete()"
+                        (nzOnCancel)="deletePerson(i)">
+                  <i nz-icon nzType="delete" nzTheme="twotone"></i>
+                </button>
+              </ng-container>
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </nz-table>
+      <ng-template #rangeTemplate let-range="range" let-total>
+        <!--    {{ range[0] }}-{{ range[1] }} {{'của' | translate }} {{ total }} {{ 'bản ghi' }}-->
+        {{ range[0] }}-{{ range[1] }} {{' của ' | translate }} {{ visiblePersonList.length }} {{ ' bản ghi' }}
+      </ng-template>
+    </div>
+  </div>
+</fieldset>

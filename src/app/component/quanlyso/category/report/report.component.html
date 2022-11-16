@@ -1,0 +1,101 @@
+<div>
+  <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+    <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse()">
+      <i nz-icon [nzType]="isCollapse ? 'minus' : 'plus'"></i> Thông tin tìm kiếm
+    </legend>
+    <div class="ui-fieldset-content ant-advanced-search-form" [ngClass]="isCollapse ? 'show' : 'hide' ">
+      <div nz-row>
+        <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10">Mã báo cáo</nz-form-label>
+            <nz-form-control [nzSpan]="12">
+              <input [(ngModel)]="filterItem.reportCode" nz-input placeholder="Mã báo cáo">
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10">Tên chỉ tiêu</nz-form-label>
+            <nz-form-control [nzSpan]="12">
+              <input nz-input placeholder="Tên chỉ tiêu" [(ngModel)]="filterItem.name">
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+
+</div>
+<div class="ui-panel">
+  <div nz-row>
+    <div nz-col [nzSpan]="4" class="search-area-left">
+      <button nz-button (click)="rollback()" [nzType]="'primary'">
+        <span class="fa fa-fw fa-arrow-left"></span>
+        Quay lại
+      </button>
+    </div>
+    <div nz-col [nzSpan]="20" class="search-area-right">
+      <button nz-button (click)="doSearch()" [nzType]="'primary'">
+        <span class="fa fa-fw fa-search"></span>
+        Tìm kiếm
+      </button>
+      <button [disabled]="isBtn || selectedItem?.level === 4" nz-button (click)="showEditForm()" nzType="primary">
+          <span class="fa fa-fw fa-edit"></span>Thêm mới
+      </button>
+      <button [disabled]="isBtn" nz-button nzType="primary" (click)="showEditForm(true)">
+        <span class="fa fa-fw fa-eye"></span>Cập nhật thông tin
+      </button>
+      <button [disabled]="isBtn" nz-button nzType="primary" (click)="deleteRow()">
+        <span class="fa fa-fw fa-eye"></span>Xóa thông tin
+      </button>
+    </div>
+  </div>
+</div>
+<div class="data-table">
+  <nz-table #basicTable nzShowSizeChanger [nzFrontPagination]="false" nzSize="small" [nzData]="datas"
+            [nzScroll]="{ x: '1200px' }" (nzCurrentPageDataChange)="currentPageDataChange($event)" [nzLoading]="loading"
+            [nzShowTotal]="rangeTemplate" [nzPageSize]="defaultPage" [nzTotal]="total" [nzPageIndex]="pageIndex"
+            (nzQueryParams)="onQueryParamsChange($event)"
+            [nzNoResult]="noResultTpl">
+    <thead>
+    <tr>
+      <th class="text-nowrap center" nzWidth="5%">STT</th>
+      <th class="text-nowrap center" nzWidth="10%">Mã báo cáo</th>
+      <th class="text-nowrap center" nzWidth="85%">Tên chỉ tiêu</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of basicTable.data; let i = index;" class="actived" (click)="onRowSelect(data)"
+        [class.selected]="data === selectedItem">
+      <td style="text-align: center" class="text-nowrap">{{getRowIndex(i, basicTable.nzPageIndex,
+        basicTable.nzPageSize)}}</td>
+      <td class="text-nowrap center">{{ data['reportCode'] }}</td>
+      <td class="text-nowrap">{{ data['name'] }}</td>
+    </tr>
+    </tbody>
+  </nz-table>
+  <ng-template #rangeTemplate let-range="range" let-total>
+    {{ range[0] }}-{{ range[1] }} {{'of' | translate }} {{ total }} {{'items' | translate }}
+  </ng-template>
+  <ng-template #confirm>
+    <i nz-icon nzType="question-circle" nzTheme="twotone" nzTwotoneColor="#faad14"></i>
+    &nbsp; Bạn có chắc chắn muốn xóa bản ghi này không?
+  </ng-template>
+  <ng-template #confirmHeader>
+    Xác nhận xóa dữ liệu
+    <div class="pull-right icon-close">
+      <em (click)="confirmModalRef.close()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+</div>
+<app-create-report 
+[data]="dataDetail" [isVisible]="isVisible" (closeModal)="closeModalDetail($event)" (reload)="reloadPage($event)" 
+></app-create-report>
+<ng-template #noResultTpl>
+  <nz-empty [nzNotFoundContent]="contentTpl" nzNotFoundImage="./assets/image/empty.svg">
+    <ng-template #contentTpl>
+      <p>Không có dữ liệu</p>
+    </ng-template>
+  </nz-empty>
+</ng-template>

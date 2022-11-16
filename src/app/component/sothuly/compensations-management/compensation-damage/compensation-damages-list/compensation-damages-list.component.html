@@ -1,0 +1,79 @@
+<app-compensation-damages-detail
+  [isVisible]="isVisible"
+  [popupMode]="popupMode"
+  [ComponentDamage]="item"
+  [compensationId]="compensationId"
+  (closeChange)="onCloseModal($event)"
+  (saveChange)="createOrUpdate($event)"
+></app-compensation-damages-detail>
+<fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+  <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse()">
+    <i nz-icon [nzType]="isCollapse ? 'minus' : 'plus'"></i>Thông tin người thiệt hại
+  </legend>
+
+  <div class="px-3" [ngClass]="isCollapse ? 'show' : 'hide'">
+    <div class="data-table mt-0 mb-2">
+      <div *ngIf="popupMode != popupModeEnum.VIEW">
+        <button class="float-right mb-2" nz-button (click)="onOpenModal(popupModeEnum.CREATE)" nzType="primary"
+                type="button">
+          <span class="fa fa-fw fa-plus"></span>Thêm mới
+        </button>
+      </div>
+      <nz-table #basicTable class="custom-table" [nzData]="listOfData" [nzShowPagination]="true"
+                nzSize="small" nzShowSizeChanger [nzTableLayout]="'fixed'" [nzLoading]="loading" [nzPageSize]="5"
+                [nzPageSizeOptions]="pageSize" [nzFrontPagination]="true" [nzShowTotal]="rangeTemplate">
+        <thead>
+        <tr>
+          <th nzWidth="25%">Họ và tên</th>
+          <th nzWidth="15%">Ngày sinh</th>
+          <th nzWidth="40%">Địa chỉ</th>
+          <th nzWidth="20%">Thao tác</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let data of basicTable.data;let i = index;" ngClass="s-{{data.selected}}">
+          <td nzAlign="center" nzEllipsis nz-tooltip [nzTooltipTitle]="data['damagesName']">
+            {{ data['damagesName'] }}</td>
+          <td nzAlign="center" nzEllipsis nz-tooltip
+              [nzTooltipTitle]="data['damagesBirthday'] | dateFormat">
+            {{ data['damagesBirthday'] | dateFormat }}</td>
+          <td nzAlign="center" nzEllipsis nz-tooltip [nzTooltipTitle]="data['damagesAddress']">
+            {{ data['damagesAddress'] }}</td>
+          <td nzAlign="center">
+            <ng-container *ngIf="popupMode == popupModeEnum.VIEW_FROM_PARENT">
+              <button nz-button class="mx-1" type="button" [nzGhost]="true"
+                      nz-tooltip nzTooltipTitle="Xem"
+                      (click)="onOpenModal(popupModeEnum.VIEW_FROM_PARENT, i)">
+                <i nz-icon nzType="file" nzTheme="twotone"></i>
+              </button>
+            </ng-container>
+            <ng-container *ngIf="popupMode != popupModeEnum.VIEW_FROM_PARENT">
+              <button nz-button class="mx-1" type="button" [nzGhost]="true"
+                      nz-tooltip nzTooltipTitle="Xem"
+                      (click)="onOpenModal(popupModeEnum.VIEW, i)">
+                <i nz-icon nzType="file" nzTheme="twotone"></i>
+              </button>
+              <button nz-button class="mx-1" type="button" [nzGhost]="true"
+                      nz-tooltip nzTooltipTitle="Sửa"
+                      (click)="onOpenModal(popupModeEnum.UPDATE, i)">
+                <i nz-icon nzType="edit" nzTheme="twotone"></i>
+              </button>
+              <button nz-button nz-popconfirm nzPopconfirmTitle="Bạn có muốn xóa bản ghi này không?"
+                      [nzGhost]="true"
+                      nz-tooltip nzTooltipTitle="Xóa"
+                      nzPopconfirmPlacement="bottom" class="mx-1" type="button"
+                      nzOkText="Có" nzCancelText="Không" nzOkType="default"
+                      (nzOnConfirm)="handleDataDeleted(i)">
+                <i nz-icon nzType="delete" nzTheme="twotone"></i>
+              </button>
+            </ng-container>
+          </td>
+        </tr>
+        </tbody>
+      </nz-table>
+      <ng-template #rangeTemplate let-range="range" let-total>
+        {{ range[0] }}-{{ range[1] }} {{' của ' | translate }} {{ total }} {{ ' bản ghi' }}
+      </ng-template>
+    </div>
+  </div>
+</fieldset>

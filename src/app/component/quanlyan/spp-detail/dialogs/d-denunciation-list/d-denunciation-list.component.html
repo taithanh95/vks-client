@@ -1,0 +1,110 @@
+<nz-modal class="ant-form" nzWidth="950px" [(nzVisible)]="isVisible" nzTitle="Chọn tin báo liên quan" nzClosable="false"
+          [nzTitle]="title" nzMaskClosable="false">
+  <ng-template #title>
+    Chọn tin báo liên quan
+    <div class="pull-right icon-close">
+      <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+  <ng-container>
+    <table class="ui-panel-10-col">
+      <tr>
+        <td>
+          <label nzRequired>Năm<span class="required">*</span></label>
+        </td>
+        <td>
+          <input autofocus nz-input appNumberic [maxLength]="4" title="Năm" placeholder="Năm"
+                 [(ngModel)]="filterItem.year" (blur) = "checkLengthYear()" [ngClass]="isVisibleYearErr ? 'error' : '' "/>
+        </td>
+        <td>
+          <label>Mã tin báo</label>
+        </td>
+        <td>
+          <input autofocus nz-input [maxLength]="10" title="Mã tin báo" placeholder="Mã tin báo"
+                 [(ngModel)]="filterItem.denouncementCode"/>
+        </td>
+        <td>
+          <label>Tiếp nhận<br>từ ngày</label>
+        </td>
+        <td>
+          <nz-date-picker [nzAutoFocus]="true" [ngStyle]="{width: '100%'}" nzSize="large" [(ngModel)]="filterItem.fromdate"
+                          nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy" [nzDefaultPickerValue]="firstDateCalendar"
+                          (input)="onValueFromdate($event)" (keypress)="validateOnlyNumbers($event)">
+          </nz-date-picker>
+        </td>
+        <td>
+          <label>Tiếp nhận<br>đến ngày</label>
+        </td>
+        <td>
+          <nz-date-picker [nzAutoFocus]="true" [ngStyle]="{width: '100%'}" [(ngModel)]="filterItem.toDate"
+                          nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy" [nzDefaultPickerValue]="endDateCalendar"
+                          (input)="onValueTodate($event)" (keypress)="validateOnlyNumbers($event)"></nz-date-picker>
+        </td>
+        <td>
+          <label>Người báo tin/<br>Người bị tố giác</label>
+        </td>
+        <td><input nz-input autofocus nz-input title="Người báo tin/Người bị tố giác" placeholder="Người báo tin/Người bị tố giác"
+                   [(ngModel)]="filterItem.delatorOrAccused"/>
+        </td>
+      </tr>
+    </table>
+    <nz-form-control class="float-right">
+      <div nz-row [nzGutter]="24">
+        <div nz-col [nzSpan]="12">
+          <button nz-button nzType="primary" (click)="getListData()">Tìm kiếm
+          </button>
+        </div>
+        <div nz-col [nzSpan]="12">
+          <button nz-button nzType="primary" (click)="handleCancel()">Quay lại
+          </button>
+        </div>
+      </div>
+    </nz-form-control>
+
+    <nz-table style="width: 100%"
+              #basicTable
+              [nzData]="datas"
+              [nzTotal]="total"
+              [nzPageSize]="defaultPage"
+              nzSize="small"
+              nzShowSizeChanger
+              [nzShowTotal]="rangeTemplate"
+              [nzLoading]="loading"
+              [nzScroll]="{ x: '900px' }"
+              (nzQueryParams)="onQueryParamsChange($event)">
+      <thead>
+      <tr>
+        <th class="text-nowrap" [nzWidth]="'10%'">Mã tin báo</th>
+        <th class="text-nowrap" [nzWidth]="'15%'">Ngày tiếp nhân</th>
+        <th class="text-nowrap" [nzWidth]="'15%'">Người báo tin</th>
+        <th class="text-nowrap" [nzWidth]="'20%'">Người bị tố giác</th>
+        <th class="text-nowrap" [nzWidth]="'30%'">Nội dung tin báo</th>
+        <th class="text-nowrap" [nzWidth]="'10%'">Thao tác</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of basicTable.data;let i = index;" class="actived">
+        <td class="text-nowrap center">{{ data.denouncementCode}}</td>
+        <td class="text-center">{{ data.takenOverDate }}</td>
+        <td class="text-nowrap">{{ data.rreporter }}</td>
+        <td class="text-nowrap" nz-tooltip [nzTooltipTitle]="data.nameAccused">{{ data.nameAccused }}</td>
+        <td class="text-nowrap overflow" nz-tooltip [nzTooltipTitle]="data.rdelation">{{ data.rdelation}}</td>
+        <td class="text-nowrap">
+          <button class="btn-qla" (click)="chooseDenun(data)" nz-tooltip nzTooltipTitle="Áp dụng">
+            <span class="fa fa-fw fa-check"></span></button>
+          <button class="btn-qla" (click)="showModalDetail(data)" nz-tooltip nzTooltipTitle="Xem">
+            <span class="fa fa-fw fa-eye"></span></button>
+        </td>
+      </tr>
+    </tbody>
+    </nz-table>
+  </ng-container>
+  <div *nzModalFooter>
+  </div>
+</nz-modal>
+<ng-template #rangeTemplate let-range="range" let-total>
+  {{ range[0] }}-{{ range[1] }} {{'of' | translate }} {{ total }} {{'items' | translate }}
+</ng-template>
+<app-d-denunciation-detail [isVisibleDetail]="isVisibleDetail" [mode]="modeEnum.VIEW_FROM_PARENT"
+                         (closeModal)="closeModalDetail()" [denouncementId]="selectedItem?.id">
+</app-d-denunciation-detail>

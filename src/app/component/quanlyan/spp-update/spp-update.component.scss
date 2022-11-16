@@ -1,0 +1,62 @@
+.ui-fieldset-content {
+  padding: 8px;
+}
+
+legend {
+  width: auto;
+  margin-left: 10px;
+  margin-bottom: 0;
+  font-size: 12px;
+  line-height: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  border-bottom: none;
+  color: #000;
+}
+
+legend {
+  width: auto;
+  margin-left: 10px;
+}
+::ng-deep{
+  .ant-form-item{
+    margin-bottom: 0 !important;
+  }
+  .table-6-col label{
+    min-width: 120px;
+  }
+  .ant-col{
+    /*padding: 0 5px;*/
+  }
+  .ant-form-item-label{
+    text-align: left;
+    padding: 0 10px;
+  }
+}
+::ng-deep .ant-form-item{
+  margin-bottom: 0 !important;
+}
+::ng-deep .ant-form-item-label>label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::after {
+  display: inline-block;
+  margin-right: 4px;
+  color: #ff4d4f;
+  font-size: 14px;
+  font-family: SimSun,sans-serif;
+  line-height: 1;
+  content: '*';
+}
+::ng-deep .ant-form-item-label>label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
+  display: none !important;
+}
+::ng-deep .ant-checkbox+span{
+  font-size: 12px;
+}
+.action button{
+  margin-left: 5px;
+}
+.text-nowrap a{
+  text-decoration: underline;
+}
+.overflow{
+  overflow-x: hidden;
+}

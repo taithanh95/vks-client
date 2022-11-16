@@ -1,0 +1,124 @@
+<nz-modal *ngIf="data" class="ant-form" nzWidth="800px" [(nzVisible)]="isVisible" nzTitle="Chi tiết" nzClosable="false"
+          [nzTitle]="title" nzMaskClosable="false">
+  <ng-template #title>
+    {{ isG1_G2() ? 'Chi tiết kết luận điều tra' : 'Chi tiết bản cáo trạng' }}
+    <div class="pull-right icon-close">
+      <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+  <ng-container>
+    <table width="100%" class="ui-panelgrid table-4-col">
+      <tr>
+        <td><label>
+          {{isG1_G2() ? 'Mã kết luận' : 'Mã bản cáo trạng'}}
+        </label></td>
+        <td>
+          <input nz-input disabled [(ngModel)]="data.centcode"/>
+        </td>
+        <td>
+          <label>
+            {{isG1_G2() ? 'Kết luận điều tra số' : 'Bản cáo trạng số'}} <span class="required">*</span>
+          </label>
+        </td>
+        <td>
+          <input disabled [required]="isSubmited" nz-input [(ngModel)]="data.setnum"/>
+        </td>
+      </tr>
+      <tr>
+        <td><label>
+          {{isG1_G2() ? 'Ngày CQ ra KLĐT' : 'Ngày VKS ra cáo trạng'}} <span class="required">*</span>
+        </label></td>
+        <td>
+          <nz-date-picker disabled (ngModelChange)="indateChange($event)" [required]="isSubmited"
+                          title="{{isG1_G2() ? 'Ngày CQ ra KLĐT' : 'Ngày VKS ra cáo trạng'}}" [(ngModel)]="data.indate"
+                          nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"
+                          (input)="onValueIndate($event)" (keypress)="validateOnlyNumbers($event)"></nz-date-picker>
+        </td>
+        <td><label>
+          Ngày hiệu lực
+        </label></td>
+        <td>
+          <nz-date-picker disabled (ngModelChange)="actdateChange($event)" title="Ngày hiệu lực"
+                          [(ngModel)]="data.actdate" nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"
+                          (input)="onValueActdate($event)" (keypress)="validateOnlyNumbers($event)"></nz-date-picker>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>
+            Nội dung
+          </label>
+        </td>
+        <td colspan="3">
+          <textarea disabled title="Nội dung" nz-input [(ngModel)]="data.content"></textarea>
+        </td>
+      </tr>
+      <tr>
+        <td><label>
+          Người ký <span class="required">*</span>
+        </label></td>
+        <td>
+          <input disabled title="Người ký" [required]="isSubmited" class="ng-pristine ng-valid" placeholder="" nz-input
+                 [(ngModel)]="data.signname"/>
+        </td>
+        <td><label>
+          Chức vụ <span class="required">*</span>
+        </label></td>
+        <td>
+          <input nz-input disabled title="Chức vụ" [required]="isSubmited" [(ngModel)]="data.signoffice"/>
+        </td>
+      </tr>
+      <tr>
+        <td><label>
+          Ý kiến của VKS
+        </label></td>
+        <td colspan="3">
+          <textarea disabled title="Ý kiến của VKS" [(ngModel)]="data.remark" nz-input rows="3"></textarea>
+        </td>
+      </tr>
+      <tr *ngIf="!isG1_G2()">
+        <td><label>
+          Án rút gọn
+        </label></td>
+        <td colspan="3">
+          <label disabled nz-checkbox [(ngModel)]="data.centtype">
+          </label>
+        </td>
+      </tr>
+    </table>
+  </ng-container>
+  <div class="div-btn-right btn-m-10" style="margin: 10px 0;border: solid 1px #bed6f8;float: none;overflow: hidden">
+    <!--<button nz-button (click)="handleReset()">Thêm mới</button>-->
+    <button nz-button (click)="handleCancel()">{{'cancel' | translate }}</button>
+    <button nz-button *ngIf="data.isEdit" (click)="showChiTieu()">Chỉ tiêu thống kê vụ án</button>
+  </div>
+  <nz-table #basicTable [nzData]="lstAccu" *ngIf="data.isEdit"
+            nzSize="small"
+            nzShowSizeChanger nzShowPagination="false"
+            [nzFrontPagination]="false">
+    <thead>
+    <tr>
+      <th class="text-nowrap" width="90px">Mã bị can</th>
+      <th class="text-nowrap">Tên bị can</th>
+      <th class="text-nowrap" width="150px">Điều luật khởi tố, chỉ tiêu</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of basicTable.data;let i = index;" ngClass="s-{{data.selected}}">
+      <td class="text-nowrap center">{{ f(data, 'accucode') }}</td>
+      <td class="text-nowrap center">{{ f(data, 'fullname') }}</td>
+      <td class="text-nowrap center">
+        <a (click)="openPopup(i)">Xem chi tiết</a>
+      </td>
+    </tr>
+    </tbody>
+  </nz-table>
+  <div *nzModalFooter>
+  </div>
+</nz-modal>
+<app-d-cent-cenlaw-g1 (closeModal)="closePopupCenlaw()" [isVisible]="isVisibleCenLaw" [lstAccu]="lstAccu"
+                      [accuCode]="accuCode" [userfor]="userfor" [centence]="data" [register]="register"
+                      [isVisibleDisable]="isVisibleDisableCenLaw"></app-d-cent-cenlaw-g1>
+<app-d-cent-statis-case (closeModal)="closePopupCaseStatis()" [register]="register" [centence]="data"
+                        [isVisible]="isVisibleCaseStatis" [userfor]="userfor"
+                        [sppCase]="sppCase"></app-d-cent-statis-case>

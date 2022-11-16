@@ -1,0 +1,64 @@
+<fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+  <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse()">
+    <i nz-icon [nzType]="isCollapse ? 'minus' : 'plus'"></i>Vụ án
+  </legend>
+  <div class="ui-fieldset-content clearfix" nz-form [ngClass]="isCollapse ? 'show' : 'hide' ">
+    <div style="display: block">
+      <div style="float:left;">
+        <table class="ui-panelgrid table-detail">
+          <tr>
+            <td><label>Mã vụ án:</label></td>
+            <td>
+              <span>{{sppCase.casecode}}</span>
+            </td>
+            <td>
+              <label>Loại tội phạm</label>
+            </td>
+            <td>
+              <span>{{toCaseType(sppCase.casetype)}}</span>
+            </td>
+          </tr>
+          <tr>
+            <td><label>Tên vụ án:</label></td>
+            <td>
+              <span>{{sppCase.casename}}</span>
+            </td>
+          </tr>
+          <tr>
+            <td><label>Ngày xảy ra:</label></td>
+            <td>
+              <span>{{ sppCase.crimdate | dateFormat}}</span>
+            </td>
+            <td><label>Nơi xảy ra:</label>
+            </td>
+            <td>
+              <span>{{ sppCase.remark_name }}</span>
+            </td>
+          </tr>
+          <tr>
+            <td><label>Số bản án:</label></td>
+            <td>
+              <span>{{ sppCase.setnum_ba }}</span>
+            </td>
+            <td><label>Ngày ra bản án:</label>
+            </td>
+            <td>
+              <span>{{ sppCase.indate_ba | dateFormat }}</span>
+            </td>
+          </tr>
+          <tr>
+            <td><label>Cơ quan ra bản án:</label></td>
+            <td>
+              <span>{{sppCase.rname}}</span>
+            </td>
+            <td><label>Người chấp hành án:</label>
+            </td>
+            <td>
+              <span>{{sppCase.fullname}}</span>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</fieldset>

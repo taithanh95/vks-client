@@ -1,0 +1,59 @@
+<fieldset  class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+  <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse()">
+    <i nz-icon [nzType]="isCollapse ? 'minus' : 'plus'"></i>Bản cáo trạng</legend>
+  <div class="ui-fieldset-content" nz-form [ngClass]="isCollapse ? 'show' : 'hide' ">
+    <!--<button nz-button (click)="onRowSelect(1)">Click</button>-->
+    <!--<a nz-button (click)="showUpdate()">Cập nhật</a>-->
+    <nz-table #basicTable [nzData]="datas"
+              [nzScroll]="{ x: '1200px' }"
+              [nzPageSizeOptions]="pageSize" [nzPageSize]="defaultPage" nzSize="small"
+              nzShowSizeChanger [nzShowTotal]="rangeTemplate" [nzLoading]="loading">
+      <thead>
+      <tr>
+        <th class="text-nowrap center" width="55px">STT</th>
+        <th class="text-nowrap">Mã bản cáo trạng</th>
+        <th class="text-nowrap">Bản cáo trạng số</th>
+        <th class="text-nowrap">Ngày VKS ra cáo trạng</th>
+        <th class="text-nowrap">Người ký</th>
+        <th class="text-nowrap">Tình trạng</th>
+        <th class="text-nowrap" width="120px">Thao tác</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of basicTable.data;let i = index;" (click)="onRowSelect(data)" ngClass="s-{{data.selected}}">
+        <td class="text-nowrap center">{{getRowIndex(i, page, defaultPage)}}</td>
+        <td class="text-nowrap center">{{ f(data,'centcode') }}</td>
+        <td class="text-nowrap center">{{ f(data,'setnum') }}</td>
+        <td class="text-nowrap center">{{ f(data,'indate') | dateFormat }} </td>
+        <td class="text-nowrap">{{ f(data,'signname')}}</td>
+        <td class="text-nowrap">{{ fLang(data,'status') }}</td>
+        <td class="text-nowrap center">
+          <button nz-tooltip nzTooltipTitle="Sửa" class="btn-qla" [disabled]="data.EDITABLE === 'N'" (click)="showEditForm(data)">
+            <span class="fa fa-fw fa-edit"></span></button>
+            <button nz-tooltip nzTooltipTitle="Xem" class="btn-qla" [disabled]="data.EDITABLE === 'N'" (click)="showDisableForm(data)">
+              <span class="fa fa-fw fa-eye"></span></button>
+          <button nz-tooltip nzTooltipTitle="Xóa" class="btn-qla"
+                  nz-popconfirm
+                  nzPopconfirmTitle="Bạn có chắc muốn xóa bản ghi này không?"
+                  nzPopconfirmPlacement="top"
+                  nzCancelText="Hủy"
+                  nzOkText="Đồng ý"
+                  [disabled]="data.EDITABLE === 'N'"
+                  (nzOnConfirm)="confirm(data)"
+                  (nzOnCancel)="cancel()"
+          >
+            <span class="fa fa-fw fa-times"></span>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
+    <div class="div-btn-right">
+      <button [title]="(register && register.regiclosed) ? register.regiclosed : ''" [disabled]="!register || register.editable === false || !register.regicode" nz-button (click)="showInsert()">Thêm mới</button>
+    </div>
+  </div>
+  <ng-template #rangeTemplate let-range="range" let-total>
+    {{ range[0] }}-{{ range[1] }} {{'of' | translate }} {{ total }} {{'items' | translate }}
+  </ng-template>
+</fieldset>
+

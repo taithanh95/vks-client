@@ -1,0 +1,97 @@
+<div>
+    <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+        <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse(0)">
+            <i nz-icon [nzType]="arrCollapse[0] ? 'minus' : 'plus'"></i> Thông tin nhóm NSD
+        </legend>
+        <div class="ui-fieldset-content ant-advanced-search-form" [ngClass]="arrCollapse[0] ? 'show' : 'hide' ">
+            <div nz-row>
+                <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">
+                            Mã nhóm NSD
+                        </nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <input nz-input placeholder="Hệ thống tự sinh khi thêm mới" [(ngModel)]="dataState.groupid" disabled>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">Tên nhóm NSD</nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <input nz-input placeholder="Tên nhóm NSD" [(ngModel)]="dataState.groupname" disabled>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+        <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse(1)">
+            <i nz-icon [nzType]="arrCollapse[1] ? 'minus' : 'plus'"></i> Danh sách các chức năng của hệ thống
+        </legend>
+        <div class="ui-fieldset-content ant-advanced-search-form" [ngClass]="arrCollapse[1] ? 'show' : 'hide' ">
+            <div nz-row>
+                <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">Phân hệ</nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <nz-select [(ngModel)]="module" (ngModelChange)="getFunctionsTree()" nzAllowClear nzShowSearch>
+                                <nz-option nzValue="" nzLabel="Tất cả" selected></nz-option>
+                                <nz-option nzValue="BCTK" nzLabel="Báo cáo thống kê"></nz-option>
+                                <nz-option nzValue="MQD" nzLabel="Mẫu Quyết định"></nz-option>
+                                <nz-option nzValue="QLDM" nzLabel="Quản lý Danh mục"></nz-option>
+                                <nz-option nzValue="QLHSVA" nzLabel="Quản lý Hồ sơ vụ án"></nz-option>
+                                <nz-option nzValue="QTHT" nzLabel="Quản trị Hệ thống"></nz-option>
+                                <nz-option nzValue="TCTT,GSTH" nzLabel="Tra cứu giám sát"></nz-option>
+                                <nz-option nzValue="TTHD" nzLabel="Tin tức, hỏi đáp"></nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div nz-col [nzLg]="16" [nzMd]="12" [nzXs]="12">
+                    <div class="search-area">
+                        <button nz-button [nzType]="'primary'" (click)="handleOk()">
+                            <span class="fa fa-fw fa-search"></span>
+                            Ghi lại
+                          </button>
+                        <button nz-button  [nzType]="'primary'" (click)="goToBack()">
+                          <span class="fa fa-fw fa-times"></span>
+                           Quay lại
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div>
+                <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+                    <nz-tree-view [nzTreeControl]="treeControl" [nzDataSource]="dataSource">
+                        <nz-tree-node *nzTreeNodeDef="let node" nzTreeNodePadding>
+                          <nz-tree-node-toggle nzTreeNodeNoopToggle></nz-tree-node-toggle>
+                          <nz-tree-node-checkbox
+                            [nzChecked]="checklistSelection.isSelected(node)"
+                            (nzClick)="leafItemSelectionToggle(node)"
+                          ></nz-tree-node-checkbox>
+                          <nz-tree-node-option (nzClick)="leafItemSelectionToggle(node)">
+                            {{ node.funcname }}
+                          </nz-tree-node-option>
+                        </nz-tree-node>
+                    
+                        <nz-tree-node *nzTreeNodeDef="let node; when: hasChild" nzTreeNodePadding>
+                          <nz-tree-node-toggle>
+                            <i nz-icon nzType="caret-down" nzTreeNodeToggleRotateIcon></i>
+                          </nz-tree-node-toggle>
+                          <nz-tree-node-checkbox
+                            [nzChecked]="descendantsAllSelected(node)"
+                            [nzIndeterminate]="descendantsPartiallySelected(node)"
+                            (nzClick)="itemSelectionToggle(node)"
+                          ></nz-tree-node-checkbox>
+                          <nz-tree-node-option (nzClick)="itemSelectionToggle(node)">
+                            {{ node.funcname }}
+                          </nz-tree-node-option>
+                        </nz-tree-node>
+                      </nz-tree-view>
+                </fieldset>
+            </div>
+    </fieldset>
+</div>

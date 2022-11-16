@@ -1,0 +1,242 @@
+<nz-modal *ngIf="data" class="ant-form" nzWidth="1000px" [(nzVisible)]="isVisible" nzTitle="Chi tiết" nzClosable="false" [nzTitle]="title" nzMaskClosable="false">
+    <ng-template #title>
+      Chi tiết thông tin pháp nhân
+      <div class="pull-right icon-close">
+        <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+      </div>
+    </ng-template>
+    <ng-container>
+      <fieldset  class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+        <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse(0)">
+          <i nz-icon [nzType]="arrCollapse[0] ? 'minus' : 'plus'"></i>Quyết định khởi tố đối với pháp nhân</legend>
+        <div class="ui-fieldset-content" nz-form [ngClass]="arrCollapse[0] ? 'show' : 'hide' ">
+          <table width="100%" class="ui-panelgrid">
+            <tr>
+              <td class="width170"></td>
+              <td class="width250"></td>
+              <td class="width170"></td>
+              <td class="width250"></td>
+            </tr>
+            <tr>
+              <td><label>
+                Quyết định số <span class="required">*</span>
+              </label></td>
+              <td>
+                <input disabled title="Quyết định số" [required]="isSubmited" [(ngModel)]="data.begin_setnum" nz-input required #begin_setnum="ngModel"/>
+              </td>
+              <td>
+                <label>
+                  Ngày ra quyết định <span class="required">*</span>
+                </label>
+              </td>
+              <td>
+                <nz-date-picker disabled title="Ngày ra quyết định" nzPlaceHolder="dd/MM/yyyy" [required]="isSubmited" [(ngModel)]="data.begin_indate" nzFormat="dd/MM/yyyy"
+                (input)="onValueBeginIndate($event)" (keypress)="validateOnlyNumbers($event)"></nz-date-picker>
+              </td>
+            </tr>
+            <tr>
+              <td><label>Đơn vị ra quyết định <span class="required">*</span></label></td>
+              <td>
+                <nz-select disabled title="Đơn vị ra quyết định" [required]="isSubmited" (ngModelChange)="polChangeEvent()" [(ngModel)]="data.begin_office" nzPlaceHolder="--Cơ quan ra quyết định--">
+                  <nz-option *ngFor="let o of lstPols" [nzValue]="o.polid" [nzLabel]="o.name"></nz-option>
+                  <nz-option [nzValue]="'SPP'" nzLabel="Viện kiểm sát"></nz-option>
+                  <nz-option [nzValue]="'SPC'" nzLabel="Tòa án"></nz-option>
+                </nz-select>
+              </td>
+              <td><label>
+                <ng-container *ngIf="data.begin_office === '02'">
+                  Công an <span class="required">*</span>
+                </ng-container>
+                <ng-container *ngIf="data.begin_office === '04'">
+                  Quân đội <span class="required">*</span>
+                </ng-container>
+                <ng-container *ngIf="data.begin_office === '06'">
+                  Hải quan <span class="required">*</span>
+                </ng-container>
+                <ng-container *ngIf="data.begin_office === '08'">
+                  Kiểm lâm <span class="required">*</span>
+                </ng-container>
+                <ng-container *ngIf="data.begin_office === '09'">
+                  Bộ đội biên phòng <span class="required">*</span>
+                </ng-container>
+                <ng-container *ngIf="data.begin_office === 'SPP'">
+                  Viện kiểm sát <span class="required">*</span>
+                </ng-container>
+                <ng-container *ngIf="data.begin_office === 'SPC'">
+                  Tòa án <span class="required">*</span>
+                </ng-container>
+              </label></td>
+              <td>
+                <ng-container *ngIf="data.begin_office === '02'">
+                  <input disabled title="Gõ mã hoặc tên để chọn đơn vị công an (nhấn dấu cách để chọn tất cả)" [required]="isSubmited" class="ng-pristine ng-valid" placeholder="" nz-input [(ngModel)]="data.police" (input)="onInputPolice($event)"
+                         [nzAutocomplete]="autoPolice"/>
+                  <nz-autocomplete #autoPolice>
+                    <nz-auto-option *ngFor="let option of lstPolices" [nzLabel]="option.NAME" [nzValue]="option">{{ option.POLICEID }} - {{ option.NAME }}</nz-auto-option>
+                  </nz-autocomplete>
+                </ng-container>
+                <ng-container *ngIf="data.begin_office === '04'">
+                  <input disabled placeholder="" nz-input [(ngModel)]="data.army" (input)="onInputArmy($event)"
+                         [nzAutocomplete]="autoArmy"/>
+                  <nz-autocomplete #autoArmy>
+                    <nz-auto-option *ngFor="let option of lstArmies" [nzLabel]="option.NAME" [nzValue]="option">{{ option.ARMYID }} - {{ option.NAME }}</nz-auto-option>
+                  </nz-autocomplete>
+                </ng-container>
+                <ng-container *ngIf="data.begin_office === '06'">
+                  <input disabled placeholder="" nz-input [(ngModel)]="data.customs" (input)="onInputCustoms($event)"
+                         [nzAutocomplete]="autoCustom"/>
+                  <nz-autocomplete #autoCustom>
+                    <nz-auto-option *ngFor="let option of lstCustoms" [nzLabel]="option.NAME" [nzValue]="option">{{ option.CUSTOMID }} - {{ option.NAME }}</nz-auto-option>
+                  </nz-autocomplete>
+                </ng-container>
+                <ng-container *ngIf="data.begin_office === '08'">
+                  <input disabled placeholder="" nz-input [(ngModel)]="data.ranger" (input)="onInputRangers($event)"
+                         [nzAutocomplete]="autoRanger"/>
+                  <nz-autocomplete #autoRanger>
+                    <nz-auto-option *ngFor="let option of lstRangers" [nzLabel]="option.NAME" [nzValue]="option">{{ option.RANGID }} - {{ option.NAME }}</nz-auto-option>
+                  </nz-autocomplete>
+                </ng-container>
+                <ng-container *ngIf="data.begin_office === '09'">
+                  <input disabled placeholder="" nz-input [(ngModel)]="data.border" (input)="onInputBorderGuards($event)"
+                         [nzAutocomplete]="autoBorderGuard"/>
+                  <nz-autocomplete #autoBorderGuard>
+                    <nz-auto-option *ngFor="let option of lstBorderGuards" [nzLabel]="option.NAME" [nzValue]="option">{{ option.BORGUAID }} - {{ option.NAME }}</nz-auto-option>
+                  </nz-autocomplete>
+                </ng-container>
+                <ng-container *ngIf="data.begin_office === 'SPP'">
+                  <input disabled placeholder="" nz-input [(ngModel)]="data.spp" (input)="onInputSpp($event)"
+                         [nzAutocomplete]="autoSpp"/>
+                  <nz-autocomplete #autoSpp>
+                    <nz-auto-option *ngFor="let option of lstSpps" [nzLabel]="option.name" [nzValue]="option">{{ option.sppid }} - {{ option.name }}</nz-auto-option>
+                  </nz-autocomplete>
+                </ng-container>
+                <ng-container *ngIf="data.begin_office === 'SPC'">
+                  <input disabled placeholder="" nz-input [(ngModel)]="data.spc" (input)="onInputSpc($event)"
+                         [nzAutocomplete]="autoSpc"/>
+                  <nz-autocomplete #autoSpc>
+                    <nz-auto-option *ngFor="let option of lstSpcs" [nzLabel]="option.NAME" [nzValue]="option">{{ option.SPCID }} - {{ option.NAME }}</nz-auto-option>
+                  </nz-autocomplete>
+                </ng-container>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </fieldset>
+      <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+        <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse(1)">
+          <i nz-icon [nzType]="arrCollapse[1] ? 'minus' : 'plus'"></i>Thông tin pháp nhân</legend>
+        <div class="ui-fieldset-content" nz-form [ngClass]="arrCollapse[1] ? 'show' : 'hide' ">
+          <table width="100%" class="ui-panelgrid">
+            <tr>
+              <td class="width170"></td>
+              <td class="width250"></td>
+              <td class="width170"></td>
+              <td class="width250"></td>
+            </tr>
+            <tr>
+              <td><label>
+                Mã pháp nhân <span class="required">*</span>
+              </label></td>
+              <td>
+                <input disabled [(ngModel)]="data.accucode" nz-input disabled/>
+              </td>
+              <td><label>
+                Tên pháp nhân <span class="required">*</span>
+              </label></td>
+              <td>
+                <input disabled title="Tên pháp nhân" [required]="isSubmited" [(ngModel)]="data.fullname" nz-input/>
+              </td>
+            </tr>
+            <tr>
+              <td><label>
+                Người đại diện
+              </label></td>
+              <td>
+                <input disabled title="Người đại diện" [(ngModel)]="data.aliasname" nz-input/>
+              </td>
+              <td><label>
+                Số CMND
+              </label></td>
+              <td>
+                <input disabled title="Số CMND" [(ngModel)]="data.identify" nz-input/>
+              </td>
+            </tr>
+            <tr>
+              <td><label>
+                Quốc tịch <span class="required">*</span>
+              </label></td>
+              <td>
+                <input disabled title="Quốc tịch" [required]="isSubmited" placeholder="" nz-input [(ngModel)]="data.country" (input)="onInputCountry($event)"
+                       [nzAutocomplete]="autoCountry"/>
+                <nz-autocomplete #autoCountry>
+                  <nz-auto-option *ngFor="let option of lstCountry" [nzLabel]="option.counname" [nzValue]="option">{{ option.counid }} - {{ option.counname }}</nz-auto-option>
+                </nz-autocomplete>
+              </td>
+              <td><label>
+                Chức vụ chính quyền
+              </label></td>
+              <td>
+                <nz-select disabled title="Chức vụ chính quyền" nzPlaceHolder="" style="width:100%" [(ngModel)]="data.officeid">
+                  <nz-option *ngFor="let option of lstOffices" [nzValue]="option.officeid" nzLabel="{{option.officeid}} - {{option.officename}}"></nz-option>
+                </nz-select>
+              </td>
+            </tr>
+            <tr *ngIf="data.counid === 'VN'">
+              <td><label>
+                Nơi ở hiện tại
+              </label></td>
+              <td>
+                <input disabled title="Nơi ở hiện tại" placeholder="" nz-input [(ngModel)]="data.address" (input)="onInputAddress($event)"
+                       [nzAutocomplete]="autoAddress"/>
+                <nz-autocomplete #autoAddress>
+                  <nz-auto-option *ngFor="let option of lstAddress" nzLabel="{{ option.LOCAID }} - {{ option.REMARK }}" [nzValue]="option">{{ option.LOCAID }} - {{ option.REMARK }}</nz-auto-option>
+                </nz-autocomplete>
+              </td>
+              <td><label>
+                Chi tiết nơi ở hiện tại
+              </label></td>
+              <td>
+                <input disabled title="Chi tiết nơi ở hiện tại" [(ngModel)]="data.addrname" nz-input/>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </fieldset>
+      <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+        <nz-table #basicTable [nzData]="lstSavedLaw" nzSize="small" nzHideOnSinglePage="true"
+                  nzShowSizeChanger [nzLoading]="loading">
+          <thead>
+          <tr>
+            <th class="text-nowrap center" style="width: 60px">Điều</th>
+            <th class="text-nowrap center" style="width: 60px">Khoản</th>
+            <th class="text-nowrap center" style="width: 60px">Điểm</th>
+            <th class="text-nowrap">Tội danh</th>
+            <th class="text-nowrap">Tên bộ luật</th>
+            <th class="text-nowrap" *ngIf="lstLaw && lstLaw.length > 1" style="width: 60px">Thao tác</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let data of basicTable.data;let i = index;" class="actived">
+            <td class="text-nowrap center">{{ data.LAWID }}</td>
+            <td class="text-nowrap center">{{ data.ITEM }}</td>
+            <td class="text-nowrap center">{{ data.POINT }}</td>
+            <td class="text-nowrap">{{ data.LAWNAME }}</td>
+            <td class="text-nowrap">{{ data.CODENAME }}</td>
+            <td class="text-nowrap" *ngIf="lstLaw && lstLaw.length > 1">
+              <button disabled class="btn-qla" (click)="deleteLaw(data)" nz-tooltip nzTooltipTitle="Xóa">
+                <span class="fa fa-fw fa-times"></span></button>
+            </td>
+          </tr>
+          </tbody>
+        </nz-table>
+        <div class="btn-right">
+          <button disabled nz-button nzType="primary" (click)="showInsertLaw()" class="button-submit">Thêm điều luật khởi tố</button>
+        </div>
+      </fieldset>
+    </ng-container>
+    <div *nzModalFooter>
+      <button nz-button (click)="handleCancel()">{{'cancel' | translate }}</button>
+    </div>
+  </nz-modal>
+  
+  <app-d-lawcode (closeModal)="closePopupLaw()" (submitForm)="submitLaw($event)" [isVisible]="isVisibleLaw"></app-d-lawcode>
+  

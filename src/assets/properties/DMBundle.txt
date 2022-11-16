@@ -1,0 +1,1794 @@
+# Messages
+messages.insert.success=Thêm mới thành công
+messages.update.success=Cập nhật thông tin thành công
+
+# Button
+
+## Tree
+button.labels.toggletree=Hiển thị dạng cây
+button.labels.toggletable=Hiển thị dạng bảng
+button.icons.tree=ui-icon-transferthick-e-w
+
+
+
+lst_Depart.error.errorpk=Không thể xóa được do phòng ban đã được sử dụng
+#Menu List
+menu.title=Quản lý danh mục
+menu.party=Chức vụ Đảng
+menu.jury=Cán bộ
+menu.prosecu=Kiểm sát viên
+menu.statisticc=Chỉ tiêu Thống kê Vụ án
+menu.reason=Lý do Quyết định
+menu.spc=Tòa án
+menu.spp=Viện kiểm sát
+menu.police=Cơ quan công an
+menu.pol=Cơ quan điều tra
+menu.country=Quốc gia
+menu.against=Loại kháng nghị
+menu.decision=Quyết định
+menu.urgentMethod=Biện pháp khẩn cấp tạm thời
+menu.location=Địa chính
+menu.nation=Dân tộc
+menu.lawrelation=Quan hệ pháp luật
+menu.religion=Tôn giáo
+menu.rptfield = Chỉ tiêu báo cáo
+menu.decitype=Loại quyết định
+menu.office=Chức vụ chính quyền
+menu.occupation=Nghề nghiệp
+menu.knowledge=Trình độ học vấn
+menu.code=Bộ luật
+menu.legalpro=Tư cách tố tụng (Dân sự)
+menu.complaint=Quan hệ tố tụng
+menu.legalentity=Tư cách pháp nhân
+menu.relation=Tư cách tham gia tố tụng
+menu.transfer=Lý do bàn giao
+menu.divorce=Lý do ly hôn
+menu.rule=Thời hạn thụ lý
+menu.ctcreason=Lý do bản án
+menu.penalty=Hình Phạt
+menu.appeal=Loại kháng cáo
+menu.law=Điều luật
+menu.register=Trường hợp thụ lý
+menu.solve=Biện pháp giải quyết đơn
+menu.conclusion=Kết luận bản án
+menu.lawgroup =Chương luật
+menu.codechange=Ngày ban hành, sửa đổi luật
+menu.statistica=Chỉ tiêu thống kê bị can
+menu.spc=Tòa án
+menu.officepri=Đơn vị ưu tiên
+menu.againstresult=Kết quả kháng nghị
+menu.resolve=Trường hợp giải quyết
+menu.inspector=Người xử lý
+menu.lawpenalty=Khung hình phạt
+menu.Prison=Trại giam
+
+#Dactest
+menu.dactest=Đắc test
+#Dactest
+
+# Lst_Party: danh mục Chức vụ Đảng
+lst_Party.title=chức vụ Đảng
+lst_Party.Title=Chức vụ Đảng
+
+lst_Party.partyid.label=Mã chức vụ
+lst_Party.partyid.title=Mã của chức vụ
+lst_Party.partyname.label=Tên chức vụ
+lst_Party.partyname.title=Tên của chức vụ
+lst_Party.remark.label=Ghi chú
+lst_Party.error.message=Bản ghi này đã bị ràng buộc dữ liệu, không thể xóa.
+
+lst_Party.messages.partyExist=Chức vụ đã tồn tại
+lst_Party.resultTable.displayColumns=partyid,partyname
+lst_Party.partyid.styleClass=center
+# END Lst_Party: danh mục Chức vụ Đảng
+
+# Lst_Pol: danh mục Đơn vị điều tra
+lst_Pol.title=cơ quan điều tra
+
+lst_Pol.polid.label=Mã cơ quan
+lst_Pol.name.label=Tên cơ quan
+lst_Pol.addr.label=Địa chỉ
+lst_Pol.addr.title=Địa chỉ của đơn vị
+lst_Pol.director.label=Người quản lý
+lst_Pol.tel.label=Số điện thoại
+lst_Pol.tel.title=Số điện thoại của đơn vị
+lst_Pol.fax.label=Số fax
+lst_Pol.fax.title=Số fax của đơn vị
+lst_Pol.resultTable.displayColumns=polid,name,addr,director
+lst_Pol.polid.styleClass=center
+lst_Pol.error.existname=Tên cơ quan điều tra đã tồn tại trong CSDL.
+# END Lst_Pol: danh mục Đơn vị điều tra
+
+# lst_Lawpenalty: danh mục Khung điều luật
+lst_Lawpenalty.title=khung hình phạt
+lst_Lawpenalty.lawcode.label=Mã điều luật
+lst_Lawpenalty.lawid.label=Điều
+lst_Lawpenalty.lawid.styleClass=right
+lst_Lawpenalty.item.label=Khoản
+lst_Lawpenalty.item.styleClass=right
+lst_Lawpenalty.point.label=Điểm
+lst_Lawpenalty.point.styleClass=right
+lst_Lawpenalty.lawiditempoint.label=Điều */ Khoản/ Điểm
+lst_Lawpenalty.lawname.label=Tội danh
+lst_Lawpenalty.lawnamecut.label=Tội danh
+lst_Lawpenalty.lawdate.label=Ngày ban hành
+lst_Lawpenalty.lawdate.styleClass=center
+lst_Lawpenalty.codeid.label=Mã bộ luật
+lst_Lawpenalty.codename.label=Tên bộ luật
+lst_Lawpenalty.groupid.label=Mã chương luật
+lst_Lawpenalty.groupname.label=Chương luật
+lst_Lawpenalty.lawtypename.label=Mức độ nghiêm trọng
+lst_Lawpenalty.fromamount.label=Khung hình phạt từ
+lst_Lawpenalty.fromamount.styleClass=right
+lst_Lawpenalty.toamount.label=Khung hình phạt đến
+lst_Lawpenalty.toamount.styleClass=right
+lst_Lawpenalty.penaltyid.label=Hình phạt
+lst_Lawpenalty.penaltyname.label=Hình phạt
+
+lst_Lawpenalty.resultTable.displayColumns=lawcode, lawid, item, point, lawnamecut, lawdate, codename, lawtypename, penaltyname, fromamount, toamount
+lst_Lawpenalty.detailInfo.exceptFields=penaltyid, groupid, codeid, crtuser, crtdate, mdfuser, mdfdate, lawnamecut
+# END lst_Lawpenalty: danh mục Khung điều luật
+
+#lst_Reason
+lst_Reason.title=Lý do Quyết định
+lst_Reason.messages.reasonExist=Lý do này đã tồn tại trong CSDL.
+lst_Reason.resultTable.displayColumns=reasonid, reasonname, deciname
+lst_Reason.detailInfo.exceptFields=deciid
+
+lst_Reason.reasonid.label=Mã Lý do
+lst_Reason.reasonid.title=Nhập mã
+lst_Reason.reasonid.styleClass=right
+lst_Reason.reasonname.label=Tên lý do
+lst_Reason.reasonname.title=Nhập tên
+lst_Reason.deciid.label=Quyết định
+lst_Reason.deciid.title=Nhập mã hoặc tên Quyết định
+lst_Reason.deciname.label=Quyết định
+
+#lst_Statisticc
+lst_Statisticc.messages.statExist=Mã này đã tồn tại
+lst_Statisticc.detailInfo.exceptFields=status
+lst_Statisticc.resultTable.displayColumns=statid, statname, statusname,valmax,valmin
+lst_Statisticc.messages.codeExist=Bản ghi này đã tồn tại trong CSDL.
+
+lst_Statisticc.title=Chỉ tiêu Thống kê Vụ án
+lst_Statisticc.statid.label=Mã chỉ tiêu
+lst_Statisticc.statid.title=Nhập mã chỉ tiêu
+lst_Statisticc.statname.label=Tên chỉ tiêu
+lst_Statisticc.statname.title=Nhập tên chỉ tiêu
+lst_Statisticc.statusname.label=Tình trạng áp dụng
+lst_Statisticc.status.label=Tình trạng áp dụng
+lst_Statisticc.status.title=Chỉ tiêu Thống kê còn hiệu lực hay đã hết
+lst_Statisticc.status.Y.label=Có
+lst_Statisticc.status.Y.value=Y
+lst_Statisticc.status.N.label=Không
+lst_Statisticc.status.N.value=N
+lst_Statisticc.valmax.label=Giá trị lớn nhất
+lst_Statisticc.valmin.label=Giá trị nhỏ nhất
+lst_Statisticc.valmax.compare.valmin=Giá trị nhỏ nhất < Giá trị lớn nhất
+lst_Statisticc.item.exist=Chỉ tiêu này đã được sử dụng trong bản án. Vui lòng kiểm tra lại.
+
+# Lst_Relation
+Lst_Relation.title=Tư cách tố tụng (Hình sự)
+
+Lst_Relation.relationnote.label=Ghi chú TCTT
+Lst_Relation.relationnote.title=Ghi chú Tư cách tố tụng
+Lst_Relation.relationname.label=Tên TCTT
+Lst_Relation.relationname.title=Tên Tư cách tố tụng
+Lst_Relation.relationid.label=Mã TCTT
+Lst_Relation.relationid.title=Mã Tư cách tố tụng
+Lst_Relation.lawer.label=Là luật sư
+Lst_Relation.lawer.title=Tư cách tố tụng có phải là luật sư không?
+Lst_Relation.lawername.label=Là luật sư
+Lst_Relation.lawername.title=Tư cách tố tụng có phải là luật sư không?
+
+Lst_Relation.error.contraint=Không thể xóa vì TCTT này đã được sử dụng trong hệ thống
+
+Lst_Relation.resultTable.displayColumns=relationid,relationname,relationnote,lawername
+Lst_Relation.detailInfo.exceptFields=lawer
+
+Lst_Relation.error.exist=Bạn không thể nhập trùng dữ liệu
+Lst_Relation.error.duplicatesave=Bạn không thể Lưu tiếp khi chưa Xóa trắng
+# lstReceiver
+id_exist=Mã đã tồn tại trong cơ sở dữ liệu
+name_exist=Tên đã tồn tại trong cơ sở dữ liệu
+
+lstReceiver.title=Người nhận đơn
+lstReceiver.key=Người nhận đơn
+lstReceiver.resultTable.displayColumns=receicode,fullname,tel,location,status_dis
+lstReceiver.detailInfo.exceptFields=address,addressdetail,status
+
+lstReceiver.receicode.label=Mã
+lstReceiver.receicode.title=Mã người nhận đơn
+
+lstReceiver.fullname.label=Tên người nhận đơn
+lstReceiver.fullname.title=Tên người nhận đơn
+
+lstReceiver.tel.label=Điện thoại
+lstReceiver.tel.title=Điện thoại
+
+lstReceiver.address.label=Địa chỉ (Xã/phường-Huyện/Quận-Tỉnh/Thành phố)
+lstReceiver.address.title=Gõ mã hoặc tên hoặc dấu cách để chọn địa chỉ
+lstReceiver.addressdetail.label=Địa chỉ chi tiết
+lstReceiver.addressdetail.title=Số nhà, ngõ
+lstReceiver.location.label=Địa chỉ
+lstReceiver.location.title=Địa chỉ
+
+lstReceiver.status.label=Trạng thái sử dụng
+lstReceiver.status.title=Đang tham gia công tác tại đơn vị
+lstReceiver.status_dis.label=Trạng thái
+lstReceiver.status_dis.title=Đang tham gia công tác tại đơn vị
+lstReceiver.err.constraint.spcComplaint=Chưa thể xóa vì có ràng buộc dữ liệu. Người nhận đơn đã chọn đang được sử dụng trong phần tiếp nhận đơn. Bạn hãy kiểm tra lại.
+# lstCountry
+lstCountry.title=quốc gia
+lstCountry.key=Quốc gia
+lstCountry.resultTable.displayColumns=counid,counname,remark
+lstCountry.delete_error=Không thể xóa bản ghi do đã được sử dụng tại chức năng quản lý án hình sự
+lstCountry.add_name_error=Tên quốc gia đã tồn tại
+lstCountry.add_id_error=Mã quốc gia đã tồn tại
+
+lstCountry.counid.label=Mã quốc gia
+lstCountry.counid.title=Mã quốc gia
+lstCountry.counid.title_lower=mã quốc gia
+
+lstCountry.counid.styleClass=center
+
+lstCountry.counname_lower=tên quốc gia
+lstCountry.counname.label=Tên quốc gia
+lstCountry.counname.title=Tên quốc gia
+
+lstCountry.remark.label=Ghi chú
+lstCountry.remark.title=Ghi chú
+
+# lstAgainst
+lstAgainst.title=loại kháng nghị
+lstAgainst.key=Loại kháng nghị
+lstAgainst.resultTable.displayColumns=againstid,againstname,applyfor_dis,settime,setunit_dis
+lstAgainst.detailInfo.exceptFields=applyfor,setunit
+
+lstAgainst.againstid.label=Mã loại KN
+lstAgainst.againstid.title=Mã loại kháng nghị
+
+lstAgainst.againstname.label=Tên loại kháng nghị
+lstAgainst.againstname.title=Tên loại kháng nghị
+
+lstAgainst.applyfor.label=Áp dụng cho
+lstAgainst.applyfor.title=Áp dụng cho vụ án hay bị can?
+
+lstAgainst.settime.label=Thời hạn
+lstAgainst.settime.styleClass=right
+lstAgainst.settime.title=Thời hạn áp dụng kháng nghị
+
+lstAgainst.setunit.label=Đơn vị tính
+lstAgainst.setunit.title=Đơn vị tính của thời hạn áp dụng ở trên
+
+lstAgainst.applyfor_dis.label=Áp dụng
+lstAgainst.applyfor_dis.title=Áp dụng cho
+
+lstAgainst.setunit_dis.label=Đơn vị
+lstAgainst.setunit_dis.title=Đơn vị tính của thời hạn áp dụng ở trên
+
+messages.constraint.spc_agademand=Chưa thể xóa vì có ràng buộc dữ liệu. Loại kháng nghị đã chọn đang được sử dụng cho việc thêm kháng nghị cho một vụ việc. Bạn hãy kiểm tra lại.
+messages.constraint.spc_againsts=Chưa thể xóa vì có ràng buộc dữ liệu. Loại kháng nghị đã chọn đang được sử dụng cho việc thêm kháng nghị cho một vụ việc. Bạn hãy kiểm tra lại.
+lstAgainst.againstid.styleClass=center
+
+# lstDecision
+lstDecision.title=quyết định
+lstDecision.key=Quyết định
+lstDecision.resultTable.displayColumns=deciid,deciname,applyfor_dis,applyfinish_dis,usefor_,status_,decitypename
+#usefor_
+lstDecision.detailInfo.exceptFields=usefor,status,type,applyfor,applyfinish,setunit,type_,appealtype,appealtype_dis
+lstDecision.decitypename.label=Loại quyết định
+lstDecision.decitypename.title=Loại quyết định
+lstDecision.decitypename.styleClass=center
+
+#lstDecision.decitypeid.label=Loại quyết định
+#lstDecision.decitypeid.title=Loại quyết định
+lstDecision.decitypeid.styleClass=center
+
+lstDecision.deciid.label=Mã QĐ
+lstDecision.deciid.title=Mã quyết định
+lstDecision.deciid.styleClass=center
+
+lstDecision.deciname.label=Tên quyết định
+lstDecision.deciname.title=Tên quyết định
+
+lstDecision.type.label=Loại án
+lstDecision.type.title=Loại án
+lstDecision.type_.label=Loại án
+lstDecision.type_.title=Loại án
+
+lstDecision.applyfor.label=Áp dụng cho
+lstDecision.applyfor.title=Áp dụng cho bị can hay vụ án
+lstDecision.applyfor_dis.label=Áp dụng
+lstDecision.applyfor_dis.title=Áp dụng
+
+lstDecision.applyfinish.label=Kết thúc hiệu lực
+lstDecision.applyfinish.title=Kết thúc hiệu lực
+lstDecision.applyfinish_dis.label=Kết thúc hiệu lực
+lstDecision.applyfinish_dis.title=Kết thúc hiệu lực
+
+lstDecision.appealtype.label=Được KC hay không?
+lstDecision.appealtype.title=Quyết định có được kháng cáo hay không?
+lstDecision.appealtype_dis.label=Kháng cáo
+lstDecision.appealtype_dis.title=Quyết định có được kháng cáo hay không?
+
+lstDecision.decitype.label=Loại quyết định
+lstDecision.decitype.title=Loại quyết định
+lstDecision.decitype_dis.label=Loại QĐ
+lstDecision.decitype_dis.title=Loại quyết định
+
+
+
+lstDecision.usefor.label=Giai đoạn áp dụng
+lstDecision.usefor.title=Giai đoạn áp dụng quyết định
+
+lstDecision.status.label=Trạng thái sử dụng
+lstDecision.status.title=Quyết định đang được sử dụng hay không?
+
+lstDecision.status_.label=Trạng thái
+lstDecision.status_.title=Trạng thái
+
+lstDecision.settime.label=Thời hạn
+lstDecision.settime.styleClass=right
+lstDecision.settime.title=Thời hạn áp dụng
+
+lstDecision.setunit.label=Đơn vị tính
+lstDecision.setunit.title=Đơn vị tính của thời hạn áp dụng ở trên
+
+lstDecision.usefor_.label=Giai đoạn
+lstDecision.usefor_.title=Giai đoạn áp dụng quyết định
+
+lstDecision.setunit_.label=Đơn vị
+lstDecision.setunit_.title=Đơn vị tính của thời hạn áp dụng ở trên
+
+lstDecision.setDtime.label=Thời hạn ( theo ngày )
+lstDecision.setDtime.styleClass=right
+lstDecision.setDtime.title=Số ngày trong thời hạn áp dụng của quyết định
+lstDecision.setMtime.label=Thời hạn ( theo tháng )
+lstDecision.setMtime.styleClass=right
+lstDecision.setMtime.title=Số tháng trong thời hạn áp dụng của quyết định
+
+lstDecision.setDtimeL1.label=Thời hạn 1(theo ngày)
+lstDecision.setDtimeL1.styleClass=right
+lstDecision.setDtimeL1.title=Số ngày trong thời hạn áp dụng của quyết định với vụ án ít nghiêm trọng
+lstDecision.setMtimeL1.label=Thời hạn 1(theo tháng)
+lstDecision.setMtimeL1.styleClass=right
+lstDecision.setMtimeL1.title=Số tháng trong thời hạn áp dụng của quyết định với vụ án ít nghiêm trọng
+
+lstDecision.setDtimeL2.label=Thời hạn 2(theo ngày)
+lstDecision.setDtimeL2.styleClass=right
+lstDecision.setDtimeL2.title=Số ngày trong thời hạn áp dụng của quyết định với vụ án nghiêm trọng
+lstDecision.setMtimeL2.label=Thời hạn 2(theo tháng)
+lstDecision.setMtimeL2.styleClass=right
+lstDecision.setMtimeL2.title=Số tháng trong thời hạn áp dụng của quyết định với vụ án nghiêm trọng
+
+lstDecision.setDtimeL3.label=Thời hạn 3(theo ngày)
+lstDecision.setDtimeL3.styleClass=right
+lstDecision.setDtimeL3.title=Số ngày trong thời hạn áp dụng của quyết định với vụ án rất nghiêm trọng
+lstDecision.setMtimeL3.label=Thời hạn 3(theo tháng)
+lstDecision.setMtimeL3.styleClass=right
+lstDecision.setMtimeL3.title=Số tháng trong thời hạn áp dụng của quyết định với vụ án rất nghiêm trọng
+
+lstDecision.setDtimeL4.label=Thời hạn 4(theo ngày)
+lstDecision.setDtimeL4.styleClass=right
+lstDecision.setDtimeL4.title=Số ngày trong thời hạn áp dụng của quyết định với vụ án đặc biệt nghiêm trọng
+lstDecision.setMtimeL4.label=Thời hạn 4(theo tháng)
+lstDecision.setMtimeL4.styleClass=right
+lstDecision.setMtimeL4.title=Số tháng trong thời hạn áp dụng của quyết định với vụ án đặc biệt nghiêm trọng
+
+danhmuc.thoihan_tu.label=Thời hạn từ
+danhmuc.thoihan_tu.title=Thời hạn bắt đầu từ
+danhmuc.thoihan_den.label=Đến
+danhmuc.thoihan_den.title=Thời hạn đến
+
+danhmuc.thoihan_tu.nhohonTHden=Thời hạn từ phải nhỏ hơn thời hạn đến
+danhmuc.thoihan_tu.yeucaunhap=Phải nhập thời hạn từ
+
+messages.constraint.lst_reason=Chưa thể xóa vì có ràng buộc dữ liệu. Quyết định đã chọn đang được sử dụng trong danh mục lý do quyết định. Bạn hãy kiểm tra lại.
+messages.constraint.lst_declaw=Chưa thể xóa vì có ràng buộc dữ liệu. Quyết định đã chọn đang được sử dụng trong bảng lst_declaw. Bạn hãy kiểm tra lại.
+messages.constraint.spc_decision=Chưa thể xóa vì có ràng buộc dữ liệu. Quyết định đã chọn đang được sử dụng cho việc thêm quyết định cho một vụ việc. Bạn hãy kiểm tra lại.
+# lstUrgentMethod
+lstUrgentMethod.title=biện pháp khẩn cấp tạm thời
+lstUrgentMethod.key=Biện pháp khẩn cấp tạm thời
+lstUrgentMethod.resultTable.displayColumns=methodid,methodname
+
+lstUrgentMethod.methodid.label=Mã BPKCTT
+lstUrgentMethod.methodid.title=Mã biện pháp khẩn cấp tạm thời
+
+lstUrgentMethod.methodname.label=Tên BPKCTT
+lstUrgentMethod.methodname.title=Tên biện pháp khẩn cấp tạm thời
+
+######################---[DM Nghề nghiệp]---##############################
+lst_occupation.title=Nghề nghiệp
+messages.dvdt.lstOccupation.delete.summary=Xóa nghề nghiệp
+messages.dvdt.lstOccupation.delete.success=Xóa thành công thành công
+
+pageTitles.dvdt.lstOccupation=QUẢN LÝ NGHỀ NGHIỆP
+pageTitles.dvdt.lstOccupation.edit=Thêm mới-Cập nhật thông tin nghề nghiệp
+
+lstOccupation.lstOccupation_Edit.labels.occuid=Mã nghề nghiệp
+lstOccupation.lstOccupation_Edit.titles.occuid=Nhập mã nghề nghiệp
+lstOccupation.lstOccupation_Edit.titles.occuid=Bạn phải nhập mã nghề nghiệp
+lstOccupation.lstOccupation_Edit.labels.name=Tên nghề nghiệp
+lstOccupation.lstOccupation_Edit.titles.name=Nhập tên nghề nghiệp
+lstOccupation.lstOccupation_Edit.message.name=Bạn phải nhập tên nghề nghiệp
+lstOccupation.lstOccupation_Edit.labels.remark=Ghi chú
+lstOccupation.lstOccupation_Edit.titles.remark=Nhập ghi chú
+lstOccupation.lstOccupation_Edit.message.remark=Bạn phải nhập ghi chú
+lstOccupation.lstOccupation_Edit.labels.crtUser=Người tạo
+lstOccupation.lstOccupation_Edit.labels.crtDate=Ngày tạo
+lstOccupation.lstOccupation_Edit.labels.mdfUser=Người sửa cuối
+lstOccupation.lstOccupation_Edit.labels.mdfDate=Ngày sửa cuối
+
+
+# danh mục trường hợp giải quyết
+lstResolve.resultTable.displayColumns=resolid,resolname,state_
+lstResolve.detailInfo.exceptFields=state
+lstResolve.title=Trường hợp giải quyết
+lstResolve.title.resolid=Mã trường hợp giải quyết
+lstResolve.resolid.label=Mã trường hợp giải quyết
+lstResolve.resolid.styleClass=center
+lstResolve.title.resolname=Tên trường hợp giải quyết
+lstResolve.resolname.label=Tên trường hợp giải quyết
+lstResolve.title.state=Giai đoạn
+lstResolve.state.label=Giai đoạn
+lstResolve.state_.label=Giai đoạn
+lstResolve.state_.title=Giai đoạn
+lstResolve.messages.name=Bạn chưa nhập tên trường hợp giải quyết
+lstResolve.messages.name2=Tên trường hợp giải quyết này đã tồn tại trong cơ sở dữ liệu
+
+#người xử lý
+lstInspector.resultTable.displayColumns=inspcode,fullname,position_,sppid,name,departname,stt
+lstInspector.title=Người xử lý
+lstInspector.inspcode.title=Mã người xử lý
+lstInspector.inspcode.label=Mã người xử lý
+lstInspector.sppid.title=Mã VKS
+lstInspector.sppid.label=Mã VKS
+lstInspector.name.label=Tên VKS
+lstInspector.name.title=Tên VKS
+lstInspector.departname.label=Phòng ban
+lstInspector.departname.title=Phòng ban
+lstInspector.fullname.title=Tên người xử lý
+lstInspector.fullname.label=Tên người xử lý
+lstInspector.address.title=Địa chỉ
+lstInspector.address.label=Địa chỉ
+lstInspector.tel.title=Số điện thoại
+lstInspector.tel.label=Số điện thoại
+lstInspector.jobtitle.title=Chức vụ
+lstInspector.jobtitle.label=Chức vụ
+lstInspector.stt.title=Trạng thái làm việc
+lstInspector.stt.label=Trạng thái làm việc
+lstInspector.position_.title=Vị trí công tác
+lstInspector.position_.label=Vị trí công tác
+lstInspector.error.exist=Mã này đã tồn tại
+
+######################---[DM Tư cách tố tụng (Hình sự )]---##############################
+lstComp.title=Tư cách tố tụng (Hình sự )
+lstComp.labels.compid=Mã tư cách tố tụng
+lstComp.titles.compid=Nhập mã tư cách tố tụng
+lstComp.message.compid=Bạn phải nhập mã tư cách tố tụng
+lstComp.labels.compname=Tên tư cách tố tụng
+lstComp.titles.compname=Nhập tên tư cách tố tụng
+lstComp.message.compname=Bạn phải nhập tên tư cách tố tụng
+
+
+######################---[DM Tôn giáo]---##############################
+
+lst_religion.messages.accountExist=Mã hoặc loại tôn giáo đã tồn tại trong CSDL
+lst_religion.title=Tôn giáo
+messages.tg.lstReligion.delete.summary=Xóa loại tôn giáo
+messages.tg.lstReligion.delete.success=Xóa tôn giáo thành công
+
+pageTitles.tg.lstReligion=QUẢN LÝ DANH MỤC TÔN GIÁO
+pageTitles.tg.lstReligion.edit=Thêm mới-Cập nhật thông tin tôn giáo
+
+lst_religion.religionId.label=Mã tôn giáo
+lst_religion.religionId.title=Nhập mã tôn giáo
+lst_religion.religionId.message=Mã tôn giáo
+lst_religion.religionName.label=Loại tôn giáo
+lst_religion.religionName.title=Nhập loại tôn giáo
+lst_religion.religionName.message=Loại tôn giáo
+lst_religion.religionNote.label=Ghi chú
+lst_religion.religionNote.title=Nhập ghi chú
+lst_religion.error.contraint=Loại tôn giáo đã được sử dụng, bạn phải xóa Bị can, Bị cáo trước
+######################---[DM Loại Quyết Đinh]---############################
+lst_decitype.resultTable.displayColumns=decitypeid, name
+pageTitles.tg.lstDecitype=QUẢN LÝ DANH MỤC LOẠI QUYẾT ĐỊNH
+lst_decitype.title=Loại quyết định
+lst_decitype.decitypeid.label=Mã loại quyết định
+lst_decitype.decitypeid.title=Nhập mã loại quyết định
+lst_decitype.name.label=Tên loại quyết định
+lst_decitype.name.title=Tên loại quyết định
+lst_decitype.decitypeid.message=Mã loại quyết định
+lst_decitype.name.message=Tên loại quyết định
+lst_decitype.message.error= Không xóa được do mã QĐ được sử dụng trong danh mục quyết định
+lst_decitype.error.exist = Mã loại quyết định đã tồn tại trong CSDL
+
+
+######################---[DM Lý do bản bán]---##############################
+lstCTCReason.titles=Lý do bản án
+messages.ldba.lstCTCReason.delete.summary=Xóa lý do bản án
+messages.ldba.lstCTCReason.delete.success=Xóa lý do bản án thành công
+
+pageTitles.ldba.lstCTCReason=QUẢN LÝ DANH MỤC LÝ DO BẢN ÁN
+pageTitles.ldba.lstCTCReason.edit=Thêm mới-Cập nhật thông tin bản án
+lst_ctcreason.type.label=Loại án
+lst_ctcreason.type.message=Loại án
+lst_ctcreason.chooseta=---Vui lòng chọn---
+lst_ctcreason.reasonId.label=Mã bản án
+lst_ctcreason.reasonId.title=Nhập mã bản án
+lst_ctcreason.reasonId.message=Mã bản án
+lst_ctcreason.reasoname.label=Lý do bản án
+lst_ctcreason.reasoname.title=Nhập lý do bản án
+lst_ctcreason.reasoname.message=Lý do bản án
+lst_ctcreason.concname.label=Kết luận bản án, quyết định
+lst_ctcreason.concname.title=Gõ 1 vài kí tự để chọn Kết luận bản án, quyết định hoặc gõ dấu cách để chọn tất cả
+lst_ctcreason.typename.label=Loại án
+lst_ctcreason.statusname.label=Trạng thái
+lst_ctcreason.statusname.title=Trạng thái
+lst_ctcreason.concid.message=Kết luận bản án, quyết định
+#LSTCTCREASOn.reasonsts.label=Trạng thái
+lst_ctcreason.resultTable.displayColumns=reasonId,reasoname,concname,typename
+lst_ctcreason.detailInfo.exceptFields=crtuser, crtdate, mdfuser, mdfdate,type
+
+
+######################---[DM Biện pháp giải quyết đơn]---##############################
+lst_compsolve.messages.idExist=Mã hoặc Tên biện pháp đã tồn tại trong CSDL
+lst_compsolve.title=Biện pháp giải quyết đơn
+messages.lst_compsolve.delete.summary=Xóa biện pháp giải quyết đơn
+messages.lst_compsolve.delete.success=Xóa biện pháp giải quyết đơn thành công
+
+pageTitles.tg.lstReligion=QUẢN LÝ DANH MỤC BIỆN PHÁP GIẢI QUYẾT ĐƠN
+pageTitles.tg.lstReligion.edit=Thêm mới-Cập nhật thông tin tôn giáo
+
+lst_compsolve.solveId.label=Mã biện pháp
+lst_compsolve.solveId.title=Nhập mã biện pháp
+lst_compsolve.solveId.message=Mã biện pháp
+lst_compsolve.solveName.label=Tên biện pháp
+lst_compsolve.solveName.title=Nhập tên biện pháp
+lst_compsolve.solveName.message=Tên biện pháp
+lst_compsolve.remark.label=Ghi chú
+lst_compsolve.remark.title=Nhập ghi chú
+
+# lst_knowledge
+
+lst_knowledge.title= Trình độ học vấn
+
+lst_knowledge.levelid.label= Mã trình độ
+lst_knowledge.levelid.title= Mã trình độ
+lst_knowledge.levelname.label= Trình độ học vấn
+lst_knowledge.levelname.title= Trình độ học vấn
+lst_knowledge.levelid.styleClass=right
+
+lst_knowledge.messages.idExist=Mã hoặc tên trình độ học vấn đã tồn tại trong CSDL
+lst_knowledge.messages.nameExist=Tên trình độ học vấn đã tồn tại trong CSDL
+
+# lst_divorce
+lst_divorce.title=Danh mục lý do ly hôn
+
+lst_divorce.divorceid.label=Mã lý do
+lst_divorce.divorceid.title=Mã lý do
+
+lst_divorce.divorcename.label=Lý do ly hôn
+lst_divorce.divorcename.title=Tên lý do
+
+lst_divorce.remark.label=Ghi chú
+lst_divorce.remark.title=Ghi chú
+lst_divorce.crtuser.label=Người tạo
+lst_divorce.crtdate.label=Ngày tạo
+lst_divorce.mdfuser.label=Người sửa
+lst_divorce.mdfdate.label=Ngày sửa
+lst_divorce.messages.idExist=Mã hoặc tên lý do ly hôn đã tồn tại trong CSDL
+lst_divorce.messages.nameExist=Tên lý do ly hôn đã tồn tại trong CSDL
+
+
+
+#Lst_Nation
+
+Lst_Nation.title=Dân tộc
+
+Lst_Nation.natiId.label=Mã dân tộc
+Lst_Nation.natiId.title=Mã dân tộc
+Lst_Nation.natiId.styleClass=center
+Lst_Nation.name.label=Tên dân tộc
+Lst_Nation.name.title=Dân tộc
+Lst_Nation.remark.label=Ghi chú
+Lst_Nation.remark.title=Tên dân tộc
+Lst_Nation.messages.nameExist=Mã hoặc tên dân tộc đã tồn tại trong CSDL
+Lst_Nation.messages.Constraint=Bản ghi này liên quan đến bảng khác bạn không thể xóa. Đề nghị kiểm tra lại!
+Lst_Nation.crtuser.styleClass=left
+#Lst_Office
+
+Lst_Office.title=Danh mục chức vụ chính quyền
+Lst_Office.subtitle=chức vụ chính quyền
+Lst_Office.resultTable.displayColumns=officeid,officename,setlevelName
+Lst_Office.officeid.label=Mã
+Lst_Office.officeid.title=Mã chức vụ
+Lst_Office.officeid.styleClass=center
+Lst_Office.officename.label=Chức vụ chính quyền
+Lst_Office.officename.title=Chức vụ chính quyền
+Lst_Office.setlevelName.label=Cấp chính quyền
+
+Lst_Office.setlevel.all.title=Tất cả
+Lst_Office.setlevel.px.title=Phường-Xã
+Lst_Office.setlevel.px.value=PX
+Lst_Office.setlevel.qh.title=Quận-Huyện
+Lst_Office.setlevel.qh.value=QH
+Lst_Office.setlevel.tt.title=Tỉnh-Thành phố
+Lst_Office.setlevel.tt.value=TT
+Lst_Office.setlevel.tu.title=Trung ương
+Lst_Office.setlevel.tu.value=TU
+
+Lst_Office.messages.nameExist=Tên chức vụ chính quyền đã tồn tại trong CSDL
+Lst_Office.messages.idExist=Mã hoặc tên chức vụ chính quyền đã tồn tại trong CSDL
+Lst_office.error.contraint.spc_accused=Chức vụ chính quyền này đã được sử dụng, vui lòng kiểm tra lại!
+
+Lst_Office.messages.nameExist=Tên chức vụ chính quyền đã tồn tại trong CSDL
+Lst_Office.delete_error=Không thể xóa bản ghi do đã được sử dụng tại chức năng quản lý án hình sự
+Lst_Office.add_name_error=Tên chức vụ đã tồn tại
+Lst_Office.add_id_error=Mã chức vụ đã tồn tại
+
+#Lst_Transfer
+lst_transfer.title = lý do bàn giao
+lst_transfer.transid.label= Mã lý do bàn giao
+lst_transfer.transid.title= Mã
+lst_transfer.transname.label= Tên lý do
+lst_transfer.transname.title= Tên lý do
+lst_transfer.fromto.label= Quá trình bàn giao
+lst_transfer.fromto.title= Quá trình bàn giao
+lst_transfer.fromToName.label=Qúa trình bàn giao
+
+lst_transfer.fromto.VKS_VKS= VKS -> VKS
+lst_transfer.fromto.VKS_TA= VKS -> VKS
+lst_transfer.fromto.TA_VKS= VKS -> VKS
+lst_transfer.fromto.TA_TA= VKS -> VKS
+
+lst_transfer.resultTable.displayColumns=transid,transname,fromToName
+lst_transfer.detailInfo.exceptFields=fromto
+
+lst_transfer.messages.idExist=Mã hoặc tên lí do đã tồn tại trong CSDL
+lst_transfer.messages.nameExist=Tên lí do đã tồn tại trong CSDL
+
+
+#Lst_Legalentity
+Lst_Legalentity.title=Tư cách pháp nhân
+Lst_Legalentity.legalentId.label=Mã
+Lst_Legalentity.legalentId.title=Mã tư cách pháp nhân
+Lst_Legalentity.legalentName.label=Tên tư cách pháp nhân
+Lst_Legalentity.legalentName.title=Tên tư cách pháp nhân
+Lst_Legalentity.relationNote.label=Ghi chú
+Lst_Legalentity.relationNote.title=Ghi Chú
+
+# lst_legalpro
+
+lst_legalpro.title= Tư cách tố tụng
+lst_legalpro.proceduralid.label= Mã
+lst_legalpro.proceduralid.title= Mã
+lst_legalpro.proceduralname.label= Tư cách tố tụng
+lst_legalpro.proceduralname.title= Tư cách tố tụng
+lst_legalpro.type.label= Loại án
+lst_legalpro.type.title= Loại án
+lst_legalpro.typename.label= Loại án
+lst_legalpro.typename.title= Loại án
+
+lst_legalpro.resultTable.displayColumns=proceduralid, proceduralname,typename
+lst_legalpro.detailInfo.exceptFields=type
+
+lst_legalpro.messages.idExist=Mã hoặc tên tư cách tố tụng đã tồn tại trong CSDL
+
+
+# lst_spp
+
+Lst_SPP.title=Viện kiểm sát
+
+Lst_SPP.addr.label=Địa chỉ
+Lst_SPP.addr.title=Địa chỉ của Viện Kiểm Sát
+Lst_SPP.location.label=Địa chỉ
+Lst_SPP.location.title=Gõ một vài ký tự để chọn đơn vị hành chính (Dùng dấu cách để chọn tất cả)
+Lst_SPP.director.label=Người ký
+Lst_SPP.director.title=Người ký
+Lst_SPP.fax.label=Fax
+Lst_SPP.fax.title=Số Fax của Viện Kiểm Sát
+Lst_SPP.name.label=Tên VKS
+Lst_SPP.name.title=Tên đầy đủ của Viện Kiểm Sát
+Lst_SPP.position.label=Chức vụ
+Lst_SPP.position.title=Chức vụ
+Lst_SPP.sppid.label=Mã VKS
+Lst_SPP.sppid.title=Mã Viện Kiểm Sát
+Lst_SPP.spplevel.label=Cấp
+Lst_SPP.spplevel.title=Cấp
+Lst_SPP.tel.label=Điện thoại
+Lst_SPP.tel.title=Số điện thoại của Viện Kiểm Sát
+Lst_SPP.spptype.label=Cấp VKS
+Lst_SPP.spptype.title=Cấp Viện Kiểm Sát
+Lst_SPP.spptype.1.label=Tối cao
+Lst_SPP.spptype.2.label=Địa phương
+Lst_SPP.ordercode.label=Mã thứ tự
+Lst_SPP.warning.sppexist=Viện Kiểm Sát này đã tồn tại
+Lst_SPP.error.tatc=Bạn không thể xóa Viện Kiểm Sát nhân dân tối cao
+Lst_SPP.error.childexist=Bạn không thể xóa Viện Kiểm Sát do ràng buộc dữ liệu
+Lst_SPP.error.exist=Bạn không thể nhập trùng dữ liệu
+Lst_SPP.error.level=Không thể thêm VKS dưới cấp Quận/Huyện
+Lst_SPP.resultTable.displayColumns=sppid,ordercode, name,addr,tel,fax
+Lst_SPP.detailInfo.exceptFields=spplevel
+Lst_SPP.spcname.label=Tòa án cùng cấp
+Lst_SPP.error.insert=Có lỗi khi thêm dữ liệu
+Lst_SPP.error.delete.level=Không thể xóa khi có VKS cấp con
+Lst_SPP.error.delete = Không thể xóa khi có ràng buộc dữ liệu.
+Lst_SPP.error.nameexist=Đã tồn tại VKS này trong CSDL
+Lst_SPP.ordercode.styleClass=left
+Lst_SPP.error.idexist=Mã VKS đã tồn tại
+
+#lst_law
+
+lst_law.title=điều luật
+lst_law.lawcode.lable=Mã
+lst_law.lawcode.title=Mã
+lst_law.lawid.lable=Điều
+lst_law.lawid.styleClass=right
+lst_law.point.styleClass=right
+lst_law.item.styleClass=right
+lst_law.lawid.title=Điều
+lst_law.item.label=Khoản
+lst_law.item.title=Khoản
+lst_law.point.label=Điểm
+lst_law.point.title=Điểm
+lst_law.lawiditempoint.label=Điều */ Khoản/ Điểm
+lst_law.lawname.label=Tội danh
+lst_law.lawname.title=Tội danh
+lst_law.lawnamedetail.label=Chi tiết tội danh
+lst_law.lawnamedetail.title=Chi tiết tội danh
+lst_law.lawdate.lable=Ngày ban hành
+lst_law.lawdate.styleClass=center
+lst_law.lawdate.title=Ngày ban hành
+lst_law.priority.label=Độ ưu tiên
+lst_law.priority.title=Độ ưu tiên
+lst_law.setorder.label=Thứ tự
+lst_law.setorder.title=Thứ tụ
+lst_law.status.label=Trạng thái
+lst_law.status.title=Trạng thái
+lst_law.lawtype.label=Mức độ nguy hiểm
+lst_law.lawtype.title=Mức độ nguy hiểm
+lst_law.codeid.lable=Mã bộ luật
+lst_law.codeid.title=Mã bộ luật
+lst_law.codename.label=Tên bộ luật
+lst_law.codename.title=Tên bộ luật
+lst_law.groupid.label=Mã chương luật
+lst_law.groupid.title=Mã chương luật
+lst_law.groupname.label=Chương luật
+lst_law.groupname.title=Chương luật
+lst_law.lawtypename.label=Mức độ nghiêm trọng
+lst_law.lawtypename.title=Mức độ nghiêm trọng
+
+lst_law.resultTable.displayColumns=lawid,item,point,lawname,lawdate,codename,lawtypename
+lst_law.detailInfo.exceptFields=lawtype
+
+lst_law.messages.idExist=Điều, Khoản, hoặc Điểm đã tồn tại trong CSDL
+lst_law.messages.nameExist=Điều, Khoản, Điểm hoặc Tội danh đã tồn tại trong CSDL
+
+lst_law.error1=Điều, Khoản đã tồn tại trong CSDL
+lst_law.error2=Điều, Khoản, Điểm đã tồn tại trong CSDL
+lst_law.error3=Điều đã tồn tại trong CSDL
+lst_law.error4=Tội danh đã tồn tại trong CSDL
+
+#lst_penalty
+
+lst_Party.error.errorpk=Không thể xóa do ràng buộc dữ liệu
+
+Lst_Penalty.title=Hình Phạt
+#Lst_Penalty.nameOfPenaltyfor.label=Loại hình phạt
+#Lst_Penalty.nameOfPenaltyfor.type=Loại hình phạt
+#Lst_Penalty.nameOfPenaltytype.label=Tính chất
+#Lst_Penalty.nameOfPenaltytype.title=Tính chất
+Lst_Penalty.penaltyfor.label=Loại hình phạt
+Lst_Penalty.penaltyfor.title=Loại hình phạt
+Lst_Penalty.penaltyid.label=Mã
+Lst_Penalty.penaltyid.title=Mã hình phạt
+Lst_Penalty.penaltyid.styleClass=center
+Lst_Penalty.penaltyname.label=Tên hình phạt
+Lst_Penalty.penaltyname.title=Tên hình phạt
+Lst_Penalty.penaltyfor.Y.label=Chính
+Lst_Penalty.penaltyfor.Y.value=Y
+Lst_Penalty.penaltyfor.N.label=Bổ sung
+Lst_Penalty.penaltyfor.N.value=N
+Lst_Penalty.penaltyfor.O.label=Khác
+Lst_Penalty.penaltyfor.O.value=O
+
+Lst_Penalty.penaltytype.T.label=Tù hoặc hình phạt có thời hạn
+Lst_Penalty.penaltytype.T.value=T
+Lst_Penalty.penaltytype.M.label=Phạt tiền
+Lst_Penalty.penaltytype.M.value=M
+Lst_Penalty.penaltytype.O.label=Khác
+Lst_Penalty.penaltytype.O.value=O
+
+Lst_Penalty.messages.nameExist=Tên hình phạt đã tồn tại trong CSDL
+Lst_Penalty.messages.idExist=Mã hoặc tên hình phạt đã tồn tại trong CSDL
+Lst_penalty.error.contraint.lst_lawpenalty=Hình phạt này đã được sử dụng, vui lòng kiểm tra lại!
+
+#lst_Rule
+Lst_Rule.title=Thời hạn thụ lý
+Lst_Rule.nameOfCaseType.label=Loại vụ án
+Lst_Rule.nameOfCaseType.title=Loại vụ án
+Lst_Rule.nameOfUseFor.label=Giai đoạn áp dụng
+Lst_Rule.nameOfUseFor.title=Giai đoạn áp dụng
+Lst_Rule.ruleTime.label=Thời hạn thụ lý
+Lst_Rule.ruleTime.title=Thời hạn thụ lý
+Lst_Rule.nameOfSetUnit.label=Đơn vị tính
+Lst_Rule.nameOfSetUnit.title=Đơn vị tính
+Lst_Rule.messages.ruleExit=Loại vụ án và giai đoạn áp dụng đã có trong CSDL
+Lst_Rule.ruleTime.styleClass=right
+
+
+#Lst_Appeal
+lstAppeal.title=loại kháng cáo
+lstAppeal.key=Loại kháng cáo
+lstAppeal.appealid.label=Mã kháng cáo
+lstAppeal.appealid.title=Mã kháng cáo
+lstAppeal.appealname.title=Loại kháng cáo
+lstAppeal.appealname.label=Loại kháng cáo
+lstAppeal.setunitname.label=Đơn vị tính
+lstAppeal.setunitname.title=Đơn vị tính
+lstAppeal.settime.label=Thời hạn
+lstAppeal.settime.title=Thời hạn
+lstAppeal.appealid.styleClass=center
+lstAppeal.setunitname.styleClass=center
+lstAppeal.settime.styleClass=right
+
+
+#Lst_AgainstResult
+lstAgainstResult.title=kết quả kháng nghị
+lstAgainstResult.key=Kết quả kháng nghị
+lstAgainstResult.resultid.label=Mã kết quả kháng nghị
+lstAgainstResult.resultid.title=Mã kết quả kháng nghị
+lstAgainstResult.resultname.title=Tên kết quả kháng nghị
+lstAgainstResult.resultname.label=Tên kết quả kháng nghị
+lstAgainstResult.resultid.styleClass=center
+lstAgainstResult.delete.error=Không thể xóa bản ghi do có ràng buộc dữ liệu
+
+#Lst_Register
+lstRegister.title=Trường hợp thụ lý
+lstRegister.key=Trường hợp thụ lý
+
+#Lst_LawGroup
+lstLawGroup.title=Chương luật
+lstLawGroup.key=Chương luật
+
+
+
+#Lst_Codechange
+Lst_Codechange.title=Ngày ban hành, sửa đổi bộ luật
+Lst_Codechange.changeId.title=Mã
+Lst_Codechange.changeId.label=Mã
+Lst_Codechange.changeDate.title=Ngày ban hành, sửa đổi
+Lst_Codechange.changeDate.label=Ngày ban hành, sửa đổi
+Lst_Codechange.codeName.title=Tên bộ luật
+Lst_Codechange.codeName.label=Tên bộ luật
+Lst_Codechange.messages.codechangeExit=Mã hoặc ngày ban hành, sửa đổi và Tên bộ luật đã có trong CSDL
+Lst_Codechange.changeDate.styleClass=center
+Lst_Codechange.detailInfo.exceptFields=crtuser, crtdate, mdfuser, mdfdate
+Lst_Codechange.ngaytu.nhohon.ngayden=Ngày từ phải nhỏ hơn ngày đến
+Lst_Codechange.resultTable.displayColumns=changeId,changeDate,codeName
+# Button
+## Tree
+button.labels.toggletree=Hiển thị dạng cây
+button.labels.toggletable=Hiển thị dạng bảng
+button.icons.tree=ui-icon-transferthick-e-w
+
+#ERROR
+
+#RELATIONTYPE
+constants.categories.relationtype.1.value=1
+constants.categories.relationtype.2.value=2
+constants.categories.relationtype.3.value=3
+constants.categories.relationtype.1.text=Tranh chấp
+constants.categories.relationtype.2.text=Yêu cầu
+constants.categories.relationtype.3.text=Khiếu kiện
+#RELATIONFOR
+constants.categories.relationfor.1.value=1
+constants.categories.relationfor.2.value=2
+constants.categories.relationfor.3.value=3
+constants.categories.relationfor.4.value=4
+constants.categories.relationfor.5.value=5
+
+constants.categories.relationfor.1.text=Dân sự
+constants.categories.relationfor.2.text=Hôn nhân gia đình
+constants.categories.relationfor.3.text=Hành chính
+constants.categories.relationfor.4.text=Kinh doanh, thương mại
+constants.categories.relationfor.5.text=Lao động
+#SETUNITTIME
+constants.categories.setunittime.D.value=D
+constants.categories.setunittime.M.value=M
+constants.categories.setunittime.Y.value=Y
+constants.categories.setunittime.D.text=Ngày
+constants.categories.setunittime.M.text=Tháng
+constants.categories.setunittime.Y.text=Năm
+#COST
+constants.categories.cost.0.value=0
+constants.categories.cost.1.value=1
+
+constants.categories.cost.0.text=Có
+constants.categories.cost.1.text=Không
+
+constants.categories.trangthaithuly.1.value=1
+constants.categories.trangthaithuly.2.value=2
+
+constants.categories.trangthaithuly.1.text=Đã thụ lý
+constants.categories.trangthaithuly.2.text=Chưa thụ lý
+
+######################---[DM Nghề nghiệp]---##############################
+lst_occupation.title=Nghề nghiệp
+lst_occupation.key=Nghề nghiệp
+
+lst_occupation.resultTable.displayColumns=occuId,name,branchJob_dis,remark
+lst_occupation.detailInfo.exceptFields=branchJob
+lst_occupation.occuId.label=Mã nghề nghiệp
+lst_occupation.occuId.title=Nhập mã nghề nghiệp
+lst_occupation.occuId.styleClass=right
+lst_occupation.name.label=Tên nghề nghiệp
+lst_occupation.name.title=Nhập tên nghề nghiệp
+
+
+lst_occupation.branchJob_dis.label=Ngành nghề
+lst_occupation.branchJob_dis.styleClass=left
+
+lst_occupation.remark.label=Ghi chú
+lst_occupation.remark.title=Nhập ghi chú
+
+lst_occupation.branchJob.label=Ngành nghề
+lst_occupation.branchJob.title=Chọn ngành nghề
+
+lst_occupation.crtUser.label=Người tạo
+lst_occupation.crtDate.label=Ngày tạo
+lst_occupation.mdfUser.label=Người sửa cuối
+lst_occupation.mdfDate.label=Ngày sửa cuối
+lst_occupation.messages.idExist=Mã hoặc tên nghề nghiệp đã tồn tại trong CSDL
+lst_occupation.messages.nameExist=Tên nghề nghiệp đã tồn tại trong CSDL
+lst_occupation.messages.delete.error=Bạn không thể xóa Nghề nghiệp này do ràng buộc dữ liệu
+######################---[DM Bộ luật]---##############################
+lst_code.resultTable.displayColumns=codeid,codeName
+lst_code.title=Bộ luật
+lst_code.key=Bộ luật
+lst_code.codeid.label=Mã bộ luật
+lst_code.codeid.title=Nhập mã bộ luật
+lst_code.codeid.require=Hệ thống tự sinh
+
+lst_code.codeName.label=Tên bộ luật
+lst_code.codeName.styleClass=left
+lst_code.codeName.title=Nhập tên bộ luật
+
+lst_code.crtUser.label=Người tạo
+lst_code.crtDate.label=Ngày tạo
+lst_code.mdfUser.label=Người sửa cuối
+lst_code.mdfDate.label=Ngày sửa cuối
+lst_code.messages.idExist=Mã hoặc tên bộ luật đã tồn tại trong CSDL
+lst_code.messages.nameExist=Tên bộ luật vấn đã tồn tại trong CSDL
+lst_code.messages.delete.error=Bạn không thể xóa Bộ luật này do ràng buộc dữ liệu
+######################---[DM Quan hệ tố tụng ]---##############################
+lst_complaint.resultTable.displayColumns=compid,compname
+lst_complaint.title=Quan hệ tố tụng
+lst_complaint.key=Quan hệ tố tụng
+lst_complaint.compid.label=Mã quan hệ tố tụng
+lst_complaint.compid.title=Nhập mã quan hệ tố tụng
+lst_complaint.compid.require=Hệ thống tự sinh
+
+lst_complaint.compname.label=Tên quan hệ tố tụng
+lst_complaint.compname.title=Nhập tên quan hệ tố tụng
+lst_complaint.messages.idExist=Mã hoặc tên quan hệ tố tụng đã tồn tại trong CSDL
+lst_complaint.messages.nameExist=Tên quan hệ tố tụng đã tồn tại trong CSDL
+lst_complaint.messages.delete.error=Bạn không thể xóa quan hệ tố tụng này do ràng buộc dữ liệu
+########################---[DM Quan hệ pháp luật]---#####################################
+lst_lawrelation.autocomplete=Gõ mã hoặc tên để thêm mới (Dùng dấu cách để tìm kiếm tất cả)
+lst_lawrelation.resultTable.displayColumns=relationid,relationname,relationtypename,relationforname,costname
+lst_lawrelation.error.duplicatesave=Bạn không thể Lưu tiếp khi chưa Xóa trắng
+lst_lawrelation.title=Quan hệ pháp luật
+lst_lawrelation.key=Quan hệ pháp luật
+lst_lawrelation.relationid.label=Mã
+lst_lawrelation.relationid.requie=Nhập mã quan hệ pháp luật
+lst_lawrelation.relationid.title=Hệ thống tự sinh
+
+lst_lawrelation.relationname.label=Tên quan hệ pháp luật
+lst_lawrelation.relationname.title=Nhập tên quan hệ pháp luật
+
+lst_lawrelation.relationtypename.label=Loại quan hệ
+lst_lawrelation.relationtype.title=Nhập loại quan hệ
+lst_lawrelation.relationtype.label.1=Tranh chấp
+lst_lawrelation.relationtype.label.2=Yêu cầu
+
+lst_lawrelation.relationforname.label=Áp dụng
+lst_lawrelation.relationfor.title=Nhập kiểu áp dụng
+lst_lawrelation.relationfor.title.1=Dân sự
+lst_lawrelation.relationfor.title.2=HNGĐ
+lst_lawrelation.g3_time.label=Thời hạn thụ lý sơ thẩm
+lst_lawrelation.g3_time.title=Nhập thời hạn thụ lý sơ thẩm
+lst_lawrelation.g3_time.styleClass=right
+
+
+lst_lawrelation.g4_time.label=Thời hạn thụ lý phúc thẩm
+lst_lawrelation.g4_time.title=Nhập thời hạn thụ lý phúc thẩm
+lst_lawrelation.g4_time.styleClass=right
+
+lst_lawrelation.g5_time.label=Thời hạn thụ lý giám đốc thẩm, tái thẩm
+lst_lawrelation.g5_time.title=Nhập thời hạn thụ lý giám đốc thẩm, tái thẩm
+lst_lawrelation.g5_time.styleClass=right
+
+lst_lawrelation.setunitname.label=Đơn vị tính
+lst_lawrelation.setunit.title=Nhập đơn vị tính
+lst_lawrelation.setunit.title.day=Ngày
+lst_lawrelation.setunit.title.month=Tháng
+
+lst_lawrelation.costname.label=Miễn án phí
+lst_lawrelation.cost.title=Nhập kiểu miễn án phí
+lst_lawrelation.cost.title.0=Có
+lst_lawrelation.cost.title.1=Không
+lst_lawrelation.messages.idExist=Quan hệ pháp luật này đã tồn tại trong CSDL
+lst_lawrelation.messages.nameExist=Tên quan hệ pháp luật đã tồn tại trong CSDL
+lst_lawrelation.messages.delete.error=Bạn không thể xóa Quan hệ pháp luật này do ràng buộc dữ liệu
+
+######################---[DM Tôn giáo]---##############################
+
+lst_religion.title=Tôn giáo
+messages.tg.lstReligion.delete.summary=Xóa loại tôn giáo
+messages.tg.lstReligion.delete.success=Xóa tôn giáo thành công
+
+pageTitles.tg.lstReligion=QUẢN LÝ DANH MỤC TÔN GIÁO
+pageTitles.tg.lstReligion.edit=Thêm mới-Cập nhật thông tin tôn giáo
+
+lstReligion.lstReligion_Edit.labels.religionId=Mã tôn giáo
+lstReligion.lstReligion_Edit.titles.religionId=Nhập mã tôn giáo
+lstReligion.lstReligion_Edit.message.religionId=mã tôn giáo
+lstReligion.lstReligion_Edit.labels.religionName=Loại tôn giáo
+lstReligion.lstReligion_Edit.titles.religionName=Nhập loại tôn giáo
+lstReligion.lstReligion_Edit.message.religionName=loại tôn giáo
+lstReligion.lstReligion_Edit.labels.religionNote=Ghi chú
+lstReligion.lstReligion_Edit.titles.religionNote=Nhập ghi chú
+lstReligion.lstReligion_Edit.labels.crtuser=Người tạo
+lstReligion.lstReligion_Edit.labels.mdfuser=Người sửa cuối
+lstReligion.error.contraint=Tôn giáo đã được sử dụng, bạn phải xóa đương sự trước
+
+######################---[DM Lí do bản bán]---##############################
+lst_ctcreason.messages.idExist=Mã bản án ,Tên lý do bản án và kết luận bản án đã tồn tại trong CSDL
+lstCTCReason.titles=Lý do bản án
+messages.ldba.lstCTCReason.delete.summary=Xóa lý do bản án
+messages.ldba.lstCTCReason.delete.success=Xóa lý do bản án thành công
+
+pageTitles.ldba.lstCTCReason=QUẢN LÝ DANH MỤC LÝ DO BẢN ÁN
+pageTitles.ldba.lstCTCReason.edit=Thêm mới-Cập nhật thông tin bản án
+lst_ctcreason.type.label=Loại án
+lst_ctcreason.reasonId.label=Mã lý do bản án
+lst_ctcreason.reasonId.title=Nhập mã lý do bản án
+lst_ctcreason.reasonId.message=Mã lý do bản án
+lst_ctcreason.reasoname.label=Lý do bản án
+lst_ctcreason.reasoname.title=Nhập lý do bản án
+lst_ctcreason.reasoname.message=Lý do bản án
+lst_ctcreason.statusname.label=Trạng thái sử dụng
+lst_ctcreason.concname.label=Kết luận bản án, quyết định
+lstCTCReason.lstReason_Edit.labels.Yes=Có
+lstCTCReason.lstReason_Edit.values.Yes=Y
+lstCTCReason.lstReason_Edit.labels.No=Không
+lstCTCReason.lstReason_Edit.values.No=N
+
+######################---[DM Biện pháp giải quyết đơn]---##############################
+lst_compsolve.title=Biện pháp giải quyết đơn
+messages.lst_compsolve.delete.summary=Xóa biện pháp giải quyết đơn
+messages.lst_compsolve.delete.success=Xóa biện pháp giải quyết đơn thành công
+
+pageTitles.tg.lstReligion=QUẢN LÝ DANH MỤC BIỆN PHÁP GIẢI QUYẾT ĐƠN
+pageTitles.tg.lstReligion.edit=Thêm mới-Cập nhật thông tin tôn giáo
+
+lst_compsolve.lstCompsolve_Edit.labels.solveId=Mã biện pháp
+lst_compsolve.lstCompsolve_Edit.titles.solveId=Nhập mã biện pháp
+lst_compsolve.lstCompsolve_Edit.messages.solveId=Bạn phải nhập mã biện pháp
+lst_compsolve.lstCompsolve_Edit.labels.solveName=Biện pháp
+lst_compsolve.lstCompsolve_Edit.titles.solveName=Nhập tên biện pháp
+lst_compsolve.lstCompsolve_Edit.messages.solveName=Bạn phải nhập tên biện pháp
+lst_compsolve.lstCompsolve_Edit.labels.remark=Ghi chú
+lst_compsolve.lstCompsolve_Edit.titles.remark=Nhập ghi chú
+lst_compsolve.lstCompsolve_Edit.labels.crtuser=Người tạo
+lst_compsolve.lstCompsolve_Edit.labels.mdfuser=Người sửa cuối
+# lst_knowledge
+
+lst_knowledge.title= Trình độ học vấn
+lst_knowledge.levelid.label= Mã trình độ
+lst_knowledge.levelid.title= Mã trình độ
+lst_knowledge.levelname.label= Trình độ học vấn
+lst_knowledge.levelname.title= Trình độ học vấn
+lst_knowledge.levelid.styleClass=center
+lst_knowledge.messages.Constraint=Bản ghi này liên quan đến bảng khác bạn không thể xóa. Đề nghị kiểm tra lại!
+
+# lst_divorce
+lst_divorce.title=Danh mục lý do ly hôn
+
+lst_divorce.divorceid.label=Mã lý do
+lst_divorce.divorceid.title=Mã lý do
+
+lst_divorce.divorcename.label=Lý do ly hôn
+lst_divorce.divorcename.title=Tên lý do
+
+lst_divorce.remark.label=Ghi chú
+lst_divorce.remark.title=Ghi chú
+lst_divorce.crtuser.label=Người tạo
+lst_divorce.crtdate.label=Ngày tạo
+lst_divorce.mdfuser.label=Người sửa
+lst_divorce.mdfdate.label=Ngày sửa
+lst_divorce.messages.divorceExist=Mã lý do ly hôn đã tồn tại trong CSDL
+
+
+#Lst_Transfer
+lst_transfer.title = lý do bàn giao
+lst_transfer.transid.label= Mã lý do bàn giao
+lst_transfer.transid.title= Mã
+lst_transfer.transid.styleClass=center
+lst_transfer.transname.label= Tên lý do
+lst_transfer.transname.title= Tên lý do
+lst_transfer.crtuser.styleClass=left
+lst_transfer.fromto.label= Quá trình bàn giao
+lst_transfer.fromto.title= Quá trình bàn giao
+
+#Lst_Location
+#lstLocation.title=Danh mục địa chính
+#lstLocation.key=Danh mục địa chính
+#lstLocation.locaid.title=Mã
+#lstLocation.locaid.label=Mã
+#lstLocation.name.title=Địa chính
+#lstLocation.name.label=Địa chính
+#lstLocation.remark.title=Ghi chú
+#lstLocation.remark.label=Ghi chú
+#lstLocation.statusname.title=Trạng thái
+#lstLocation.statusname.label=Trạng thái
+#lstLocation.domain_txt.title=Khu vực
+#lstLocation.domain_txt.label=Khu vực
+#lstLocation.locaparent.label=Mã
+#Lst_Legalentity
+Lst_Legalentity.title=Tư cách pháp nhân
+Lst_Legalentity.legalentid.label=Mã
+Lst_Legalentity.legalentid.title=Mã tư cách pháp nhân
+Lst_Legalentity.legalentname.label=Tên tư cách pháp nhân
+Lst_Legalentity.legalentname.title=Tên tư cách pháp nhân
+Lst_Legalentity.relationnote.label=Ghi chú
+Lst_Legalentity.relationnote.title=Ghi Chú
+Lst_Legalentity.messages.nameExist= Mã hoặc tên tư cách pháp nhân đã có trong CSDL
+
+# lst_legalpro
+
+lst_legalpro.title= Tư cách tố tụng
+lst_legalpro.proceduralid.label= Mã
+lst_legalpro.proceduralid.title= Mã
+lst_legalpro.proceduralname.label= Tư cách tố tụng
+lst_legalpro.proceduralname.title= Tư cách tố tụng
+
+
+#LstOfficepri
+lst_officepri.title=Đơn vị ưu tiên
+lst_officepri.key= DM Đơn vị ưu tiên
+lst_officepri.officeid.label=Mã đơn vị ưu tiên
+lst_officepri.officename.label=Tên đơn vị ưu tiên
+lst_officepri.prilevel.label=Thứ tự ưu tiên
+lst_officepri.resultTable.displayColumns=officeid,officename,prilevel
+lst_officepri.detailInfo.exceptFields=crtuser,mdfuser,crtdate,mdfdate
+lst_officepri.messages.accountExist=Tên đơn vị ưu tiên đã tồn tại trong CSDL hoặc Thứ tự đơn vị ưu tiên đã tồn tại tong CSDL
+
+#lst_law
+
+lst_law.title=Điều luật
+
+
+lst_law.lawcode.label=Mã
+lst_law.lawcode.title=Mã
+lst_law.lawid.label=Điều
+lst_law.lawid.title=Điều
+lst_law.item.label=Khoản
+lst_law.item.title=Khoản
+lst_law.point.label=Điểm
+lst_law.point.title=Điểm
+lst_law.lawname.label=Tội danh
+lst_law.lawname.title=Tội danh
+lst_law.lawdate.label=Ngày ban hành
+lst_law.lawdate.title=Ngày ban hành
+lst_law.priority.label=Độ ưu tiên
+lst_law.priority.title=Độ ưu tiên
+lst_law.setorder.label=Thứ tự
+lst_law.setorder.title=Thứ tụ
+lst_law.status.label=Trạng thái
+lst_law.status.title=Trạng thái
+lst_law.lawtype.label=Mức độ nguy hiểm
+lst_law.lawtype.title=Mức độ nguy hiểm
+lst_law.codeid.lable=Mã bộ luật
+lst_law.codeid.title=Mã bộ luật
+lst_law.codename.label=Tên bộ luật
+lst_law.codename.title=Tên bộ luật
+lst_law.groupid.label=Mã chương luật
+lst_law.groupid.title=Mã chương luật
+lst_law.groupname.label=Chương luật
+lst_law.groupname.title=Chương luật
+
+#Lst_Appeal
+lstAppeal.title=Loại kháng cáo
+
+#Lst_Register
+lstRegister.title=Trường hợp thụ lý
+lstRegister.regiid.title=Mã
+lstRegister.regiid.label=Mã
+lstRegister.reginame.title=Trường hợp thụ lý
+lstRegister.reginame.label=Trường hợp thụ lý
+lstRegister.useforname.title=Giai đoạn
+lstRegister.useforname.label=Giai đoạn
+lstRegister.statusname.title=Sử dụng
+lstRegister.statusname.label=Sử dụng
+
+
+#Lst_LawGroup
+lstLawGroup.title=Chương luật
+lstLawGroup.groupid.title=Mã
+lstLawGroup.groupid.label=Mã
+lstLawGroup.groupid.styleClass=center
+lstLawGroup.groupname.title=Chương luật
+lstLawGroup.groupname.label=Chương luật
+lstLawGroup.codename.title=Tên bộ luật
+lstLawGroup.codename.label=Tên bộ luật
+lstLawgroup.error.exist=Tên chương luật đã tồn tại trong CSDL. Vui lòng kiểm tra lại
+
+
+#Lst_Statistica
+
+Lst_Statistica.title=Chỉ tiêu thống kê bị can
+Lst_Statistica.statid.title=Mã
+Lst_Statistica.statid.label=Mã chỉ tiêu
+Lst_Statistica.statname.title=Tên
+Lst_Statistica.statname.label=Tên chỉ tiêu
+Lst_Statistica.statusname.title=Tình trạng áp dụng
+Lst_Statistica.statusname.label=Tình trạng áp dụng
+Lst_Statistica.status.yes.label=Có
+Lst_Statistica.status.no.label=Không
+Lst_Statistica.adultname.title=Áp dụng cho người lớn
+Lst_Statistica.adultname.label=Người lớn
+Lst_Statistica.adult.yes.label=Có
+Lst_Statistica.adult.no.label=Không
+Lst_Statistica.childrenname.label=Người chưa thành niên
+Lst_Statistica.childrenname.title=Áp dụng cho người chưa thành niên
+Lst_Statistica.children.yes.label=Có
+Lst_Statistica.children.no.label=Không
+Lst_Statistica.messages.nameExist=Tên chỉ tiêu đã tồn tại trong CSDL
+Lst_Statistica.messages.idExist=Mã hoặc tên chỉ tiêu đã tồn tại trong CSDL
+Lst_Statistica.item.exist=Chỉ tiêu này đã được sử dụng trong bị can. Vui lòng kiểm tra lại.
+
+# Lst_Conclusion
+Lst_Conclusion.title=Kết luận bản án
+
+Lst_Conclusion.concid.label=Mã kết luận
+Lst_Conclusion.concid.title=Mã Kết luận bản án
+Lst_Conclusion.concname.label=Tên kết luận
+Lst_Conclusion.concname.title=Tên Kết luận bản án
+Lst_Conclusion.type.label=Loại án áp dụng
+Lst_Conclusion.type.title=Loại án áp dụng
+Lst_Conclusion.type.choose.label=Chọn loại án
+Lst_Conclusion.userfor.label=Giai đoạn
+Lst_Conclusion.userfor.title=Giai đoạn áp dụng Kết luận bản án
+Lst_Conclusion.userforname.label=Giai đoạn
+Lst_Conclusion.userforname.title=Giai đoạn áp dụng Kết luận bản án
+Lst_Conclusion.userfor.choose.label=Chọn giai đoạn
+Lst_Conclusion.status.label=Tình trạng áp dụng
+Lst_Conclusion.status.title=Tình trạng áp dụng Kết luận bản án
+Lst_Conclusion.statusname.label=Áp dụng
+Lst_Conclusion.statusname.title=Tình trạng áp dụng Kết luận bản án
+Lst_Conclusion.typename.label=Loại án
+Lst_Conclusion.typename.title=Loại án áp dụng
+Lst_Conclusion.resultTable.displayColumns=concid,concname, userforname,statusname
+Lst_Conclusion.detailInfo.exceptFields=userfor,status,type
+Lst_Conclusion.error.exist=Bạn không thể nhập trùng dữ liệu
+Lst_Conclusion.error.duplicatesave=Bạn không thể Lưu tiếp khi chưa Xóa trắng
+Lst_Conclusion.error.contraint.lst_ctcreason=Bạn phải xóa Lý do bản án trước
+Lst_Conclusion.error.contraint=Không thể xóa do Kết luận bản án này đã được sử dụng trong hệ thống
+
+
+#Lst_Spc
+
+Lst_Spc.title = Tòa án
+Lst_Spc.location.label=Mã Tòa án ( Địa phương VKS)
+Lst_Spc.sppnameid.label=Mã, tên Tòa án
+Lst_Spc.sppnameid.title=Mã, tên Tòa án
+Lst_Spc.VKS.label=Mã, Tòa án
+Lst_Spc.spcid.label=Mã Tòa án
+Lst_Spc.spcid.title=Mã Tòa án
+Lst_Spc.name.label=Tên Tòa án
+Lst_Spc.name.title=Tên Tòa án
+Lst_Spc.addr.label=Địa chỉ
+Lst_Spc.addr.title=Địa chỉ
+Lst_Spc.tel.label=Điện thoại
+Lst_Spc.tel.title=Điện thoại
+Lst_Spc.fax.label=Fax
+Lst_Spc.fax.title=Số fax của Tòa án
+Lst_Spc.spcg4name.label=VKS phúc thẩm
+Lst_Spc.director.label=Người ký
+Lst_Spc.director.title=Người ký
+Lst_Spc.position.label=Chức vụ
+Lst_Spc.position.title=Chức vụ
+Lst_Spc.nameofisworking.label=Tình trạng hoạt động
+Lst_Spc.nameofisworking.title=tình trạng hoạt động
+Lst_Spc.sppid.label=Mã Tòa án
+Lst_Spc.sppid.title=Mã Tòa án
+Lst_Spc.sppname.label=Tên Tòa án
+Lst_Spc.sppname.title=Tên Tòa án
+Lst_Spc.sppremark.label=Mã,tên Tòa án
+Lst_Spc.sppremark.title=Mã,tên Tòa án
+Lst_Spc.spcidg4.label=Tòa phúc thẩm
+Lst_Spc.spcidg4.value=Tòa phúc thẩm
+Lst_Spc.isworking.yes.label=Có
+Lst_Spc.isworking.no.label=Không
+Lst_Spc.locaid.label=Mã địa chính
+Lst_Spc.locaid.title=Mã địa chính
+Lst_Spc.spclevel.label=Cấp
+Lst_Spc.spctype.label=Cấp Tòa án
+Lst_Spc.spctype.title=Cấp Tòa án
+Lst_Spc.spctype.1.label=Tối cao
+Lst_Spc.spctype.2.label=Địa phương
+Lst_Spc.error.tatc=Bạn không thể xóa Tòa án nhân dân tối cao
+Lst_Spc.error.childexist=Bạn không thể xóa Tòa án do ràng buộc dữ liệu
+Lst_Spc.error.exist=Bạn không thể nhập trùng dữ liệu
+Lst_Spc.error.VKSexist=Viện kiểm sát này đã có VKS cùng cấp, vui lòng kiểm tra lại!
+Lst_Spc.warning.spcexist=VKS này đã tồn tại. Nếu muốn cập nhật thông tin vui lòng dùng chức năng Sửa.
+Lst_Spc.warning.spp.spcexist=Viện kiểm sát này đã tồn tại. Nếu muốn cập nhật thông tin vui lòng dùng chức năng Sửa.
+Lst_Spc.warning.idandname=Mã hoặc tên VKS tối cao đã tồn tại, vui lòng kiểm tra lại
+Lst_Spc.warning.sppnonexits=VKS cùng cấp không tồn tại,vui lòng nhập mới VKS!
+Lst_Spc.resultTable.displayColumns=spcid,name,addr,tel,fax
+#Lst_Spc.detailInfo.exceptFields=spcidg4
+Lst_Spc.detailInfo.exceptFields=spccode,location,spclevel
+Lst_Spc.error.contraint.lst_jury=Bạn phải xóa Cán bộ trước
+Lst_Spc.warn.NoSpc=Chưa có VKS cấp tỉnh của tòa huyện này.
+Lst_Spc.error.used=VKS này đã được sử dụng, vui lòng kiểm tra lại!
+messages.errorlevel = Không thể thêm cấp tòa án dưới cấp huyện
+Lst_SPC.error.level = Không thể xóa khi tòa án có tòa án con.
+Lst_SPC.error.delete = Không thể xóa khi có ràng buộc dữ liệu.
+Lst_Spc.ordercode.label= Mã thứ tự
+Lst_Spc.spccode.label= Mã tòa án
+Lst_Spc.messages.errorname=Đã tồn tại Tòa án này trong CSDL
+Lst_Spc.messages.error=Có lỗi khi thêm mới tòa án
+##
+#Lst_Prison
+lstPrison.title=Trại giam
+lstPrison.key=Trại giam
+lstPrison.prisonid.label=Mã trại giam
+lstPrison.prisonid.title=Mã trại giam
+lstPrison.prisonid.styleClass=center
+lstPrison.name.title=Tên trại giam
+lstPrison.name.label=Tên trại giam
+lstPrison.addr.label=Địa điểm
+lstPrison.addr.title=Địa điểm
+lstPrison.ptype.label=Loại trại giam
+lstPrison.ptype.title=Loại trại giam
+lstPrison.ptype.styleClass=right
+lstPrison.tel.label=Điện thoại
+lstPrison.tel.title=Điện thoại
+lstPrison.fax.label=Fax
+lstPrison.fax.title=Fax
+lstPrison.sppid.label=sppid
+lstPrison.sppid.title=sppid
+lstPrison.sppname.label=Viện kiểm sát
+lstPrison.sppname.title=Viện kiểm sát
+lstPrison.resultTable.displayColumns=prisonid,name,addr,ptype
+lstPrison.Chose.one=Chọn một
+lstPrison.Chose.all=Tất cả
+lstPrison.ptype.1.label=1
+lstPrison.ptype.1.value=1
+lstPrison.ptype.2.label=2
+lstPrison.ptype.2.value=2
+lstPrison.ptype.3.label=3
+lstPrison.ptype.3.value=3
+lstPrison.ptype.4.label=4
+lstPrison.ptype.4.value=4
+lst_Prison.messages.accountExist=Tên trại giam đã tồn tại trong CSDL
+##
+#lst_Location
+lstLocation.title=Danh mục địa chính
+lstLocation.key=Danh mục địa chính
+lstLocation.locaid.label=Mã địa chính
+lstLocation.locaid.title=Mã địa chính
+lstLocation.name.label=Tên địa chính
+lstLocation.name.title=Tên địa chính
+lstLocation.locacode.label=Mã địa chính
+lstLocation.locacode.title=Mã địa chính
+lstLocation.locaparent.label=Mã địa chính cấp cha
+lstLocation.locaparent.title=Mã địa chính cấp cha
+lstLocation.nameparent.label=Tên địa chính cấp cha
+lstLocation.l1name.label=Tên Tỉnh/Thành Phố
+lstLocation.l1name.title=Tên Tỉnh/Thành Phố
+lstLocation.l2name.label=Tên Quận/Huyện
+lstLocation.l2name.title=Tên Quận/Huyện
+lstLocation.remark.label=Ghi chú
+lstLocation.remark.title=Ghi chú
+lstLocation.ordercode.label=Mã thứ tự
+lstLocation.detailInfo.exceptFields=locacode
+lstLocation.resultTable.displayColumns=locaid,ordercode,name,remark,l1name,l2name
+lstLocation.error.notselect=Bạn phải chọn địa chính cấp cha
+lstLocation.error.level=Không thể thêm địa chính dưới cấp xã/phường
+lstLocation.error.delete=Không thể xóa khi chứa địa chính con
+lstLocation.error.name=Tên địa chính đã tồn tại
+LstPromulgateorg.title=Danh mục CQ ban hành mẫu QĐ
+LstPromulgateorg.key=Cơ quan ban hành mẫu quyết định
+LstPromulgateorg.subtitle=CQ ban hành mẫu QĐ
+LstPromulgateorg.resultTable.displayColumns=orgid,orgname,description
+LstPromulgateorg.orgid.label=Mã
+LstPromulgateorg.orgid.title=Mã cơ quan ban hành mẫu quyết định
+LstPromulgateorg.orgname.label=Tên CQ ban hành mẫu QĐ
+LstPromulgateorg.orgname.title=Tên cơ quan ban hành mẫu quyết định
+LstPromulgateorg.orgname.title_lower=tên cơ quan ban hành mẫu quyết định
+lstLocation.update.remin.name= Cập nhật thông tin thành công. Chú ý cập nhật tên địa chính cho VSK và Tòa án
+LstPromulgateorg.description.label=Mô tả
+LstPromulgateorg.orgid.styleClass=center
+LstPromulgateorg.add_id_error=Mã cơ quan ban hành mẫu quyết định đã tồn tại
+LstPromulgateorg.add_name_error=Tên cơ quan ban hành mẫu quyết định đã tồn tại
+LstPromulgateorg.delete_error=Không thể xóa bản ghi do đã được sử dụng tại chức năng quản lý án hình sự
+LstPromulgateorg.title.search=Tìm kiếm danh mục cơ quan ban hành mẫu quyết định
+
+# Lst_Religion
+lst_religion.exception.insert="Mã chỉ sinh một kí tự không thêm được mã nữa"
+# Lst_Rptfield
+lst_rptfield.title = chỉ tiêu báo cáo
+lst_rptfield.rptCode.label= Mã thứ tự
+lst_rptfield.rptCode.title= Mã thứ tự
+lst_rptfield.rptCode.lower=mã thứ tự
+lst_rptfield.rptIdName.label= Mã báo cáo
+lst_rptfield.rptId.title= Mã báo cáo
+lst_rptfield.rptId.lower=mã báo cáo
+lst_rptfield.rptId.message = Phải nhập vào mã báo cáo
+lst_religion.rptCode.message= Phải nhập vào mã thứ tự
+lst_rptfield.rowCode.tooltip= Mã dòng ứng với báo cáo
+lst_rptfield.rowCode.lower=mã dòng
+lst_rptfield.rowName.label= Tên dòng báo cáo
+lst_rptfield.rowName.title= Tên dòng báo cáo
+lst_rptfield.rowName.lower=tên dòng báo cáo
+lst_rptfield.rowCode.label= Mã dòng
+lst_rptfield.rowCode.title= Mã dòng
+lst_rptfield.isUpdateName.label= Cho phép cập nhật
+lst_rptfield.isUpdate.yes= Có
+lst_rptfield.isUpdate.yes.title= Cho phép cập nhật
+lst_rptfield.isUpdate.N.title=Không
+lst_rptfield.isUpdate.N.value=N
+lst_rptfield.isUpdate.Y.title=Có
+lst_rptfield.isUpdate.Y.value=Y
+lst_rptfield.isUpdate.no= Không
+lst_rptfield.isUpdate.no.title= Không phép cập nhật
+lst_rptfield.forMular.label= Công thức tính
+lst_rptfield.forMular.title= Công thức tính
+lst_rptfield.reMark.label = Mô tả thêm
+lst_rptfield.reMark.title = Mô tả thêm
+lst_rptfield.isHeadName.label= Đặt làm tiêu đề không phải chỉ tiêu
+lst_rptfield.isHead.no= Không
+lst_rptfield.isHead.yes.title= Cho phép đặt
+lst_rptfield.isHead.yes= Có
+lst_rptfield.isHead.yes.title= Không cho phép đặt
+lst_rptfield.rptcode.exist= Cặp mã báo cáo và mã thứ tự đã tồn tại
+lst_rptfield.rptid.exist= Mã báo cáo đã tồn tại
+#lst_rptfield.resultTable.displayColumns=rptIdName,rptCode,rowCode,rowName
+lst_rptfield.key=Chỉ tiêu báo cáo
+lst_rptfield.isUpdate.tooltip=Được phép can thiệp dữ liệu hay không
+lst_rptfield.isHead.tooltip=Là tiêu đề dòng không phải chỉ tiêu
+lst_rptfield.delete.error=Không thể xóa bản ghi do đã được sử dụng trong báo cáo
+
+#Danh mục nhóm tội theo chương luật LstLawgroupchap
+lstLawgroupchap.title=Danh mục nhóm tội theo chương luật
+lstLawgroupchap.key=Nhóm tội theo chương luật
+lstLawgroupchap.id.label=Mã
+lstLawgroupchap.id.title=Mã nhóm tội
+lstLawgroupchap.fullname.label=Tên nhóm tội
+lstLawgroupchap.fullname.lower=tên nhóm tội
+lstLawgroupchap.fullname.title=Tên nhóm tội
+lstLawgroupchap.groupid.label=Mã chương luật
+lstLawgroupchap.groupid.title=Mã chương luật
+lstLawgroupchap.groupname.label=Tên chương luật
+lstLawgroupchap.groupname.title=Tên chương luật
+lstLawgroupchap.resultTable.displayColumns=id,fullname,groupid,groupname
+lstLawgroupchap.add.error=Bạn phải nhập ít nhất một chương luật
+
+#Mau quyet dinh
+decisionTemplates.key=Mẫu quyết định
+decisionTemplates.title.lower=mẫu quyết định
+decisionTemplates.resultTable.displayColumns=numbersign,name,effectivedate,sumary
+decisionTemplates.numbersign.label=Số/Ký hiệu
+decisionTemplates.numbersign.styleClass=center
+decisionTemplates.name.label=Mã QĐ
+decisionTemplates.name.tooltip=Gõ mã hoặc tên để chọn mã quyết định (Nhấn dấu cách để chọn tất cả)
+decisionTemplates.name.styleClass=center
+decisionTemplates.effectivedate.label=Ngày có hiệu lực
+decisionTemplates.effectivedate.styleClass=center
+decisionTemplates.sumary.label=Trích yếu nội dung
+decisionTemplates.numbersign.title=Số/Ký hiệu
+decisionTemplates.name.title=Mã QĐ
+decisionTemplates.status.title=Trạng thái
+decisionTemplates.status.all.title=Tất cả
+decisionTemplates.status.0.title=Hết hiệu lực
+decisionTemplates.status.0.value=0
+decisionTemplates.status.1.title=Đang hiệu lực
+decisionTemplates.status.1.value=1
+decisionTemplates.promulgateorg.title=Cơ quan ban hành
+decisionTemplates.signperson.title=Người ký
+decisionTemplates.promulgate.fdate.label=Ban hành từ ngày
+decisionTemplates.promulgate.fdate.tooltip=Ban hành từ ngày
+decisionTemplates.promulgate.tdate.label=Đến ngày
+decisionTemplates.promulgate.tdate.tooltip=Ban hành đến ngày
+decisionTemplates.effective.fdate.label=Có hiệu lực từ ngày
+decisionTemplates.effective.fdate.tooltip=Có hiệu lực từ ngày
+decisionTemplates.effective.tdate.label=Đến ngày
+decisionTemplates.effective.tdate.tooltip=Có hiệu lực đến ngày
+decisionTemplates.deciname.label=Tên quyết định
+decisionTemplates.orgname.label=Tên CQ ban hành
+decisionTemplates.orgname.tooltip=Gõ mã hoặc tên để chọn CQ ban hành mẫu QĐ (Nhấn dấu cách để chọn tất cả)
+decisionTemplates.promulgatedate.label=Ngày ban hành
+decisionTemplates.signperson.label=Người ký
+decisionTemplates.docfilename.label=File mẫu quyết định
+decisionTemplates.statusName.label=Trạng thái
+decisionTemplates.error.promulgatedate="Ban hành từ ngày" phải nhỏ hơn hoặc bằng "Đến ngày"
+decisionTemplates.error.effectivedate="Có hiệu lực từ ngày" phải nhỏ hơn hoặc bằng "Đến ngày"
+decisionTemplates.add.error=Số/Ký hiệu đã tồn tại
+decisionTemplates.delete_error=Không thể xóa mẫu quyết định
+decisionTemplates.delete_error.version=Không thể xóa mẫu quyết định khi các phiên bản còn tồn tại
+decisionTemplates.name.title.lower=mã quyết định
+decisionTemplates.applyfor.title=Áp dụng cho
+decisionTemplates.applyfor.case.title=Vụ án
+decisionTemplates.applyfor.case.value=C
+decisionTemplates.applyfor.accused.title=Bị can
+decisionTemplates.applyfor.accused.value=A
+decisionTemplates.applyfor.tooltip=Quyết định được áp dụng cho
+decisionTemplates.deciid.type.title=Tên loại mẫu QĐ
+decisionTemplates.deciid.type.tooltip=Tên loại mẫu quyết định
+decisionTemplates.usefor.title=Giai đoạn
+decisionTemplates.usefor.G1.title=Kiểm sát điều tra
+decisionTemplates.usefor.G1.value=G1
+decisionTemplates.usefor.G2.title=Truy tố
+decisionTemplates.usefor.G2.value=G2
+decisionTemplates.usefor.G3.title=Sơ thẩm
+decisionTemplates.usefor.G3.value=G3
+decisionTemplates.usefor.G4.title=Phúc thẩm
+decisionTemplates.usefor.G4.value=G4
+decisionTemplates.usefor.G5.title=Giám đốc thẩm - Tái thẩm
+decisionTemplates.usefor.G5.value=G5
+decisionTemplates.usefor.G6.title=Thi hành án
+decisionTemplates.usefor.G6.value=G6
+decisionTemplates.download.title=Tải mẫu quyết định
+decisionTemplates.download.error=Bạn phải đính kèm file
+decisionTemplates.error.promulgatedate.insert=Ngày ban hành phải <= Ngày có hiệu lực
+decisionTemplates.effective.fdate.add.title=Ngày có hiệu lực
+decisionTemplates.promulgate.fdate.add.title=Ngày ban hành
+decisionTemplates.add.error.decitemp=Bạn phải nhập giá trị chính xác cho trường mã quyết định
+decisionTemplates.add.error.promulgate=Bạn phải nhập giá trị chính xác cho trường cơ quan ban hành
+
+
+lstDecisionTemplates.key=Danh sách mẫu QĐ
+#lstDecisionTemplates.resultTable.displayColumns=deciid,deciname,applyfor_name,statusName,apllyfinish_name
+lstDecisionTemplates.deciid.label=Mã QĐ
+lstDecisionTemplates.applyfor_name.label=Áp dụng cho
+lstDecisionTemplates.sumary.label=Trích yếu nội dung
+lstDecisionTemplates.deciname.label=Tên quyết định
+lstDecisionTemplates.applyfinish_name.label=Kết thúc hiệu lực
+lstDecisionTemplates.statusName.label=Trạng thái
+lstDecisionTemplates.update.error=Bạn phải nhập giá trị cho trường giai đoạn áp dụng
+lstDecisionTemplates.name.exist=Tên quyết định đã tồn tại
+lstDecisionTemplates.delete.error=Không thể xóa do có ràng buộc dữ liệu
+lstDecisionTemplates.delete.error.doc=Không thể xóa do quyết định đã có mẫu
+lstDecisionTemplatesTree.deciid.label=Mã quyết định
+
+docversion.key=Quản lý phiên bản
+docversion.resultTable.displayColumns=numbersign,deciname,sumary,effectivedate,count
+docversion.numbersign.label=Số/Kí hiệu
+docversion.deciname.label=Tên mẫu QĐ
+docversion.sumary.label=Trích yếu nội dung
+docversion.effectivedate.label=Ngày có hiệu lực
+docversion.count.label=Số lần sửa
+docversion.add_error=Phiên bản đã tồn tại
+
+docversionDetail.resultTable.displayColumns=version,updatedate,updatecontent,docfilename
+docversionDetail.version.label=Phiên bản
+docversionDetail.version.styleClass=center
+docversionDetail.updatedate.label=Ngày sửa đổi
+docversionDetail.updatedate.styleClass=center
+docversionDetail.updatecontent.label=Nội dung sửa đổi
+docversionDetail.docfilename.label=File mẫu QĐ
+
+# Lst_POLICE
+lstPolice.key=Cơ quan công an
+Lst_POLICE.title=Cơ quan công an
+
+Lst_POLICE.addr.label=Địa chỉ
+Lst_POLICE.addr.title=Địa chỉ của cơ quan công an
+Lst_POLICE.location.label=Địa chỉ
+Lst_POLICE.location.title=Gõ một vài ký tự để chọn đơn vị hành chính (Dùng dấu cách để chọn tất cả)
+Lst_POLICE.director.label=Người ký
+Lst_POLICE.director.title=Người ký
+Lst_POLICE.fax.label=Fax
+Lst_POLICE.fax.title=Số Fax của cơ quan công an
+Lst_POLICE.name.label=Tên cơ quan công an
+Lst_POLICE.name.title=Tên đầy đủ của cơ quan công an
+Lst_POLICE.position.label=Chức vụ
+Lst_POLICE.position.title=Chức vụ
+Lst_POLICE.policeid.label=Mã cơ quan công an
+Lst_POLICE.policeid.title=Mã cơ quan công an
+Lst_POLICE.policelevel.label=Cấp
+Lst_POLICE.policelevel.title=Cấp
+Lst_POLICE.tel.label=Điện thoại
+Lst_POLICE.tel.title=Số điện thoại của Viện Kiểm Sát
+Lst_POLICE.policetype.label=Cấp cơ quan công an
+Lst_POLICE.policetype.title=Cấp cơ quan công an
+Lst_POLICE.policetype.1.label=Tối cao
+Lst_POLICE.policetype.2.label=Địa phương
+Lst_POLICE.ordercode.label=Mã thứ tự
+Lst_POLICE.warning.policeexist=Cơ quan công an này đã tồn tại
+Lst_POLICE.error.tatc=Bạn không thể xóa cơ quan công an tối cao
+Lst_POLICE.error.childexist=Bạn không thể xóa cơ quan công an do ràng buộc dữ liệu
+Lst_POLICE.error.exist=Bạn không thể nhập trùng dữ liệu
+Lst_POLICE.error.level=Không thể thêm cơ quan công an dưới cấp Quận/Huyện
+Lst_POLICE.resultTable.displayColumns=policeid,ordercode, name,addr,tel,fax
+Lst_POLICE.detailInfo.exceptFields=policelevel
+Lst_POLICE.spcname.label=Tòa án cùng cấp
+Lst_POLICE.error.insert=Có lỗi khi thêm dữ liệu
+Lst_POLICE.error.delete.level=Không thể xóa khi có cơ quan công an cấp con
+Lst_POLICE.error.delete = Không thể xóa khi có ràng buộc dữ liệu.
+Lst_POLICE.error.nameexist=Đã tồn tại cơ quan công an này trong CSDL
+Lst_POLICE.ordercode.styleClass=left
+Lst_POLICE.error.idexist=Mã cơ quan công an đã tồn tại
+
+# Lst_RANGER
+lstRanger.key=Đơn vị kiểm lâm
+Lst_RANGER.title=Đơn vị kiểm lâm
+
+Lst_RANGER.addr.label=Địa chỉ
+Lst_RANGER.addr.title=Địa chỉ của đơn vị kiểm lâm
+Lst_RANGER.location.label=Địa chỉ
+Lst_RANGER.location.title=Gõ một vài ký tự để chọn đơn vị hành chính (Dùng dấu cách để chọn tất cả)
+Lst_RANGER.director.label=Người ký
+Lst_RANGER.director.title=Người ký
+Lst_RANGER.fax.label=Fax
+Lst_RANGER.fax.title=Số Fax của đơn vị kiểm lâm
+Lst_RANGER.name.label=Tên đơn vị kiểm lâm
+Lst_RANGER.name.title=Tên đầy đủ của đơn vị kiểm lâm
+Lst_RANGER.position.label=Chức vụ
+Lst_RANGER.position.title=Chức vụ
+Lst_RANGER.rangid.label=Mã đơn vị kiểm lâm
+Lst_RANGER.rangid.title=Mã đơn vị kiểm lâm
+Lst_RANGER.ranglevel.label=Cấp
+Lst_RANGER.ranglevel.title=Cấp
+Lst_RANGER.tel.label=Điện thoại
+Lst_RANGER.tel.title=Số điện thoại của đơn vị kiểm lâm
+Lst_RANGER.rangtype.label=Cấp đơn vị kiểm lâm
+Lst_RANGER.rangtype.title=Cấp đơn vị kiểm lâm
+Lst_RANGER.rangtype.1.label=Cục kiểm lâm
+Lst_RANGER.rangtype.2.label=Kiểm lâm địa phương
+Lst_RANGER.ordercode.label=Mã thứ tự
+Lst_RANGER.warning.rangexist=đơn vị kiểm lâm này đã tồn tại
+Lst_RANGER.error.tatc=Bạn không thể xóa Cục kiểm lâm
+Lst_RANGER.error.childexist=Bạn không thể xóa đơn vị kiểm lâm do ràng buộc dữ liệu
+Lst_RANGER.error.exist=Bạn không thể nhập trùng dữ liệu
+Lst_RANGER.error.level=Không thể thêm đơn vị kiểm lâm dưới cấp Quận/Huyện
+Lst_RANGER.resultTable.displayColumns=rangid,ordercode, name,addr,tel,fax
+Lst_RANGER.detailInfo.exceptFields=ranglevel
+Lst_RANGER.spcname.label=Tòa án cùng cấp
+Lst_RANGER.error.insert=Có lỗi khi thêm dữ liệu
+Lst_RANGER.error.delete.level=Không thể xóa khi có đơn vị kiểm lâm cấp con
+Lst_RANGER.error.delete = Không thể xóa khi có ràng buộc dữ liệu.
+Lst_RANGER.error.nameexist=Đã tồn tại đơn vị kiểm lâm này trong CSDL
+Lst_RANGER.ordercode.styleClass=left
+Lst_RANGER.error.idexist=Mã đơn vị kiểm lâm đã tồn tại
+
+# Lst_ARMY
+lstArmy.key=Đơn vị quân đội
+Lst_ARMY.title=Đơn vị quân đội
+
+Lst_ARMY.addr.label=Địa chỉ
+Lst_ARMY.addr.title=Địa chỉ của đơn vị quân đội
+Lst_ARMY.location.label=Địa chỉ
+Lst_ARMY.location.title=Gõ một vài ký tự để chọn đơn vị hành chính (Dùng dấu cách để chọn tất cả)
+Lst_ARMY.director.label=Người ký
+Lst_ARMY.director.title=Người ký
+Lst_ARMY.fax.label=Fax
+Lst_ARMY.fax.title=Số Fax của đơn vị quân đội
+Lst_ARMY.name.label=Tên đơn vị quân đội
+Lst_ARMY.name.title=Tên đầy đủ của đơn vị quân đội
+Lst_ARMY.position.label=Chức vụ
+Lst_ARMY.position.title=Chức vụ
+Lst_ARMY.armyid.label=Mã đơn vị quân đội
+Lst_ARMY.armyid.title=Mã đơn vị quân đội
+Lst_ARMY.armylevel.label=Cấp
+Lst_ARMY.armylevel.title=Cấp
+Lst_ARMY.tel.label=Điện thoại
+Lst_ARMY.tel.title=Số điện thoại đơn vị quân đội
+Lst_ARMY.armytype.label=Cấp đơn vị quân đội
+Lst_ARMY.armytype.title=Cấp đơn vị quân đội
+Lst_ARMY.armytype.1.label=Cục kiểm lâm
+Lst_ARMY.armytype.2.label=Kiểm lâm địa phương
+Lst_ARMY.ordercode.label=Mã thứ tự
+Lst_ARMY.warning.armyexist=đơn vị quân đội này đã tồn tại
+Lst_ARMY.error.tatc=Bạn không thể xóa Bộ quốc phòng
+Lst_ARMY.error.childexist=Bạn không thể xóa đơn vị quân đội do ràng buộc dữ liệu
+Lst_ARMY.error.exist=Bạn không thể nhập trùng dữ liệu
+Lst_ARMY.error.level=Không thể thêm đơn vị quân đội dưới cấp Quận/Huyện
+Lst_ARMY.resultTable.displayColumns=armyid,ordercode, name,addr,tel,fax
+Lst_ARMY.detailInfo.exceptFields=armylevel
+Lst_ARMY.spcname.label=Tòa án cùng cấp
+Lst_ARMY.error.insert=Có lỗi khi thêm dữ liệu
+Lst_ARMY.error.delete.level=Không thể xóa khi có đơn vị quân đội cấp con
+Lst_ARMY.error.delete = Không thể xóa khi có ràng buộc dữ liệu.
+Lst_ARMY.error.nameexist=Đã tồn tại đơn vị quân đội này trong CSDL
+Lst_ARMY.ordercode.styleClass=left
+Lst_ARMY.error.idexist=Mã đơn vị quân đội đã tồn tại
+
+# Lst_Customs
+lstcustom.key=Đơn vị hải quan
+Lst_Custom.title=Đơn vị hải quan
+
+Lst_Custom.addr.label=Địa chỉ
+Lst_Custom.addr.title=Địa chỉ của đơn vị hải quan
+Lst_Custom.location.label=Địa chỉ
+Lst_Custom.location.title=Gõ một vài ký tự để chọn đơn vị hành chính (Dùng dấu cách để chọn tất cả)
+Lst_Custom.director.label=Người ký
+Lst_Custom.director.title=Người ký
+Lst_Custom.fax.label=Fax
+Lst_Custom.fax.title=Số Fax của đơn vị hải quan
+Lst_Custom.name.label=Tên đơn vị hải quan
+Lst_Custom.name.title=Tên đầy đủ của đơn vị hải quan
+Lst_Custom.position.label=Chức vụ
+Lst_Custom.position.title=Chức vụ
+Lst_Custom.customid.label=Mã đơn vị hải quan
+Lst_Custom.customid.title=Mã đơn vị hải quan
+Lst_Custom.customlevel.label=Cấp
+Lst_Custom.customlevel.title=Cấp
+Lst_Custom.tel.label=Điện thoại
+Lst_Custom.tel.title=Số điện thoại đơn vị hải quan
+Lst_Custom.customtype.label=Cấp đơn vị hải quan
+Lst_Custom.customtype.title=Cấp đơn vị hải quan
+Lst_Custom.customtype.1.label=Cục kiểm lâm
+Lst_Custom.customtype.2.label=Kiểm lâm địa phương
+Lst_Custom.ordercode.label=Mã thứ tự
+Lst_Custom.warning.customexist=đơn vị hải quan này đã tồn tại
+Lst_Custom.error.tatc=Bạn không thể xóa Bộ quốc phòng
+Lst_Custom.error.childexist=Bạn không thể xóa đơn vị hải quan do ràng buộc dữ liệu
+Lst_Custom.error.exist=Bạn không thể nhập trùng dữ liệu
+Lst_Custom.error.level=Không thể thêm đơn vị hải quan dưới cấp Quận/Huyện
+Lst_Custom.resultTable.displayColumns=customid,ordercode, name,addr,tel,fax
+Lst_Custom.detailInfo.exceptFields=customlevel
+Lst_Custom.spcname.label=Tòa án cùng cấp
+Lst_Custom.error.insert=Có lỗi khi thêm dữ liệu
+Lst_Custom.error.delete.level=Không thể xóa khi có đơn vị hải quan cấp con
+Lst_Custom.error.delete = Không thể xóa khi có ràng buộc dữ liệu.
+Lst_Custom.error.nameexist=Đã tồn tại đơn vị hải quan này trong CSDL
+Lst_Custom.ordercode.styleClass=left
+Lst_Custom.error.idexist=Mã đơn vị hải quan đã tồn tại
+
+# Lst_BorderGuards
+lstborderguards.key=Đơn vị biên phòng
+Lst_Borgua.title=Đơn vị biên phòng
+
+Lst_Borgua.addr.label=Địa chỉ
+Lst_Borgua.addr.title=Địa chỉ của đơn vị biên phòng
+Lst_Borgua.location.label=Địa chỉ
+Lst_Borgua.location.title=Gõ một vài ký tự để chọn đơn vị hành chính (Dùng dấu cách để chọn tất cả)
+Lst_Borgua.director.label=Người ký
+Lst_Borgua.director.title=Người ký
+Lst_Borgua.fax.label=Fax
+Lst_Borgua.fax.title=Số Fax của đơn vị biên phòng
+Lst_Borgua.name.label=Tên đơn vị biên phòng
+Lst_Borgua.name.title=Tên đầy đủ của đơn vị biên phòng
+Lst_Borgua.position.label=Chức vụ
+Lst_Borgua.position.title=Chức vụ
+Lst_Borgua.borguaid.label=Mã đơn vị biên phòng
+Lst_Borgua.borguaid.title=Mã đơn vị biên phòng
+Lst_Borgua.borgualevel.label=Cấp
+Lst_Borgua.borgualevel.title=Cấp
+Lst_Borgua.tel.label=Điện thoại
+Lst_Borgua.tel.title=Số điện thoại đơn vị biên phòng
+Lst_Borgua.borguatype.label=Cấp đơn vị biên phòng
+Lst_Borgua.borguatype.title=Cấp đơn vị biên phòng
+Lst_Borgua.borguatype.1.label=Cục kiểm lâm
+Lst_Borgua.borguatype.2.label=Kiểm lâm địa phương
+Lst_Borgua.ordercode.label=Mã thứ tự
+Lst_Borgua.warning.borguaexist=đơn vị biên phòng này đã tồn tại
+Lst_Borgua.error.tatc=Bạn không thể xóa Bộ quốc phòng
+Lst_Borgua.error.childexist=Bạn không thể xóa đơn vị biên phòng do ràng buộc dữ liệu
+Lst_Borgua.error.exist=Bạn không thể nhập trùng dữ liệu
+Lst_Borgua.error.level=Không thể thêm đơn vị biên phòng dưới cấp Quận/Huyện
+Lst_Borgua.resultTable.displayColumns=borguaid,ordercode, name,addr,tel,fax
+Lst_Borgua.detailInfo.exceptFields=borgualevel
+Lst_Borgua.spcname.label=Tòa án cùng cấp
+Lst_Borgua.error.insert=Có lỗi khi thêm dữ liệu
+Lst_Borgua.error.delete.level=Không thể xóa khi có đơn vị biên phòng cấp con
+Lst_Borgua.error.delete = Không thể xóa khi có ràng buộc dữ liệu.
+Lst_Borgua.error.nameexist=Đã tồn tại đơn vị biên phòng này trong CSDL
+Lst_Borgua.ordercode.styleClass=left
+Lst_Borgua.error.idexist=Mã đơn vị biên phòng đã tồn tại

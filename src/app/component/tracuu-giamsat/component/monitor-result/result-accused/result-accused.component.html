@@ -1,0 +1,397 @@
+<nz-modal class="ant-form"
+          nzWidth="1000px" [(nzVisible)]="isVisible" nzClosable="false" [nzTitle]="title" nzMaskClosable="false"
+          [nzAutofocus]="null">
+  <ng-template #title>
+    Thông tin chi tiết
+    <div class="pull-right icon-close">
+      <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+  <div class="ui-panel">
+    <div nz-row>
+      <div nz-col [nzSpan]="24" class="search-area">
+        <button [useExistingCss]="true" nz-button [nzType]="'primary'" printSectionId="print-section" ngxPrint>
+          <span class="fa fa-fw fa-print"></span>
+          In
+        </button>
+        <button nz-button [nzType]="'primary'" (click)="handleCancel()">
+          <span class="fa fa-fw fa-times"></span>
+          Đóng
+        </button>
+      </div>
+    </div>
+  </div>
+  <div id="print-section">
+    <div class="ui-fieldset-content clearfix">
+      <div nz-row>
+        <table class="ui-panelgrid table-detail">
+          <tr>
+            <td><label>Báo cáo về:</label></td>
+            <td>
+              <span>{{ listTypeAccused.get(filterItem.typeAccused)}}</span>
+            </td>
+          </tr>
+          <tr *ngIf="filterItem.typeAccused == '1'">
+            <td><label>Giai đoạn thụ lý:</label></td>
+            <td>
+              <span>{{ listUseFor.get(filterItem.usefor) }}</span>
+            </td>
+          </tr>
+          <tr>
+            <td><label>Thời gian giám sát:</label></td>
+            <td>
+              <span>{{ (filterItem.fdateAccused | dateFormat) + ' - ' + (filterItem.tdateAccused | dateFormat) }}</span>
+            </td>
+          </tr>
+<!--          <tr>-->
+<!--            <td><label>Đơn vị:</label></td>-->
+<!--            <td>-->
+<!--              <span>{{ spp.NAME + title_spp}}</span>-->
+<!--            </td>-->
+<!--          </tr>-->
+        </table>
+      </div>
+    </div>
+    <ng-container>
+      <div class="data-table" >
+        <nz-table *ngIf="filterItem.typeAccused=='1'"
+                  #basicTable nzShowSizeChanger [nzFrontPagination]="false" nzSize="small" [nzData]="data"
+                  [nzScroll]="{ x: '1100px' }" [nzLoading]="loading" [nzShowTotal]="rangeTemplate"
+                  [nzPageSize]="defaultPage"
+                  [nzTotal]="total" [nzPageIndex]="pageIndex" (nzQueryParams)="onQueryParamsChange($event)">
+          <thead>
+          <tr>
+            <th class="text-wrap" nzWidth="5%">STT</th>
+            <th class="text-wrap" nzWidth="10%">Mã vụ án</th>
+            <th class="text-wrap" nzWidth="25%">Tên vụ án</th>
+            <th class="text-wrap" nzWidth="10%">Họ Và tên</th>
+            <th class="text-wrap" nzWidth="15%">Nơi cư trú</th>
+            <th class="text-wrap" nzWidth="10%">Ngày sinh</th>
+            <th class="text-wrap" nzWidth="10%">Giới tính</th>
+            <th class="text-wrap" nzWidth="10%">Chứng minh thư</th>
+            <th class="text-wrap" nzWidth="5%">Chi tiết</th>
+
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let data of basicTable.data; let i = index;" class="actived" (click)="onRowSelect(data)"
+              [class.selected]="data === selectedItem">
+            <td style="text-align: center" class="text-wrap">{{data.RNUM}}</td>
+            <td class="text-wrap center">{{ data.CASECODE }}</td>
+            <td class="text-wrap">{{ data.CASENAME }}</td>
+            <td class="text-wrap">{{ data.FULLNAME }}</td>
+            <td class="text-wrap">{{ data.REMARK  }}</td>
+            <td class="text-wrap">{{ data.BIRTHDAY }}</td>
+            <td class="text-wrap">{{ data.SEX =="B"?"Nam":"Nữ"}}</td>
+            <td class="text-wrap">{{ data.IDENTIFY }}</td>
+            <td class="text-wrap center">
+              <a target="_blank" [routerLink]="['/report/caseinfo/', selectedItem?.CASECODE]"
+                 href="">
+                <button nz-button nzType="primary">
+                  <span class="fa fa-fw fa-search"></span>
+                </button>
+              </a></td>
+          </tr>
+          </tbody>
+        </nz-table>
+        <nz-table *ngIf="filterItem.typeAccused=='11'"
+                  #basicTable nzShowSizeChanger [nzFrontPagination]="false" nzSize="small" [nzData]="data"
+                  [nzScroll]="{ x: '900px' }" [nzLoading]="loading" [nzShowTotal]="rangeTemplate"
+                  [nzPageSize]="defaultPage"
+                  [nzTotal]="total" [nzPageIndex]="pageIndex" (nzQueryParams)="onQueryParamsChange($event)">
+          <thead>
+          <tr>
+            <th class="text-wrap" nzWidth="5%">STT</th>
+            <th class="text-wrap" nzWidth="10%">Mã vụ án</th>
+            <th class="text-wrap" nzWidth="25%">Tên vụ án</th>
+            <th class="text-wrap" nzWidth="10%">Tên bị can</th>
+            <th class="text-wrap" nzWidth="10%">Ngày sinh</th>
+            <th class="text-wrap" nzWidth="5%">Chi tiết</th>
+
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let data of basicTable.data; let i = index;" class="actived" (click)="onRowSelect(data)"
+              [class.selected]="data === selectedItem">
+            <td style="text-align: center" class="text-wrap">{{data.RNUM}}</td>
+            <td class="text-wrap center">{{ data.CASECODE }}</td>
+            <td class="text-wrap">{{ data.CASENAME }}</td>
+            <td class="text-wrap">{{ data.FULLNAME }}</td>
+            <td class="text-wrap">{{ data.BIRTHDAY }}</td>
+            <td class="text-wrap center">
+              <a target="_blank" [routerLink]="['/report/caseinfo/', selectedItem?.CASECODE]"
+                 href="">
+                <button nz-button nzType="primary">
+                  <span class="fa fa-fw fa-search"></span>
+                </button>
+              </a></td>
+          </tr>
+          </tbody>
+        </nz-table>
+        <nz-table *ngIf="filterItem.typeAccused=='2'"
+                  #basicTable nzShowSizeChanger [nzFrontPagination]="false" nzSize="small" [nzData]="data"
+                  [nzScroll]="{ x: '1000px' }" [nzLoading]="loading" [nzShowTotal]="rangeTemplate"
+                  [nzPageSize]="defaultPage"
+                  [nzTotal]="total" [nzPageIndex]="pageIndex" (nzQueryParams)="onQueryParamsChange($event)">
+          <thead>
+          <tr>
+            <th class="text-wrap" nzWidth="5%">STT</th>
+            <th class="text-wrap" nzWidth="10%">Mã vụ án</th>
+            <th class="text-wrap" nzWidth="25%">Tên vụ án</th>
+            <th class="text-wrap" nzWidth="10%">Họ và tên</th>
+            <th class="text-wrap" nzWidth="10%">Ngày sinh</th>
+            <th class="text-wrap" nzWidth="10%">Cơ quan ra QĐ khởi tố</th>
+            <th class="text-wrap" nzWidth="5%">Chi tiết</th>
+
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let data of basicTable.data; let i = index;" class="actived" (click)="onRowSelect(data)"
+              [class.selected]="data === selectedItem">
+            <td style="text-align: center" class="text-wrap">{{data.RNUM}}</td>
+            <td class="text-wrap center">{{ data.CASECODE }}</td>
+            <td class="text-wrap">{{ data.CASENAME }}</td>
+            <td class="text-wrap">{{ data.FULLNAME }}</td>
+            <td class="text-wrap">{{ data.BIRTHDAY }}</td>
+            <td class="text-wrap">{{ data.ADDRESS }}</td>
+
+            <td class="text-wrap center">
+              <a target="_blank" [routerLink]="['/report/caseinfo/', selectedItem?.CASECODE]"
+                 href="">
+                <button nz-button nzType="primary">
+                  <span class="fa fa-fw fa-search"></span>
+                </button>
+              </a></td>
+          </tr>
+          </tbody>
+        </nz-table>
+        <nz-table *ngIf="filterItem.typeAccused=='3'"
+                  #basicTable nzShowSizeChanger [nzFrontPagination]="false" nzSize="small" [nzData]="data"
+                  [nzScroll]="{ x: '1000px' }" [nzLoading]="loading" [nzShowTotal]="rangeTemplate"
+                  [nzPageSize]="defaultPage"
+                  [nzTotal]="total" [nzPageIndex]="pageIndex" (nzQueryParams)="onQueryParamsChange($event)">
+          <thead>
+          <tr>
+            <th class="text-wrap" nzWidth="5%">STT</th>
+            <th class="text-wrap" nzWidth="10%">Mã vụ án</th>
+            <th class="text-wrap" nzWidth="20%">Tên vụ án</th>
+            <th class="text-wrap" nzWidth="10%">Tên bị can</th>
+            <th class="text-wrap" nzWidth="10%">Ngày sinh</th>
+            <th class="text-wrap" nzWidth="10%">Cơ quan ra QĐ khởi tố</th>
+            <th class="text-wrap" nzWidth="5%">Chi tiết</th>
+
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let data of basicTable.data; let i = index;" class="actived" (click)="onRowSelect(data)"
+              [class.selected]="data === selectedItem">
+            <td style="text-align: center" class="text-wrap">{{data.RNUM}}</td>
+            <td class="text-wrap center">{{ data.CASECODE }}</td>
+            <td class="text-wrap">{{ data.CASENAME }}</td>
+            <td class="text-wrap">{{ data.FULLNAME }}</td>
+            <td class="text-wrap">{{ data.BIRTHDAY }}</td>
+            <td class="text-wrap">{{ data.ADDRESS }}</td>
+
+            <td class="text-wrap center">
+              <a target="_blank" [routerLink]="['/report/caseinfo/', selectedItem?.CASECODE]"
+                 href="">
+                <button nz-button nzType="primary">
+                  <span class="fa fa-fw fa-search"></span>
+                </button>
+              </a></td>
+          </tr>
+          </tbody>
+        </nz-table>
+        <nz-table *ngIf="filterItem.typeAccused=='4'"
+                  #basicTable nzShowSizeChanger [nzFrontPagination]="false" nzSize="small" [nzData]="data"
+                  [nzScroll]="{ x: '1100px' }" [nzLoading]="loading" [nzShowTotal]="rangeTemplate"
+                  [nzPageSize]="defaultPage"
+                  [nzTotal]="total" [nzPageIndex]="pageIndex" (nzQueryParams)="onQueryParamsChange($event)">
+          <thead>
+          <tr>
+            <th class="text-wrap" nzWidth="5%">STT</th>
+            <th class="text-wrap" nzWidth="10%">Mã vụ án</th>
+            <th class="text-wrap" nzWidth="20%">Tên vụ án</th>
+            <th class="text-wrap" nzWidth="10%">Họ và tên</th>
+            <th class="text-wrap" nzWidth="10%">Ngày sinh</th>
+            <th class="text-wrap" nzWidth="10%">Ngày xử lý</th>
+            <th class="text-wrap" nzWidth="5%">Chi tiết</th>
+
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let data of basicTable.data; let i = index;" class="actived" (click)="onRowSelect(data)"
+              [class.selected]="data === selectedItem">
+            <td style="text-align: center" class="text-wrap">{{data.RNUM}}</td>
+            <td class="text-wrap center">{{ data.CASECODE }}</td>
+            <td class="text-wrap">{{ data.CASENAME }}</td>
+            <td class="text-wrap">{{ data.FULLNAME }}</td>
+            <td class="text-wrap">{{ data.BIRTHDAY }}</td>
+            <td class="text-wrap">{{ data.FINISHDATE | dateFormat }}</td>
+
+            <td class="text-wrap center">
+              <a target="_blank" [routerLink]="['/report/caseinfo/', selectedItem?.CASECODE]"
+                 href="">
+                <button nz-button nzType="primary">
+                  <span class="fa fa-fw fa-search"></span>
+                </button>
+              </a></td>
+          </tr>
+          </tbody>
+        </nz-table>
+        <nz-table *ngIf="filterItem.typeAccused=='5'"
+                  #basicTable nzShowSizeChanger [nzFrontPagination]="false" nzSize="small" [nzData]="data"
+                  [nzScroll]="{ x: '1100px' }" [nzLoading]="loading" [nzShowTotal]="rangeTemplate"
+                  [nzPageSize]="defaultPage"
+                  [nzTotal]="total" [nzPageIndex]="pageIndex" (nzQueryParams)="onQueryParamsChange($event)">
+          <thead>
+          <tr>
+            <th class="text-wrap" nzWidth="5%">STT</th>
+            <th class="text-wrap" nzWidth="10%">Mã vụ án</th>
+            <th class="text-wrap" nzWidth="20%">Tên vụ án</th>
+            <th class="text-wrap" nzWidth="10%">Tên bị can</th>
+            <th class="text-wrap" nzWidth="10%">Ngày sinh</th>
+            <th class="text-wrap" nzWidth="10%">Ngày thụ lý</th>
+            <th class="text-wrap" nzWidth="5%">Chi tiết</th>
+
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let data of basicTable.data; let i = index;" class="actived" (click)="onRowSelect(data)"
+              [class.selected]="data === selectedItem">
+            <td style="text-align: center" class="text-wrap">{{data.RNUM}}</td>
+            <td class="text-wrap center">{{ data.CASECODE }}</td>
+            <td class="text-wrap">{{ data.CASENAME }}</td>
+            <td class="text-wrap">{{ data.FULLNAME }}</td>
+            <td class="text-wrap">{{ data.BIRTHDAY }}</td>
+            <td class="text-wrap">{{ data.FINISHDATE | dateFormat }}</td>
+
+            <td class="text-wrap center">
+              <a target="_blank" [routerLink]="['/report/caseinfo/', selectedItem?.CASECODE]"
+                 href="">
+                <button nz-button nzType="primary">
+                  <span class="fa fa-fw fa-search"></span>
+                </button>
+              </a></td>
+          </tr>
+          </tbody>
+        </nz-table>
+        <nz-table *ngIf="filterItem.typeAccused=='6'"
+                  #basicTable nzShowSizeChanger [nzFrontPagination]="false" nzSize="small" [nzData]="data"
+                  [nzScroll]="{ x: '1100px' }" [nzLoading]="loading" [nzShowTotal]="rangeTemplate"
+                  [nzPageSize]="defaultPage"
+                  [nzTotal]="total" [nzPageIndex]="pageIndex" (nzQueryParams)="onQueryParamsChange($event)">
+          <thead>
+          <tr>
+            <th class="text-wrap" nzWidth="5%">STT</th>
+            <th class="text-wrap" nzWidth="10%">Mã vụ án</th>
+            <th class="text-wrap" nzWidth="20%">Tên vụ án</th>
+            <th class="text-wrap" nzWidth="10%">Họ và tên</th>
+            <th class="text-wrap" nzWidth="10%">Ngày sinh</th>
+            <th class="text-wrap" nzWidth="10%">Cơ quan ra QĐ khởi tố</th>
+            <th class="text-wrap" nzWidth="5%">Chi tiết</th>
+
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let data of basicTable.data; let i = index;" class="actived" (click)="onRowSelect(data)"
+              [class.selected]="data === selectedItem">
+            <td style="text-align: center" class="text-wrap">{{data.RNUM}}</td>
+            <td class="text-wrap center">{{ data.CASECODE }}</td>
+            <td class="text-wrap">{{ data.CASENAME }}</td>
+            <td class="text-wrap">{{ data.FULLNAME }}</td>
+            <td class="text-wrap">{{ data.BIRTHDAY }}</td>
+            <td class="text-wrap">{{ data.ADDRESS }}</td>
+
+            <td class="text-wrap center">
+              <a target="_blank" [routerLink]="['/report/caseinfo/', selectedItem?.CASECODE]"
+                 href="">
+                <button nz-button nzType="primary">
+                  <span class="fa fa-fw fa-search"></span>
+                </button>
+              </a></td>
+          </tr>
+          </tbody>
+        </nz-table>
+        <nz-table *ngIf="filterItem.typeAccused=='7'"
+                  #basicTable nzShowSizeChanger [nzFrontPagination]="false" nzSize="small" [nzData]="data"
+                  [nzScroll]="{ x: '1100px' }" [nzLoading]="loading" [nzShowTotal]="rangeTemplate"
+                  [nzPageSize]="defaultPage"
+                  [nzTotal]="total" [nzPageIndex]="pageIndex" (nzQueryParams)="onQueryParamsChange($event)">
+          <thead>
+          <tr>
+            <th class="text-wrap" nzWidth="5%">STT</th>
+            <th class="text-wrap" nzWidth="10%">Mã vụ án</th>
+            <th class="text-wrap" nzWidth="20%">Tên vụ án</th>
+            <th class="text-wrap" nzWidth="10%">Tên bị can</th>
+            <th class="text-wrap" nzWidth="10%">Ngày sinh</th>
+            <th class="text-wrap" nzWidth="10%">Cơ quan ra QĐ khởi tố</th>
+            <th class="text-wrap" nzWidth="5%">Chi tiết</th>
+
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let data of basicTable.data; let i = index;" class="actived" (click)="onRowSelect(data)"
+              [class.selected]="data === selectedItem">
+            <td style="text-align: center" class="text-wrap">{{data.RNUM}}</td>
+            <td class="text-wrap center">{{ data.CASECODE }}</td>
+            <td class="text-wrap">{{ data.CASENAME }}</td>
+            <td class="text-wrap">{{ data.FULLNAME }}</td>
+            <td class="text-wrap">{{ data.BIRTHDAY }}</td>
+            <td class="text-wrap">{{ data.ADDRESS }}</td>
+
+            <td class="text-wrap center">
+              <a target="_blank" [routerLink]="['/report/caseinfo/', selectedItem?.CASECODE]"
+                 href="">
+                <button nz-button nzType="primary">
+                  <span class="fa fa-fw fa-search"></span>
+                </button>
+              </a></td>
+          </tr>
+          </tbody>
+        </nz-table>
+        <nz-table *ngIf="filterItem.typeAccused=='8'"
+                  #basicTable nzShowSizeChanger [nzFrontPagination]="false" nzSize="small" [nzData]="data"
+                  [nzScroll]="{ x: '1100px' }" [nzLoading]="loading" [nzShowTotal]="rangeTemplate"
+                  [nzPageSize]="defaultPage"
+                  [nzTotal]="total" [nzPageIndex]="pageIndex" (nzQueryParams)="onQueryParamsChange($event)">
+          <thead>
+          <tr>
+            <th class="text-wrap" nzWidth="5%">STT</th>
+            <th class="text-wrap" nzWidth="10%">Mã vụ án</th>
+            <th class="text-wrap" nzWidth="20%">Tên vụ án</th>
+            <th class="text-wrap" nzWidth="10%">Họ và tên</th>
+            <th class="text-wrap" nzWidth="10%">Ngày sinh</th>
+            <th class="text-wrap" nzWidth="10%">Ngày xử lý</th>
+            <th class="text-wrap" nzWidth="5%">Chi tiết</th>
+
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let data of basicTable.data; let i = index;" class="actived" (click)="onRowSelect(data)"
+              [class.selected]="data === selectedItem">
+            <td style="text-align: center" class="text-wrap">{{data.RNUM}}</td>
+            <td class="text-wrap center">{{ data.CASECODE }}</td>
+            <td class="text-wrap">{{ data.CASENAME }}</td>
+            <td class="text-wrap">{{ data.FULLNAME }}</td>
+            <td class="text-wrap">{{ data.BIRTHDAY }}</td>
+            <td class="text-wrap">{{ data.FINISHDATE | dateFormat}}</td>
+
+            <td class="text-wrap center">
+              <a target="_blank" [routerLink]="['/report/caseinfo/', selectedItem?.CASECODE]"
+                 href="">
+                <button nz-button nzType="primary">
+                  <span class="fa fa-fw fa-search"></span>
+                </button>
+              </a></td>
+          </tr>
+          </tbody>
+        </nz-table>
+        <ng-template #rangeTemplate let-range="range" let-total>
+          {{ range[0] }}-{{ range[1] }} {{'of' | translate }} {{ total }} {{'items' | translate }}
+        </ng-template>
+      </div>
+    </ng-container>
+    <div *nzModalFooter></div>
+  </div>
+</nz-modal>

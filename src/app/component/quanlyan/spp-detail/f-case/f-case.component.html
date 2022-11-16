@@ -1,0 +1,90 @@
+<fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+    <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse()">
+        <i nz-icon [nzType]="isCollapse ? 'minus' : 'plus'"></i>Vụ án
+    </legend>
+    <div class="ui-fieldset-content clearfix" nz-form [ngClass]="isCollapse ? 'show' : 'hide' ">
+        <div style="display: block">
+          <div style="float:left;">
+              <table class="ui-panelgrid table-detail">
+                  <tr>
+                      <td><label>Mã vụ án:</label></td>
+                      <td>
+                          <span>{{sppCase.casecode}}</span>
+                      </td>
+                      <td>
+                          <label>Loại tội phạm</label>
+                      </td>
+                      <td>
+                          <span>{{toCaseType(sppCase.casetype)}}</span>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td><label>Tên vụ án:</label></td>
+                      <td>
+                          <span>{{sppCase.casename}}</span>
+                      </td>
+                      <td><label> Tội danh:</label></td>
+                      <td>
+                          <span class="line-1" title="{{sppCase.lawcode_txt}}">{{sppCase.lawcode_txt}}</span>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td><label>Ngày xảy ra:</label></td>
+                      <td>
+                          <span>{{ sppCase.crimdate | dateFormat}}</span>
+                      </td>
+                      <td><label>Nơi xảy ra:</label>
+                      </td>
+                      <td>
+                          <span>{{ sppCase.crimwhere_txt }}</span>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td><label>Quyết định khởi tố số:</label></td>
+                      <td>
+                          <span>{{ sppCase.begin_setnum }}</span>
+                      </td>
+                      <td><label>Ngày ra quyết định:</label>
+                      </td>
+                      <td>
+                          <span>{{ sppCase.begin_indate | dateFormat }}</span>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td><label>Cơ quan ra quyết định:</label></td>
+                      <td>
+                          <span>{{sppCase.sid_txt}}</span>
+                      </td>
+                      <td><label>Bị can đầu vụ:</label>
+                      </td>
+                      <td>
+                          <span>{{sppCase.firstacc_txt}}</span>
+                      </td>
+                  </tr>
+              </table>
+          </div>
+          <!-- /.nz-row -->
+          <div style="float: right; text-align: right;width: 300px;">
+            <ng-container *ngIf="sppCase.isedit && (userfor === 'G1'|| userfor === 'G2') ">
+              <button
+                nz-popconfirm
+                nzPopconfirmTitle="Bạn có chắc muốn thêm mới vụ án?"
+                nzPopconfirmPlacement="top"
+                nzCancelText="Hủy"
+                nzOkText="Đồng ý"
+                (nzOnConfirm)="confirm()"
+                style="width: 120px;margin-right: 5px;" nz-button nzType="primary"><i class="fa fa-fw fa-plus"></i> Thêm mới</button>
+            </ng-container>
+            <ng-container *ngIf="!sppCase.isedit">
+              <button
+                (click)="showModalAdd()"
+                style="width: 120px;margin-right: 5px;" nz-button nzType="primary"><i class="fa fa-fw fa-plus"></i> Thêm mới</button>
+            </ng-container>
+
+              <button *ngIf="sppCase.isedit" style="width: 120px" (click)="showEditForm()" nz-button nzType="primary"><i class="fa fa-fw fa-edit"></i> Cập nhật</button>
+          </div>
+        </div>
+    </div>
+</fieldset>
+<!-- anhnbt: 3/3/2021 -->
+<app-spp-update [insertLoading]="insertLoading" [userfor]="userfor" (submitForm)="submitForm($event)" (reloadSpp)="reloadSppCase($event)" (closeModal)="closeModalUpdate($event)" [isVisibleAdd]="isVisibleAdd" [sppCase]="sppCase"></app-spp-update>

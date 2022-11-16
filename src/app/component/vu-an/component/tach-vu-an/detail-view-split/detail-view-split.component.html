@@ -1,0 +1,351 @@
+<nz-modal *ngIf="data" class="ant-form" nzWidth="1000px" [(nzVisible)]="isVisible" nzClosable="false" [nzTitle]="title"
+  nzMaskClosable="false">
+  <ng-template #title>
+    Thông tin chi tiết
+    <div class="pull-right icon-close">
+      <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+  <div class="data-table">
+    <nz-table class="w-100" [nzNoResult]="noResultTpl" nzSize="small">
+      <thead>
+        <tr>
+          <th class="text-nowrap" nzWidth="30%">Thông tin</th>
+          <th class="text-nowrap" nzWidth="70%">Chi tiết</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngIf="data.TYPE === 1">
+          <tr>
+            <td>
+              Tên bị can
+            </td>
+            <td>
+              {{ data.FULLNAME}}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Mã vụ án mới
+            </td>
+            <td>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Tên vụ án mới
+            </td>
+            <td>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Mã vụ án
+            </td>
+            <td>
+              {{ data.CASECODE}}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Tên vụ án
+            </td>
+            <td>
+              {{ data.CASENAME}}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Mã bị can
+            </td>
+            <td>
+              {{ data.ACCUCODE}}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Ngày sinh
+            </td>
+            <td>
+              {{ data.BIRTHDAY | dateFormat}}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              CMND
+            </td>
+            <td>
+              {{ data.IDENTIFY}}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Nơi cư trú
+            </td>
+            <td>
+              {{ data.REMARK}}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Nơi ĐKHKTT
+            </td>
+            <td>
+              {{ data.LOCANAME}}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Dân tộc
+            </td>
+            <td>
+              {{ data.NATINAME}}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Quốc tịch
+            </td>
+            <td>
+              {{ data.COUNNAME}}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Trình độ học vấn
+            </td>
+            <td>
+              {{ data.LEVELNAME}}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Nghề nghiệp
+            </td>
+            <td>
+              {{ data.OCCUNAME }}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Người tạo
+            </td>
+            <td>
+              {{ data.CRTUSER}}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Ngày tạo
+            </td>
+            <td>
+              {{ data.CRTDATE | dateFormat}}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Người sửa cuối
+            </td>
+            <td>
+              {{ data.MDFUSER}}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Ngày sửa cuối
+            </td>
+            <td>
+              {{ data.MDFDATE | dateFormat}}
+            </td>
+          </tr>
+        </ng-container>
+        <ng-container *ngIf="data.TYPE === 2">
+          <tr>
+            <td>
+              Tên bị can
+            </td>
+            <td>
+              {{ data.FULLNAME }}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Mã vụ án cũ
+            </td>
+            <td>
+              {{ data.CASECODE1 }}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Tên vụ án cũ
+            </td>
+            <td>
+              {{ data.CASENAME1 }}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Mã vụ án mới
+            </td>
+            <td>
+              {{ data.CASECODE2 }}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Tên vụ án mới
+            </td>
+            <td>
+              {{ data.CASENAME2 }}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Ngày tách vụ án
+            </td>
+            <td>
+              {{ data.SPLITDATE | dateFormat }}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Người tạo
+            </td>
+            <td>
+              {{ data.CRTUSER }}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Ngày tạo
+            </td>
+            <td>
+              {{ data.CRTDATE | dateFormat }}
+            </td>
+          </tr>
+        </ng-container>
+        <ng-container *ngIf="data.TYPE === 3">
+          <tr>
+            <td>
+              Mã vụ án
+            </td>
+            <td>
+              {{ data.CASECODE}}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Tên vụ án
+            </td>
+            <td>
+              {{ data.CASENAME}}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Ngày xảy ra vụ án
+            </td>
+            <td>
+              {{ data.CRIMDATE | dateFormat }}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Người tạo
+            </td>
+            <td>
+              {{ data.CRTUSER }}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Ngày tạo
+            </td>
+            <td>
+              {{ data.CRTDATE | dateFormat }}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Người sửa cuối
+            </td>
+            <td>
+              {{ data.MDFUSER}}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Ngày sửa cuối
+            </td>
+            <td>
+              {{ data.MDFDATE | dateFormat }}
+            </td>
+          </tr>
+        </ng-container>
+        <ng-container *ngIf="data.TYPE === 4">
+          <tr>
+            <td>
+              Mã vụ án cũ
+            </td>
+            <td>
+              {{ data.CASECODE1 }}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Tên vụ án cũ
+            </td>
+            <td>
+              {{ data.CASENAME1 }}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Mã vụ án mới
+            </td>
+            <td>
+              {{ data.CASECODE2 }}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Tên vụ án mới
+            </td>
+            <td>
+              {{ data.CASENAME2 }}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Ngày tách vụ án
+            </td>
+            <td>
+              {{ data.SPLITDATE | dateFormat }}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Người tạo
+            </td>
+            <td>
+              {{ data.CRTUSER }}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Ngày tạo
+            </td>
+            <td>
+              {{ data.CRTDATE | dateFormat }}
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </nz-table>
+    <ng-template #noResultTpl>
+    </ng-template>
+  </div>
+  <div *nzModalFooter>
+  </div>
+</nz-modal>

@@ -1,0 +1,7 @@
+::ng-deep nz-table-content{
+  table-layout: fixed !important;
+}
+::ng-deep .ant-table table{
+  table-layout: fixed !important;
+  border: solid 1px #CCC;
+}

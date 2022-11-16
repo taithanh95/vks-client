@@ -1,0 +1,210 @@
+<nz-modal nzWidth="1300px"
+          [(nzVisible)]="isVisibleDialog"
+          [nzAutofocus]="'auto'"
+          nzClosable="false"
+          [nzTitle]="title"
+          nzMaskClosable="false">
+  <ng-template #title>
+    <ng-container [ngSwitch]="mode">
+      <ng-container *ngSwitchCase="modeEnum.VIEW">Chi tiết người bị tố giác</ng-container>
+      <ng-container *ngSwitchCase="modeEnum.UPDATE">Cập nhật người bị tố giác</ng-container>
+      <ng-container *ngSwitchDefault>Thêm mới người bị tố giác</ng-container>
+    </ng-container>
+    <div class="pull-right icon-close">
+      <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+
+  <form id="denouncedPersonForm" [formGroup]="denouncedPersonForm" focusInvalidInput>
+    <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+      <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse()">
+        <i nz-icon [nzType]="isCollapse ? 'minus' : 'plus'"></i>
+        <ng-container [ngSwitch]="mode">
+          <ng-container *ngSwitchCase="modeEnum.VIEW">Chi tiết người bị tố giác</ng-container>
+          <ng-container *ngSwitchCase="modeEnum.UPDATE">Cập nhật người bị tố giác</ng-container>
+          <ng-container *ngSwitchDefault>Thêm mới người bị tố giác</ng-container>
+        </ng-container>
+      </legend>
+
+      <div class="ui-fieldset-content">
+        <div nz-form class="ant-advanced-search-form" [ngClass]="isCollapse ? 'show' : 'hide' ">
+          <div class="col-12">
+            <div class="row">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="fullName">Họ và tên
+                      <span style="color: red">&nbsp;*</span></nz-form-label>
+                    <nz-form-control class="col-md-8" [nzErrorTip]="usernameErrorTpl">
+                      <input style="text-transform:capitalize" formControlName="fullName" nz-input type="text"
+                             id="fullName">
+                      <ng-template #usernameErrorTpl let-control>
+                        <ng-container *ngIf="control.hasError('customRequired')">
+                          <small>Trường bắt buộc nhập</small>
+                        </ng-container>
+                        <ng-container *ngIf="!control.hasError('customRequired') && control.hasError('maxlength')">
+                          <small>Độ dài ký tự đã vượt quá giới hạn, yêu cầu kiểm tra lại</small>
+                        </ng-container>
+                        <!--                        <ng-container *ngIf="control.hasError('pattern')">-->
+                        <!--                          <i class="red">Không đúng định dạng</i>-->
+                        <!--                        </ng-container>-->
+                      </ng-template>
+                    </nz-form-control>
+
+                  </nz-form-item>
+                </div>
+              </div>
+
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="cccd">CCCD
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8" [nzErrorTip]="cccdError">
+                      <input formControlName="cccd" nz-input name="cccd"
+                             type="text"
+                             class="text-right"
+                             id="cccd"
+                             appNumberic
+                             (blur)="convertCccd()">
+                      <ng-template #cccdError let-control>
+                        <ng-container *ngIf="control.hasError('maxlength')">
+                          <small>Độ dài CCCD phải từ 9 đến 12 số, yêu cầu kiểm tra lại</small>
+                        </ng-container>
+                        <ng-container *ngIf="control.hasError('minlength')">
+                          <small>Độ dài CCCD phải từ 9 đến 12 số, yêu cầu kiểm tra lại</small>
+                        </ng-container>
+                      </ng-template>
+
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="yearOfBirth">Năm sinh</nz-form-label>
+                    <nz-form-control class="col-md-8" [nzErrorTip]="yearOfBirthErrorTpl">
+                      <input class="text-right" formControlName="yearOfBirth" nz-input name="yearOfBirth" type="text"
+                             id="yearOfBirth"
+                             (blur)="dateOfYearValueChange($event.target['value'])">
+                      <ng-template #yearOfBirthErrorTpl let-control>
+                        <ng-container *ngIf="control.hasError('pattern')">
+                          <small>Yêu cầu nhập số</small>
+                        </ng-container>
+                        <ng-container *ngIf="!control.hasError('pattern') && control.hasError('maxlength')">
+                          <small>Độ dài ký tự đã vượt quá giới hạn, yêu cầu kiểm tra lại</small>
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="dateOfBirth">Ngày sinh</nz-form-label>
+                    <nz-form-control class="col-md-8" [nzErrorTip]="dateOfBirthError">
+                      <nz-date-picker class="w-100 custom-datepicker-align"
+                                      formControlName="dateOfBirth"
+                                      (input)="onDateValueChange($event, denouncedPersonForm.get('dateOfBirth'))"
+                                      (keypress)="numberOnly($event)"
+                                      nzPlaceHolder="dd/MM/yyyy"
+                                      nzFormat="dd/MM/yyyy">
+                      </nz-date-picker>
+                      <ng-template #dateOfBirthError let-control>
+                        <ng-container *ngIf="control.hasError( 'lessThanNow')">
+                          <small>Ngày tháng không hợp lệ </small>
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="job">Nghề nghiệp</nz-form-label>
+                    <nz-form-control class="col-md-8" [nzErrorTip]="jobErrorTpl">
+                      <input formControlName="job" nz-input name="job" type="text"
+                             id="job">
+                      <ng-template #jobErrorTpl let-control>
+                        <ng-container *ngIf="control.hasError('maxlength')">
+                          <small>Độ dài ký tự đã vượt quá giới hạn, yêu cầu kiểm tra lại</small>
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="workplace">Nơi công tác</nz-form-label>
+                    <nz-form-control class="col-md-8" [nzErrorTip]="workplaceErrorTpl">
+                      <input formControlName="workplace" nz-input name="workplace" type="text"
+                             id="workplace">
+                      <ng-template #workplaceErrorTpl let-control>
+                        <ng-container *ngIf="control.hasError('maxlength')">
+                          <small>Độ dài ký tự đã vượt quá giới hạn, yêu cầu kiểm tra lại</small>
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-2 text-left" nzFor="address">Địa chỉ</nz-form-label>
+                    <nz-form-control class="col-md-10" [nzErrorTip]="addressErrorTpl">
+                    <textarea formControlName="address" nz-input name="address"
+                              id="address" [nzAutosize]="true">
+                    </textarea>
+                      <ng-template #addressErrorTpl let-control>
+                        <ng-container *ngIf="control.hasError('maxlength')">
+                          <small>Độ dài ký tự đã vượt quá giới hạn, yêu cầu kiểm tra lại</small>
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+
+    <div *nzModalFooter>
+      <div class="d-flex align-items-center justify-content-center">
+        <ng-container [ngSwitch]="mode">
+          <ng-container *ngSwitchCase="modeEnum.VIEW">
+            <button nz-button (click)="handleCancel()">{{ 'Thoát' }}</button>
+          </ng-container>
+          <ng-container *ngSwitchCase="modeEnum.VIEW_FROM_PARENT">
+            <button nz-button (click)="handleCancel()">{{ 'Thoát' }}</button>
+          </ng-container>
+          <ng-container *ngSwitchDefault>
+            <button form="denouncedPersonForm" nz-button
+                    type="button" class="button-submit" (click)="handleOk()" [nzLoading]="isConfirmLoading">
+              <span nz-icon nzType="save" nzTheme="twotone"></span>
+              {{'save' | translate }}</button>
+            <button nz-button type="button" (click)="handleCancel()">
+              <span class="fa fa-fw fa-times"></span>
+              {{'cancel' | translate }}</button>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+  </form>
+</nz-modal>

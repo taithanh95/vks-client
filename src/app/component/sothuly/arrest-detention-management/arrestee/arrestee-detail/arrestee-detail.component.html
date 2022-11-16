@@ -1,0 +1,715 @@
+<nz-modal nzWidth="1300px"
+          [(nzVisible)]="isVisibleDialog"
+          [nzAutofocus]="'auto'"
+          nzClosable="false"
+          [nzTitle]="title"
+          nzMaskClosable="false">
+  <ng-template #title>
+    <ng-container [ngSwitch]="mode">
+      <ng-container *ngSwitchCase="modeEnum.VIEW">Chi tiết thông tin người bắt, tạm giam, tạm giữ</ng-container>
+      <ng-container *ngSwitchCase="modeEnum.COPPY">Sao chép thông tin người bắt, tạm giam, tạm giữ</ng-container>
+      <ng-container *ngSwitchCase="modeEnum.UPDATE">Cập nhật người bắt, tạm giam, tạm giữ</ng-container>
+      <ng-container *ngSwitchDefault>Thêm thông tin người bắt, tạm giam, tạm giữ</ng-container>
+    </ng-container>
+    <div class="pull-right icon-close">
+      <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+  <form id="arresteeForm" [formGroup]="arresteeForm" focusInvalidInput>
+    <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+      <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse()">
+        <i nz-icon [nzType]="isCollapse ? 'minus' : 'plus'"></i>
+        <ng-container [ngSwitch]="mode">
+          <ng-container *ngSwitchCase="modeEnum.COPPY">Sao chép thông tin người bắt, tạm giam, tạm giữ</ng-container>
+          <ng-container *ngSwitchCase="modeEnum.VIEW">Chi tiết người bắt, tạm giam, tạm giữ</ng-container>
+          <ng-container *ngSwitchCase="modeEnum.UPDATE">Cập nhật người bắt, tạm giam, tạm giữ</ng-container>
+          <ng-container *ngSwitchDefault>Thông tin chung</ng-container>
+        </ng-container>
+      </legend>
+      <div class="ui-fieldset-content">
+        <div nz-form class="ant-advanced-search-form" [ngClass]="isCollapse ? 'show' : 'hide' ">
+          <div class="col-12">
+            <div class="row">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="arrestType">Loại bắt giữ
+                      <span style="color: red">&nbsp;*</span>
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8" [nzErrorTip]="arrestTypeError">
+                      <nz-select formControlName="arrestType" class="custom-arrow" nzShowSearch
+                                 (ngModelChange)="changeArrestType()">
+                        <nz-option *ngFor="let agency of arrestTypes"
+                                   [nzValue]="agency.paramValue"
+                                   [nzLabel]="agency.paramName">
+                        </nz-option>
+                      </nz-select>
+                      <ng-template #arrestTypeError let-control>
+                        <ng-container *ngIf="control.hasError( 'required')">
+                          <i class="red">Trường bắt buộc nhập</i>
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+            <div class="row" *ngIf="getControl('arrestType').value =='BTG'">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="caseId">Vụ án
+                      <span style="color: red">&nbsp;*</span>
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8" [nzErrorTip]="caseIdError">
+                      <nz-select formControlName="caseId" class="custom-arrow" nzShowSearch nzAllowClear
+                                 (ngModelChange)="changeLstCaseId($event)"
+                                 (nzOnSearch)="searchByCaseName($event)">
+                        <nz-option *ngFor="let agency of lstCase"
+                                   [nzValue]="agency.caseCode"
+                                   [nzLabel]="agency.caseName">
+                        </nz-option>
+                      </nz-select>
+                      <ng-template #caseIdError let-control>
+                        <ng-container *ngIf="control.hasError('required')">
+                          <i class="red">Trường bắt buộc nhập</i>
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="defendantId">Bị can/Bị cáo
+                      <span style="color: red">&nbsp;*</span>
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8" [nzErrorTip]="defendantIdError">
+                      <nz-select formControlName="defendantId" class="custom-arrow" nzAllowClear nzShowSearch
+                                 (nzOnSearch)="searchByDefendantName($event)">
+                        <nz-option *ngFor="let agency of lstAccused"
+                                   [nzValue]="agency.accuCode"
+                                   [nzLabel]="agency.fullName">
+                        </nz-option>
+                      </nz-select>
+                      <ng-template #defendantIdError let-control>
+                        <ng-container *ngIf="control.hasError( 'required')">
+                          <i class="red">Trường bắt buộc nhập</i>
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="arrestDate">Thời gian bắt giữ
+                      <span style="color: red">&nbsp;*</span>
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8" [nzErrorTip]="arrestDateError">
+                      <nz-date-picker class="w-100 custom-datepicker-align"
+                                      nzPlaceHolder="dd/MM/yyyy"
+                                      [nzShowTime]="{ nzFormat: 'HH:mm' }"
+                                      formControlName="arrestDate"
+                                      nzFormat="dd/MM/yyyy HH:mm"
+                                      (input)="onDateTimeValueChange($event, arresteeForm.get('arrestDate'))"
+                                      (keypress)="numberOnly($event)"
+                      >
+                      </nz-date-picker>
+                      <ng-template #arrestDateError let-control>
+                        <ng-container *ngIf="control.hasError('required')">
+                          <i class="red">Trường bắt buộc nhập</i>
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="arresteeTime">Thời hạn bắt
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8">
+                      <nz-input-number [nzSize]="'small'" [nzMin]="0"
+                                       [nzStep]="1"
+                                       formControlName="arresteeYear"
+                                       [nzFormatter]="formatterYear"
+                                       [nzParser]="parserYear"
+                                       (nzBlur)="nzBlurYear()"
+                                       (nzFocus)="nzFocusYear()"
+                                       defaultValue = "1">
+                      </nz-input-number>
+                      <nz-input-number [nzSize]="'small'" [nzMin]="0"
+                                       formControlName="arresteeMonth"
+                                       [nzStep]="1"
+                                       [nzFormatter]="formatterMonth"
+                                       [nzParser]="parserMonth"
+                                       (nzBlur)="nzBlurMonth()"
+                                       (nzFocus)="nzFocusMonth()"
+                                       defaultValue = "1">></nz-input-number>
+                      <nz-input-number [nzSize]="'small'" [nzMin]="0"
+                                       formControlName="arresteeDay"
+                                       [nzStep]="1"
+                                       [nzFormatter]="formatterDay"
+                                       [nzParser]="parserDay"
+                                       (nzBlur)="nzBlurDay()"
+                                       (nzFocus)="nzFocusDay()"
+                                       defaultValue = "1">></nz-input-number>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="detentionPlace">Nơi giam giữ
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8" [nzErrorTip]="detentionPlaceError">
+                      <input
+                        nz-input
+                        formControlName="detentionPlace"/>
+                      <ng-template #detentionPlaceError let-control>
+                        <ng-container *ngIf="control.hasError('maxlength')">
+                          <i class="red">Độ dài ký tự đã vượt quá giới hạn, yêu cầu kiểm tra lại</i>
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="procuracyHandlingDate">Thời gian VKS thụ lý
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8" [nzErrorTip]="procuracyHandlingDateError">
+                      <nz-date-picker class="w-100 custom-datepicker-align"
+                                      nzPlaceHolder="dd/MM/yyyy"
+                                      formControlName="procuracyHandlingDate"
+                                      nzFormat="dd/MM/yyyy"
+                                      (input)="onDateTimeValueChange($event, arresteeForm.get('procuracyHandlingDate'))"
+                                      (keypress)="numberOnly($event)">
+                      </nz-date-picker>
+                      <ng-template #procuracyHandlingDateError let-control>
+                        <ng-container *ngIf="control.hasError('invalidProcuracyHandlingDate')">
+                          <i class="red">Thời gian VKS thụ lý phải lớn hơn thời gian bắt giữ</i>
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-2 text-left" nzFor="arrestReason">Lý do bắt
+                    </nz-form-label>
+                    <nz-form-control class="col-md-10" [nzErrorTip]="arrestReasonError">
+                      <textarea
+                        nz-input
+                        formControlName="arrestReason"
+                        [nzAutosize]="true"
+                      ></textarea>
+                      <ng-template #arrestReasonError let-control>
+                        <ng-container *ngIf="control.hasError('maxlength')">
+                          <i class="red">Độ dài ký tự đã vượt quá giới hạn, yêu cầu kiểm tra lại</i>
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-2 text-left" nzFor="arrestViolation">Vi phạm bắt giữ
+                    </nz-form-label>
+                    <nz-form-control class="col-md-10" [nzErrorTip]="arrestViolationError">
+                      <textarea
+                        nz-input
+                        formControlName="arrestViolation"
+                        [nzAutosize]="true"
+                      ></textarea>
+                      <ng-template #arrestViolationError let-control>
+                        <ng-container *ngIf="control.hasError('maxlength')">
+                          <i class="red">Độ dài ký tự đã vượt quá giới hạn, yêu cầu kiểm tra lại</i>
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="fullName">Họ tên
+                      <span style="color: red">&nbsp;*</span>
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8" [nzErrorTip]="rReporterError">
+                      <input style="text-transform:capitalize" formControlName="fullName" nz-input name="fullName" type="text"
+                             id="fullName">
+                      <ng-template #rReporterError let-control>
+                        <ng-container *ngIf="control.hasError('customRequired')">
+                          <i class="red">Trường bắt buộc nhập</i>
+                        </ng-container>
+                        <ng-container *ngIf="control.hasError('maxlength')">
+                          <i class="red">Độ dài ký tự đã vượt quá giới hạn, yêu cầu kiểm tra lại</i>
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="cccd">CCCD
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8" [nzErrorTip]="cccdError">
+                      <input formControlName="cccd" nz-input name="cccd"
+                             type="text"
+                             appIsNumber
+                             id="cccd"
+                             class="text-right" (blur)="convertCccd()">
+                      <ng-template #cccdError let-control>
+                        <ng-container *ngIf="control.hasError('maxlength')">
+                          <small>Độ dài CCCD phải từ 9 đến 12 số, yêu cầu kiểm tra lại</small>
+                        </ng-container>
+                        <ng-container *ngIf="control.hasError('minlength')">
+                          <small>Độ dài CCCD phải từ 9 đến 12 số, yêu cầu kiểm tra lại</small>
+                        </ng-container>
+                      </ng-template>
+
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="yearOfBirth">Năm sinh
+                      <span style="color: red">&nbsp;*</span>
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8" [nzErrorTip]="yearOfBirthError">
+                      <input formControlName="yearOfBirth" nz-input name="rYearOfBirth"
+                             type="text"
+                             class="text-right"
+                             id="yearOfBirth"
+                             (blur)="dateOfYearValueChange($event.target['value'])">
+                      <ng-template #yearOfBirthError let-control>
+                        <ng-container *ngIf="control.hasError('required')">
+                          <i class="red">Trường bắt buộc nhập</i>
+                        </ng-container>
+                        <ng-container *ngIf="control.hasError('pattern')">
+                          <i class="red">Yêu cầu nhập số</i>
+                        </ng-container>
+                        <ng-container *ngIf="!control.hasError('pattern') && control.hasError('maxlength')">
+                          <i class="red">Độ dài ký tự đã vượt quá giới hạn, yêu cầu kiểm tra lại</i>
+                        </ng-container>
+                        <ng-container *ngIf="!control.hasError('pattern') && control.hasError('minlength')">
+                          <i class="red">Độ dài ký tự chưa đủ, yêu cầu kiểm tra lại</i>
+                        </ng-container>
+                      </ng-template>
+
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="dateOfBirth">Ngày sinh
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8" [nzErrorTip]="dateOfBirthError">
+                      <nz-date-picker class="w-100 custom-datepicker-align"
+                                      nzPlaceHolder="dd/MM/yyyy"
+                                      formControlName="dateOfBirth"
+                                      nzFormat="dd/MM/yyyy"
+                                      (ngModelChange)="dateOfBirthValueChange()"
+                                      (input)="onDateValueChange($event, arresteeForm.get('dateOfBirth'))"
+                                      (keypress)="numberOnly($event)"
+                      >
+                      </nz-date-picker>
+
+                      <ng-template #dateOfBirthError let-control>
+                        <ng-container *ngIf="control.hasError( 'lessThanNow')">
+                          <i class="red">Ngày tháng không hợp lệ </i>
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="job">Nghề nghiệp</nz-form-label>
+                    <nz-form-control class="col-md-8" [nzErrorTip]="jobErrorTpl">
+                      <input formControlName="job" nz-input name="job" type="text"
+                             id="job">
+                      <ng-template #jobErrorTpl let-control>
+                        <ng-container *ngIf="control.hasError('maxlength')">
+                          <i class="red">Độ dài ký tự đã vượt quá giới hạn, yêu cầu kiểm tra lại</i>
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="workplace">Nơi công tác</nz-form-label>
+                    <nz-form-control class="col-md-8" [nzErrorTip]="workplaceErrorTpl">
+                      <input formControlName="workplace" nz-input name="workplace" type="text"
+                             id="workplace">
+                      <ng-template #workplaceErrorTpl let-control>
+                        <ng-container *ngIf="control.hasError('maxlength')">
+                          <i class="red">Độ dài ký tự đã vượt quá giới hạn, yêu cầu kiểm tra lại</i>
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-2 text-left" nzFor="address">Địa chỉ</nz-form-label>
+                    <nz-form-control class="col-md-10" [nzErrorTip]="addressErrorTpl">
+                      <input formControlName="address" nz-input name="address"
+                             id="address"/>
+                      <ng-template #addressErrorTpl let-control>
+                        <ng-container *ngIf="control.hasError('maxlength')">
+                          <i class="red">Độ dài ký tự đã vượt quá giới hạn, yêu cầu kiểm tra lại</i>
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="isDead">Đã chết
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8">
+                      <label nz-checkbox formControlName="isDead"
+                             (nzCheckedChange)="chekChange('isDead',$event)"></label>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="deathDate">Ngày chết
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8" [nzErrorTip]="deathDateError">
+                      <nz-date-picker class="w-100 custom-datepicker-align"
+                                      nzPlaceHolder="dd/MM/yyyy"
+                                      formControlName="deathDate"
+                                      nzFormat="dd/MM/yyyy"
+                                      (input)="onDateValueChange($event, arresteeForm.get('deathDate'))"
+                                      (keypress)="numberOnly($event)"
+                      >
+                      </nz-date-picker>
+                      <ng-template #deathDateError let-control>
+                        <ng-container *ngIf="control.hasError('invalidDeathDate')">
+                          <i class="red">Ngày chết phải lớn hơn ngày sinh</i>
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="causeOfDeathId">Nguyên nhân chết
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8">
+                      <nz-select formControlName="causeOfDeathId" class="custom-arrow"
+                                 (ngModelChange)="changeCauseOfDeathId($event)">
+                        <nz-option *ngFor="let agency of causeDeaths"
+                                   [nzValue]="agency.paramValue"
+                                   [nzLabel]="agency.paramName">
+                        </nz-option>
+                      </nz-select>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="escaped">Đã trốn
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8">
+                      <label nz-checkbox formControlName="escaped"
+                             (nzCheckedChange)="chekChange('escaped',$event)"></label>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="escapingDate">Ngày trốn
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8">
+                      <nz-date-picker class="w-100 custom-datepicker-align"
+                                      nzPlaceHolder="dd/MM/yyyy"
+                                      formControlName="escapingDate"
+                                      nzFormat="dd/MM/yyyy"
+                                      (input)="onDateValueChange($event, arresteeForm.get('escapingDate'))"
+                                      (keypress)="numberOnly($event)"
+                      >
+                      </nz-date-picker>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="reasonForEscaping">Lý do trốn
+                    </nz-form-label>
+                    <nz-form-control class="col-md-10" [nzErrorTip]="reasonForEscapingError">
+                      <textarea
+                        nz-input
+                        formControlName="reasonForEscaping"
+                        [nzAutosize]="true"
+                      ></textarea>
+                      <ng-template #reasonForEscapingError let-control>
+                        <ng-container *ngIf="control.hasError('maxlength')">
+                          <i class="red">Độ dài ký tự đã vượt quá giới hạn, yêu cầu kiểm tra lại</i>
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="recaptureDate">Ngày bắt lại
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8" [nzErrorTip]="recaptureDateError">
+                      <nz-date-picker class="w-100 custom-datepicker-align"
+                                      nzPlaceHolder="dd/MM/yyyy"
+                                      formControlName="recaptureDate"
+                                      nzFormat="dd/MM/yyyy"
+                                      (input)="onDateValueChange($event, arresteeForm.get('recaptureDate'))"
+                                      (keypress)="numberOnly($event)"
+                      >
+                      </nz-date-picker>
+                      <ng-template #recaptureDateError let-control>
+                        <ng-container *ngIf="control.hasError('invalidRecaptureDate')">
+                          <i class="red">Ngày bắt lại phải lớn hơn ngày trốn</i>
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="moveToAnotherPlace">Chuyển đi nơi khác
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8">
+                      <label nz-checkbox formControlName="moveToAnotherPlace"
+                             (nzCheckedChange)="chekChange('moveToAnotherPlace',$event)"></label>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="moveToAnotherPlaceDate">Ngày Chuyển đi nơi khác
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8">
+                      <nz-date-picker class="w-100 custom-datepicker-align"
+                                      nzPlaceHolder="dd/MM/yyyy"
+                                      formControlName="moveToAnotherPlaceDate"
+                                      nzFormat="dd/MM/yyyy"
+                                      (input)="onDateValueChange($event, arresteeForm.get('moveToAnotherPlaceDate'))"
+                                      (keypress)="numberOnly($event)"
+                      >
+                      </nz-date-picker>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-2 text-left" nzFor="noiChuyenDen">Nơi chuyển đến
+                    </nz-form-label>
+                    <nz-form-control class="col-md-10" [nzErrorTip]="noiChuyenDen">
+                      <input
+                        nz-input
+                        formControlName="noiChuyenDen"/>
+                      <ng-template #noiChuyenDen let-control>
+                        <ng-container *ngIf="control.hasError('maxlength')">
+                          <i class="red">Độ dài ký tự đã vượt quá giới hạn, yêu cầu kiểm tra lại</i>
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="arriveFromAnotherPlace">Nơi khác chuyển đến
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8">
+                      <label nz-checkbox formControlName="arriveFromAnotherPlace"
+                             (nzCheckedChange)="chekChange('arriveFromAnotherPlace',$event)"></label>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="arriveFromAnotherPlaceDate">Ngày Nơi khác chuyển
+                      đến
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8">
+                      <nz-date-picker class="w-100 custom-datepicker-align"
+                                      nzPlaceHolder="dd/MM/yyyy"
+                                      formControlName="arriveFromAnotherPlaceDate"
+                                      nzFormat="dd/MM/yyyy"
+                                      (input)="onDateValueChange($event, arresteeForm.get('arriveFromAnotherPlaceDate'))"
+                                      (keypress)="numberOnly($event)"
+                      >
+                      </nz-date-picker>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-2 text-left" nzFor="noiChuyenDi">Nơi chuyển đi
+                    </nz-form-label>
+                    <nz-form-control class="col-md-10" [nzErrorTip]="noiChuyenDi">
+                      <input nz-input
+                             formControlName="noiChuyenDi"/>
+                      <ng-template #noiChuyenDi let-control>
+                        <ng-container *ngIf="control.hasError('maxlength')">
+                          <i class="red">Độ dài ký tự đã vượt quá giới hạn, yêu cầu kiểm tra lại</i>
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-2 text-left" nzFor="reason">Lý do
+                    </nz-form-label>
+                    <nz-form-control class="col-md-10" [nzErrorTip]="arrestReasonError">
+                      <textarea
+                        nz-input
+                        formControlName="reason"
+                        [nzAutosize]="true"
+                      ></textarea>
+                      <ng-template #arrestReasonError let-control>
+                        <ng-container *ngIf="control.hasError('maxlength')">
+                          <i class="red">Độ dài ký tự đã vượt quá giới hạn, yêu cầu kiểm tra lại</i>
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+
+    <app-discipline-violation-list
+      [visibleViolationList]="arrestee?.disciplineViolations || []"
+      [mode]="mode"
+    ></app-discipline-violation-list>
+    <app-law-offence-list
+      [visibleLawOffenceList]="arrestee?.lawOffenses || []"
+      [mode]="mode"
+    ></app-law-offence-list>
+    <div *nzModalFooter>
+      <div class="d-flex align-items-center justify-content-center">
+        <ng-container [ngSwitch]="mode">
+          <ng-container *ngSwitchCase="modeEnum.VIEW">
+            <button nz-button (click)="handleCancel()">{{ 'Thoát' }}</button>
+          </ng-container>
+          <ng-container *ngSwitchCase="modeEnum.VIEW_FROM_PARENT">
+            <button nz-button (click)="handleCancel()">{{ 'Thoát' }}</button>
+          </ng-container>
+          <ng-container *ngSwitchDefault>
+            <button form="arresteeForm" nz-button
+                    type="button" class="button-submit" (click)="handleOk()" [nzLoading]="isConfirmLoading">
+              <span nz-icon nzType="save" nzTheme="twotone"></span>
+              {{'save' | translate }}</button>
+            <button nz-button type="button" (click)="handleCancel()">
+              <span class="fa fa-fw fa-times"></span>
+              {{'cancel' | translate }}</button>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+  </form>
+</nz-modal>
+<ng-template #confirm>
+  <i nz-icon nzType="question-circle" nzTheme="twotone" nzTwotoneColor="#faad14"></i>
+  &nbsp; Bạn có chắc chắn muốn lưu dữ liệu không?
+</ng-template>
+<ng-template #confirmHeader>
+  Xác nhận
+  <div class="pull-right icon-close">
+    <em (click)="confirmModalRef.close()" nz-icon nzType="close" nzTheme="outline"></em>
+  </div>
+</ng-template>

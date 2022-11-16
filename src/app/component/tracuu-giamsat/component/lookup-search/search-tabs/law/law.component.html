@@ -1,0 +1,148 @@
+<fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+  <div nz-row>
+    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Số QĐ khởi tố</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <input [(ngModel)]="filterItem.setnum" nz-input placeholder="Số QĐ khởi tố">
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Tham nhũng</nz-form-label>
+        <nz-form-control>
+          <label nz-checkbox [(ngModel)]="filterItem.booCorrup"></label>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+  <div nz-row>
+    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Ngày khởi tố từ ngày</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <nz-date-picker (input)="onValueFDate($event)"
+                          (keypress)="validateOnlyNumbers($event)"
+                          [(ngModel)]="filterItem.fromdatecen"
+                          nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Ngày khởi tố đến ngày</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <nz-date-picker (input)="onValueTDate($event)"
+                          (keypress)="validateOnlyNumbers($event)"
+                          [(ngModel)]="filterItem.todatecen"
+                          nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+  <div *ngIf="!filterItem.booCorrup" nz-row>
+    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Tên bộ luật</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <nz-select [(ngModel)]="filterItem.codeid" nzPlaceHolder="Tên bộ luật" nzShowSearch nzAllowClear
+                     (ngModelChange)="getListLawWithCode($event)">
+            <nz-option *ngFor="let option of lstLawGroup" [nzLabel]="option.codename"
+                       [nzValue]="option.codeid">{{ option.codename }}</nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+  <div *ngIf="!filterItem.booCorrup" nz-row>
+    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Điều / Khoản / Điểm
+        </nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <div nz-row [nzGutter]="24">
+            <div nz-col [nzSpan]="8">
+              <input title="Điều" type="text"
+                     [(ngModel)]="filterItem.lawid" id="lawid" nz-input placeholder="Điều"/>
+            </div>
+            <div nz-col [nzSpan]="8">
+              <input title="Khoản" type="text"
+                     [(ngModel)]="filterItem.item" id="item" nz-input placeholder="Khoản"/>
+            </div>
+            <div nz-col [nzSpan]="8">
+              <input title="Điểm" type="text"
+                     [(ngModel)]="filterItem.point" id="point" nz-input placeholder="Điểm"/>
+            </div>
+          </div>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <button nz-button [nzType]="'primary'" (click)="showPopupLaw()">
+          <span class="fa fa-fw fa-search"></span>
+          Tìm kiếm bộ luật
+        </button>
+      </nz-form-item>
+    </div>
+  </div>
+</fieldset>
+<div class="ui-panel">
+  <div nz-row>
+    <div nz-col [nzSpan]="24" class="search-area">
+      <button nz-button [nzType]="'primary'" (click)="doSearch()">
+        <span class="fa fa-fw fa-search"></span>
+        Tìm kiếm
+      </button>
+      <button [disabled]="isDetailBtn" nz-button [nzType]="'primary'" (click)="showDetail()">
+        <span class="fa fa-fw fa-eye"></span>Chi tiết
+      </button>
+      <a target="_blank" [routerLink]="['/report/caseinfo/', selectedItem?.CASECODE]" href="">
+        <button [disabled]="!selectedItem" nz-button nzType="primary">
+          <span class="fa fa-fw fa-eye"></span>
+          Chi tiết vụ án
+        </button>
+      </a>
+    </div>
+  </div>
+</div>
+<ng-container>
+  <div class="data-table">
+    <nz-table #basicTable nzShowSizeChanger [nzFrontPagination]="false" nzSize="small" [nzData]="datas"
+              [nzScroll]="{ x: '1200px' }" [nzLoading]="loading" [nzShowTotal]="rangeTemplate"
+              [nzPageSize]="defaultPage"
+              [nzTotal]="total" [nzPageIndex]="pageIndex" (nzQueryParams)="onQueryParamsChange($event)">
+      <thead>
+      <tr>
+        <th class="text-nowrap" nzWidth="5%">STT</th>
+        <th class="text-nowrap" nzWidth="10%">Số QĐ khởi tố</th>
+        <th class="text-nowrap" nzWidth="30%">Tên vụ án</th>
+        <th class="text-nowrap" nzWidth="10%">Ngày khởi tố</th>
+        <th class="text-nowrap" nzWidth="10%">Điều</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of basicTable.data; let i = index;" class="actived" (click)="onRowSelect(data)"
+          [class.selected]="data === selectedItem">
+        <td style="text-align: center" class="text-nowrap">{{getRowIndex(i, basicTable.nzPageIndex,
+          basicTable.nzPageSize)}}</td>
+        <td class="text-nowrap center">{{ data.BEGIN_SETNUM }}</td>
+        <td class="text-nowrap">{{ data.CASENAME }}</td>
+        <td class="text-nowrap center">{{ data.BEGIN_INDATE | dateFormat }}</td>
+        <td class="text-nowrap center">{{ data.LAWID  }}</td>
+      </tr>
+      </tbody>
+    </nz-table>
+    <ng-template #rangeTemplate let-range="range" let-total>
+      {{ range[0] }}-{{ range[1] }} {{'of' | translate }} {{ total }} {{'items' | translate }}
+    </ng-template>
+  </div>
+</ng-container>
+<ng-container *ngIf="isVisibleDetail">
+  <app-lookup-detail (closeModal)="closeDetail($event)" [isVisible]="isVisibleDetail" [data]="data"></app-lookup-detail>
+</ng-container>
+<ng-container *ngIf="isVisiblePopupLaw">
+  <app-grouplaw-search [isVisible]="isVisiblePopupLaw" (closeModal)="closePopupLaw($event)"
+                       (submitModal)="submitPopupLaw($event)"></app-grouplaw-search>
+</ng-container>

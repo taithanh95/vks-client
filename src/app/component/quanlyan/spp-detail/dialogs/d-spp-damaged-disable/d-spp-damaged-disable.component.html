@@ -1,0 +1,272 @@
+<nz-modal *ngIf="data" class="ant-form" nzWidth="1000px" [(nzVisible)]="isVisible" nzTitle="Thêm mới" nzClosable="false"
+          [nzTitle]="title" nzMaskClosable="false">
+  <ng-template #title>
+    Cập nhật thông tin bị hại
+    <div class="pull-right icon-close">
+      <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+  <ng-container>
+    <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+      <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse(1)">
+        <i nz-icon [nzType]="arrCollapse[1] ? 'minus' : 'plus'"></i>Thông tin bị hại
+      </legend>
+      <div class="ui-fieldset-content" nz-form [ngClass]="arrCollapse[1] ? 'show' : 'hide' ">
+        <table width="100%" class="ui-panelgrid">
+          <tr>
+            <td class="width170"></td>
+            <td class="width250"></td>
+            <td class="width170"></td>
+            <td class="width250"></td>
+          </tr>
+          <tr>
+            <td><label>
+              Mã bị hại
+            </label></td>
+            <td>
+              <input [(ngModel)]="data.id" nz-input disabled/>
+            </td>
+          </tr>
+          <tr>
+            <td><label>
+              Họ và tên <span class="required">*</span>
+            </label></td>
+            <td>
+              <input title="Họ và tên" [required]="isSubmited" [(ngModel)]="data.fullName" nz-input disabled/>
+            </td>
+            <td><label>
+              Tên gọi khác
+            </label></td>
+            <td>
+              <input title="Tên khác" [(ngModel)]="data.otherName" nz-input disabled/>
+            </td>
+          </tr>
+          <tr>
+            <td><label>
+              Năm <span class="required">*</span> <span style="margin-left: 18px;">/ tháng / ngày sinh</span>
+            </label></td>
+            <td>
+              <nz-form-control>
+                <div nz-row [nzGutter]="24">
+                  <div nz-col [nzSpan]="8">
+                    <input [required]="isSubmited" [(ngModel)]="data.byear" nz-input placeholder="Năm"
+                           (ngModelChange)="birthdayChange()" disabled/>
+                  </div>
+                  <div nz-col [nzSpan]="8">
+                    <input [(ngModel)]="data.bmonth" nz-input placeholder="Tháng" (ngModelChange)="birthdayChange()"
+                           disabled/>
+                  </div>
+                  <div nz-col [nzSpan]="8">
+                    <input [(ngModel)]="data.bdate" nz-input placeholder="Ngày" (ngModelChange)="birthdayChange()"
+                           disabled/>
+                  </div>
+                </div>
+              </nz-form-control>
+            </td>
+            <td><label>
+              Ngày sinh <span class="required">*</span>
+            </label></td>
+            <td>
+              <nz-date-picker [required]="isSubmited" nzPlaceHolder="dd/MM/yyyy" [(ngModel)]="data.birthDay"
+                              nzFormat="dd/MM/yyyy" disabled></nz-date-picker>
+            </td>
+          </tr>
+          <tr>
+            <td><label>
+              Quốc tịch <span class="required">*</span> <span style="margin-left: 18px">/ Dân tộc</span> <span
+              class="required">*</span>
+            </label></td>
+            <td>
+              <div nz-row [nzGutter]="24">
+                <div nz-col [nzSpan]="12">
+                  <nz-select disabled nzShowSearch [required]="isSubmited" nzPlaceHolder="" [(ngModel)]="data.counId" (ngModelChange)="selectCountry()">
+                    <nz-option *ngFor="let option of lstCountry" [nzValue]="option.counid"
+                    nzLabel="{{ option.counid }} - {{ option.counname }}">
+                    </nz-option>
+                  </nz-select>
+                </div>
+                <div nz-col [nzSpan]="12">
+                  <nz-select disabled [required]="isSubmited" nzPlaceHolder="" style="width:100%"
+                             [(ngModel)]="data.natiId">
+                    <nz-option *ngFor="let option of lstNations" [nzValue]="option.natiid"
+                               nzLabel="{{option.natiid}} - {{option.name}}"></nz-option>
+                  </nz-select>
+                </div>
+              </div>
+            </td>
+            <td><label>
+              <span>Giới tính</span> <span class="required">*</span> <span style="margin-left: 18px;">/Tôn giáo</span>
+            </label></td>
+            <td>
+              <div nz-row [nzGutter]="24">
+                <div nz-col [nzSpan]="12">
+                  <nz-select disabled title="Giới tính" [required]="isSubmited" nzPlaceHolder="" style="width:100%"
+                             [(ngModel)]="data.sex">
+                    <nz-option [nzValue]="'B'" nzLabel="Nam"></nz-option>
+                    <nz-option [nzValue]="'G'" nzLabel="Nữ"></nz-option>
+                    <nz-option [nzValue]="'K'" nzLabel="Không xác định"></nz-option>
+                  </nz-select>
+                </div>
+                <div nz-col [nzSpan]="12">
+                  <nz-select disabled title="Tôn giáo" nzPlaceHolder="" style="width:100%" [(ngModel)]="data.religion">
+                    <nz-option *ngFor="let option of lstReligions" [nzValue]="option.religionid"
+                               nzLabel="{{option.religionid}} - {{option.religionname}}"></nz-option>
+                  </nz-select>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><label>
+              Số CMND
+            </label></td>
+            <td>
+              <input title="Số CMND" [(ngModel)]="data.identify" nz-input disabled/>
+            </td>
+            <td><label>
+              Học vấn <span class="required">*</span>
+            </label></td>
+            <td>
+              <nz-select disabled title="Học vấn" [required]="isSubmited" nzPlaceHolder="" style="width:100%"
+                         [(ngModel)]="data.levelId">
+                <nz-option *ngFor="let option of lstKnowledges" [nzValue]="option.levelid"
+                           nzLabel="{{option.levelid}} - {{option.levelname}}"></nz-option>
+              </nz-select>
+            </td>
+          </tr>
+          <tr *ngIf="data.counId === 'VN'">
+            <td><label>
+              Nơi ĐKHKTT <span class="required">*</span>
+            </label></td>
+            <td>
+              <input disabled title="Gõ mã hoặc tên để chọn nơi ở hiện tại (Nhấn dấu cách để chọn tất cả)"
+                     [required]="isSubmited" placeholder="" nz-input [(ngModel)]="data.locaId"
+                     (input)="onInputLoca($event)"
+                     [nzAutocomplete]="autoLoca"/>
+              <nz-autocomplete #autoLoca>
+                <nz-auto-option disabled *ngFor="let option of lstLoca"
+                                nzLabel="{{ option.LOCAID }} - {{ option.REMARK }}"
+                                [nzValue]="option">{{ option.LOCAID }} - {{ option.REMARK }}</nz-auto-option>
+              </nz-autocomplete>
+            </td>
+            <td><label>
+              Chi tiết nơi ĐKHKTT
+            </label></td>
+            <td>
+              <input title="Chi tiết nơi ĐKHKTT" [(ngModel)]="data.locaName" nz-input disabled/>
+            </td>
+          </tr>
+          <tr *ngIf="data.counId === 'VN'">
+            <td><label>
+              Nơi ở hiện tại
+            </label></td>
+            <td>
+              <input title="Nơi ở hiện tại" placeholder="" nz-input [(ngModel)]="data.address"
+                     (input)="onInputAddress($event)"
+                     [nzAutocomplete]="autoAddress" disabled/>
+              <nz-autocomplete #autoAddress>
+                <nz-auto-option disabled *ngFor="let option of lstAddress"
+                                nzLabel="{{ option.LOCAID }} - {{ option.REMARK }}"
+                                [nzValue]="option">{{ option.LOCAID }} - {{ option.REMARK }}</nz-auto-option>
+              </nz-autocomplete>
+            </td>
+            <td><label>
+              Chi tiết nơi ở hiện tại
+            </label></td>
+            <td>
+              <input [(ngModel)]="data.addrName" nz-input disabled/>
+            </td>
+          </tr>
+          <tr>
+            <td><label>
+              Nghề nghiệp
+            </label></td>
+            <td>
+              <nz-select disabled nzMode="tags" nzShowSearch title="Nghề nghiệp" nzAllowClear 
+              [nzMaxTagCount]="1" nzPlaceHolder="" style="width:100%"
+              [(ngModel)]="arrOccupations">
+                <nz-option *ngFor="let option of lstOccupations" [nzValue]="option.occuid"
+                           nzLabel="{{option.occuid}} - {{option.name}}"></nz-option>
+              </nz-select>
+            </td>
+            <td><label>
+              Chức vụ chính quyền
+            </label></td>
+            <td>
+              <nz-select disabled title="Chức vụ chính quyền" nzPlaceHolder="" style="width:100%"
+                         [(ngModel)]="data.officeId">
+                <nz-option *ngFor="let option of lstOffices" [nzValue]="option.officeid"
+                           nzLabel="{{option.officeid}} - {{option.officename}}"></nz-option>
+              </nz-select>
+            </td>
+          </tr>
+          <tr>
+            <td><label>
+              Đảng viên
+            </label></td>
+            <td>
+              <nz-select disabled title="Đảng viên" nzPlaceHolder="" style="width:100%" [(ngModel)]="data.partyId">
+                <nz-option nzValue="" nzLabel="Không">Không</nz-option>
+                <nz-option *ngFor="let option of lstParties" [nzValue]="option.partyid"
+                           nzLabel="{{option.partyid}} - {{option.partyname}}"></nz-option>
+              </nz-select>
+            </td>
+            <td><label>
+              Số tiền án/tiền sự
+            </label></td>
+            <td>
+              <div nz-row [nzGutter]="24">
+                <div nz-col [nzSpan]="12">
+                  <nz-input-number title="Số tiền án/tiền sự" class="input-number" [(ngModel)]="data.conviction"
+                                   [nzMin]="0" [nzStep]="1" disabled></nz-input-number>
+                </div>
+                <div nz-col [nzSpan]="12">
+                  <nz-input-number title="Số tiền án/tiền sự" class="input-number" [(ngModel)]="data.offence"
+                                   [nzMin]="0" [nzStep]="1" disabled></nz-input-number>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </fieldset>
+    <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+      <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse(2)">
+        <i nz-icon [nzType]="arrCollapse[2] ? 'minus' : 'plus'"></i>Tiêu chí đối với bị hại
+      </legend>
+      <div class="ui-fieldset-content" nz-form [ngClass]="arrCollapse[2] ? 'show' : 'hide' ">
+        <table width="100%" class="ui-panelgrid">
+          <tr>
+            <td><label nz-checkbox [(ngModel)]="data.isDisabled" disabled>
+              Là người khuyết tật
+            </label></td>
+            <td>
+              <label nz-checkbox [(ngModel)]="data.isWanderer" disabled>
+                Là người sống lang thang
+              </label>
+            </td>
+            <td>
+              <label nz-checkbox [(ngModel)]="data.relationshipWithTheAccused" disabled>
+                Có quan hệ với bị hại
+              </label>
+            </td>
+            <td>
+              <label nz-checkbox [(ngModel)]="data.isPregnant" disabled>
+                Nạn nhân có thai
+              </label>
+            </td>
+            <td>
+              <label nz-checkbox [(ngModel)]="data.isSuicide" disabled>
+                Nạn nhân tự sát
+              </label>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </fieldset>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button (click)="handleCancel()">{{'cancel' | translate }}</button>
+  </div>
+</nz-modal>
+

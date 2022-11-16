@@ -1,0 +1,101 @@
+<fieldset *ngIf="datas" class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+  <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse()">
+    <i nz-icon [nzType]="isCollapse ? 'minus' : 'plus'"></i>Bị can / bị cáo</legend>
+  <div class="ui-fieldset-content" nz-form [ngClass]="isCollapse ? 'show' : 'hide' ">
+    <nz-table #basicTable [nzData]="datas"
+    [nzScroll]="{ x: '1200px', y: '100px' }"
+    [nzPageSizeOptions]="pageSize" [nzPageSize]="defaultPage" nzSize="small"
+    nzShowSizeChanger [nzShowTotal]="rangeTemplate" [nzLoading]="loading">
+      <thead>
+      <tr>
+        <th nzWidth="5%"
+          [(nzChecked)]="checked"
+          [nzIndeterminate]="indeterminate"
+          (nzCheckedChange)="onAllChecked($event)"
+        ></th>
+        <th class="text-nowrap center" nzWidth="5%">STT</th>
+        <th class="text-nowrap" nzWidth="10%">Mã bị can</th>
+        <th class="text-nowrap" nzWidth="15%">Tên bị can</th>
+        <th class="text-nowrap" nzWidth="10%">Năm sinh</th>
+        <th class="text-nowrap" nzWidth="25%">Quyết định mới nhất</th>
+        <th class="text-nowrap" *ngIf="false" nzWidth="5%">Ngày hết hiệu lực</th>
+        <th class="text-nowrap" nzWidth="10%">Bị can đầu vụ</th>
+        <th class="text-nowrap" nzWidth="10%">Thao tác</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of basicTable.data;let i = index;" (click)="onRowSelect(data)" ngClass="s-{{setOfCheckedId.has(data.ACCUCODE)}}">
+        <td [nzDisabled]="data.RSTATUS === 'O'" [nzChecked]="setOfCheckedId.has(data.ACCUCODE)" (nzCheckedChange)="onItemChecked(data.ACCUCODE, $event)"></td>
+        <td class="text-nowrap center">{{getRowIndex(i, page, defaultPage)}}</td>
+        <td class="text-nowrap center">{{ f(data,'accucode') }}</td>
+        <td class="text-nowrap">{{ f(data,'fullname') }} 
+          <a class="link-underline" target="_blank" [routerLink]="['/report/caseinfo/', data?.RCASECODE]" href="">{{ onTitleFullName(f(data,'rstatus')) }}</a>
+        </td>
+        <td class="text-nowrap center">{{ data[u('byear')] }}</td>
+        <td class="text-nowrap">{{ data[u('lastdecicode')] }}</td>
+        <td class="text-nowrap" *ngIf="false">{{ data[u('lastdeciindate')] | dateFormat }}</td>
+        <td class="text-nowrap center">
+          <span style="color:#1ca0df" *ngIf="data[u('firstacc')] === 'Y'" class="fa fa-fw fa-star"></span>
+        </td>
+        <td class="text-nowrap center">
+          <button nz-tooltip nzTooltipTitle="Sửa" class="btn-qla" [disabled]="data.EDITABLE === 'N'" (click)="showEditForm(data)">
+            <span class="fa fa-fw fa-edit"></span></button>
+            <button nz-tooltip nzTooltipTitle="Xem" class="btn-qla" [disabled]="data.EDITABLE === 'N' || data.RSTATUS === 'O'" (click)="showDisableForm(data)" nzTooltipTitle="Xem" nz-tooltip>
+              <span class="fa fa-fw fa-eye"></span></button>
+          <button class="btn-qla" nz-tooltip nzTooltipTitle="Xóa"
+                  nz-popconfirm
+                  nzPopconfirmTitle="Bạn có chắc muốn xóa bản ghi này không?"
+                  nzPopconfirmPlacement="top"
+                  nzCancelText="Hủy"
+                  nzOkText="Đồng ý"
+                  [disabled]="data.EDITABLE === 'N' || data.RSTATUS === 'O'"
+                  (nzOnConfirm)="confirm(data.ACCUCODE)"
+                  (nzOnCancel)="cancel()"
+          >
+            <span class="fa fa-fw fa-times"></span>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
+    <div class="div-grid-action">
+      <button
+        nz-popconfirm
+        nzPopconfirmTitle="Bạn có chắc chắn muốn cập nhật dữ liệu không?"
+        nzPopconfirmPlacement="top"
+        nzCancelText="Hủy"
+        nzOkText="Đồng ý"
+        *ngIf="register"
+        (nzOnConfirm)="insertUpdateAccused()"
+        (nzOnCancel)="cancel()"
+        [disabled]="register.editable != true" style="margin: 5px" nz-button (click)="saveListAccused()">Ghi lại</button>
+      <div class="div-btn-right">
+        <!--{{register.editable}}-->
+        <button [disabled]="register.editable != true" *ngIf="accus && accus.length > 0" nz-button (click)="showDecisionAcc()">Quyết định bị can</button>
+        <button [disabled]="sppCase?.SPPID !== sppid" nz-button style="margin-left: 5px" (click)="showInsert()">Thêm mới</button>
+        <button [disabled]="sppCase?.SPPID !== sppid" style="margin-left: 5px" nz-button (click)="showInsertLegal()">Thêm mới pháp nhân</button>
+      </div>
+    </div>
+
+  </div>
+  <ng-template #rangeTemplate let-range="range" let-total>
+    {{ range[0] }}-{{ range[1] }} {{'of' | translate }} {{ total }} {{'items' | translate }}
+  </ng-template>
+</fieldset>
+<!-- 
+<nz-modal [nzStyle]="{ top: '50px' }" class="ant-form" nzWidth="1000px" [(nzVisible)]="isVisible" nzTitle="Thêm mới" nzClosable="false" [nzTitle]="title" nzMaskClosable="false">
+  <ng-template #title>
+      Thông tin chi tiết của vụ án
+      <div class="pull-right icon-close">
+          <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+      </div>
+  </ng-template>
+<ng-container *nzModalContent>
+  <nz-spin [nzSpinning]="isSpinning" [nzSize]="'large'">
+    <div *ngIf="innerHtml"
+        [innerHTML]="innerHtml">
+    </div>
+</nz-spin>
+</ng-container>
+<div *nzModalFooter></div>
+</nz-modal> -->

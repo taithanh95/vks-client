@@ -1,0 +1,42 @@
+<fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+  <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse()">
+    <i nz-icon [nzType]="isCollapse ? 'minus' : 'plus'"></i>Hành vi phạm tội
+  </legend>
+
+  <div class="px-3" [ngClass]="isCollapse ? 'show' : 'hide'">
+    <div class="data-table mt-0 mb-2">
+      <nz-table #basicTable class="custom-table" [nzData]="visibleLawOffenceList" [nzShowPagination]="true"
+                nzSize="small" nzShowSizeChanger [nzTableLayout]="'fixed'" [nzLoading]="loading" [nzPageSize]="5"
+                [nzPageSizeOptions]="pageSize" [nzFrontPagination]="true" [nzShowTotal]="rangeTemplate">
+        <thead>
+        <tr>
+          <th style="width: 15%">Điều luật</th>
+          <th style="width: 15%">Khoản luật</th>
+          <th style="width: 15%">Điểm luật</th>
+          <th style="width: 15%">Bộ luật</th>
+          <th style="width: 25%">Tội danh</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let data of basicTable.data;let i = index;" class="actived"
+            ngClass="s-{{data.selected}}">
+          <td nzEllipsis nz-tooltip [nzTooltipTitle]="data['enactmentId']">
+            {{ data['enactmentId']}}</td>
+          <td nzEllipsis nz-tooltip [nzTooltipTitle]="data['item']">
+            {{ data['item'] }}</td>
+          <td nzEllipsis nz-tooltip [nzTooltipTitle]="data['point']">
+            {{ data['point']  }}</td>
+          <td nzEllipsis nz-tooltip [nzTooltipTitle]="data['lawName']">
+            {{ data['lawName']  }}</td>
+          <td nzEllipsis nz-tooltip [nzTooltipTitle]="data['enactmentName']">
+            {{ data['enactmentName'] }}</td>
+        </tr>
+        </tbody>
+      </nz-table>
+      <ng-template #rangeTemplate let-range="range" let-total>
+        <!--    {{ range[0] }}-{{ range[1] }} {{'của' | translate }} {{ total }} {{ 'bản ghi' }}-->
+        {{ range[0] }}-{{ range[1] }} {{' của ' | translate }} {{ visibleLawOffenceList.length }} {{ ' bản ghi' }}
+      </ng-template>
+    </div>
+  </div>
+</fieldset>

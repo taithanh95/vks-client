@@ -1,0 +1,13 @@
+.posts tr {
+  cursor: pointer;
+}
+
+.posts tr.selected td {
+  background-color: #ffef8f;
+}
+
+.text-nowrap {
+  white-space: nowrap !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

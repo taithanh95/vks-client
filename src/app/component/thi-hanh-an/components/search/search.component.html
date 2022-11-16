@@ -1,0 +1,250 @@
+<div>
+  <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+    <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse()">
+      <i nz-icon [nzType]="isCollapse ? 'minus' : 'plus'"></i> Thông tin tìm kiếm
+    </legend>
+    <div class="ui-fieldset-content ant-advanced-search-form" [ngClass]="isCollapse ? 'show' : 'hide' ">
+      <div nz-row>
+        <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10">Mã vụ án</nz-form-label>
+            <nz-form-control [nzSpan]="12">
+              <input [(ngModel)]="filterItem.caseCode" nz-input placeholder="Mã vụ án">
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10">Tên vụ án</nz-form-label>
+            <nz-form-control [nzSpan]="12">
+              <input nz-input placeholder="Tên vụ án" [(ngModel)]="filterItem.caseName">
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <!-- /.nz-row -->
+
+      <div nz-row>
+        <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10">Mã thụ lý</nz-form-label>
+            <nz-form-control [nzSpan]="12">
+              <input nz-input placeholder="Mã thụ lý" [(ngModel)]="filterItem.regiCode">
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10">VKS nhập bản án</nz-form-label>
+            <nz-form-control [nzSpan]="12">
+              <nz-select nzPlaceHolder="VKS nhập bản án" [(ngModel)]="filterItem.sppCentence" nzShowSearch>
+                <nz-option *ngFor="let o of lstSpp" [nzValue]="o.sppId"
+                  nzLabel="{{o.sppId}} - {{o.name}} - {{o.addr}}"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <!-- /.nz-row -->
+
+      <div nz-row>
+        <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10">Bản án ra từ ngày</nz-form-label>
+            <nz-form-control [nzSpan]="12">
+              <nz-date-picker style="width: 100%" [(ngModel)]="filterItem.fromDate" nzPlaceHolder="dd/MM/yyyy" (ngModelChange)="checkDate()"
+                nzFormat="dd/MM/yyyy" (input)="onValueDate('fromDate',$event)" (keypress)="validateOnlyNumbers($event)">
+              </nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10">Bản án ra đến ngày</nz-form-label>
+            <nz-form-control [nzSpan]="12">
+              <nz-date-picker style="width: 100%" [(ngModel)]="filterItem.toDate" nzPlaceHolder="dd/MM/yyyy" (ngModelChange)="checkDate()"
+                nzFormat="dd/MM/yyyy" (input)="onValueDate('toDate',$event)" (keypress)="validateOnlyNumbers($event)">
+              </nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <!-- /.nz-row -->
+      <div nz-row>
+        <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10">Người chấp hành án</nz-form-label>
+            <nz-form-control [nzSpan]="12">
+              <input [(ngModel)]="filterItem.accuName" nz-input placeholder="Người chấp hành án" />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <!--radio-button-->
+        <nz-radio-group [(ngModel)]="filterItem.acceptType" (ngModelChange)="resetDatas()">
+          <label nz-radio [nzValue]="1">Thụ lý</label>
+          <label nz-radio [nzValue]="2">Ủy thác</label>
+        </nz-radio-group>
+
+      </div>
+      <!-- /.nz-row -->
+
+      <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12" *ngIf="filterItem.acceptType === 1">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="10">Trạng thái thụ lý</nz-form-label>
+          <nz-form-control [nzSpan]="12">
+            <nz-select [(ngModel)]="filterItem.executeJudgmentStatus" nzPlaceHolder="Trạng thái thụ lý"
+              (ngModelChange)="resetDatas()">
+              <nz-option [nzValue]="'1'" nzLabel="Chưa thụ lý"></nz-option>
+              <nz-option [nzValue]="'2'" nzLabel="Đã thụ lý"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12" *ngIf="filterItem.acceptType === 2">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="10">Trạng thái thi hành án</nz-form-label>
+          <nz-form-control [nzSpan]="12">
+            <nz-select [(ngModel)]="filterItem.executeJudgmentStatus" nzPlaceHolder="Trạng thái thi hành án"
+              (ngModelChange)="resetDatas()">
+              <nz-option [nzValue]="'1'" nzLabel="Chưa nhận ủy thác hoặc từ chối"></nz-option>
+              <nz-option [nzValue]="'2'" nzLabel="Đã nhận ủy thác"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <!-- /.nz-row -->
+    </div>
+  </fieldset>
+
+</div>
+<div class="ui-panel">
+  <div nz-row>
+    <div nz-col [nzSpan]="12" class="text-align: left;">
+      <ng-container *ngIf="actionTHA === 'DTL'">
+        <button [disabled]="isBtnDisabled" nz-button [nzType]="'primary'" (click)="showDetails()">
+          <span class="fa fa-fw fa-edit"></span>Ủy thác
+        </button>
+        <button [disabled]="isBtnDelete" nz-button nzType="'primary'" (click)="showConfirmDelete()">
+          <span class="fa fa-fw fa-times"></span>Xóa ủy thác
+        </button>
+        <button [disabled]="isBtnDetail" nz-button nzType="'primary'" (click)="showViewOnly()">
+          <span class="fa fa-fw fa-eye"></span>Chi tiết ủy thác
+        </button>
+      </ng-container>
+        <button *ngIf="actionTHA === 'CNUT'" (click)="showDetails(true)" [disabled]="isBtnDisEditN" nz-button [nzType]="'primary'">
+          <span class="fa fa-fw fa-edit"></span>{{valueBtnEdit}}
+        </button>
+        <button *ngIf="actionTHA === 'DNUT'" (click)="showDetails(true)" [disabled]="isBtnDisEdit" nz-button [nzType]="'primary'">
+          <span class="fa fa-fw fa-edit"></span>Sửa Nhận ủy thác
+        </button>
+        <button *ngIf="filterItem.acceptType === 2" [disabled]="isBtnDelete" nz-button nzType="primary" (click)="showConfirmDelete()">
+          <span class="fa fa-fw fa-times"></span>
+          {{filterItem.executeJudgmentStatus === '1' ? 'Xóa Từ chối' : 'Xóa nhận ủy thác'}}
+        </button>
+    </div>
+    <div nz-col [nzSpan]="12" class="search-area">
+      <button nz-button (click)="doSearch()" [nzType]="'primary'">
+        <span class="fa fa-fw fa-search"></span>
+        Tìm kiếm
+      </button>
+      <ng-container *ngIf="filterItem.acceptType === 1">
+        <button [disabled]="isBtnDisabledUp" nz-button (click)="showEditForm()" nzType="primary">
+          <span class="fa fa-fw fa-edit"></span>Cập nhật thông tin
+        </button>
+      </ng-container>
+      <a target="_blank" [routerLink]="['/report/caseinfo/', selectedItem?.CASECODE]" href="">
+        <button [disabled]="isBtnDetailCase" nz-button nzType="primary">
+            <span class="fa fa-fw fa-eye"></span>
+        Chi tiết vụ án
+        </button>
+    </a>
+      <!-- <button [disabled]="isBtnDisabled" nz-button (click)="showDetailPDF()" nzType="primary">
+        <span class="fa fa-fw fa-eye"></span>Chi tiết vụ án
+      </button> -->
+    </div>
+  </div>
+</div>
+<div class="data-table">
+  <nz-table #basicTable nzShowSizeChanger [nzFrontPagination]="false" nzSize="small" [nzData]="datas"
+    [nzScroll]="{ x: '1200px' }" (nzCurrentPageDataChange)="currentPageDataChange($event)" [nzLoading]="loading"
+    [nzShowTotal]="rangeTemplate" [nzPageSize]="defaultPage" [nzTotal]="total" [nzPageIndex]="pageIndex"
+    (nzQueryParams)="onQueryParamsChange($event)"
+            [nzNoResult]="noResultTpl">
+    <thead>
+      <tr>
+        <th class="text-nowrap center" nzWidth="5%">STT</th>
+        <th class="text-nowrap center" nzWidth="">Mã vụ án</th>
+        <th class="text-nowrap center" nzWidth="">Tên vụ án</th>
+        <th class="text-nowrap center" nzWidth="">Mã thụ lý</th>
+        <th class="text-nowrap center" nzWidth="">Người chấp hành án</th>
+        <th class="text-nowrap center" nzWidth="">Ngày ra bản án</th>
+        <th *ngIf="filterItem.acceptType === 2" class="text-nowrap center" nzWidth="">VKS ủy thác</th>
+        <th *ngIf="filterItem.acceptType === 1" class="text-nowrap center" nzWidth="">VKS nhập bản án</th>
+        <th *ngIf="actionTHA === 'DTL'" class="text-nowrap center"
+          nzWidth="">VKS nhận ủy thác</th>
+        <th *ngIf="isValidGridView()" class="text-nowrap center" nzWidth="">Trạng thái</th>
+        <th *ngIf="isValidGridView()" class="text-nowrap center" nzWidth="">Lý do từ chối</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of basicTable.data; let i = index;" class="actived" (click)="onRowSelect(data)"
+        [class.selected]="data === selectedItem">
+        <td style="text-align: center" class="text-nowrap">{{getRowIndex(i, basicTable.nzPageIndex,
+          basicTable.nzPageSize)}}</td>
+        <td class="text-nowrap center">{{ data.CASECODE }}</td>
+        <td class="text-nowrap" title="{{ data.CASENAME }}">{{ data.CASENAME }}</td>
+        <td class="text-nowrap">{{ data.REGICODE }}</td>
+        <td class="text-nowrap" title="{{ data.FULLNAME }}">{{ data.FULLNAME }}</td>
+        <td class="text-nowrap center">{{ data.INDATE_BA | dateFormat }}</td>
+        <td *ngIf="filterItem.acceptType === 2" class="text-nowrap" title="{{data.VKSUYTHAC}}">{{ data.VKSUYTHAC }}</td>
+        <td *ngIf="filterItem.acceptType === 1" class="text-nowrap" title="{{data.RNAME}}">{{ data.RNAME }}</td>
+        <td *ngIf="actionTHA === 'DTL'" class="text-nowrap" title="{{data.SPPIDFNAMETHA}}">{{
+          data.SPPIDFNAMETHA }}</td>
+        <td *ngIf="isValidGridView()" class="text-nowrap-1-line">{{ fStatus(data.RESULTTHA) }}</td>
+        <td *ngIf="isValidGridView()" class="text-nowrap">{{ data.REASONTHA }}</td>
+      </tr>
+    </tbody>
+  </nz-table>
+  <ng-template #rangeTemplate let-range="range" let-total>
+    {{ range[0] }}-{{ range[1] }} {{'of' | translate }} {{ total }} {{'items' | translate }}
+  </ng-template>
+  <ng-template #confirm>
+    <i nz-icon nzType="question-circle" nzTheme="twotone" nzTwotoneColor="#faad14"></i>
+    &nbsp; Bạn có chắc chắn muốn xóa bản ghi này không?
+  </ng-template>
+  <ng-template #confirmHeader>
+    Xác nhận xóa dữ liệu
+    <div class="pull-right icon-close">
+      <em (click)="confirmModalRef.close()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+</div>
+<app-details [actionTHA]="actionTHA" [isVisibleEdit]="isVisibleEditDetail" [isVisibleDis]="isVisibleDisDetail" [isVisible]="isVisibleDetail" [data]="dataDetail" [isEdit]="isBtnEdit" (closeModal)="closeModalDetail($event)"></app-details>
+<ng-template #noResultTpl>
+  <nz-empty [nzNotFoundContent]="contentTpl" nzNotFoundImage="./assets/image/empty.svg">
+    <ng-template #contentTpl>
+      <p>Không có dữ liệu</p>
+    </ng-template>
+  </nz-empty>
+</ng-template>
+<!-- 
+<nz-modal [nzStyle]="{ top: '50px' }" class="ant-form" nzWidth="1000px" [(nzVisible)]="isVisible" nzTitle="Thêm mới" nzClosable="false" [nzTitle]="title" nzMaskClosable="false">
+  <ng-template #title>
+      Thông tin chi tiết của vụ án
+      <div class="pull-right icon-close">
+          <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+      </div>
+  </ng-template>
+<ng-container *nzModalContent>
+  <nz-spin [nzSpinning]="isSpinning" [nzSize]="'large'">
+    <div *ngIf="innerHtml"
+        [innerHTML]="innerHtml">
+    </div>
+</nz-spin>
+</ng-container>
+<div *nzModalFooter></div>
+</nz-modal> -->

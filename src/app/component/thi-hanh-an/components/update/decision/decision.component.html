@@ -1,0 +1,49 @@
+<fieldset *ngIf="datas" class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+  <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse()">
+    <i nz-icon [nzType]="isCollapse ? 'minus' : 'plus'"></i>Quyết định khác</legend>
+  <div class="ui-fieldset-content" nz-form [ngClass]="isCollapse ? 'show' : 'hide' ">
+    <nz-table #basicTable [nzData]="datas"
+                       [nzScroll]="{ x: '1200px' }"
+                       [nzPageSizeOptions]="pageSize" [nzPageSize]="defaultPage" nzSize="small"
+                       nzShowSizeChanger [nzShowTotal]="rangeTemplate" [nzLoading]="loading">
+      <thead>
+      <tr>
+        <th class="text-nowrap" nzWidth="10%">Quyết định số</th>
+        <th class="text-nowrap" nzWidth="45%">Tên quyết định</th>
+        <th class="text-center" nzWidth="35%">Người chấp hành án</th>
+        <th class="text-nowrap" nzWidth="10%">Thao tác</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of basicTable.data;let i = index;" ngClass="s-{{data.selected}}">
+        <td class="text-center"> {{ data.SETNUM }}</td>
+        <td class="text-nowrap"> {{ data.DECINAME }}</td>
+        <td class="text-nowrap"> {{ data.ACCUNAME }}</td>
+        <td class="text-nowrap center">
+          <button nz-tooltip nzTooltipTitle="Sửa" class="btn-qla" [disabled]="!isCheck" (click)="showEditForm(data)">
+            <span class="fa fa-fw fa-edit"></span></button>
+            <button nz-tooltip nzTooltipTitle="Xem" class="btn-qla" (click)="showDisableForm(data)">
+              <span class="fa fa-fw fa-eye"></span></button>
+          <button nz-tooltip nzTooltipTitle="Xóa" class="btn-qla"
+                  nz-popconfirm
+                  nzPopconfirmTitle="Bạn có chắc muốn xóa bản ghi này không?"
+                  nzPopconfirmPlacement="top"
+                  nzCancelText="Hủy"
+                  nzOkText="Đồng ý"
+                  [disabled]="!isCheck"
+                  (nzOnConfirm)="confirm(data)"
+                  (nzOnCancel)="cancel()">
+            <span class="fa fa-fw fa-times"></span>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
+    <div class="div-btn-right">
+      <button [disabled]="!this.register || !this.register.regicode || !this.isCheck" nz-button (click)="showInsert()"><i class="fa fa-fw fa-plus"></i> Thêm mới</button>
+    </div>
+  </div>
+  <ng-template #rangeTemplate let-range="range" let-total>
+    {{ range[0] }}-{{ range[1] }} {{'of' | translate }} {{ total }} {{'items' | translate }}
+  </ng-template>
+</fieldset>

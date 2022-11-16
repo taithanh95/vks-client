@@ -1,0 +1,436 @@
+<div>
+    <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+        <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse(0)">
+            <i nz-icon [nzType]="arrCollapse[0] ? 'minus' : 'plus'"></i> Thông tin tìm kiếm
+        </legend>
+        <div class="ui-fieldset-content ant-advanced-search-form" [ngClass]="arrCollapse[0] ? 'show' : 'hide' ">
+            <div nz-row>
+                <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">Mã vụ án</nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                          <input [(ngModel)]="filterItem.sppcase.casecode" nz-input placeholder="Mã vụ án" (ngModelChange)="testChange()">
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">Tên vụ án</nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <input nz-input placeholder="Tên vụ án" [(ngModel)]="filterItem.sppcase.casename">
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+            <!-- /.nz-row -->
+
+            <div nz-row>
+                <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">Quyết định khởi tố vụ án số</nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <input nz-input placeholder="Quyết định khởi tố vụ án số" [(ngModel)]="filterItem.sppcase.begin_setnum">
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">Cơ quan ra quyết định</nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <nz-select nzPlaceHolder="--Cơ quan ra quyết định--" [(ngModel)]="filterItem.sppcase.begin_office">
+                              <nz-option nzLabel="--Tất cả--"></nz-option>
+                              <nz-option [nzValue]="'02'" nzLabel="Công an"></nz-option>
+                              <nz-option [nzValue]="'04'" nzLabel="Quân đội"></nz-option>
+                              <nz-option [nzValue]="'06'" nzLabel="Hải quan"></nz-option>
+                              <nz-option [nzValue]="'08'" nzLabel="Kiểm lâm"></nz-option>
+                              <nz-option [nzValue]="'09'" nzLabel="Bộ đội biên phòng"></nz-option>
+                              <nz-option [nzValue]="'10'" nzLabel="Cảnh sát biển"></nz-option>
+                              <nz-option [nzValue]="'12'" nzLabel="Cơ quan khác"></nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+            <!-- /.nz-row -->
+
+            <div nz-row>
+                <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">Ngày QĐ khởi tố từ ngày</nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                          <nz-date-picker (input)="onValueDate('sppcase','begin_indatefrom',$event)" (keypress)="validateOnlyNumbers($event)" [(ngModel)]="filterItem.sppcase.begin_indatefrom" nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"></nz-date-picker>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">Ngày QĐ khởi tố đến ngày</nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <nz-date-picker (input)="onValueDate('sppcase','begin_indateto',$event)" (keypress)="validateOnlyNumbers($event)" [(ngModel)]="filterItem.sppcase.begin_indateto" nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"></nz-date-picker>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+            <!-- /.nz-row -->
+
+            <div nz-row>
+                <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">Tội danh</nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                          <input title="Nhấn phím space hoặc gõ mã hoặc tên để chọn Tội danh." placeholder="" nz-input [(ngModel)]="filterLaw" id="atxLaw" (input)="onInputAtxLaw($event)"
+                                 [nzAutocomplete]="autolaw2"/>
+                          <nz-autocomplete #autolaw2 nzWidth="300">
+                            <nz-auto-option *ngFor="let option of atxLaws" nzLabel="{{toLawOption(option)}}" [nzValue]="option">{{toLawOption(option)}}</nz-auto-option>
+                          </nz-autocomplete>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">Loại tội phạm</nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <nz-select [(ngModel)]="filterItem.sppcase.casetype" nzShowSearch nzAllowClear nzPlaceHolder="Loại tội phạm">
+                                <nz-option nzLabel="Tất cả" nzValue=""></nz-option>
+                              <nz-option [nzValue]="'L0'" nzLabel="Chưa xác định"></nz-option>
+                              <nz-option [nzValue]="'L1'" nzLabel="Ít nghiêm trọng"></nz-option>
+                              <nz-option [nzValue]="'L2'" nzLabel="Nghiêm trọng"></nz-option>
+                              <nz-option [nzValue]="'L3'" nzLabel="Rất nghiêm trọng"></nz-option>
+                              <nz-option [nzValue]="'L4'" nzLabel="Đặc biệt nghiêm trọng"></nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+            <!-- /.nz-row -->
+
+            <div nz-row>
+                <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">Tên bị can</nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <input [(ngModel)]="filterItem.accused.fullname" nz-input placeholder="Tên bị can" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+            <!-- /.nz-row -->
+        </div>
+    </fieldset>
+
+    <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+        <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse(1)">
+            <i nz-icon [nzType]="arrCollapse[1] ? 'minus' : 'plus'"></i> Tìm kiếm nâng cao
+        </legend>
+        <div class="ui-fieldset-content ant-advanced-search-form" [ngClass]="arrCollapse[1] ? 'show' : 'hide' ">
+            <div nz-row>
+                <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">Ngày xảy ra từ ngày</nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <nz-date-picker (input)="onValueDate('sppcase','crimdate_from',$event)" (keypress)="validateOnlyNumbers($event)" [(ngModel)]="filterItem.sppcase.crimdate_from" nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"></nz-date-picker>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">Ngày xảy ra đến ngày</nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <nz-date-picker (input)="onValueDate('sppcase','crimdate_to',$event)" (keypress)="validateOnlyNumbers($event)" [(ngModel)]="filterItem.sppcase.crimdate_to" nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"></nz-date-picker>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+            <!-- /.nz-row -->
+
+            <div nz-row>
+                <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">Ngày sinh từ</nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <nz-date-picker (input)="onValueDate('accused','birthdayfrom',$event)" (keypress)="validateOnlyNumbers($event)" [(ngModel)]="filterItem.accused.birthdayfrom" nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"></nz-date-picker>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">Ngày sinh đến</nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <nz-date-picker (input)="onValueDate('accused','birthdayto',$event)" (keypress)="validateOnlyNumbers($event)" [(ngModel)]="filterItem.accused.birthdayto" nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"></nz-date-picker>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+            <!-- /.nz-row -->
+
+            <div nz-row>
+                <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">Chi tiết nơi ĐKHKTT</nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <input nz-input [(ngModel)]="filterItem.accused.locaname" placeholder="Chi tiết nơi ĐKHKTT" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">Chi tiết nơi ở hiện tại</nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <input nz-input [(ngModel)]="filterItem.accused.addrname" placeholder="Chi tiết nơi ở hiện tại" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+            <!-- /.nz-row -->
+
+            <div nz-row>
+                <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">Tình trạng</nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <nz-select [(ngModel)]="filterItem.register.regiclosed" nzShowSearch nzAllowClear nzPlaceHolder="Tình trạng">
+                                <nz-option nzLabel="Kết thúc thụ lý" nzValue="KTVA"></nz-option>
+                                <nz-option nzValue="DCVA" nzLabel="Đình chỉ vụ án"></nz-option>
+                                <nz-option nzValue="TDCVA" nzLabel="Tạm đình chỉ vụ án"></nz-option>
+                                <nz-option nzValue="THSDTBS" nzLabel="Trả hồ sơ điều tra bổ sung"></nz-option>
+                                <nz-option nzValue="CHSVATTQ" nzLabel="Chuyển hồ sơ vụ án thuộc thẩm quyền"></nz-option>
+                                <nz-option nzValue="CVATT" nzLabel="Chuyển hồ sơ vụ án theo ủy quyền"></nz-option>
+                                <nz-option nzValue="XXXX" nzLabel="Chưa xác định"></nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">Thụ lý số</nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <input [(ngModel)]="filterItem.register.setnum" nz-input placeholder="Thụ lý số" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+            <!-- /.nz-row -->
+
+            <div nz-row>
+                <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">Thụ lý từ ngày</nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <nz-date-picker (input)="onValueDate('register','fromdate',$event)" (keypress)="validateOnlyNumbers($event)" [(ngModel)]="filterItem.register.fromdate" nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"></nz-date-picker>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">Thụ lý đến ngày</nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <nz-date-picker (input)="onValueDate('register','todate',$event)" (keypress)="validateOnlyNumbers($event)" [(ngModel)]="filterItem.register.todate" nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"></nz-date-picker>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+            <!-- /.nz-row -->
+
+            <div nz-row>
+                <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">
+                          {{filterItem.sppcase.userfor == 'G1' ? 'Kết luận điều tra số': 'Bản án số'}}
+                        </nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <input [(ngModel)]="filterItem.centence.setnum" nz-input placeholder="{{filterItem.sppcase.userfor == 'G1' ? 'Kết luận điều tra số': 'Bản án số'}}" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">Tên Kiểm sát viên</nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <input [(ngModel)]="filterItem.register.fullname" nz-input placeholder="Tên Kiểm sát viên" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+            <!-- /.nz-row -->
+
+            <div nz-row>
+                <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">
+                          {{filterItem.sppcase.userfor == 'G1' ? 'Ngày ra KLĐT từ ngày': 'Ngày ra bản án từ ngày'}}
+                          </nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <nz-date-picker (input)="onValueDate('centence','indatefrom',$event)" (keypress)="validateOnlyNumbers($event)" [(ngModel)]="filterItem.centence.indatefrom" nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"></nz-date-picker>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">
+                          {{filterItem.sppcase.userfor == 'G1' ? 'Ngày ra KLĐT đến ngày': 'Ngày ra bản án đến ngày'}}
+                        </nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <nz-date-picker (input)="onValueDate('centence','indateto',$event)" (keypress)="validateOnlyNumbers($event)" [(ngModel)]="filterItem.centence.indateto" nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"></nz-date-picker>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+            <!-- /.nz-row -->
+        <ng-container *ngIf="type === 'G1'">
+            <div nz-row>
+                <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">Bản cáo trạng số</nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <input [(ngModel)]="filterItem.centence.setnum1" nz-input placeholder="Bản cáo trạng số" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+            <!-- /.nz-row -->
+
+            <div nz-row>
+                <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">Ngày ra BCT từ ngày</nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <nz-date-picker (input)="onValueDate('centence','indatefrom1',$event)" (keypress)="validateOnlyNumbers($event)" [(ngModel)]="filterItem.centence.indatefrom1" nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"></nz-date-picker>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">Ngày ra BCT đến ngày</nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <nz-date-picker (input)="onValueDate('centence','indateto1',$event)" (keypress)="validateOnlyNumbers($event)" [(ngModel)]="filterItem.centence.indateto1"  nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"></nz-date-picker>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+        </ng-container>
+            <!-- /.nz-row -->
+        </div>
+    </fieldset>
+</div>
+<div class="ui-panel">
+    <div nz-row>
+        <div nz-col [nzSpan]="24" class="search-area">
+            <button nz-button (click)="doSearch()" [nzType]="'primary'">
+              <span class="fa fa-fw fa-search"></span>
+              Tìm kiếm
+            </button>
+          <button nz-button (click)="clearSearch()" [nzType]="'primary'" style="float: left;margin: 0;">
+            <span class="fa fa-fw fa-times"></span>
+             Bỏ lọc
+          </button>
+            <button *ngIf="type == 'G1'" nz-button (click)="showModalAdd()" nzType="primary">
+        <span class="fa fa-fw fa-plus"></span>Thêm mới</button>
+
+        <button [disabled]="!selectedItem" nz-button (click)="showEditForm()" nzType="primary">
+          <span class="fa fa-fw fa-edit"></span>Cập nhật thông tin</button>
+        <button *ngIf="type == 'G1'" disabled="disabled" nz-button
+                nz-popconfirm
+                nzPopconfirmTitle="Bạn có chắc chắn muốn xóa dữ liệu không?"
+                nzPopconfirmPlacement="top"
+                nzCancelText="Hủy"
+                nzOkText="Đồng ý"
+                (nzOnConfirm)="doDelete()"
+                [disabled]="!selectedItem"
+                nzType="danger">
+          <span class="fa fa-fw fa-times"></span>Xóa</button>
+        <a target="_blank" [routerLink]="['/report/caseinfo/', selectedItem?.CASECODE]" href="">
+            <button [disabled]="!selectedItem" nz-button nzType="primary">
+                <span class="fa fa-fw fa-eye"></span>
+            Chi tiết vụ án
+            </button>
+        </a>
+        </div>
+    </div>
+</div>
+<!--[nzShowTotal]="rangeTemplate"-->
+<!--[nzPageSizeOptions]="pageSize"-->
+<ng-container *ngIf="datas">
+<div class="data-table">
+    <nz-table
+        #basicTable
+        nzShowSizeChanger
+        [nzFrontPagination]="false"
+        nzSize="small"
+        [nzData]="datas"
+        [nzScroll]="{ x: '1200px' }"
+        (nzCurrentPageDataChange)="currentPageDataChange($event)"
+        [nzLoading]="loading"
+        [nzShowTotal]="rangeTemplate"
+        [nzPageSize]="defaultPage"
+        [nzTotal]="total"
+        [nzPageIndex]="pageIndex"
+
+        (nzQueryParams)="onQueryParamsChange($event)">
+        <thead>
+            <tr>
+                <!--<th [nzChecked]="checked" (nzCheckedChange)="onAllChecked($event)"></th>-->
+                <th class="text-nowrap" nzWidth="40px">STT</th>
+                <th class="text-nowrap" nzColumnKey="CASECODE" [nzSortFn]="true">Mã vụ án</th>
+                <th class="text-nowrap" width="180" nzColumnKey="CASENAME" [nzSortFn]="true">Tên vụ án</th>
+                <th class="text-nowrap" width="120" nzColumnKey="FIRSTACC_TXT" [nzSortFn]="true">Bị can đầu vụ</th>
+                <th class="text-nowrap" nzColumnKey="BEGIN_SETNUM" [nzSortFn]="true">QĐ K.Tố vụ án</th>
+                <th class="text-nowrap" nzColumnKey="BEGIN_INDATE" nzWidth="100px" [nzSortFn]="true">Ngày QĐ</th>
+                <th class="text-nowrap" nzColumnKey="SID_TXT" [nzSortFn]="true">CQ ra QĐ</th>
+                <th class="text-nowrap" nzColumnKey="CASETYPE" [nzSortFn]="true">Loại tội phạm</th>
+                <th class="text-nowrap" nzColumnKey="LAWCODE1" nzWidth="250px" [nzSortFn]="true">Điều luật chính</th>
+                <th class="text-nowrap" nzColumnKey="CRIMDATE" nzWidth="100px" [nzSortFn]="true">Ngày xảy ra</th>
+                <th class="text-nowrap" width="80">Người tạo</th>
+                <th class="text-nowrap">Ngày tạo</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of basicTable.data; let i = index;" class="actived" (click)="onRowSelect(data)" ngClass="s-{{data.selected}}">
+                <!--<td [nzChecked]="setOfCheckedId.has(data.CASECODE)" (nzCheckedChange)="onItemChecked(data.CASECODE, $event)"></td>-->
+                <td style="text-align: center" class="text-nowrap">{{getRowIndex(i, basicTable.nzPageIndex, basicTable.nzPageSize)}}</td>
+                <td class="text-nowrap">{{ data.CASECODE }}</td>
+                <td class="text-nowrap">{{ data.CASENAME }}</td>
+                <td class="text-nowrap">{{ data.FIRSTACC_TXT }}</td>
+                <td class="text-nowrap">{{ data.BEGIN_SETNUM }}</td>
+                <td class="text-nowrap">{{ data.BEGIN_INDATE | dateFormat }}</td>
+                <td class="text-nowrap">{{ data.SID_TXT }}</td>
+                <td class="text-nowrap">{{ ('caseType.' + data.CASETYPE) | translate }}</td>
+                <td class="text-nowrap-1-line">{{ data.LAWCODE1 }}</td>
+                <td class="text-nowrap">{{ data.CRIMDATE | dateFormat }}</td>
+                <td class="text-nowrap">{{ data.CRTUSER }}</td>
+                <td class="text-nowrap">{{ data.CRTDATE | dateFormat }}</td>
+            </tr>
+        </tbody>
+    </nz-table>
+    <ng-template #rangeTemplate let-range="range" let-total>
+        {{ range[0] }}-{{ range[1] }} {{'of' | translate }} {{ total }} {{'items' | translate }}
+    </ng-template>
+</div>
+</ng-container>
+
+<!-- <app-spp-update (submitForm)="submitFormUpdate($event)" (closeModal)="closeModalUpdate($event)" [isVisibleAdd]="isVisibleAdd"></app-spp-update> -->
+<!-- <nz-modal [nzStyle]="{ top: '50px' }" class="ant-form" nzWidth="1000px" [(nzVisible)]="isVisible" nzTitle="Thêm mới" nzClosable="false" [nzTitle]="title" nzMaskClosable="false">
+    <ng-template #title>
+        Thông tin chi tiết của vụ án
+        <div class="pull-right icon-close">
+            <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+        </div>
+    </ng-template>
+  <ng-container *nzModalContent>
+    <nz-spin [nzSpinning]="isSpinning" [nzSize]="'large'">
+        <div *ngIf="innerHtml"
+            [innerHTML]="innerHtml">
+        </div>
+    </nz-spin>
+  </ng-container>
+  <div *nzModalFooter></div>
+</nz-modal> -->

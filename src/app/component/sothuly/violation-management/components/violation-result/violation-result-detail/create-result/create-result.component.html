@@ -1,0 +1,95 @@
+<nz-modal nzWidth="960px" [(nzVisible)]="isVisible" nzClosable="false" [nzTitle]="title" nzMaskClosable="false"
+          [nzAutofocus]="null">
+  <ng-template #title>
+    Thêm mới nội dung kết quả
+    <div class="pull-right icon-close">
+      <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+  <div>
+    <div class="row mb-1">
+      <div class="col-12">
+        <div class="row">
+          <nz-form-item class="w-100">
+            <nz-form-label class="col-md-3 text-left">Giai đoạn<span class="text-danger">*</span>
+            </nz-form-label>
+            <nz-form-control class="col-md-9">
+              <nz-select style="width:100%" nzPlaceHolder="Giai đoạn" nzShowSearch nzAllowClear title="Giai đoạn"
+                         [(ngModel)]="data.stage" (ngModelChange)="getLstViolation()" [required]="isSubmited">
+                <nz-option *ngFor="let o of lstStages" [nzValue]="o.id" [nzLabel]="o.name"> {{ o.name}}</nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-1">
+      <ng-container *ngIf="data.stage && lstViolates && lstViolates.length > 0">
+        <div class="col-12">
+          <div class="row">
+            <nz-form-item class="w-100">
+              <nz-form-label class="col-md-3 text-left">Thống kê vi phạm</nz-form-label>
+              <nz-form-control class="col-md-9">
+                <nz-select nzMode="tags" style="width:100%"
+                           nzPlaceHolder="Tiêu chí cha" [nzMaxTagCount]="1" nzShowSearch nzAllowClear title="Tiêu chí cha"
+                           [(ngModel)]="data.statisticalviolation" (ngModelChange)="getlstStandard1()"
+                           [required]="isSubmited">
+                  <nz-option *ngFor="let o of lstViolates" [nzValue]="o" [nzLabel]="o.name">
+                  </nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+    <div class="row mb-1">
+      <ng-container *ngIf="data.statisticalviolation && lstStandard1 && lstStandard1.length > 0">
+        <div class="col-12">
+          <div class="row">
+            <nz-form-item class="w-100">
+              <nz-form-label class="col-md-3 text-left">Tiêu chí 1</nz-form-label>
+              <nz-form-control class="col-md-9">
+                <nz-select nzMode="tags" style="width:100%"
+                           nzPlaceHolder="Tiêu chí con" [nzMaxTagCount]="1" nzShowSearch nzAllowClear title="Tiêu chí con"
+                           [(ngModel)]="data.tieuchimot" (ngModelChange)="getlstStandard2()">
+                  <nz-option *ngFor="let o of lstStandard1" [nzValue]="o" [nzLabel]="o.name">
+                  </nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+    <div class="row mb-1">
+      <ng-container *ngIf="data.tieuchimot && lstStandard2 && lstStandard2.length > 0">
+        <div class="col-12">
+          <div class="row">
+            <nz-form-item class="w-100">
+              <nz-form-label class="col-md-3 text-left">Tiêu chí 2</nz-form-label>
+              <nz-form-control class="col-md-9">
+                <nz-select nzMode="tags" style="width:100%"
+                           nzPlaceHolder="Tiêu chí cháu" [nzMaxTagCount]="1" nzShowSearch nzAllowClear title="Tiêu chí cháu"
+                           [(ngModel)]="data.tieuchihai">
+                  <nz-option *ngFor="let o of lstStandard2" [nzValue]="o" [nzLabel]="o.name">
+                  </nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <div *nzModalFooter>
+    <div nz-col [nzSpan]="24" class="search-area">
+      <button nz-button [nzType]="'primary'" (click)="handleOk()">
+        <span class="fa fa-fw fa-save"></span>Ghi lại
+      </button>
+      <button nz-button [nzType]="'primary'" (click)="handleCancel()">
+        <span class="fa fa-fw fa-arrow-left"></span>Quay lại
+      </button>
+    </div>
+  </div>
+</nz-modal>

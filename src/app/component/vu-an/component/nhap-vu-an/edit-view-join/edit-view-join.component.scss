@@ -1,0 +1,26 @@
+.ui-fieldset-content {
+  padding: 8px;
+}
+
+legend {
+  width: auto;
+  margin-left: 10px;
+  margin-bottom: 0;
+  font-size: 12px;
+  line-height: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  border-bottom: none;
+  color: #000;
+}
+
+legend {
+  width: auto;
+  margin-left: 10px;
+}
+.search-area {
+  text-align: right;
+}
+.search-area button {
+  margin: 0 5px !important;
+}

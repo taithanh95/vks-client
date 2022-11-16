@@ -1,0 +1,65 @@
+<div>
+  <div nz-row>
+    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Loại báo cáo</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <nz-select [(ngModel)]="filterItem.typeAccused" placeholder="Loại báo cáo">
+            <nz-option *ngFor="let item of listTypeAccused|keyvalue" nzValue="{{item.key}}" nzLabel="{{item.value}}"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+  <div nz-row>
+    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Từ ngày</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <nz-date-picker (input)="onValueFDate($event)"
+                          (keypress)="validateOnlyNumbers($event)"
+                          [(ngModel)]="filterItem.fdateAccused"
+                          nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Đến ngày</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <nz-date-picker (input)="onValueTDate($event)"
+                          (keypress)="validateOnlyNumbers($event)"
+                          [(ngModel)]="filterItem.tdateAccused"
+                          nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+  <div nz-row *ngIf="filterItem.typeAccused == '1'">
+    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Giai đoạn</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <nz-select  placeholder="Giai đoạn" [(ngModel)]="filterItem.usefor">
+            <nz-option *ngFor="let item of listUseFor|keyvalue"
+                       nzValue="{{item.key}}" nzLabel="{{item.value}}"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+</div>
+<div class="ui-panel">
+  <div nz-row>
+    <div nz-col [nzSpan]="24" class="search-area">
+      <button nz-button [nzType]="'primary'" (click)="showResult()">
+        <span class="fa fa-fw fa-search"></span>
+        Tìm kiếm
+      </button>
+    </div>
+  </div>
+</div>
+<ng-container *ngIf="isVisibleResult">
+  <app-result-accused [isVisible]="isVisibleResult" (closeModal)="closeModalResult($event)" [filterItem]="filterItem">
+  </app-result-accused>
+</ng-container>

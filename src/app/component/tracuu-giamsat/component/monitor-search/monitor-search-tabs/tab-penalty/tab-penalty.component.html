@@ -1,0 +1,78 @@
+<fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+  <div nz-row>
+    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Từ ngày</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <nz-date-picker (input)="onValueFDate($event)"
+                          (keypress)="validateOnlyNumbers($event)"
+                          [(ngModel)]="filterItem.fdatePenalty"
+                          nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Đến ngày</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <nz-date-picker (input)="onValueTDate($event)"
+                          (keypress)="validateOnlyNumbers($event)"
+                          [(ngModel)]="filterItem.tdatePenalty"
+                          nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+  <div nz-row>
+    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Khung hình phạt</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <nz-select [(ngModel)]="filterItem.penaltyid" nzPlaceHolder="Hình phạt" nzShowSearch nzAllowClear
+                     (input)="onInputPenalty($event)">
+            <nz-option nzValue="" nzLabel="Tất cả"></nz-option>
+            <nz-option *ngFor="let option of lstPenalty" [nzLabel]="option.PENALTYNAME"
+                       [nzValue]="option.PENALTYID">{{ option.PENALTYNAME }}</nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div *ngIf="filterItem.penaltyid == '04'" nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Án treo</nz-form-label>
+        <nz-form-control>
+          <label nz-checkbox [(ngModel)]="filterItem.suspended"></label>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+  <div nz-row>
+    <div nz-col [nzLg]="8" [nzMd]="12"
+         [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Giai đoạn</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <nz-select [(ngModel)]="filterItem.userforPenalty" placeholder="Giai đoạn">
+            <nz-option nzValue="G3" nzLabel="Xét xử sơ thẩm"></nz-option>
+            <nz-option nzValue="G4" nzLabel="Xét xử phúc thẩm"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+</fieldset>
+<div class="ui-panel">
+  <div nz-row>
+    <div nz-col [nzSpan]="24" class="search-area">
+      <button nz-button [nzType]="'primary'" (click)="showResult()">
+        <span class="fa fa-fw fa-search"></span>
+        Tìm kiếm
+      </button>
+    </div>
+  </div>
+</div>
+<ng-container *ngIf="isVisibleResult">
+  <app-result-penalty [isVisible]="isVisibleResult" (closeModal)="closeModalResult($event)"
+                  [filterItem]="filterItem">
+  </app-result-penalty>
+</ng-container>

@@ -1,0 +1,108 @@
+<section class="mb-2">
+  <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+    <legend class="ui-fieldset-legend ui-corner-all ui-state-default mb-0" (click)="toggleCollapse(0)">
+      <i nz-icon [nzType]="collapse[0] ? 'minus' : 'plus'"></i> Thông tin tin báo, tố giác
+    </legend>
+    <div class="ui-fieldset-content ant-advanced-search-form p-2" [ngClass]="collapse[0] ? 'show' : 'hide' ">
+      <form *ngIf="denouncement">
+        <table class="table table-borderless table-sm w-auto">
+          <tbody>
+          <tr>
+            <td>
+              <label for="denouncementCode">Mã tin báo</label>
+            </td>
+            <td>
+              <input type="text" [value]="denouncement.denouncementCode"
+                     id="denouncementCode" nz-input placeholder="Mã tin báo" disabled>
+            </td>
+            <td>
+              <label for="crimeReportSource">Loại tin báo</label>
+            </td>
+            <td>
+              <input type="text" nz-input [value]="denouncement.crimeReportSource | crimeReportSource"
+                     id="crimeReportSource" placeHolder="Loại tin báo" disabled>
+            </td>
+          </tr>
+          <tr>
+            <td><label for="rReporter">Người báo tin</label></td>
+            <td>
+              <input type="text" nz-input [value]="denouncement.rreporter | nzSafeNull: ''" id="rReporter"
+                     placeholder="Người báo tin" disabled>
+            </td>
+            <td><label for="takenOverDate">Ngày tiếp nhận</label></td>
+            <td>
+              <input type="text" nz-input [value]="denouncement.takenOverDate"
+                     id="takenOverDate"
+                     placeholder="Ngày tiếp nhận" disabled>
+            </td>
+          </tr>
+          <tr>
+            <td><label for="rDelation">Nội dung tố giác</label>
+              <span class="red">&nbsp; *</span>
+            </td>
+            <td colspan="3">
+              <input type="text" nz-input [value]="denouncement?.rdelation === undefined ? '' : denouncement?.rdelation"
+                     id="rDelation" placeholder="Nội dung tố giác" disabled>
+            </td>
+          </tr>
+          <tr>
+            <td><label for="content">Điều luật</label></td>
+            <td colspan="3"
+                [title]="(denouncement.law?.lawId ? 'Điều ' + denouncement.law?.lawId : '') +
+                       (denouncement.law?.item ? '- Khoản ' + denouncement.law?.item : '') +
+                       (denouncement.law?.point ? '- Điểm ' + denouncement.law?.point : '') +
+                       (denouncement.law?.lawName ? ' - ' + denouncement.law?.lawName : '')">
+              <input type="text" nz-input [value]=
+                       "(denouncement.law?.lawId ? 'Điều ' + denouncement.law?.lawId : '') +
+                       (denouncement.law?.item ? '- Khoản ' + denouncement.law?.item : '') +
+                       (denouncement.law?.point ? '- Điểm ' + denouncement.law?.point : '') +
+                       (denouncement.law?.lawName ? ' - ' + denouncement.law?.lawName : '')"
+                     id="content"
+                     placeholder="Điều luật" disabled>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </form>
+
+      <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+        <legend class="ui-fieldset-legend ui-corner-all ui-state-default mb-0" (click)="toggleCollapse(1)">
+          <i nz-icon [nzType]="collapse[1] ? 'minus' : 'plus'"></i> Danh sách người bị tố giác
+        </legend>
+        <div class="ui-fieldset-content ant-advanced-search-form p-2" [ngClass]="collapse[1] ? 'show' : 'hide' ">
+          <nz-table #basicTable nzBordered [nzData]="listOfItems" [nzSize]="'small'" [nzNoResult]="noResultTpl">
+            <thead>
+            <tr>
+              <th>Họ tên</th>
+              <th>Ngày sinh</th>
+              <th>Năm sinh</th>
+              <th>Địa chỉ</th>
+              <th>Nghề nghiệp</th>
+              <th>Nơi công tác</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let data of basicTable.data">
+              <td nzAlign="center">
+                <span [textContent]="data.fullName"></span>
+              </td>
+              <td nzAlign="center">{{ data.dateOfBirth | nzSafeNull: '-' }}</td>
+              <td nzAlign="center">{{ data.yearOfBirth | nzSafeNull: '-' }}</td>
+              <td nzAlign="center">{{ data.address | nzSafeNull: '-' }}</td>
+              <td nzAlign="center">{{ data.job | nzSafeNull: '-' }}</td>
+              <td nzAlign="center">{{ data.workplace | nzSafeNull: '-' }}</td>
+            </tr>
+            </tbody>
+          </nz-table>
+        </div>
+        <ng-template #noResultTpl>
+          <nz-empty nzNotFoundImage="./assets/image/empty.svg" [nzNotFoundContent]="contentTpl">
+            <ng-template #contentTpl>
+              <p>Không tìm thấy kết quả.</p>
+            </ng-template>
+          </nz-empty>
+        </ng-template>
+      </fieldset>
+    </div>
+  </fieldset>
+</section>

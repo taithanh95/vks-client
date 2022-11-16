@@ -1,0 +1,157 @@
+<fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+  <div nz-row>
+    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Loại báo cáo</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <nz-select [(ngModel)]="filterItem.caseTypeReport" placeholder="Loại báo cáo">
+            <nz-option nzValue="1"
+                       nzLabel="DS các vụ án thuộc thẩm quyền của đơn vị (lọc theo ngày khởi tố)"></nz-option>
+            <nz-option nzValue="2" nzLabel="BC tình hình thụ lý mới các vụ án trong các giai đoạn"></nz-option>
+            <nz-option nzValue="3" nzLabel="DS các vụ án đã giải quyết"></nz-option>
+            <nz-option nzValue="4" nzLabel="DS các vụ án chưa xử lý trong các giai đoạn (số còn lại)"></nz-option>
+            <nz-option nzValue="5"
+                       nzLabel="BC tình hình thụ lý mới các vụ án trong các giai đoạn, theo loại vụ án"></nz-option>
+            <nz-option nzValue="6"
+                       nzLabel="BC tình hình thụ lý mới các vụ án trong các giai đoạn, theo điều luật"></nz-option>
+            <nz-option nzValue="7"
+                       nzLabel="BC tình hình thụ lý mới các vụ án trong các giai đoạn, theo nhóm vụ án"></nz-option>
+            <nz-option nzValue="8"
+                       nzLabel="DS các vụ án Công an đã đề nghị truy tố mà VKS không thụ lý cùng tháng"></nz-option>
+            <nz-option nzValue="9" nzLabel="DS các vụ án VKS đã truy tố mà Tòa không thụ lý cùng tháng"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+  <div nz-row>
+    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Từ ngày</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <nz-date-picker (input)="onValueFDate($event)"
+                          (keypress)="validateOnlyNumbers($event)"
+                          [(ngModel)]="filterItem.regfdate"
+                          nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Đến ngày</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <nz-date-picker (input)="onValueTDate($event)"
+                          (keypress)="validateOnlyNumbers($event)"
+                          [(ngModel)]="filterItem.regtdate"
+                          nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+  <div nz-row>
+    <div *ngIf="OPTION_CASE_TYPE.includes(this.filterItem.caseTypeReport)" nz-col [nzLg]="8" [nzMd]="12"
+         [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Giai đoạn</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <nz-select [(ngModel)]="filterItem.usefor" placeholder="Giai đoạn">
+            <nz-option nzValue="G1" nzLabel="Kiểm sát điều tra"></nz-option>
+            <nz-option nzValue="G2" nzLabel="Kiểm sát giải quyết án - Truy tố"></nz-option>
+            <nz-option nzValue="G3" nzLabel="Xét xử sơ thẩm"></nz-option>
+            <nz-option nzValue="G4" nzLabel="Xét xử phúc thẩm"></nz-option>
+            <nz-option nzValue="G5" nzLabel="Xét xử giám đốc thẩm"></nz-option>
+            <nz-option nzValue="G6" nzLabel="Thi hành án"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div *ngIf="OPTION_CASE_TYPE.includes(this.filterItem.caseTypeReport)" nz-col [nzLg]="8" [nzMd]="12"
+         [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Kiểm sát viên</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <nz-select (nzOnSearch)="onInputInspector($event)" nzShowSearch nzAllowClear
+                     title="Nhấn phím space hoặc gõ mã hoặc tên để chọn Kiểm sát viên"
+                     [(ngModel)]="filterItem.inspcode"
+                     nzPlaceHolder="Nhấn phím space hoặc gõ mã hoặc tên để chọn Kiểm sát viên">
+            <nz-option *ngFor="let o of lstInsp" [nzValue]="o"
+                       nzLabel="{{ o.INSPCODE}} - {{o.FULLNAME}}"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+  <div nz-row>
+    <div *ngIf="this.filterItem.caseTypeReport == '5'" nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Loại vụ án</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <nz-select [(ngModel)]="filterItem.typecase" placeholder="Loại vụ án">
+            <nz-option nzValue="L1" nzLabel="Ít nghiêm trọng"></nz-option>
+            <nz-option nzValue="L2" nzLabel="Nghiêm trọng"></nz-option>
+            <nz-option nzValue="L3" nzLabel="Rất nghiêm trọng"></nz-option>
+            <nz-option nzValue="L4" nzLabel="Đặc biệt nghiêm trọng"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+  <div nz-row>
+    <div *ngIf="this.filterItem.caseTypeReport == '6'" nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Tên bộ luật</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <nz-select [(ngModel)]="filterItem.codeid" nzPlaceHolder="Tên bộ luật" nzShowSearch
+                     (ngModelChange)="getListLawWithCode($event)">
+            <nz-option *ngFor="let option of lstLawGroup" [nzLabel]="option.codename"
+                       [nzValue]="option.codeid">{{ option.codename }}</nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div *ngIf="this.filterItem.caseTypeReport == '6'" nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Điều</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <input title="Nhấn phím space hoặc gõ mã hoặc tên để chọn tội danh" placeholder=""
+                 nz-input [(ngModel)]="filterItem.lawcode" (input)="onInputAtxLawWithCode($event)"
+                 [nzAutocomplete]="autolaw"/>
+          <nz-autocomplete #autolaw>
+            <nz-auto-option *ngFor="let option of atxResultLaws"
+                            nzLabel="{{toLawOption(option)}}" [nzValue]="option.lawcode">{{toLawOption(option)}}
+            </nz-auto-option>
+          </nz-autocomplete>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+  <div nz-row>
+    <div *ngIf="this.filterItem.caseTypeReport == '7'" nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Nhóm vụ án</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <nz-select [(ngModel)]="filterItem.groupcase" nzPlaceHolder="Nhóm vụ án" nzShowSearch
+                     (ngModelChange)="onInputLawGroupChap()">
+            <nz-option *ngFor="let option of lstLawGroupChap" [nzLabel]="option.FULLNAME"
+                       [nzValue]="option.ID">{{ option.FULLNAME }}</nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+</fieldset>
+<div class="ui-panel">
+  <div nz-row>
+    <div nz-col [nzSpan]="24" class="search-area">
+      <button nz-button [nzType]="'primary'" (click)="showResult()">
+        <span class="fa fa-fw fa-search"></span>
+        Tìm kiếm
+      </button>
+    </div>
+  </div>
+</div>
+<ng-container *ngIf="isVisibleResult">
+  <app-result-case [isVisible]="isVisibleResult" (closeModal)="closeModalResult($event)"
+                   [filterItem]="filterItem">
+  </app-result-case>
+</ng-container>

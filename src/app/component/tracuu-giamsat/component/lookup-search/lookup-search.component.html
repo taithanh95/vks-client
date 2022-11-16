@@ -1,0 +1,153 @@
+<div>
+  <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+    <div class="ui-fieldset-content ant-advanced-search-form">
+      <div nz-row>
+        <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10">Mã vụ án</nz-form-label>
+            <nz-form-control [nzSpan]="12">
+              <input [(ngModel)]="filterItem.casecode" nz-input placeholder="Mã vụ án">
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10">Tên vụ án</nz-form-label>
+            <nz-form-control [nzSpan]="12">
+              <input nz-input placeholder="Tên vụ án" [(ngModel)]="filterItem.casename">
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <!-- /.nz-row -->
+
+      <div nz-row>
+        <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10">Viện kiểm sát</nz-form-label>
+            <nz-form-control [nzSpan]="12">
+              <nz-select nzAllowClear nzShowSearch nzMode="multiple" [nzMaxTagCount]="1"
+                         [(ngModel)]="filterItem.sppid" (input)="onInputSpp($event)">
+                <nz-option *ngFor="let option of lstSpp" nzLabel="{{ option.SPPID}} - {{option.NAME}}"
+                           [nzValue]="option.SPPID">{{ option.SPPID}} - {{option.NAME}}</nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10">Mức độ</nz-form-label>
+            <nz-form-control [nzSpan]="12">
+              <nz-select [(ngModel)]="filterItem.casetype" nzPlaceHolder="Mức độ">
+                <nz-option nzValue="" nzLabel="Tất cả" selected></nz-option>
+                <nz-option nzValue="L1" nzLabel="Ít nghiêm trọng"></nz-option>
+                <nz-option nzValue="L2" nzLabel="Nghiêm trọng"></nz-option>
+                <nz-option nzValue="L3" nzLabel="Rất nghiêm trọng"></nz-option>
+                <nz-option nzValue="L4" nzLabel="Đặc biệt nghiêm trọng"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <!-- /.nz-row -->
+
+      <div nz-row>
+        <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10">Từ ngày</nz-form-label>
+            <nz-form-control [nzSpan]="12">
+              <nz-date-picker (input)="onValueFDate($event)"
+                              (keypress)="validateOnlyNumbers($event)"
+                              [(ngModel)]="filterItem.fromdate"
+                              nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"
+                              nz-tooltip nzTooltipTitle="Ngày khởi tố">
+              </nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10">Đến ngày</nz-form-label>
+            <nz-form-control [nzSpan]="12">
+              <nz-date-picker (input)="onValueTDate($event)"
+                              (keypress)="validateOnlyNumbers($event)"
+                              [(ngModel)]="filterItem.todate"
+                              (ngModelChange)="checkDate()"
+                              nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"
+                              nz-tooltip nzTooltipTitle="Ngày khởi tố">
+              </nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10">Xem cấp trực thuộc</nz-form-label>
+            <nz-form-contro>
+              <label nz-checkbox [(ngModel)]="filterItem.underlevel"></label>
+            </nz-form-contro>
+          </nz-form-item>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+  <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+    <div>
+      <ng-container>
+        <nz-tabset nzSize="small" nzType="card">
+          <nz-tab [nzTitle]="'Thụ lý'">
+            <ng-container *ngTemplateOutlet="register"></ng-container>
+          </nz-tab>
+          <nz-tab [nzTitle]="'Quyết định'">
+            <ng-container *ngTemplateOutlet="decision"></ng-container>
+          </nz-tab>
+          <nz-tab [nzTitle]="'Kháng nghị'">
+            <ng-container *ngTemplateOutlet="against"></ng-container>
+          </nz-tab>
+          <nz-tab [nzTitle]="'Kháng cáo'">
+            <ng-container *ngTemplateOutlet="appeal"></ng-container>
+          </nz-tab>
+          <nz-tab [nzTitle]="'Bị can'">
+            <ng-container *ngTemplateOutlet="accused"></ng-container>
+          </nz-tab>
+          <nz-tab [nzTitle]="'Điều luật'">
+            <ng-container *ngTemplateOutlet="law"></ng-container>
+          </nz-tab>
+          <nz-tab [nzTitle]="'Hình phạt'">
+            <ng-container *ngTemplateOutlet="penalty"></ng-container>
+          </nz-tab>
+          <nz-tab [nzTitle]="'Bàn giao'">
+            <ng-container *ngTemplateOutlet="transfer"></ng-container>
+          </nz-tab>
+        </nz-tabset>
+      </ng-container>
+    </div>
+    <ng-template #register>
+      <app-register [filterItem]="filterItem"></app-register>
+    </ng-template>
+    <ng-template #accused>
+      <app-accused [filterItem]="filterItem"></app-accused>
+    </ng-template>
+    <ng-template #law>
+      <app-law [filterItem]="filterItem"></app-law>
+    </ng-template>
+    <ng-template #decision>
+      <app-decision [filterItem]="filterItem"></app-decision>
+    </ng-template>
+    <ng-template #penalty>
+      <app-penalty [filterItem]="filterItem"></app-penalty>
+    </ng-template>
+    <ng-template #against>
+      <app-against [filterItem]="filterItem"></app-against>
+    </ng-template>
+    <ng-template #appeal>
+      <app-appeal [filterItem]="filterItem"></app-appeal>
+    </ng-template>
+    <ng-template #transfer>
+      <app-transfer [filterItem]="filterItem"></app-transfer>
+    </ng-template>
+  </fieldset>
+</div>

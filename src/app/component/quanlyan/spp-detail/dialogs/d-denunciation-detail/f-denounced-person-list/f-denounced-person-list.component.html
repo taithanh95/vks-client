@@ -1,0 +1,58 @@
+<app-d-denounced-person-detail 
+  [isVisibleDialog]="isDialogVisible" 
+  [mode]="mode"
+  [denouncedPerson]="denouncedPersonForEdit"
+  (cancelEmitter)="this.isDialogVisible = false">
+</app-d-denounced-person-detail>
+<fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+  <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse()">
+    <i nz-icon [nzType]="isCollapse ? 'minus' : 'plus'"></i>Danh sách người bị tố giác
+  </legend>
+  <div class="px-3" [ngClass]="isCollapse ? 'show' : 'hide' ">
+    <div class="data-table mt-0 mb-2">
+      <nz-table #basicTable class="custom-table" [nzData]="visiblePersonList" [nzShowPagination]="true"
+                nzSize="small" nzShowSizeChanger [nzTableLayout]="'fixed'" [nzLoading]="loading" [nzPageSize]="5"
+                [nzPageSizeOptions]="pageSize" [nzFrontPagination]="true" [nzShowTotal]="rangeTemplate">
+        <thead>
+        <tr>
+          <th style="width: 15%">Họ tên</th>
+          <th style="width: 10%">Ngày sinh</th>
+          <th style="width: 25%">Địa chỉ</th>
+          <th style="width: 15%">Nghề nghiệp</th>
+          <th style="width: 20%">Nơi công tác</th>
+          <th style="width: 15%">Thao tác</th>
+        </tr>
+        </thead>
+        <tbody>
+        <ng-container *ngFor="let data of basicTable.data;let i = index;">
+          <tr class="actived"
+               ngClass="s-{{data.selected}}">
+            <td nzEllipsis nz-tooltip [nzTooltipTitle]="data['fullName']">
+              {{ data['fullName'] }}</td>
+            <td nzEllipsis nz-tooltip
+                [nzTooltipTitle]="data['dateOfBirth'] | dateFormat" class="text-center">
+              {{ data['dateOfBirth'] | dateFormat }}</td>
+            <td nzEllipsis nz-tooltip [nzTooltipTitle]="data['address']">
+              {{ data['address'] }}</td>
+            <td nzEllipsis nz-tooltip [nzTooltipTitle]="data['job']">
+              {{ data['job'] }}</td>
+            <td nzEllipsis nz-tooltip [nzTooltipTitle]="data['workplace']">
+              {{ data['workplace'] }}</td>
+            <td class="text-center" >
+                <button nz-button class="mx-1" type="button" [nzGhost]="true" style="padding-left: 8px !important;"
+                        nz-tooltip nzTooltipTitle="Xem"
+                        (click)="openDetailDialog(modeEnum.VIEW_FROM_PARENT, i)">
+                  <i nz-icon nzType="file" nzTheme="twotone"></i>
+                </button>
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </nz-table>
+      <ng-template #rangeTemplate let-range="range" let-total>
+        {{ range[0] }}-{{ range[1] }} {{' của ' | translate }} {{ visiblePersonList.length }} {{ ' bản ghi' }}
+      </ng-template>
+    </div>
+  </div>
+</fieldset>
+

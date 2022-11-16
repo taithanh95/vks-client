@@ -1,0 +1,131 @@
+<nz-modal *ngIf="data" class="ant-form" nzWidth="1200px" [(nzVisible)]="isVisible" nzTitle="Thêm mới" nzClosable="false"
+    [nzTitle]="title" nzMaskClosable="false" [nzLoading]="loading">
+    <ng-template #title>
+      {{ titleName }} thông tin sổ/biểu
+        <div class="pull-right icon-close">
+            <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+        </div>
+    </ng-template>
+    <div class="ui-fieldset-content ant-advanced-search-form">
+        <div nz-row>
+            <div nz-col [nzLg]="12" [nzMd]="6" [nzXs]="12">
+                <nz-form-item>
+                    <nz-form-label [nzSpan]="6">Ngày cập nhật<span class="text-danger">*</span></nz-form-label>
+                    <nz-form-control [nzSpan]="12">
+                        <nz-date-picker disabled style="width: 100%" [(ngModel)]="data.createdat"
+                            nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy" (input)="onValueDate('createdat',$event)"
+                            (keypress)="validateOnlyNumbers($event)" [required]="isSubmited">
+                        </nz-date-picker>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div nz-col [nzLg]="12" [nzMd]="6" [nzXs]="12">
+                <nz-form-item>
+                    <nz-form-label [nzSpan]="6">Kỳ báo báo<span class="text-danger">*</span></nz-form-label>
+                    <nz-form-control [nzDisabled]="isVisibleDis" [nzSpan]="12">
+                        <nz-date-picker style="width: 100%" [(ngModel)]="data.period" nzPlaceHolder="dd/MM/yyyy"
+                            nzFormat="dd/MM/yyyy" (input)="onValueDate('period',$event)"
+                            (keypress)="validateOnlyNumbers($event)" [required]="isSubmited">
+                        </nz-date-picker>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+        <div nz-row>
+            <div nz-col [nzLg]="12" [nzMd]="10" [nzXs]="12">
+                <nz-form-item>
+                    <nz-form-label [nzSpan]="6">Đơn vị<span class="text-danger">*</span></nz-form-label>
+                    <nz-form-control [nzSpan]="12">
+                        <input [disabled]="isVisibleDis" placeholder="Đơn vị" nz-input [(ngModel)]="data.sppid" (input)="onInputSpp($event)"
+                        [required]="isSubmited" [nzAutocomplete]="autoSpp"/>
+                        <nz-autocomplete #autoSpp>
+                            <nz-auto-option *ngFor="let option of lstSpp" [nzLabel]="option.name"
+                            [nzValue]="option">{{ option.sppid }} - {{ option.name }}</nz-auto-option>
+                        </nz-autocomplete>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div nz-col [nzLg]="12" [nzMd]="10" [nzXs]="12">
+                <nz-form-item>
+                    <nz-form-label [nzSpan]="6">Giai đoạn<span class="text-danger">*</span></nz-form-label>
+                    <nz-form-control [nzSpan]="12">
+                        <nz-select [nzDisabled]="isVisibleDis" nzMode="tags" style="width:100%"
+                            nzPlaceHolder="Giai đoạn" [nzMaxTagCount]="1" nzShowSearch title="Đơn vị"
+                            [(ngModel)]="data.stage" (ngModelChange)="getLstViolation()" [required]="isSubmited">
+                            <nz-option *ngFor="let o of lstStages" [nzValue]="o.id" [nzLabel]="o.name"> {{ o.name}}</nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+        <!-- /.nz-row -->
+        <div nz-row>
+            <ng-container *ngIf="data.stage && lstViolates && lstViolates.length > 0">
+                <div nz-col [nzLg]="24" [nzMd]="3" [nzXs]="18">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="3">Thống kê vi phạm<span class="text-danger">*</span></nz-form-label>
+                        <nz-form-control [nzSpan]="18">
+                            <nz-select [nzDisabled]="isVisibleDis" nzMode="tags" style="width:100%"
+                                nzPlaceHolder="Tiêu chí cha" [nzMaxTagCount]="1" nzShowSearch title="Đơn vị"
+                                [(ngModel)]="data.statisticalviolation" (ngModelChange)="getlstStandard1()"
+                                [required]="isSubmited">
+                                <nz-option *ngFor="let o of lstViolates" [nzValue]="o.id" [nzLabel]="o.name">
+                                </nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </ng-container>
+        </div>
+        <div nz-row>
+            <ng-container *ngIf="data.statisticalviolation && lstStandard1 && lstStandard1.length > 0">
+                <div nz-col [nzLg]="12" [nzMd]="6" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="6">Tiêu chí 1</nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <nz-select [nzDisabled]="isVisibleDis" nzMode="tags" style="width:100%"
+                                nzPlaceHolder="Tiêu chí con" [nzMaxTagCount]="1" nzShowSearch title="Đơn vị"
+                                [(ngModel)]="data.tieuchimot" (ngModelChange)="getlstStandard2()">
+                                <nz-option *ngFor="let o of lstStandard1" [nzValue]="o.id" [nzLabel]="o.name">
+                                </nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="data.tieuchimot && lstStandard2 && lstStandard2.length > 0">
+                <div nz-col [nzLg]="12" [nzMd]="6" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="6">Tiêu chí 2</nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <nz-select [nzDisabled]="isVisibleDis" nzMode="tags" style="width:100%"
+                                nzPlaceHolder="Tiêu chí cháu" [nzMaxTagCount]="1" nzShowSearch title="Đơn vị"
+                                [(ngModel)]="data.tieuchihai">
+                                <nz-option *ngFor="let o of lstStandard2" [nzValue]="o.id" [nzLabel]="o.name">
+                                </nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </ng-container>
+        </div>
+        <div nz-row>
+            <div nz-col [nzLg]="24" [nzMd]="3" [nzXs]="18">
+                <nz-form-item>
+                    <nz-form-label [nzSpan]="3">Ghi chú</nz-form-label>
+                    <nz-form-control [nzSpan]="18">
+                        <textarea [disabled]="isVisibleDis" nz-input rows="5" title="Ghi chú"
+                            [(ngModel)]="data.note"></textarea>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+        <!-- /.nz-row -->
+    </div>
+    <div *nzModalFooter>
+        <button *ngIf="!isVisibleDis" nz-button nzType="primary" (click)="handleOk()" [nzLoading]="loading">{{'save' |
+            translate }}</button>
+        <button *ngIf="!isVisibleDis" nz-button (click)="handleReset()">{{'add_user' | translate }}</button>
+        <button nz-button (click)="handleCancel()">{{'cancel' | translate }}</button>
+    </div>
+</nz-modal>

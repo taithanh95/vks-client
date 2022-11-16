@@ -1,0 +1,73 @@
+<fieldset *ngIf="datas" class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+  <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse()">
+    <i nz-icon [nzType]="isCollapse ? 'minus' : 'plus'"></i>Thụ lý</legend>
+  <div class="ui-fieldset-content" nz-form [ngClass]="isCollapse ? 'show' : 'hide' ">
+    <!--<button nz-button (click)="onRowSelect(1)">Click</button>-->
+    <!--<a nz-button (click)="showUpdate()">Cập nhật</a>-->
+    <nz-table #basicTable [nzData]="datas"
+              [nzScroll]="{ x: '1200px' }"
+              [nzPageSizeOptions]="pageSize" [nzPageSize]="defaultPage" nzSize="small"
+              nzShowSizeChanger [nzShowTotal]="rangeTemplate" [nzLoading]="loading">
+      <thead>
+      <tr>
+        <th class="text-nowrap" nzWidth="5%" *ngIf="datas.length > 2"></th>
+        <th class="text-nowrap" nzWidth="10%">Số thụ lý</th>
+        <th class="text-nowrap" nzWidth="10%">Ngày thụ lý</th>
+        <th class="text-nowrap" nzWidth="15%">Thời hạn thụ lý</th>
+        <th class="text-nowrap" nzWidth="25%">VKS thụ lý</th>
+        <th class="text-nowrap" nzWidth="15%">Giai đoạn</th>
+        <th class="text-nowrap" nzWidth="10%">Tình trạng</th>
+        <th class="text-nowrap" nzWidth="10%">Thao tác</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of basicTable.data;let i = index;" (click)="onRowSelect(data)"  ngClass="s-{{data.selected}}">
+        <td *ngIf="datas.length > 2" style="text-align: center">
+
+          <input *ngIf="data.selected" type="radio" name="rd" checked>
+          <input *ngIf="!data.selected" type="radio" name="rd">
+
+          <!--<label (nzCheckedChange)="onRowSelect(data)" nz-checkbox [nzChecked]="data.selected"></label>-->
+        </td>
+        <td class="text-nowrap center">{{data.SETNUM}}</td>
+        <td class="text-nowrap center">{{ data.INDATE | dateFormat }}</td>
+        <td class="text-nowrap center">
+          <ng-container *ngIf="data.REGICODE">
+            {{ data.FROMDATE | dateFormat}} - {{ data.TODATE  | dateFormat}}
+          </ng-container>
+        </td>
+        <td class="text-nowrap">{{ data.SPPNAME }}</td>
+        <td class="text-nowrap">{{ toUseforName(data.USERFOR) }}</td>
+        <td class="text-nowrap">{{ data.REGICLOSED }}</td>
+        <td class="text-nowrap center">
+          <ng-container *ngIf="data.REGICODE">
+            <button nz-tooltip nzTooltipTitle="Sửa" class="btn-qla" [disabled]="data.EDITABLE === 'N'" (click)="showEditForm(data)">
+              <span class="fa fa-fw fa-edit"></span></button>
+              <button nz-tooltip nzTooltipTitle="Xem" class="btn-qla" [disabled]="data.EDITABLE === 'N'" (click)="showDisableForm(data)">
+                <span class="fa fa-fw fa-eye"></span></button>
+            <button nz-tooltip nzTooltipTitle="Xóa" class="btn-qla"
+              nz-popconfirm
+              nzPopconfirmTitle="Bạn có chắc muốn xóa bản ghi này không?"
+              nzPopconfirmPlacement="top"
+              nzCancelText="Hủy"
+              nzOkText="Đồng ý"
+              [disabled]="data.EDITABLE === 'N'"
+              (nzOnConfirm)="confirm(data.REGICODE)"
+              (nzOnCancel)="cancel()"
+            >
+              <span class="fa fa-fw fa-times"></span>
+            </button>
+          </ng-container>
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
+    <div class="div-btn-right">
+      <button nz-button [disabled]="registerable === 'N'" (click)="showInsert()">Thêm mới</button>
+    </div>
+  </div>
+  <ng-template #rangeTemplate let-range="range" let-total>
+    {{ range[0] }}-{{ range[1] }} {{'of' | translate }} {{ total }} {{'items' | translate }}
+  </ng-template>
+</fieldset>
+

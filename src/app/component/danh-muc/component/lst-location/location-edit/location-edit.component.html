@@ -1,0 +1,80 @@
+<nz-modal *ngIf="data" nzWidth="1000px"
+          [(nzVisible)]="isVisible"
+          nzClosable="false"
+          [nzTitle]="title"
+          [nzAutofocus]="null"
+          nzMaskClosable="false">
+  <ng-template #title>
+    Cập nhật địa chính
+    <div class="pull-right icon-close">
+      <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+
+  <div>
+    <div class="ui-fieldset-content ant-advanced-search-form">
+      <ng-container>
+        <table width="100%" class="ui-panelgrid table-4-col">
+          <tr>
+            <td>
+              <label class="text-right">Mã địa chính cấp cha</label>
+            </td>
+            <td>
+              <input class="ng-pristine ng-valid" placeholder="" nz-input [(ngModel)]="data.locaparent" (input)="onInputLocation($event)"
+                     [nzAutocomplete]="autoLocation"/>
+              <nz-autocomplete #autoLocation>
+                <nz-auto-option *ngFor="let option of lstLocation" [nzLabel]="option.LOCAID + ' - ' + option.NAME" [nzValue]="option">{{ option.LOCAID }} - {{ option.NAME }}</nz-auto-option>
+              </nz-autocomplete>
+            </td>
+            <td>
+              <label class="text-right">Mã địa chính<span class="required">*</span></label>
+            </td>
+            <td>
+              <input disabled nz-input [(ngModel)]="data.locaid" nz-input>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>Tên địa chính<span class="required">*</span></label>
+            </td>
+            <td>
+              <input nz-input placeholder="Tên địa chính" [(ngModel)]="data.name">
+            </td>
+            <td>
+              <label>Ghi chú<span class="required">*</span></label>
+            </td>
+            <td>
+              <input class="ng-pristine ng-valid" placeholder="Ghi chú" [(ngModel)]="data.remark" nz-input nzAllowClear (input)="onInputLocation($event) "/>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label  class="text-right">Tỉnh/Thành phố</label>
+            </td>
+            <td>
+              <input class="ng-pristine ng-valid" placeholder="Tỉnh/Thành phố" nz-input [(ngModel)]="data.l1name"/>
+            </td>
+            <td>
+              <label class="text-right">Quận/Huyện</label>
+            </td>
+            <td>
+              <input [(ngModel)]="data.l2name" nz-input placeholder="Quận/Huyện">
+            </td>
+          </tr>
+        </table>
+      </ng-container>
+    </div>
+  </div>
+
+  <div *nzModalFooter>
+    <div nz-col [nzSpan]="24" class="search-area">
+      <button nz-button [nzType]="'primary'" (click)="handleOk()">
+        <span class="fa fa-fw fa-save"></span>Ghi lại
+      </button>
+      <button nz-button [nzType]="'primary'" (click)="handleCancel()">
+        <span class="fa fa-fw fa-arrow-left"></span>Quay lại
+      </button>
+    </div>
+  </div>
+</nz-modal>
+

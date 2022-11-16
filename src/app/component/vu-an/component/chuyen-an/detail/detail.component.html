@@ -1,0 +1,139 @@
+<nz-modal *ngIf="data" class="ant-form" 
+nzWidth="1000px" [(nzVisible)]="isVisible" nzClosable="false" [nzTitle]="title" nzMaskClosable="false">
+  <ng-template #title>
+    Thông tin chi tiết
+    <div class="pull-right icon-close">
+      <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+  <div class="data-table">
+    <nz-table class="w-100" 
+    [nzNoResult]="noResultTpl"
+    nzSize="small">
+      <thead>
+        <tr>
+          <th class="text-nowrap" nzWidth="30%">Thông tin</th>
+          <th class="text-nowrap" nzWidth="70%">Chi tiết</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            Mã giao nhận
+          </td>
+          <td>
+            {{data.TRANSCODE}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Mã vụ án
+          </td>
+          <td>
+            {{data.CASECODE}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Tên vụ án
+          </td>
+          <td>
+            {{data.CASENAME}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Ngày giao
+          </td>
+          <td>
+            {{data.TRANSDATE | dateFormat}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Tên VKS nhận
+          </td>
+          <td>
+            {{data.SPPNAMET}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Tên VKS giao
+          </td>
+          <td>
+            {{data.SPPNAMEF}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Người giao
+          </td>
+          <td>
+            {{data.SENDER}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Người nhận
+          </td>
+          <td>
+            {{data.RECEIPTER}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Ghi chú
+          </td>
+          <td>
+            {{data.REMARK}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Ngày nhận
+          </td>
+          <td>
+            {{ data.ACCEPTDATE | dateFormat}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Giai đoạn
+          </td>
+          <td>
+            {{f(data.USERFOR)}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Người tạo
+          </td>
+          <td>
+            {{data.CRTUSER}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Người sửa cuối
+          </td>
+          <td>
+            {{data.MDFUSER}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Ngày sửa cuối
+          </td>
+          <td>
+            {{ data.MDFDATE | dateFormat}}
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+    <ng-template #noResultTpl>
+    </ng-template>
+  </div>
+  <div *nzModalFooter>
+  </div>
+</nz-modal>

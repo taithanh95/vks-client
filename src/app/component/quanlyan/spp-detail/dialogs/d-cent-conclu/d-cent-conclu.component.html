@@ -1,0 +1,56 @@
+<nz-modal nzWidth="800px" [(nzVisible)]="isVisible" nzTitle="Kết luận bản án cho từng bị cáo" nzClosable="false"
+  nzMaskClosable="false" [nztitle]="title">
+  <ng-template #title>
+    Kết luận bản án cho từng bị cáo
+    <div class="pull-right icon-close">
+      <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"> </em>
+    </div>
+  </ng-template>
+  <ng-container *ngIf="isVisible">
+    <div class="ui-fieldset-content ant-advanced-search-form">
+      <table width="100%" class="ui-panelgrid">
+        <tr>
+          <td>
+            <label>{{ legalper === 'Y' ? 'Pháp nhân' : 'Bị can' }}</label>
+          </td>
+          <td>
+            <nz-select [(ngModel)]="accuCode" nzShowSearch (ngModelChange)="getCentAccu()">
+              <nz-option *ngFor="let acc of lstAccu" [nzValue]="acc.ACCUCODE" [nzLabel]="acc.FULLNAME">
+              </nz-option>
+            </nz-select>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label>Kết luận Tòa án</label>
+          </td>
+          <td colspan="3">
+            <nz-select nzShowSearch [(ngModel)]="data.concid">
+              <nz-option nzLabel=""></nz-option>
+              <nz-option *ngFor="let option of lstConclu" [nzValue]="option.concid" [nzLabel]="option.concname">
+              </nz-option>
+            </nz-select>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label>Quan điểm của VKS</label>
+          </td>
+          <td colspan="3">
+            <nz-select nzShowSearch [(ngModel)]="data.concidspp">
+              <nz-option nzLabel=""></nz-option>
+              <nz-option *ngFor="let option of lstConclu" [nzValue]="option.concid" [nzLabel]="option.concname">
+              </nz-option>
+            </nz-select>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </ng-container>
+  <div class="div-btn-right btn-m-10" style="margin: 10px 0;border: solid 1px #bed6f8;float: none;overflow: hidden">
+    <button style="float: right;" nz-button (click)="handleCancel()">Hủy bỏ</button>
+    <button *ngIf="!isVisibleDisable && !isBtnDelete" style="float: right;" nz-button (click)="handleDeleteCentAccu()">Xóa</button>
+    <button *ngIf="!isVisibleDisable" style="float: right;" nz-button (click)="handleSaveCentAccu()">Ghi lại</button>
+  </div>
+  <div *nzModalFooter></div>
+</nz-modal>

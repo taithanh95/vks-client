@@ -1,0 +1,58 @@
+<fieldset *ngIf="datas" class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+  <legend (click)="toggleCollapse()" class="ui-fieldset-legend ui-corner-all ui-state-default">
+    <i [nzType]="collapse ? 'minus' : 'plus'" nz-icon></i> Quyết định thi hành án
+  </legend>
+  <div [ngClass]="collapse ? 'show' : 'hide' " class="ui-fieldset-content p-2">
+    <nz-table #basicTable [nzData]="datas"
+    [nzScroll]="{ x: '1200px' }"
+    [nzPageSizeOptions]="pageSize" [nzPageSize]="defaultPage" nzSize="small"
+    nzShowSizeChanger [nzShowTotal]="rangeTemplate" [nzLoading]="loading">
+      <thead>
+      <tr>
+        <th nzWidth="10%">STT</th>
+        <th nzWidth="10%">Mã người chấp hành án</th>
+        <th class="text-center" nzWidth="10%">Tên người chấp hành án</th>
+        <th nzWidth="10%">Số quyết định</th>
+        <th nzWidth="10%">Ngày ra quyết định</th>
+        <th nzWidth="10%">Ngày đi thi hành</th>
+        <th nzWidth="10%">Thao tác</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of basicTable.data;let i = index;" ngClass="s-{{data.checked}}">
+        <td class="text-center">{{i + 1}}</td>
+        <td class="text-center">{{register.accucode}}</td>
+        <td class="text-left" nzEllipsis nz-tooltip [nzTooltipTitle]="data.fullName">{{data.fullName}}</td>
+        <td class="text-center">{{data.setNum}}</td>
+        <td class="text-center">{{data.inDate | dateFormat}}</td>
+        <td class="text-center">{{data.exeDate | dateFormat}}</td>
+        <td class="text-center">
+          <button nz-tooltip nzTooltipTitle="Sửa" class="btn-qla" (click)="showEditForm(data)">
+            <span class="fa fa-fw fa-edit"></span></button>
+          <button nz-tooltip nzTooltipTitle="Xem" class="btn-qla" (click)="showDisableForm(data)">
+            <span class="fa fa-fw fa-eye"></span></button>
+          <button nz-tooltip nzTooltipTitle="Xóa" class="btn-qla"
+                  nz-popconfirm
+                  nzPopconfirmTitle="Bạn có chắc muốn xóa bản ghi này không?"
+                  nzPopconfirmPlacement="top"
+                  nzCancelText="Hủy"
+                  nzOkText="Đồng ý"
+                  (nzOnConfirm)="confirm(data)"
+                  (nzOnCancel)="cancel()"
+          >
+            <span class="fa fa-fw fa-times"></span>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
+    <div class="div-btn-right">
+      <button nz-button [disabled]="disableBtnCreate()" (click)="showInsert()"><i class="fa fa-fw fa-plus"></i> Thêm mới</button>
+    </div>
+  </div>
+  <ng-template #rangeTemplate let-range="range" let-total>
+    {{ range[0] }}-{{ range[1] }} {{'of' | translate }} {{ total }} {{'items' | translate }}
+  </ng-template>
+</fieldset>
+<ng-template #noResultTpl>
+</ng-template>

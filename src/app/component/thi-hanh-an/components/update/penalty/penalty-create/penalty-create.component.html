@@ -1,0 +1,912 @@
+<nz-modal *ngIf="data" class="ant-form" nzWidth="1000px" [(nzVisible)]="isVisible" nzTitle="Thêm mới" nzClosable="false"
+  [nzTitle]="title" nzMaskClosable="false">
+  <ng-template #title>
+    Quyết định thi hành án
+    <div class="pull-right icon-close">
+      <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+  <fieldset [disabled]="isVisibleDisable"
+    class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+    <legend (click)="toggleCollapse(0)" class="ui-fieldset-legend ui-corner-all ui-state-default">
+      <i [nzType]="collapse[0] ? 'minus' : 'plus'" nz-icon></i> Quyết định thi hành án
+    </legend>
+    <div [ngClass]="collapse[0] ? 'show' : 'hide' " class="ui-fieldset-content p-2">
+      <div class="row mb-1">
+        <div class="col-6">
+          <div class="row">
+            <nz-form-item class="w-100">
+              <nz-form-label class="col-md-4 text-left" nzFor="setNum">Quyết định số <span class="text-danger">*</span>
+              </nz-form-label>
+              <nz-form-control class="col-md-8">
+                <input [(ngModel)]="sppExecution.setNum" nz-input name="setNum" id="setNum" type="text"
+                  [disabled]="isVisibleDisable" required>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="row">
+            <nz-form-item class="w-100">
+              <nz-form-label class="col-md-4 text-left" nzFor="inDate">
+                Ngày quyết định <span class="text-danger">*</span>
+              </nz-form-label>
+              <nz-form-control class="col-md-8">
+                <nz-date-picker [nzAutoFocus]="true" [(ngModel)]="sppExecution.inDate" name="inDate" id="inDate"
+                  class="w-100" [nzMode]="'date'" nzFormat="dd/MM/yyyy" nzPlaceHolder="dd/MM/yyyy"
+                   (input)="sppExecution.inDate=onDateValueChange($event)"
+                  (keypress)="validateOnlyNumbers($event)" [required]="true" [nzDisabled]="isVisibleDisable">
+                </nz-date-picker>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </div><!-- /.row -->
+      <div class="row mb-1">
+        <div class="col-6">
+          <div class="row">
+            <nz-form-item class="w-100">
+              <nz-form-label class="col-md-4 text-left" nzFor="exeDate">Ngày thi hành</nz-form-label>
+              <nz-form-control class="col-md-8">
+                <nz-date-picker [nzAutoFocus]="true" [(ngModel)]="sppExecution.exeDate" name="exeDate" id="exeDate"
+                  class="w-100" [nzMode]="'date'" nzFormat="dd/MM/yyyy" nzPlaceHolder="dd/MM/yyyy"
+                   (input)="sppExecution.exeDate=onDateValueChange($event)"
+                  (keypress)="validateOnlyNumbers($event)" [nzDisabled]="isVisibleDisable"></nz-date-picker>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="row">
+            <nz-form-item class="w-100">
+              <nz-form-label class="col-md-4 text-left" nzFor="prisonId">Nơi chấp hành án</nz-form-label>
+              <nz-form-control class="col-md-8">
+                <nz-select name="prisonId" id="prisonId" nzShowSearch nzAllowClear nzPlaceHolder="Chọn nơi chấp hành"
+                  [(ngModel)]="sppExecution.prisonId" [nzDisabled]="isVisibleDisable">
+                  <nz-option *ngFor="let option of lstPrisons" [nzValue]="option.prisonId"
+                    [nzLabel]="option.prisonId + ' - ' + option.name"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </div><!-- /.row -->
+    </div>
+  </fieldset>
+  <ng-container *ngIf="data.legalper === 'N'">
+    <fieldset [disabled]="isVisibleDisable"
+      class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+      <legend (click)="toggleCollapse(1)" class="ui-fieldset-legend ui-corner-all ui-state-default">
+        <i [nzType]="collapse[1] ? 'minus' : 'plus'" nz-icon></i> Hình phạt chính
+      </legend>
+      <div [ngClass]="collapse[1] ? 'show' : 'hide' " class="ui-fieldset-content p-2">
+        <div class="row mb-1">
+          <div class="col-4">
+            <div class="form-check">
+              <input class="form-check-input" [(ngModel)]="sppExecution.penaltyId" [value]="'00'" type="radio"
+                name="penaltyId" id="penaltyId00">
+              <label class="form-check-label" for="penaltyId00">
+                Cảnh cáo
+              </label>
+            </div>
+          </div>
+        </div><!-- /.row -->
+        <div class="row mb-1">
+          <div class="col-4">
+            <div class="form-check">
+              <input class="form-check-input" [(ngModel)]="sppExecution.penaltyId" [value]="'01'" type="radio"
+                name="penaltyId" id="penaltyId01">
+              <label class="form-check-label" for="penaltyId01">
+                Phạt tiền
+              </label>
+            </div>
+          </div>
+          <div class="col-8" *ngIf="sppExecution.penaltyId === '01'">
+            <div class="row">
+              <nz-form-item class="w-100">
+                <nz-form-label class="col-md-2 text-left" nzFor="numMoney01">Số tiền</nz-form-label>
+                <nz-form-control class="col-md-6">
+                  <input [(ngModel)]="sppExecution.numMoney" nz-input name="numMoney" id="numMoney01" type="text"
+                    placeholder="Số tiền phạt (Đơn vị tính: đồng)" nz-tooltip mask="separator" thousandSeparator= "," suffix=" đ"
+                    nzTooltipTitle="Số tiền phạt (Đơn vị tính: đồng)" (keypress)="validateOnlyNumbers($event)">
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+        </div><!-- /.row -->
+        <div class="row mb-1">
+          <div class="col-4">
+            <div class="form-check">
+              <input class="form-check-input" [(ngModel)]="sppExecution.penaltyId" [value]="'02'" type="radio"
+                name="penaltyId" id="penaltyId02">
+              <label class="form-check-label" for="penaltyId02">
+                Cải tạo không giam giữ
+              </label>
+            </div>
+          </div>
+          <div class="col-8" *ngIf="sppExecution.penaltyId === '02'">
+            <nz-input-number class="mr-2 w-25" [(ngModel)]="sppExecution.numYear" name="numYear" [nzMin]="0"
+              [nzMax]="999" [nzStep]="1" [nzFormatter]="formatterYear" [nzParser]="parserYear" nz-tooltip
+              nzTooltipTitle="Số năm cải tạo"></nz-input-number>
+            <nz-input-number class="mr-2 w-25" [(ngModel)]="sppExecution.numMonth" name="numMonth" [nzMin]="0"
+              [nzMax]="999" [nzStep]="1" [nzFormatter]="formatterMonth" [nzParser]="parserMonth" nz-tooltip
+              nzTooltipTitle="Số tháng cải tạo"></nz-input-number>
+            <nz-input-number class="mr-2 w-25" [(ngModel)]="sppExecution.numDay" name="numDay" [nzMin]="0" [nzMax]="999"
+              [nzStep]="1" [nzFormatter]="formatterDay" [nzParser]="parserDay" nz-tooltip
+              nzTooltipTitle="Số ngày cải tạo"></nz-input-number>
+            <div class="row">
+              <div class="col-5">
+                <nz-form-item>
+                  <nz-form-label class="text-left" nzFor="fromDate02">
+                    Từ ngày <span class="text-danger">*</span>
+                  </nz-form-label>
+                  <nz-form-control>
+                    <nz-date-picker [nzAutoFocus]="true" [(ngModel)]="sppExecution.fromDate" name="fromDate"
+                      id="fromDate02" class="w-75" [nzMode]="'date'" nzFormat="dd/MM/yyyy" nzPlaceHolder="dd/MM/yyyy"
+                       (input)="sppExecution.fromDate=onDateValueChange($event)"
+                      (keypress)="validateOnlyNumbers($event)" [required]="sppExecution.penaltyId === '02'">
+                    </nz-date-picker>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div class="col-5">
+                <nz-form-item>
+                  <nz-form-label class="text-left" nzFor="toDate02">
+                    Đến ngày <span class="text-danger">*</span>
+                  </nz-form-label>
+                  <nz-form-control>
+                    <nz-date-picker [nzAutoFocus]="true" [(ngModel)]="sppExecution.toDate" name="toDate" id="toDate02"
+                      class="w-75" [nzMode]="'date'" nzFormat="dd/MM/yyyy" nzPlaceHolder="dd/MM/yyyy"
+                       (input)="sppExecution.toDate=onDateValueChange($event)"
+                      (keypress)="validateOnlyNumbers($event)" [required]="sppExecution.penaltyId === '02'">
+                    </nz-date-picker>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+          </div>
+        </div><!-- /.row -->
+        <div class="row mb-1">
+          <div class="col-4">
+            <div class="form-check">
+              <input class="form-check-input" [(ngModel)]="sppExecution.penaltyId" [value]="'03'" type="radio"
+                name="penaltyId" id="penaltyId03">
+              <label class="form-check-label" for="penaltyId03">
+                Trục xuất
+              </label>
+            </div>
+          </div>
+        </div><!-- /.row -->
+        <div class="row mb-1">
+          <div class="col-4">
+            <div class="form-check">
+              <input class="form-check-input" [(ngModel)]="sppExecution.penaltyId" [value]="'04'" type="radio"
+                name="penaltyId" id="penaltyId04">
+              <label class="form-check-label" for="penaltyId04">
+                {{ sppExecution.suspended ? 'Thời gian thử thách' : 'Tù có thời hạn' }}
+              </label>
+            </div>
+          </div>
+          <div class="col-md-8" *ngIf="sppExecution.penaltyId === '04'">
+            <nz-input-number class="mr-2 w-25" [(ngModel)]="sppExecution.numYear" name="numYear" [nzMin]="0"
+              [nzMax]="999" [nzStep]="1" [nzFormatter]="formatterYear" [nzParser]="parserYear" nz-tooltip
+              nzTooltipTitle="Số năm tù"></nz-input-number>
+            <nz-input-number class="mr-2 w-25" [(ngModel)]="sppExecution.numMonth" name="numMonth" [nzMin]="0"
+              [nzMax]="999" [nzStep]="1" [nzFormatter]="formatterMonth" [nzParser]="parserMonth" nz-tooltip
+              nzTooltipTitle="Số tháng tù"></nz-input-number>
+            <nz-input-number class="mr-2 w-25" [(ngModel)]="sppExecution.numDay" name="numDay" [nzMin]="0" [nzMax]="999"
+              [nzStep]="1" [nzFormatter]="formatterDay" [nzParser]="parserDay" nz-tooltip nzTooltipTitle="Số ngày tù">
+            </nz-input-number>
+            <div class="row">
+              <div class="col-5">
+                <nz-form-item>
+                  <nz-form-label class="text-left" nzFor="fromDate04">
+                    Từ ngày <span class="text-danger">*</span>
+                  </nz-form-label>
+                  <nz-form-control>
+                    <nz-date-picker [nzAutoFocus]="true" [(ngModel)]="sppExecution.fromDate" name="fromDate"
+                      id="fromDate04" class="w-75" [nzMode]="'date'" nzFormat="dd/MM/yyyy" nzPlaceHolder="dd/MM/yyyy"
+                       (input)="sppExecution.fromDate=onDateValueChange($event)"
+                      (keypress)="validateOnlyNumbers($event)" [required]="sppExecution.penaltyId === '04'">
+                    </nz-date-picker>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div class="col-5">
+                <nz-form-item>
+                  <nz-form-label class="text-left" nzFor="toDate04">
+                    Đến ngày <span class="text-danger">*</span>
+                  </nz-form-label>
+                  <nz-form-control>
+                    <nz-date-picker [nzAutoFocus]="true" [(ngModel)]="sppExecution.toDate" name="toDate" id="toDate04"
+                      class="w-75" [nzMode]="'date'" nzFormat="dd/MM/yyyy" nzPlaceHolder="dd/MM/yyyy"
+                       (input)="sppExecution.toDate=onDateValueChange($event)"
+                      (keypress)="validateOnlyNumbers($event)" [required]="sppExecution.penaltyId === '04'">
+                    </nz-date-picker>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+            <label nz-checkbox [(ngModel)]="sppExecution.suspended" name="suspended">Hưởng án treo</label>
+          </div>
+        </div><!-- /.row -->
+        <div class="row mb-1">
+          <div class="col-4">
+            <div class="form-check">
+              <input class="form-check-input" [(ngModel)]="sppExecution.penaltyId" [value]="'05'" type="radio"
+                name="penaltyId" id="penaltyId05">
+              <label class="form-check-label" for="penaltyId05">
+                Tù chung thân
+              </label>
+            </div>
+          </div>
+        </div><!-- /.row -->
+        <div class="row mb-1">
+          <div class="col-4">
+            <div class="form-check">
+              <input class="form-check-input" [(ngModel)]="sppExecution.penaltyId" [value]="'06'" type="radio"
+                name="penaltyId" id="penaltyId06">
+              <label class="form-check-label" for="penaltyId06">
+                Tử hình
+              </label>
+            </div>
+          </div>
+        </div><!-- /.row -->
+      </div>
+    </fieldset>
+    <fieldset [disabled]="isVisibleDisable"
+      class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+      <legend (click)="toggleCollapse(1)" class="ui-fieldset-legend ui-corner-all ui-state-default">
+        <i [nzType]="collapse[1] ? 'minus' : 'plus'" nz-icon></i> Hình phạt bổ sung
+      </legend>
+      <div [ngClass]="collapse[1] ? 'show' : 'hide' " class="ui-fieldset-content p-2">
+        <ng-container *ngIf="sppExecution.penaltyId !== '03'">
+        <div class="row mb-1">
+          <div class="col-5" nz-checkbox [(ngModel)]="penalties[0].isCheck" name="isCheck11" nz-tooltip
+          nzTooltipTitle="Cấm đảm nhiệm chức vụ, cấm hành nghề" [nzDisabled]="isVisibleDisable">11 - Cấm đảm nhiệm chức vụ, cấm hành nghề</div>
+          <div class="col-md-7">
+            <nz-input-number class="mr-2 w-25" [(ngModel)]="penalties[0].numYear"
+              name="numYear-{{penalties[0].penaltyId}}" [nzMin]="0" [nzMax]="999" [nzStep]="1"
+              [nzFormatter]="formatterYear" [nzParser]="parserYear" [nzDisabled]="isVisibleDisable" nz-tooltip
+              nzTooltipTitle="Số năm cấm đảm nhiệm chức vụ, cấm hành nghề"></nz-input-number>
+            <nz-input-number class="mr-2 w-25" [(ngModel)]="penalties[0].numMonth"
+              name="numMonth-{{penalties[0].penaltyId}}" [nzMin]="0" [nzMax]="999" [nzStep]="1"
+              [nzFormatter]="formatterMonth" [nzParser]="parserMonth" nz-tooltip
+              nzTooltipTitle="Số tháng cấm đảm nhiệm chức vụ, cấm hành nghề" [nzDisabled]="isVisibleDisable">
+            </nz-input-number>
+            <nz-input-number class="mr-2 w-25" [(ngModel)]="penalties[0].numDay"
+              name="numDay-{{penalties[0].penaltyId}}" [nzMin]="0" [nzMax]="999" [nzStep]="1"
+              [nzFormatter]="formatterDay" [nzParser]="parserDay" nz-tooltip
+              nzTooltipTitle="Số ngày cấm đảm nhiệm chức vụ, cấm hành nghề" [nzDisabled]="isVisibleDisable">
+            </nz-input-number>
+          </div>
+        </div><!-- /.row -->
+        <div class="row mb-1">
+          <div class="col-5" nz-checkbox [(ngModel)]="penalties[1].isCheck" name="isCheck12" nz-tooltip
+          nzTooltipTitle="Cấm cư trú" [nzDisabled]="isVisibleDisable">12 - Cấm cư trú</div>
+          <div class="col-md-7">
+            <nz-input-number class="mr-2 w-25" [(ngModel)]="penalties[1].numYear"
+              name="numYear-{{penalties[1].penaltyId}}" [nzMin]="0" [nzMax]="999" [nzStep]="1"
+              [nzFormatter]="formatterYear" [nzParser]="parserYear" [nzDisabled]="isVisibleDisable" nz-tooltip
+              nzTooltipTitle="Số năm cấm cư trú"></nz-input-number>
+            <nz-input-number class="mr-2 w-25" [(ngModel)]="penalties[1].numMonth"
+              name="numMonth-{{penalties[1].penaltyId}}" [nzMin]="0" [nzMax]="999" [nzStep]="1"
+              [nzFormatter]="formatterMonth" [nzParser]="parserMonth" nz-tooltip nzTooltipTitle="Số tháng cấm cư trú"
+              [nzDisabled]="isVisibleDisable"></nz-input-number>
+            <nz-input-number class="mr-2 w-25" [(ngModel)]="penalties[1].numDay"
+              name="numDay-{{penalties[1].penaltyId}}" [nzMin]="0" [nzMax]="999" [nzStep]="1"
+              [nzFormatter]="formatterDay" [nzParser]="parserDay" nz-tooltip nzTooltipTitle="Số ngày cấm cư trú"
+              [nzDisabled]="isVisibleDisable"></nz-input-number>
+          </div>
+        </div><!-- /.row -->
+        <div class="row mb-1">
+          <div class="col-5" nz-checkbox [(ngModel)]="penalties[2].isCheck" name="isCheck13" nz-tooltip
+          nzTooltipTitle="Quản chế" [nzDisabled]="isVisibleDisable">13 - Quản chế</div>
+          <div class="col-md-7">
+            <nz-input-number class="mr-2 w-25" [(ngModel)]="penalties[2].numYear"
+              name="numYear-{{penalties[2].penaltyId}}" [nzMin]="0" [nzMax]="999" [nzStep]="1"
+              [nzFormatter]="formatterYear" [nzParser]="parserYear" [nzDisabled]="isVisibleDisable" nz-tooltip
+              nzTooltipTitle="Số năm quản chế"></nz-input-number>
+            <nz-input-number class="mr-2 w-25" [(ngModel)]="penalties[2].numMonth"
+              name="numMonth-{{penalties[2].penaltyId}}" [nzMin]="0" [nzMax]="999" [nzStep]="1"
+              [nzFormatter]="formatterMonth" [nzParser]="parserMonth" nz-tooltip nzTooltipTitle="Số tháng quản chế"
+              [nzDisabled]="isVisibleDisable"></nz-input-number>
+            <nz-input-number class="mr-2 w-25" [(ngModel)]="penalties[2].numDay"
+              name="numDay-{{penalties[2].penaltyId}}" [nzMin]="0" [nzMax]="999" [nzStep]="1"
+              [nzFormatter]="formatterDay" [nzParser]="parserDay" nz-tooltip nzTooltipTitle="Số ngày quản chế"
+              [nzDisabled]="isVisibleDisable"></nz-input-number>
+          </div>
+        </div><!-- /.row -->
+        </ng-container>
+        <div class="row mb-1">
+          <div class="col-5" nz-checkbox [(ngModel)]="penalties[3].isCheck" name="isCheck14" nz-tooltip
+          nzTooltipTitle="Tước một số quyền công dân" [nzDisabled]="isVisibleDisable">14 - Tước một số quyền công dân</div>
+          <div class="col-md-7">
+            <div class="form-group mb-1">
+              <nz-input-number class="mr-2 w-25" [(ngModel)]="penalties[3].numYear"
+                name="numYear-{{penalties[3].penaltyId}}" [nzMin]="0" [nzMax]="999" [nzStep]="1"
+                [nzFormatter]="formatterYear" [nzParser]="parserYear" [nzDisabled]="isVisibleDisable" nz-tooltip
+                nzTooltipTitle="Số năm bị tước quyền công dân"></nz-input-number>
+              <nz-input-number class="mr-2 w-25" [(ngModel)]="penalties[3].numMonth"
+                name="numMonth-{{penalties[3].penaltyId}}" [nzMin]="0" [nzMax]="999" [nzStep]="1"
+                [nzFormatter]="formatterMonth" [nzParser]="parserMonth" nz-tooltip
+                nzTooltipTitle="Số tháng bị tước quyền công dân" [nzDisabled]="isVisibleDisable"></nz-input-number>
+              <nz-input-number class="mr-2 w-25" [(ngModel)]="penalties[3].numDay"
+                name="numDay-{{penalties[3].penaltyId}}" [nzMin]="0" [nzMax]="999" [nzStep]="1"
+                [nzFormatter]="formatterDay" [nzParser]="parserDay" nz-tooltip
+                nzTooltipTitle="Số ngày bị tước quyền công dân" [nzDisabled]="isVisibleDisable"></nz-input-number>
+            </div>
+            <input class="w-75" placeholder="Quyền bị tước" [(ngModel)]="penalties[3].disinherit" nz-input
+              name="disinherit" id="disinherit" type="text" nz-tooltip nzTooltipTitle="Quyền bị tước"
+              [disabled]="isVisibleDisable">
+          </div>
+        </div><!-- /.row -->
+        <div class="row mb-1">
+          <div class="col-5" nz-checkbox [(ngModel)]="penalties[4].tichThuTaiSan" name="tichThuTaiSan" nz-tooltip
+          nzTooltipTitle="Tịch thu tài sản" [nzDisabled]="isVisibleDisable">15 - Tịch thu tài sản</div>
+          <div class="col-md-7">
+            <!-- <div class="form-group mb-1">
+              <label nz-checkbox [(ngModel)]="penalties[4].tichThuTaiSan" name="tichThuTaiSan" nz-tooltip
+                nzTooltipTitle="Tịch thu tài sản" [nzDisabled]="isVisibleDisable"></label>
+            </div> -->
+            <input *ngIf="penalties[4].tichThuTaiSan" class="w-75" [(ngModel)]="penalties[4].confiscation"
+              placeholder="Tài sản tịch thu" nz-input name="confiscation" id="confiscation" type="text" nz-tooltip
+              nzTooltipTitle="Tài sản tịch thu">
+          </div>
+        </div><!-- /.row -->
+        <ng-container *ngIf="sppExecution.penaltyId !== '01'">
+        <div class="row mb-1">
+          <div class="col-5" nz-checkbox [(ngModel)]="penalties[5].isCheck" name="isCheck16" nz-tooltip
+          nzTooltipTitle="Phạt tiền" [nzDisabled]="isVisibleDisable">16 - Phạt tiền</div>
+          <div class="col-md-7">
+            <input class="w-75" placeholder="Số tiền phạt (Đơn vị tính: đồng)" [(ngModel)]="penalties[5].numMoney"
+              nz-input name="numMoney-{{penalties[5].penaltyId}}" id="numMoney-{{penalties[5].penaltyId}}" type="text"
+              nz-tooltip nzTooltipTitle="Số tiền phạt (Đơn vị tính: đồng)" (keypress)="validateOnlyNumbers($event)"
+              [disabled]="isVisibleDisable" mask="separator" thousandSeparator= "," suffix=" đ">
+          </div>
+        </div><!-- /.row -->
+        </ng-container>
+        <ng-container *ngIf="sppExecution.penaltyId !== '03'">
+        <div class="row mb-1">
+          <div class="col-5" nz-checkbox [(ngModel)]="penalties[6].trucXuat" name="trucXuat" nz-tooltip
+          nzTooltipTitle="Trục xuất" [nzDisabled]="isVisibleDisable">17 - Trục xuất</div>
+        </div><!-- /.row -->
+        </ng-container>
+      </div>
+    </fieldset>
+    <fieldset [disabled]="isVisibleDisable"
+              class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+      <legend (click)="toggleCollapse(2)" class="ui-fieldset-legend ui-corner-all ui-state-default">
+        <i [nzType]="collapse[2] ? 'minus' : 'plus'" nz-icon></i> Thông tin khác
+      </legend>
+      <div [ngClass]="collapse[2] ? 'show' : 'hide' " class="ui-fieldset-content p-2">
+        <div class="row mb-1">
+          <div class="col-md-6">
+            <nz-form-item class="row">
+              <nz-form-label class="col-md-6 text-left" nzFor="certificationNumber">Số chứng nhận chấp hành xong hình
+                phạt
+              </nz-form-label>
+              <nz-form-control class="col-md-6">
+                <input [(ngModel)]="sppExecution.certificationNumber" nz-input name="certificationNumber"
+                       id="certificationNumber" type="text" [disabled]="isVisibleDisable">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div class="col-md-6">
+            <nz-form-item class="row">
+              <nz-form-label class="col-md-6 text-left" nzFor="certificationNumber">Ngày chứng nhận</nz-form-label>
+              <nz-form-control class="col-md-6">
+                <nz-date-picker [nzAutoFocus]="true" [(ngModel)]="sppExecution.certificationDate"
+                                name="certificationDate" id="certificationDate"
+                                class="w-100"
+                                [nzMode]="'date'" nzFormat="dd/MM/yyyy"
+                                nzPlaceHolder="dd/MM/yyyy"
+                                
+                                (input)="sppExecution.certificationDate=onDateValueChange($event)"
+                                (keypress)="validateOnlyNumbers($event)"
+                                [nzDisabled]="isVisibleDisable"
+                ></nz-date-picker>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div><!-- /.row -->
+        <div class="row mb-1">
+          <div class="col-md-6">
+            <div class="row">
+              <label nz-checkbox [(ngModel)]="sppAccAdditionInfo.dead" name="dead" id="dead" class="col-md-6">Đã
+                chết</label>
+              <nz-form-item class="col-md-6">
+                <nz-form-control>
+                  <nz-date-picker [nzAutoFocus]="true" [(ngModel)]="sppAccAdditionInfo.deadDay" name="deadDay"
+                                  id="deadDay"
+                                  class="w-100"
+                                  [nzMode]="'date'" nzFormat="dd/MM/yyyy"
+                                  nzPlaceHolder="Ngày chết"
+                                  (input)="sppAccAdditionInfo.deadDay=onDateValueChange($event)"
+                                  (keypress)="validateOnlyNumbers($event)"
+                                  [nzDisabled]="isVisibleDisable || !sppAccAdditionInfo.dead"
+                  ></nz-date-picker>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <nz-form-item class="row">
+              <nz-form-label class="col-md-6 text-left" nzFor="causeOfDeath">Nguyên nhân chết</nz-form-label>
+              <nz-form-control class="col-md-6">
+                <nz-select name="causeOfDeath" id="causeOfDeath" nzShowSearch nzAllowClear
+                           nzPlaceHolder="Chọn nguyên nhân chết"
+                           [(ngModel)]="sppAccAdditionInfo.causeOfDeath"
+                           [nzDisabled]="isVisibleDisable || !sppAccAdditionInfo.dead">
+                  <nz-option [nzValue]=""></nz-option>
+                  <nz-option [nzValue]="1" nzLabel="Chết do bệnh lý"></nz-option>
+                  <nz-option [nzValue]="2" nzLabel="Chết do tự sát"></nz-option>
+                  <nz-option [nzValue]="3" nzLabel="Chết do nguyên nhân khác"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div><!-- /.row -->
+        <div class="row mb-1">
+          <div class="col-md-6">
+            <div class="row">
+              <label nz-checkbox [(ngModel)]="sppAccAdditionInfo.fled" name="fled" id="fled" class="col-md-6">Đã
+                trốn</label>
+              <nz-form-item class="col-md-6">
+                <nz-form-control>
+                  <nz-date-picker [nzAutoFocus]="true" [(ngModel)]="sppAccAdditionInfo.dayOfHiding" name="dayOfHiding"
+                                  id="dayOfHiding"
+                                  class="w-100"
+                                  [nzMode]="'date'" nzFormat="dd/MM/yyyy"
+                                  nzPlaceHolder="Ngày trốn"
+                                  (input)="sppAccAdditionInfo.dayOfHiding=onDateValueChange($event)"
+                                  (keypress)="validateOnlyNumbers($event)"
+                                  [nzDisabled]="isVisibleDisable || !sppAccAdditionInfo.fled"
+                  ></nz-date-picker>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <nz-form-item class="row">
+              <nz-form-label class="col-md-6 text-left" nzFor="reCaptureDate">Ngày bắt lại</nz-form-label>
+              <nz-form-control class="col-md-6">
+                <nz-date-picker [nzAutoFocus]="true" [(ngModel)]="sppAccAdditionInfo.reCaptureDate"
+                                name="reCaptureDate" id="reCaptureDate"
+                                class="w-100"
+                                [nzMode]="'date'" nzFormat="dd/MM/yyyy"
+                                nzPlaceHolder="dd/MM/yyyy"
+                                (input)="sppAccAdditionInfo.reCaptureDate=onDateValueChange($event)"
+                                (keypress)="validateOnlyNumbers($event)"
+                                [nzDisabled]="isVisibleDisable || !sppAccAdditionInfo.fled"
+                ></nz-date-picker>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div><!-- /.row -->
+        <nz-form-item class="row mb-1">
+          <nz-form-label class="col-md-3 text-left align-middle" nzFor="reasonForHiding">Lý do trốn</nz-form-label>
+          <nz-form-control class="col-md-9">
+            <nz-input-group [nzSuffix]="textAreaClearTpl" class="ant-input-affix-wrapper-textarea-with-clear-btn">
+              <textarea nz-input [(ngModel)]="sppAccAdditionInfo.reasonForHiding" name="reasonForHiding"
+                        id="reasonForHiding" placeholder="" [disabled]="isVisibleDisable || !sppAccAdditionInfo.fled"></textarea>
+            </nz-input-group>
+            <ng-template #textAreaClearTpl>
+              <i
+                nz-icon
+                class="ant-input-clear-icon"
+                nzTheme="fill"
+                nzType="close-circle"
+                *ngIf="sppAccAdditionInfo.reasonForHiding"
+                (click)="sppAccAdditionInfo.reasonForHiding = null"
+              ></i>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+        <div class="row mb-1">
+          <label nz-checkbox [(ngModel)]="sppExecution.theConvictIsOutOnBail" name="theConvictIsOutOnBail"
+                 id="theConvictIsOutOnBail"
+                 class="col-md-3">Người bị kết án đang tại ngoại</label>
+          <nz-form-item class="col-md-3">
+            <nz-form-control>
+              <nz-date-picker [nzAutoFocus]="true" [(ngModel)]="sppExecution.ngayApDung" name="ngayApDung"
+                              id="ngayApDung"
+                              class="w-100"
+                              [nzMode]="'date'" nzFormat="dd/MM/yyyy"
+                              nzPlaceHolder="Ngày áp dụng"
+                              (input)="sppExecution.ngayApDung=onDateValueChange($event)"
+                              (keypress)="validateOnlyNumbers($event)"
+                              [nzDisabled]="isVisibleDisable || !sppExecution.theConvictIsOutOnBail"
+              ></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div class="row mb-1">
+          <div class="col-md-6">
+            <div class="row">
+              <label nz-checkbox [(ngModel)]="sppAccAdditionInfo.moveToOtherPlace" name="moveToOtherPlace"
+                     id="moveToOtherPlace" class="col-md-6">Chuyển đi nơi khác</label>
+              <nz-form-item class="col-md-6">
+                <nz-form-control>
+                  <nz-date-picker [nzAutoFocus]="true" [(ngModel)]="sppAccAdditionInfo.moveOutDate" name="moveOutDate"
+                                  id="moveOutDate"
+                                  class="w-100"
+                                  [nzMode]="'date'" nzFormat="dd/MM/yyyy"
+                                  nzPlaceHolder="Ngày chuyển đi"
+                                  (input)="sppAccAdditionInfo.moveOutDate=onDateValueChange($event)"
+                                  (keypress)="validateOnlyNumbers($event)"
+                                  [nzDisabled]="isVisibleDisable || !sppAccAdditionInfo.moveToOtherPlace"
+                  ></nz-date-picker>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="row">
+              <label nz-checkbox [(ngModel)]="sppAccAdditionInfo.movedToAnotherPlace" name="movedToAnotherPlace"
+                     id="movedToAnotherPlace" class="col-md-6">Nơi khác chuyển đến</label>
+              <nz-form-item class="col-md-6">
+                <nz-form-control>
+                  <nz-date-picker [nzAutoFocus]="true" [(ngModel)]="sppAccAdditionInfo.moveInDate" name="moveInDate"
+                                  id="moveInDate"
+                                  class="w-100"
+                                  [nzMode]="'date'" nzFormat="dd/MM/yyyy"
+                                  nzPlaceHolder="Ngày chuyển đến"
+                                  (input)="sppAccAdditionInfo.moveInDate=onDateValueChange($event)"
+                                  (keypress)="validateOnlyNumbers($event)"
+                                  [nzDisabled]="isVisibleDisable || !sppAccAdditionInfo.movedToAnotherPlace"
+                  ></nz-date-picker>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+        </div><!-- /.row -->
+        <nz-form-item class="row mb-1">
+          <nz-form-label class="col-md-3 text-left align-middle" nzFor="reason">Lý do</nz-form-label>
+          <nz-form-control class="col-md-9">
+            <nz-input-group [nzSuffix]="textAreaClearTplReason" class="ant-input-affix-wrapper-textarea-with-clear-btn">
+              <textarea nz-input [(ngModel)]="sppAccAdditionInfo.reason" name="reason" id="reason"
+                        placeholder=""></textarea>
+            </nz-input-group>
+            <ng-template #textAreaClearTplReason>
+              <i
+                nz-icon
+                class="ant-input-clear-icon"
+                nzTheme="fill"
+                nzType="close-circle"
+                *ngIf="sppAccAdditionInfo.reason"
+                (click)="sppAccAdditionInfo.reason = null"
+              ></i>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item class="row mb-1">
+          <nz-form-label class="col-md-3 text-left text-wrap" [style.line-height]="'20px'" nzFor="ngayHetThoiGianTu">
+            Hết thời hạn tù trong thời gian chờ quyết định chuyển đi chấp hành án
+          </nz-form-label>
+          <nz-form-control class="col-md-3">
+            <nz-date-picker [nzAutoFocus]="true" [(ngModel)]="sppAccAdditionInfo.ngayHetThoiHanTu"
+                            name="ngayHetThoiGianTu" id="ngayHetThoiGianTu"
+                            class="w-100"
+                            [nzMode]="'date'" nzFormat="dd/MM/yyyy"
+                            nzPlaceHolder="dd/MM/yyyy"
+                            
+                            (input)="sppAccAdditionInfo.ngayHetThoiHanTu=onDateValueChange($event)"
+                            (keypress)="validateOnlyNumbers($event)"
+                            [nzDisabled]="isVisibleDisable"
+            ></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </fieldset>
+    <!-- Tách riêng component nhỏ hơn để xử lý CRUD -->
+    <app-hanh-vi-vi-pham [modalType]="modalType" [listOfData]="sppExecution.sppViolantion" (submitData)="updateSppViolantion($event)"></app-hanh-vi-vi-pham>
+    <fieldset [disabled]="isVisibleDisable"
+              class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+      <legend (click)="toggleCollapse(3)" class="ui-fieldset-legend ui-corner-all ui-state-default">
+        <i [nzType]="collapse[3] ? 'minus' : 'plus'" nz-icon></i> Phạm tội mới
+      </legend>
+      <div [ngClass]="collapse[3] ? 'show' : 'hide' " class="ui-fieldset-content p-2">
+        <div class="row mb-1">
+          <div class="col-md-6">
+            <nz-form-item class="row">
+              <nz-form-label class="col-md-6 text-left" nzFor="ngayPhamToiMoi">Ngày phạm tội mới</nz-form-label>
+              <nz-form-control class="col-md-6">
+                <nz-date-picker [nzAutoFocus]="true" [(ngModel)]="sppExecution.ngayPhamToiMoi" name="ngayPhamToiMoi"
+                                id="ngayPhamToiMoi"
+                                class="w-100"
+                                [nzMode]="'date'" nzFormat="dd/MM/yyyy"
+                                nzPlaceHolder="dd/MM/yyyy"
+                                
+                                (input)="sppExecution.ngayPhamToiMoi=onDateValueChange($event)"
+                                (keypress)="validateOnlyNumbers($event)"
+                                [nzDisabled]="isVisibleDisable"
+                ></nz-date-picker>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div class="col-md-6">
+            <nz-form-item class="row">
+              <nz-form-label class="col-md-6 text-left" nzFor="hanhViPhamToi">Hành vi phạm tội</nz-form-label>
+              <nz-form-control class="col-md-6">
+                <input [(ngModel)]="sppExecution.hanhViPhamToi" nz-input name="hanhViPhamToi" id="hanhViPhamToi"
+                       type="text" [disabled]="isVisibleDisable">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div><!-- /.row -->
+      </div>
+    </fieldset>
+  </ng-container>
+  <ng-container *ngIf="data.legalper === 'Y'">
+    <fieldset [disabled]="isVisibleDisable"
+      class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+      <legend (click)="toggleCollapse(1)" class="ui-fieldset-legend ui-corner-all ui-state-default">
+        <i [nzType]="collapse[1] ? 'minus' : 'plus'" nz-icon></i> Hình phạt chính
+      </legend>
+      <div [ngClass]="collapse[1] ? 'show' : 'hide' " class="ui-fieldset-content p-2">
+        <!-- row -->
+        <div class="row mb-1">
+            <div class="col-4">
+              <div class="form-check">
+                <input class="form-check-input" [(ngModel)]="sppExecution.penaltyId" [value]="'41'" type="radio"
+                  name="penaltyId" id="penaltyId41">
+                <label for="penaltyId41">
+                  41 - Đình chỉ hoạt động có thời
+                </label>
+              </div>
+            </div>
+            <div class="col-4">
+                <!-- <label class="form-check-label">
+                  <input type="checkbox" class="form-check-input" [(ngModel)]="sppExecution.isCuongChe" >Có cưỡng chế
+                </label> -->
+                <label [disabled]="isVisibleDisable" class="form-check-label" nz-checkbox [(ngModel)]="sppExecution.isCuongChe"> Có cưỡng chế</label>
+            </div>
+          </div>
+          <!-- row -->
+          <div class="row mb-1">
+            <div class="col-4">
+              <div class="form-check">
+                <input class="form-check-input" [(ngModel)]="sppExecution.penaltyId" [value]="'42'" type="radio"
+                  name="penaltyId" id="penaltyId42" (ngModelChange)="setChangeCuongChe()">
+                <label for="penaltyId42">
+                  42 - Đình chỉ hoạt động vĩnh viễn
+                </label>
+              </div>
+            </div>
+          </div>
+          <!-- row -->
+          <div class="row mb-1">
+            <div class="col-4">
+              <div class="form-check">
+                <input class="form-check-input" [(ngModel)]="sppExecution.penaltyId" [value]="'43'" type="radio"
+                  name="penaltyId" id="penaltyId43">
+                <label class="form-check-label" for="penaltyId43">
+                  Phạt tiền
+                </label>
+              </div>
+            </div>
+            <div class="col-8" *ngIf="sppExecution.penaltyId === '43'">
+              <div class="row">
+                <nz-form-item class="w-100">
+                  <nz-form-label class="col-md-2 text-left" nzFor="numMoney43">Số tiền</nz-form-label>
+                  <nz-form-control class="col-md-6">
+                    <input [(ngModel)]="sppExecution.numMoney" nz-input name="numMoney" id="numMoney43" type="text"
+                      placeholder="Số tiền phạt (Đơn vị tính: đồng)" nz-tooltip mask="separator" thousandSeparator= "," suffix=" đ"
+                      nzTooltipTitle="Số tiền phạt (Đơn vị tính: đồng)" (keypress)="validateOnlyNumbers($event)">
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+          </div>
+          <!-- row -->
+        </div>
+    </fieldset>
+    <fieldset [disabled]="isVisibleDisable"
+        class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+        <legend (click)="toggleCollapse(2)" class="ui-fieldset-legend ui-corner-all ui-state-default">
+            <i [nzType]="collapse[2] ? 'minus' : 'plus'" nz-icon></i> Hình phạt bổ sung đối với pháp nhân
+        </legend>
+        <div [ngClass]="collapse[2] ? 'show' : 'hide' " class="ui-fieldset-content p-2">
+          <ng-container *ngIf="sppExecution.penaltyId != '43'">
+            <div class="row mb-1">
+              <div class="col-12">
+                  <div class="row">
+                    <label [disabled]="isVisibleDisable" for="penaltyId51" nz-checkbox [(ngModel)]="penalties[7].isCheck" name="isCheck{{ penalties[7].penaltyId }}" id="isCheck{{ penalties[7].penaltyId }}" class="col-md-6">
+                      51 - Phạt tiền</label>
+                      <div class="col-6">
+                        <input class="w-75" placeholder="Số tiền phạt (Đơn vị tính: đồng)" [(ngModel)]="penalties[7].numMoney"
+                          nz-input name="numMoney-{{penalties[7].penaltyId}}" id="numMoney-{{penalties[7].penaltyId}}" type="text"
+                          nz-tooltip nzTooltipTitle="Số tiền phạt (Đơn vị tính: đồng)" (keypress)="validateOnlyNumbers($event)"
+                          [disabled]="isVisibleDisable" mask="separator" thousandSeparator= "," suffix=" đ">
+                      </div>
+                  </div>
+              </div>
+            </div>
+          </ng-container>
+        <!-- <div class="row mb-1">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-6">
+                <label [disabled]="isVisibleDisable" for="penaltyId51" nz-checkbox [(ngModel)]="penalties[7].isCheck" name="isCheck{{ penalties[7].penaltyId }}" id="isCheck{{ penalties[7].penaltyId }}" class="col-md-6">
+                    51 - Phạt tiền</label>
+              </div>
+              <div class="col-6">
+                <input class="w-75" placeholder="Số tiền phạt (Đơn vị tính: đồng)" [(ngModel)]="penalties[7].numMoney"
+                  nz-input name="numMoney-{{penalties[7].penaltyId}}" id="numMoney-{{penalties[7].penaltyId}}" type="text"
+                  nz-tooltip nzTooltipTitle="Số tiền phạt (Đơn vị tính: đồng)" (keypress)="validateOnlyNumbers($event)"
+                  [disabled]="isVisibleDisable" mask="separator" thousandSeparator= "," suffix=" đ">
+              </div>
+            </div>
+          </div>
+        </div> -->
+        <div class="row mb-1">
+          <div class="col-md-12">
+            <div class="row">
+              <label [disabled]="isVisibleDisable" for="penaltyId52" nz-checkbox [(ngModel)]="penalties[8].isCheck" name="isCheck{{ penalties[8].penaltyId }}" id="isCheck{{ penalties[8].penaltyId }}" class="col-md-12">
+                52 - Cấm kinh doanh, Cấm hoạt động trong một số lĩnh vực nhất định</label>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-1">
+          <div class="col-md-6">
+            <div class="row">
+              <label [disabled]="isVisibleDisable" for="penaltyId53" nz-checkbox [(ngModel)]="penalties[9].isCheck" name="isCheck{{ penalties[9].penaltyId }}" id="isCheck{{ penalties[9].penaltyId }}" class="col-md-6">
+                53 - Cấm huy động vốn</label>
+            </div>
+          </div>
+        </div>
+        </div>
+    </fieldset>
+    <fieldset [disabled]="isVisibleDisable"
+        class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+        <legend (click)="toggleCollapse(3)" class="ui-fieldset-legend ui-corner-all ui-state-default">
+                  <i [nzType]="collapse[3] ? 'minus' : 'plus'" nz-icon></i> Biện pháp tư pháp đối với pháp nhân
+                  <label [disabled]="isVisibleDisable" nz-checkbox [(ngModel)]="isCuongChe"> Có cưỡng chế</label>
+        </legend>
+        <div [ngClass]="collapse[3] ? 'show' : 'hide' " class="ui-fieldset-content p-2">
+          <div class="row mb-1">
+              <div class="col-12">
+                  <div class="row">
+                      <label [disabled]="isVisibleDisable" for="penaltyId61" nz-checkbox [(ngModel)]="penalties[10].isCheck" name="isCheck{{ penalties[10].penaltyId }}"
+                          id="isCheck{{ penalties[10].penaltyId }}" class="col-md-12">
+                          61 - Trả lại tài sản</label>
+                  </div>
+              </div>
+          </div>
+          <div class="row mb-1">
+              <div class="col-12">
+                  <div class="row">
+                      <label [disabled]="isVisibleDisable" for="penaltyId62" nz-checkbox [(ngModel)]="penalties[11].isCheck" name="isCheck{{ penalties[11].penaltyId }}"
+                          id="isCheck{{ penalties[11].penaltyId }}" class="col-md-12">
+                          62 - Sửa chữa hoặc bồi thường thiệt hại</label>
+                  </div>
+              </div>
+          </div>
+          <div class="row mb-1">
+              <div class="col-12">
+                  <div class="row">
+                      <label [disabled]="isVisibleDisable" for="penaltyId63" nz-checkbox [(ngModel)]="penalties[12].isCheck" name="isCheck{{ penalties[12].penaltyId }}"
+                          id="isCheck{{ penalties[12].penaltyId }}" class="col-md-12">
+                          63 - Buộc công khai xin lỗi</label>
+                  </div>
+              </div>
+          </div>
+          <div class="row mb-1">
+              <div class="col-12">
+                  <div class="row">
+                      <label [disabled]="isVisibleDisable" for="penaltyId64" nz-checkbox [(ngModel)]="penalties[13].isCheck" name="isCheck{{ penalties[13].penaltyId }}"
+                          id="isCheck{{ penalties[13].penaltyId }}" class="col-md-12">
+                          64 - Khôi phục lại tình trạng ban đầu</label>
+                  </div>
+              </div>
+          </div>
+          <div class="row mb-1">
+              <div class="col-12">
+                  <div class="row">
+                      <label [disabled]="isVisibleDisable" for="penaltyId65" nz-checkbox [(ngModel)]="penalties[14].isCheck" name="isCheck{{ penalties[14].penaltyId }}"
+                          id="isCheck{{ penalties[14].penaltyId }}" class="col-md-12">
+                          65 - Thực hiện một số biện pháp nhằm khắc phục, ngăn chặn hậu quả tiếp tục xảy ra</label>
+                  </div>
+              </div>
+          </div>
+          <div class="row mb-1">
+            <div class="col-12">
+                <div class="row">
+                    <label [disabled]="isVisibleDisable" for="penaltyId66" nz-checkbox [(ngModel)]="penalties[15].isCheck" name="isCheck{{ penalties[15].penaltyId }}"
+                        id="isCheck{{ penalties[15].penaltyId }}" class="col-md-12">
+                        66 - Tháo dỡ công trình</label>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-1">
+          <div class="col-12">
+              <div class="row">
+                  <label [disabled]="isVisibleDisable" for="penaltyId67" nz-checkbox [(ngModel)]="penalties[16].isCheck" name="isCheck{{ penalties[16].penaltyId }}"
+                      id="isCheck{{ penalties[16].penaltyId }}" class="col-md-12">
+                      67 -  Tịch thu vật hoặc tiền do phạm tội hoặc do mua bán, đổi chác những thứ ấy mà có; khoản thu lợi bất chính từ việc phạm tội;... </label>
+              </div>
+          </div>
+      </div>
+      </div>
+    </fieldset>
+    <fieldset [disabled]="isVisibleDisable"
+        class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+        <legend (click)="toggleCollapse(4)" class="ui-fieldset-legend ui-corner-all ui-state-default">
+            <i [nzType]="collapse[4] ? 'minus' : 'plus'" nz-icon></i> Thông tin khác
+        </legend>
+        <div [ngClass]="collapse[4] ? 'show' : 'hide' " class="ui-fieldset-content p-2">
+            <div class="row mb-1">
+                <div class="col-6">
+                    <div class="row">
+                        <nz-form-item class="w-100">
+                            <nz-form-label class="col-md-6 text-left" nzFor="certificationNumber">Số chứng nhận chấp
+                                hành xong hình phạt
+                            </nz-form-label>
+                            <nz-form-control class="col-md-4">
+                                <input [(ngModel)]="sppExecution.certificationNumber" nz-input
+                                    name="certificationNumber" id="certificationNumber" type="text"
+                                    [disabled]="isVisibleDisable">
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="row">
+                        <nz-form-item class="w-100">
+                            <nz-form-label class="col-md-6 text-left" nzFor="certificationDate">
+                                Ngày chứng nhận xong hình phạt
+                            </nz-form-label>
+                            <nz-form-control class="col-md-4">
+                                <nz-date-picker [nzAutoFocus]="true" [(ngModel)]="sppExecution.certificationDate"
+                                    name="certificationDate" id="certificationDate" class="w-100" [nzMode]="'date'"
+                                    nzFormat="dd/MM/yyyy" nzPlaceHolder="dd/MM/yyyy"
+                                    (input)="sppExecution.certificationDate=onDateValueChange($event)"
+                                    (keypress)="validateOnlyNumbers($event)" [nzDisabled]="isVisibleDisable">
+                                </nz-date-picker>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+            </div><!-- /.row -->
+            <div class="row mb-1">
+                <div class="col-6">
+                    <div class="row">
+                        <nz-form-item class="w-100">
+                            <nz-form-label class="col-md-6 text-left" nzFor="certificationNumberBPTP">Số chứng nhận chấp
+                                hành xong BPTP
+                            </nz-form-label>
+                            <nz-form-control class="col-md-4">
+                                <input [(ngModel)]="sppExecution.certificationNumberBPTP" nz-input
+                                    name="certificationNumberBPTP" id="certificationNumberBPTP" type="text"
+                                    [disabled]="isVisibleDisable">
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="row">
+                        <nz-form-item class="w-100">
+                            <nz-form-label class="col-md-6 text-left" nzFor="certificationDateBPTP">
+                                Ngày chứng nhận xong BPTP
+                            </nz-form-label>
+                            <nz-form-control class="col-md-4">
+                                <nz-date-picker [nzAutoFocus]="true" [(ngModel)]="sppExecution.certificationDateBPTP"
+                                    name="certificationDateBPTP" id="certificationDateBPTP" class="w-100"
+                                    [nzMode]="'date'" nzFormat="dd/MM/yyyy" nzPlaceHolder="dd/MM/yyyy"
+                                    (input)="sppExecution.certificationDateBPTP=onDateValueChange($event)"
+                                    (keypress)="validateOnlyNumbers($event)" [nzDisabled]="isVisibleDisable">
+                                </nz-date-picker>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+            </div><!-- /.row -->
+        </div>
+    </fieldset>
+</ng-container>
+  <div *nzModalFooter>
+    <button nz-button *ngIf="!isVisibleDisable" nzType="primary" (click)="handleOk()" class="button-submit">{{'save' | translate }}</button>
+    <button nz-button (click)="handleCancel()">{{'cancel' | translate }}</button>
+  </div>
+</nz-modal>

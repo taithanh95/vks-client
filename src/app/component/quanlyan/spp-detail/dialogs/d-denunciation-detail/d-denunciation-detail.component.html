@@ -1,0 +1,788 @@
+<div class="create-denouncement">
+    <nz-modal nzWidth="900px"
+              [nzAutofocus]="'auto'"
+              [(nzVisible)]="isVisibleDetail"
+              nzClosable="false"
+              [nzTitle]="title"
+              nzMaskClosable="false">
+  
+      <ng-template #title>Thông tin chi tiết
+        <div class="pull-right icon-close">
+          <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+        </div>
+      </ng-template>
+  
+      <form id="updateForm" focusInvalidInput [formGroup]="denouncementForm" (ngSubmit)="onSubmitForm()"
+            style="overflow-x: scroll">
+        <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+          <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse(0)">
+            <i nz-icon [nzType]="arrCollapse[0] ? 'minus' : 'plus'"></i>Thông tin tiếp nhận
+          </legend>
+  
+          <div class="ui-fieldset-content">
+            <div class="ant-advanced-search-form" [ngClass]="arrCollapse[0] ? 'show' : 'hide' ">
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="row">
+                      <nz-form-item class="w-100">
+                        <nz-form-label class="col-md-2 text-left" nzFor="accessLevel">
+                          Mức độ bảo mật
+                        </nz-form-label>
+                        <nz-form-control class="col-md-10">
+                          <nz-select formControlName="shareInfoLevel" class="custom-arrow">
+                            <nz-option *ngFor="let access of accesses"
+                                       [nzValue]="access.value"
+                                       [nzLabel]="access.des">
+                            </nz-option>
+                          </nz-select>
+  
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="row">
+                  <div class="col-6">
+                    <div class="row">
+                      <nz-form-item class="w-100">
+                        <nz-form-label class="col-md-4 text-left" nzFor="denouncementCode">Mã tin báo</nz-form-label>
+                        <nz-form-control class="col-md-8">
+                          <input formControlName="denouncementCode" class="text-right"
+                                 nz-input name="denouncementCode" type="number"
+                                 id="denouncementCode">
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                  </div>
+  
+                  <div class="col-6">
+                    <div class="row">
+                      <nz-form-item class="w-100">
+                        <nz-form-label class="col-md-4 text-left" nzFor="takenOverAgencyCode">Cơ quan tiếp nhận
+                        </nz-form-label>
+                        <nz-form-control class="col-md-8">
+                          <nz-select formControlName="takenOverAgencyCode">
+                            <nz-option *ngFor="let agency of takenOverAgencies"
+                                       [nzValue]="agency.paramValue"
+                                       [nzLabel]="agency.paramName">
+                            </nz-option>
+                          </nz-select>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="row">
+                  <div class="col-6">
+                    <div class="row">
+                      <nz-form-item class="w-100">
+                        <nz-form-label class="col-md-4 text-left" nzFor="takenOverDate">Ngày VKS tiếp nhận
+                          <span class="red">&nbsp; *</span>
+                        </nz-form-label>
+                        <nz-form-control class="col-md-8">
+                          <nz-date-picker class="w-100 custom-datepicker-align"
+                                          nzPlaceHolder="dd/MM/yyyy"
+                                          formControlName="takenOverDate"
+                                          nzFormat="dd/MM/yyyy">
+                          </nz-date-picker>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                  </div>
+  
+                  <div class="col-6">
+                    <div class="row">
+                      <nz-form-item class="w-100">
+                        <nz-form-label class="col-md-4 text-left" nzFor="settlementTerm">Thời hạn giải quyết
+                          <span class="red">&nbsp; *</span>
+                        </nz-form-label>
+                        <nz-form-control class="col-md-8">
+                          <nz-date-picker class="w-100 custom-datepicker-align"
+                                          nzPlaceHolder="dd/MM/yyyy"
+                                          formControlName="settlementTerm"
+                                          nzFormat="dd/MM/yyyy">
+                          </nz-date-picker>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="row">
+                  <div class="col-6">
+                    <div class="row">
+                      <nz-form-item class="w-100">
+                        <nz-form-label class="col-md-4 text-left" nzFor="denouncementType">Loại tin báo
+                          <span class="red">&nbsp; *</span>
+                        </nz-form-label>
+                        <nz-form-control class="col-md-8">
+                          <nz-select formControlName="crimeReportSource">
+                            <nz-option *ngFor="let denouncementSource of denouncementSources"
+                                       [nzValue]="denouncementSource.paramValue"
+                                       [nzLabel]="denouncementSource.paramName">
+                            </nz-option>
+                          </nz-select>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                  </div>
+  
+                  <div class="col-6">
+                    <div class="row">
+                      <nz-form-item class="w-100">
+                        <nz-form-label class="col-md-4 text-left" nzFor="complicatedCircumstance">Tình tiết phức tạp
+                        </nz-form-label>
+                        <nz-form-control class="col-md-8">
+                          <label nz-checkbox formControlName="complicatedCircumstance"></label>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="row">
+                  <div class="col-6">
+                    <div class="row">
+                      <nz-form-item class="w-100">
+                        <nz-form-label class="col-md-4 text-left" nzFor="takenOverOfficer">Cán bộ tiếp nhận
+                        </nz-form-label>
+                        <nz-form-control class="col-md-8">
+                          <input formControlName="takenOverOfficer" nz-input name="takenOverOfficer" type="text"
+                                 id="takenOverOfficer">
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                  </div>
+  
+                  <div class="col-6">
+                    <div class="row">
+                      <nz-form-item class="w-100">
+                        <nz-form-label class="col-md-4 text-left" nzFor="officerPosition">Chức vụ</nz-form-label>
+                        <nz-form-control class="col-md-8">
+                          <input formControlName="officerPosition" nz-input name="officerPosition" type="text"
+                                 id="officerPosition">
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                  </div>
+  
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+  
+        <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+          <legend class="ui-fieldset-legend ui-corner-all ui-state-default"
+                  (click)="toggleCollapse(1)">
+            <i nz-icon [nzType]="arrCollapse[1] ? 'minus' : 'plus'"></i>Quyết định Cơ quan điều tra
+          </legend>
+  
+          <div class="ui-fieldset-content">
+            <div class="ant-advanced-search-form" [ngClass]="arrCollapse[1] ? 'show' : 'hide' ">
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-6">
+                    <div class="row">
+                      <nz-form-item class="w-100">
+                        <nz-form-label class="col-md-4 text-left" nzFor="iaHandlingUnitId">Đơn vị điều tra thụ lý
+                        </nz-form-label>
+                        <nz-form-control class="col-md-8">
+                          <ng-container>
+                            <nz-select nzShowSearch
+                                       nzServerSearch
+                                       nzAllowClear
+                                       formControlName="iaHandlingUnitId">
+                              <nz-option *ngFor="let option of lstPolicesAndPol"
+                                         [nzLabel]="option.name"
+                                         [nzValue]="option.value">
+                              </nz-option>
+                            </nz-select>
+                          </ng-container>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                  </div>
+  
+                  <div class="col-6">
+                    <div class="row">
+                      <nz-form-item class="w-100">
+                        <nz-form-label class="col-md-4 text-left" nzFor="iaHandlingOfficer">Cán bộ điều tra thụ lý
+                        </nz-form-label>
+                        <nz-form-control class="col-md-8">
+                          <input formControlName="iaHandlingOfficer" nz-input name="iaHandlingOfficer" type="text"
+                                 id="iaHandlingOfficer">
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="row">
+                  <div class="col-6">
+                    <div class="row">
+                      <nz-form-item class="w-100">
+                        <nz-form-label class="col-md-4 text-left" nzFor="iaAssignmentDecisionNumber">
+                          Số quyết định phân công
+                        </nz-form-label>
+                        <nz-form-control class="col-md-8">
+                          <ng-container>
+                            <input placeholder="" formControlName="iaAssignmentDecisionNumber" nz-input/>
+                          </ng-container>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                  </div>
+  
+                  <div class="col-6">
+                    <div class="row">
+                      <nz-form-item class="w-100">
+                        <nz-form-label class="col-md-4 text-left" nzFor="iaHandlingOfficer">Ngày phân công</nz-form-label>
+                        <nz-form-control class="col-md-8">
+                          <nz-date-picker class="w-100 custom-datepicker-align"
+                                          nzPlaceHolder="dd/MM/yyyy"
+                                          formControlName="iaAssignmentDate"
+                                          nzFormat="dd/MM/yyyy">
+                          </nz-date-picker>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                  </div>
+                </div>
+  
+              </div>
+            </div>
+          </div>
+        </fieldset>
+  
+        <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+          <legend class="ui-fieldset-legend ui-corner-all ui-state-default"
+                  (click)="toggleCollapse(2)">
+            <i nz-icon [nzType]="arrCollapse[2] ? 'minus' : 'plus'"></i>Quyết định Viện kiểm sát
+          </legend>
+  
+          <div class="ui-fieldset-content">
+            <div class="ant-advanced-search-form" [ngClass]="arrCollapse[2] ? 'show' : 'hide' ">
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-6">
+                    <div class="row">
+                      <nz-form-item class="w-100">
+                        <nz-form-label class="col-md-4 text-left" nzFor="phandlingDate">Ngày VKS thụ lý
+                        </nz-form-label>
+                        <nz-form-control class="col-md-8">
+                          <nz-date-picker class="w-100 custom-datepicker-align"
+                                          nzPlaceHolder="dd/MM/yyyy"
+                                          formControlName="phandlingDate"
+                                          nzFormat="dd/MM/yyyy">
+                          </nz-date-picker>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                  </div>
+  
+                  <div class="col-6">
+                    <div class="row">
+                      <nz-form-item class="w-100">
+                        <nz-form-label class="col-md-4 text-left" nzFor="phandlingProsecutorId">Kiểm sát viên thụ lý
+                        </nz-form-label>
+                        <nz-form-control class="col-md-8">
+                          <nz-select nzShowSearch nzAllowClear
+                                     formControlName="phandlingProsecutorId">
+                            <nz-option *ngFor="let option of procurators" nzCustomContent
+                                       [nzLabel]="option.fullName"
+                                       [nzValue]="option.inspCode">
+                              {{ option.fullName }}
+                            </nz-option>
+                          </nz-select>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="row">
+                  <div class="col-6">
+                    <div class="row">
+                      <nz-form-item class="w-100">
+                        <nz-form-label class="col-md-4 text-left" nzFor="passignmentDecisionNumber">
+                          Số quyết định phân công
+                        </nz-form-label>
+                        <nz-form-control class="col-md-8">
+                          <ng-container>
+                            <input placeholder="" formControlName="passignmentDecisionNumber" nz-input/>
+                          </ng-container>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                  </div>
+  
+                  <div class="col-6">
+                    <div class="row">
+                      <nz-form-item class="w-100">
+                        <nz-form-label class="col-md-4 text-left" nzFor="passignmentDate">Ngày phân công</nz-form-label>
+                        <nz-form-control class="col-md-8">
+                          <nz-date-picker class="w-100 custom-datepicker-align"
+                                          nzPlaceHolder="dd/MM/yyyy"
+                                          formControlName="passignmentDate"
+                                          nzFormat="dd/MM/yyyy">
+                          </nz-date-picker>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+  
+        <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+          <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse(3)">
+            <i nz-icon [nzType]="arrCollapse[3] ? 'minus' : 'plus'"></i>Thông tin người báo tin
+          </legend>
+  
+          <div class="ui-fieldset-content">
+            <div class="ant-advanced-search-form" [ngClass]="arrCollapse[3] ? 'show' : 'hide' ">
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-6">
+                    <div class="row">
+                      <nz-form-item class="w-100">
+                        <nz-form-label class="col-md-4 text-left" nzFor="rreporter">Họ và tên người báo tin
+                        </nz-form-label>
+                        <nz-form-control class="col-md-8" >
+                          <input formControlName="rreporter" nz-input name="rreporter" type="text"
+                                 id="rreporter">
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                  </div>
+  
+                  <div class="col-6"></div>
+                </div>
+  
+                <div class="row">
+                  <div class="col-6">
+                    <div class="row">
+                      <nz-form-item class="w-100">
+                        <nz-form-label class="col-md-4 text-left" nzFor="rdateOfBirth">Ngày sinh
+                        </nz-form-label>
+                        <nz-form-control class="col-md-8">
+                          <nz-date-picker class="w-100 custom-datepicker-align"
+                                          nzPlaceHolder="dd/MM/yyyy"
+                                          formControlName="rdateOfBirth"
+                                          nzFormat="dd/MM/yyyy">
+                          </nz-date-picker>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                  </div>
+  
+                  <div class="col-6">
+                    <div class="row">
+                      <nz-form-item class="w-100">
+                        <nz-form-label class="col-md-4 text-left" nzFor="ryearOfBirth">Năm sinh</nz-form-label>
+                        <nz-form-control class="col-md-8" >
+                          <input class="text-right" formControlName="ryearOfBirth" nz-input name="ryearOfBirth"
+                                 type="text" id="ryearOfBirth">
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="row">
+                  <div class="col-6">
+                    <div class="row">
+                      <nz-form-item class="w-100">
+                        <nz-form-label class="col-md-4 text-left" nzFor="raddress">Địa chỉ</nz-form-label>
+                        <nz-form-control class="col-md-8">
+                          <input formControlName="raddress" nz-input name="raddress" type="text" id="raddress">
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                  </div>
+  
+                  <div class="col-6">
+                    <div class="row">
+                      <nz-form-item class="w-100">
+                        <nz-form-label class="col-md-4 text-left" nzFor="rphoneNumber">Số điện thoại
+                        </nz-form-label>
+                        <nz-form-control class="col-md-8" >
+                          <input formControlName="rphoneNumber" nz-input name="rphoneNumber" type="text"
+                                 id="rphoneNumber" appIsNumber>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="row">
+                  <div class="col-12">
+                    <div class="row">
+                      <nz-form-item class="w-100">
+                        <nz-form-label class="col-md-2 text-left" nzFor="rdelation">Nội dung tố giác
+                          <span class="red">&nbsp; *</span>
+                        </nz-form-label>
+                        <nz-form-control class="col-md-10">
+                               <textarea
+                                 nz-input
+                                 formControlName="rdelation"
+                                 [nzAutosize]="{ minRows: 2, maxRows: 6 }"
+                               ></textarea>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="row">
+                  <div class="col-12">
+                    <div class="row">
+                      <nz-form-item class="w-100">
+                        <nz-form-label class="col-md-2 text-left" nzFor="rnote">Ghi chú</nz-form-label>
+                        <nz-form-control class="col-md-10">
+                          <textarea
+                            nz-input
+                            formControlName="rnote"
+                            [nzAutosize]="{ minRows: 2, maxRows: 6 }"
+                          ></textarea>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+        </fieldset>
+  
+        <app-f-denounced-person-list [mode]="mode"
+                                   [visiblePersonList]="denouncement?.denounceDenouncedPersonList || []">
+        </app-f-denounced-person-list>
+  
+        <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+          <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse(4)">
+            <i nz-icon [nzType]="arrCollapse[4] ? 'minus' : 'plus'"></i>
+            Thông tin xử lý tin báo
+          </legend>
+  
+          <div class="ui-fieldset-content">
+            <div class="ant-advanced-search-form" [ngClass]="arrCollapse[4] ? 'show' : 'hide' ">
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-6">
+                    <div class="row">
+                      <nz-form-item class="w-100">
+                        <nz-form-label class="col-md-4 text-left" nzFor="ipnSettlementAgency">Cơ quan giải quyết
+                        </nz-form-label>
+                        <nz-form-control class="col-md-8">
+                          <ng-container>
+                            <nz-select formControlName="ipnSettlementAgency">
+                              <nz-option *ngFor="let option of ipnSettlementAgencies"
+                                         [nzLabel]="option.paramName"
+                                         [nzValue]="option.paramValue">
+                              </nz-option>
+                            </nz-select>
+                          </ng-container>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                  </div>
+  
+                  <div class="col-6">
+                    <div class="row">
+                      <nz-form-item class="w-100">
+                        <nz-form-label class="col-md-4 text-left" nzFor="ipnSettlementUnit">Đơn vị giải quyết
+                        </nz-form-label>
+                        <nz-form-control class="col-md-8">
+                          <ng-container>
+                            <div *ngIf="getControl('ipnSettlementAgency').value === 'VKS'">
+                              <input placeholder="" formControlName="ipnSettlementUnit" nz-input
+                                     [nzAutocomplete]="autoIpnSettlementUnit1"/>
+                              <nz-autocomplete #autoIpnSettlementUnit1>
+                                <nz-auto-option *ngFor="let option of lstSpp"
+                                                [nzLabel]="option.name"
+                                                [nzValue]="option.name">
+                                  {{ option.name }}
+                                </nz-auto-option>
+                              </nz-autocomplete>
+                            </div>
+  
+                            <div *ngIf="getControl('ipnSettlementAgency').value === 'CQĐT'">
+                              <input placeholder="" formControlName="ipnSettlementUnit" nz-input
+                                     [nzAutocomplete]="autoIpnSettlementUnit"/>
+                              <nz-autocomplete #autoIpnSettlementUnit >
+                                <nz-auto-option *ngFor="let option of lstIpnPolices"
+                                                [nzLabel]="option.name"
+                                                [nzValue]="option.name">
+                                  {{ option.name }}
+                                </nz-auto-option>
+                              </nz-autocomplete>
+                            </div>
+  
+                          </ng-container>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="row">
+                  <div class="col-6">
+                    <div class="row">
+                      <nz-form-item class="w-100">
+                        <nz-form-label class="col-md-4 text-left" nzFor="ipnClassifiedNews">Phân loại tin
+                          <span class="red">&nbsp; *</span>
+                        </nz-form-label>
+                        <nz-form-control class="col-md-8">
+                          <nz-select formControlName="ipnClassifiedNews">
+                            <nz-option *ngFor="let option of ipnClassifiedNews"
+                                       [nzLabel]="option.paramName"
+                                       [nzValue]="option.paramValue">
+                            </nz-option>
+                          </nz-select>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="row">
+                  <div class="col-6">
+                    <div class="row">
+                      <nz-form-item class="w-100">
+                        <nz-form-label class="col-md-4 text-left">Bộ luật
+                        </nz-form-label>
+                        <nz-form-control class="col-md-8">
+                          <ng-container>
+                            <nz-select id="codeId" formControlName="codeIdFormControlName"
+                                       nzPlaceHolder="Chọn bộ luật"
+                                       nzAllowClear
+                                       [(ngModel)]="selectedCodeId">
+                              <nz-option *ngFor="let o of listGroupLawCode" [nzValue]="o.codeId"
+                                         [nzLabel]="o.codeName"></nz-option>
+                            </nz-select>
+                          </ng-container>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="row">
+                      <nz-form-item class="w-100">
+                        <nz-form-label class="col-md-4 text-left" nzFor="ipnEnactmentId">Điều luật
+                        </nz-form-label>
+                        <nz-form-control class="col-md-8">
+                          <nz-select nzMode="tags"
+                                     [nzMaxTagCount] = "1"
+                                     nzAllowClear
+                                     nzShowSearch
+                                     nzServerSearch
+                                     formControlName="ipnEnactmentId">
+                            <nz-option *ngFor="let option of lstLaws" nzCustomContent [nzLabel]="option.label"
+                                       [nzValue]="option.lawCode">
+                              {{ option.label }}
+                            </nz-option>
+                          </nz-select>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="row">
+                  <div class="col-6">
+                    <div class="row">
+                      <nz-form-item class="w-100">
+                        <nz-form-label class="col-md-4 text-left" nzFor="ipnLawClause">Khoản luật
+                        </nz-form-label>
+                        <nz-form-control class="col-md-8">
+                          <input formControlName="ipnLawClause" nz-input name="ipnLawClause" type="text"
+                                 id="ipnLawClause">
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="row">
+                      <nz-form-item class="w-100">
+                        <nz-form-label class="col-md-4 text-left" nzFor="ipnLawPoint">Điểm luật
+                        </nz-form-label>
+                        <nz-form-control class="col-md-8">
+                          <input formControlName="ipnLawPoint" nz-input name="ipnLawPoint" type="text"
+                                 id="ipnLawPoint">
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                  </div>
+                </div> -->
+                <div class="row">
+                  <div class="col-6">
+                    <label nz-checkbox formControlName="corruptionCrime">Tội phạm tham nhũng</label>
+                    <label nz-checkbox formControlName="economicCrime">Tội phạm kinh tế</label>
+                    <label nz-checkbox formControlName="otherCrime">Tội phạm khác</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+        </fieldset>
+  
+        <app-f-verification-investigation-list *ngIf="getControl('ipnClassifiedNews').value !== '2' && isVisibleDetail"
+                                             [mode]="mode"
+                                             [procurators]="procurators"
+                                             [visibleInvestigationList]="denouncement?.verificationInvestigationList || []">
+        </app-f-verification-investigation-list>
+        <app-f-investigation-activity-list *ngIf="getControl('ipnClassifiedNews').value !== '2' && isVisibleDetail"
+                                         [mode]="mode"
+                                         [procurators]="procurators"
+                                         [investigationActivityType]="investigationActivityType"
+                                         [denouncementProcessType]="denouncementProcessType"
+                                         [visibleActivityList]="denouncement?.investigationActivityList || []">
+        </app-f-investigation-activity-list>
+        <app-f-settlement-decision-list *ngIf="getControl('ipnClassifiedNews').value !== '2' && isVisibleDetail"
+                                      [mode]="mode" [decisionAgencies]="decisionAgencies"
+                                      [visibleDecisionList]="denouncement?.settlementDecisionList || []">
+        </app-f-settlement-decision-list>
+  
+        <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border"
+                  *ngIf="getControl('ipnClassifiedNews').value === '2' ">
+          <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse(5)">
+            <i nz-icon [nzType]="arrCollapse[5] ? 'minus' : 'plus'"></i>Phiếu chuyển tin
+          </legend>
+  
+          <div class="ui-fieldset-content">
+            <div class="ant-advanced-search-form" [ngClass]="arrCollapse[5] ? 'show' : 'hide' ">
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-6">
+                    <div class="row">
+                      <nz-form-item class="w-100">
+                        <nz-form-label class="col-md-4 text-left" nzFor="fnCode">Số phiếu
+                        </nz-form-label>
+                        <nz-form-control class="col-md-8">
+                          <input formControlName="fnCode" nz-input name="fnCode" type="text"
+                                 id="fnCode">
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                  </div>
+  
+                  <div class="col-6">
+                    <div class="row">
+                      <nz-form-item class="w-100">
+                        <nz-form-label class="col-md-4 text-left" nzFor="fnDate">Ngày chuyển
+                        </nz-form-label>
+                        <nz-form-control class="col-md-8">
+                          <nz-date-picker class="w-100 custom-datepicker-align"
+                                          nzPlaceHolder="dd/MM/yyyy"
+                                          formControlName="fnDate"
+                                          nzFormat="dd/MM/yyyy">
+                          </nz-date-picker>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="row">
+                  <div class="col-6">
+                    <div class="row">
+                      <nz-form-item class="w-100">
+                        <nz-form-label class="col-md-4 text-left" nzFor="fnTakenOverAgency">Cơ quan nhận
+                        </nz-form-label>
+                        <nz-form-control class="col-md-8">
+                          <ng-container>
+                            <nz-select formControlName="fnTakenOverAgency">
+                              <nz-option *ngFor="let option of fnTakenOverAgencies"
+                                         [nzLabel]="option.paramName"
+                                         [nzValue]="option.paramValue">
+                              </nz-option>
+                            </nz-select>
+                          </ng-container>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="row">
+                      <nz-form-item class="w-100">
+                        <nz-form-label class="col-md-4 text-left" nzFor="fnTakenOverUnit">Đơn vị tiếp nhận
+                        </nz-form-label>
+                        <nz-form-control class="col-md-8">
+                          <ng-container>
+                            <nz-select nzShowSearch nzAllowClear *ngIf="getControl('fnTakenOverAgency').value == '1'"
+                                       formControlName="fnTakenOverUnit">
+                              <nz-option *ngFor="let option of fnTakenLstPolices" nzCustomContent
+                                         [nzLabel]="option.name"
+                                         [nzValue]="option.policeId">
+                                {{ option.name }}
+                              </nz-option>
+                            </nz-select>
+  
+                            <nz-select nzShowSearch nzAllowClear *ngIf="getControl('fnTakenOverAgency').value == '2'"
+                                       formControlName="fnTakenOverUnit">
+                              <nz-option *ngFor="let option of fnTakenLstPol" nzCustomContent
+                                         [nzLabel]="option.name"
+                                         [nzValue]="option.polid">
+                                {{ option.name }}
+                              </nz-option>
+                            </nz-select>
+  
+                            <nz-select nzShowSearch nzAllowClear *ngIf="getControl('fnTakenOverAgency').value == '3'"
+                                       formControlName="fnTakenOverUnit">
+                              <nz-option *ngFor="let option of fnTakenLstSpp" nzCustomContent
+                                         [nzLabel]="option.name"
+                                         [nzValue]="option.sppId">
+                                {{ option.name }}
+                              </nz-option>
+                            </nz-select>
+  
+                          </ng-container>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="row">
+                  <div class="col-12">
+                    <div class="row">
+                      <nz-form-item class="w-100">
+                        <nz-form-label class="col-md-2 text-left" nzFor="fnNote">Ghi chú
+                        </nz-form-label>
+                        <nz-form-control class="col-md-10">
+                               <textarea
+                                 nz-input
+                                 formControlName="fnNote"
+                                 [nzAutosize]="{ minRows: 2, maxRows: 6 }"
+                               ></textarea>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+        <div *nzModalFooter>
+            <button nz-button type="button" (click)="handleCancel()"
+                        class="button-submit">{{ 'Quay lại' }}
+            </button>
+        </div>
+      </form>
+    </nz-modal>
+  </div>
+
+  
+  
+  
+  
+  

@@ -1,0 +1,64 @@
+<nz-modal nzWidth="700px" class="ant-form" [(nzVisible)]="isVisible" nzClosable="false" [nzTitle]="title" nzMaskClosable="false">
+  <ng-template #title>
+    Chỉ tiêu thống kê vụ án
+    <div class="pull-right icon-close">
+      <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+  <ng-container>
+    <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+      <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse()">
+        <i nz-icon [nzType]="isCollapse ? 'minus' : 'plus'"></i>Điều luật
+      </legend>
+      <div class="ui-fieldset-content" [ngClass]="isCollapse ? 'show' : 'hide' " *ngIf="law">
+        <table width="100%" class="ui-panelgrid">
+          <tr>
+            <td style="width: 100px;"></td>
+            <td></td>
+          <tr>
+          <tr *ngIf="law.LAWID">
+            <td>Điều:</td>
+            <td>{{law.LAWID}}</td>
+          <tr>
+          <tr *ngIf="law.ITEM">
+            <td>Khoản:</td>
+            <td>{{law.ITEM}}</td>
+          </tr>
+          <tr *ngIf="law.POINT">
+            <td>Điểm:</td>
+            <td>{{law.POINT}}</td>
+          </tr>
+          <tr>
+            <td>Tội danh:</td>
+            <td>{{law.LAWNAME}}</td>
+          </tr>
+        </table>
+      </div>
+      <nz-table #basicTable [nzData]="datas"
+                nzShowPagination="false" [nzPageSize]="100" nzSize="small" [nzLoading]="loading">
+        <thead>
+        <tr>
+          <th class="text-nowrap center" style="width: 80px">STT</th>
+          <th class="text-nowrap">Chỉ tiêu thống kê</th>
+          <th class="text-nowrap center" style="width: 120px">Số lượng</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let data of basicTable.data;let i = index;" class="actived">
+          <td class="text-nowrap center">
+            {{data.EXHID}}
+          </td>
+          <td class="text-nowrap">{{ data.EXHNAME }}</td>
+          <td class="text-nowrap center">
+            <nz-input-number title="Số lượng {{data.EXHNAME}}" [(ngModel)]="data.AMOUNT" [nzMin]="0" [nzStep]="1"></nz-input-number>
+          </td>
+        </tr>
+        </tbody>
+      </nz-table>
+    </fieldset>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button (click)="handleOk()">Ghi lại</button>
+    <button nz-button (click)="handleCancel()">Quay lại</button>
+  </div>
+</nz-modal>

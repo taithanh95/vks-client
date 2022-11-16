@@ -1,0 +1,215 @@
+<nz-modal nzWidth="1300px"
+          [(nzVisible)]="isVisibleDialog"
+          [nzAutofocus]="'auto'"
+          nzClosable="false"
+          [nzTitle]="title"
+          nzMaskClosable="false">
+  <ng-template #title>Chi tiết quyết định giải quyết
+    <div class="pull-right icon-close">
+      <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+
+  <form id="settlementDecisionForm" [formGroup]="settlementDecisionForm" focusInvalidInput>
+    <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+      <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse()">
+        <i nz-icon [nzType]="isCollapse ? 'minus' : 'plus'"></i>Chi tiết quyết định giải quyết
+      </legend>
+
+      <div class="ui-fieldset-content" [ngClass]="isCollapse ? 'show' : 'hide'">
+        <div nz-form class="ant-advanced-search-form" [ngClass]="isCollapse ? 'show' : 'hide' ">
+          <div class="col-12">
+
+            <div class="row">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="decisionNumber">Số quyết định</nz-form-label>
+                    <nz-form-control class="col-md-8">
+                      <input formControlName="decisionNumber" nz-input name="decisionNumber" type="text"
+                             id="decisionNumber">
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="decisionDate">Ngày quyết định
+                      <span style="color: red">&nbsp;*</span></nz-form-label>
+                    <nz-form-control class="col-md-8">
+                      <nz-date-picker class="w-100 custom-datepicker-align"
+                                      nzPlaceHolder="dd/MM/yyyy"
+                                      formControlName="decisionDate"
+                                      nzFormat="dd/MM/yyyy">
+                      </nz-date-picker>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-2 text-left" nzFor="decisionName">Tên quyết định
+                      <span style="color: red">&nbsp;*</span>
+                    </nz-form-label>
+                    <input type="hidden" formControlName="decisionId">
+                    <input type="hidden" formControlName="decisionName">
+                    <nz-form-control class="col-md-10">
+                      <input placeholder="" formControlName="decisionTemp" nz-input
+                             [nzAutocomplete]="autoDecisionList"/>
+                      <nz-autocomplete #autoDecisionList [compareWith]="compareDecision">
+                        <nz-auto-option *ngFor="let decision of decisionList"
+                                        [nzLabel]="decision['deciname']"
+                                        [nzValue]="decision">{{decision['deciname']}}
+                        </nz-auto-option>
+                      </nz-autocomplete>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="decisionMakingAgency">CQ ra quyết định
+                      <span style="color: red">&nbsp;*</span>
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8">
+                      <nz-select formControlName="decisionMakingAgency">
+                        <nz-option *ngFor="let decisionMakingAgency of decisionAgencies"
+                                   [nzValue]="decisionMakingAgency['paramValue']"
+                                   [nzLabel]="decisionMakingAgency['paramName']"></nz-option>
+                      </nz-select>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="decisionMakingUnit">Đơn vị ra quyết định
+                      <span style="color: red">&nbsp;*</span>
+                    </nz-form-label>
+                    <input type="hidden" formControlName="decisionMakingUnitId">
+                    <input type="hidden" formControlName="decisionMakingUnit">
+                    <nz-form-control class="col-md-8">
+                      <input placeholder="" formControlName="decisionMakingUnitTemp" nz-input
+                             [nzAutocomplete]="autoDecisionMakingUnitList"/>
+                      <nz-autocomplete #autoDecisionMakingUnitList [compareWith]="compareDecisionMakingUnit">
+                        <nz-auto-option *ngFor="let decisionUnit of decisionUnits"
+                                        [nzLabel]="decisionUnit['name']"
+                                        [nzValue]="decisionUnit">
+                          {{ decisionUnit['name'] }}
+                        </nz-auto-option>
+                      </nz-autocomplete>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="effectStartDate">Hiệu lực từ ngày
+                      <span style="color: red">&nbsp;*</span></nz-form-label>
+                    <nz-form-control class="col-md-8">
+                      <nz-date-picker class="w-100 custom-datepicker-align"
+                                      nzPlaceHolder="dd/MM/yyyy"
+                                      formControlName="effectStartDate"
+                                      nzFormat="dd/MM/yyyy">
+                      </nz-date-picker>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="effectEndDate">Hiệu lực đến ngày</nz-form-label>
+                    <nz-form-control class="col-md-8">
+                      <nz-date-picker class="w-100 custom-datepicker-align"
+                                      nzPlaceHolder="dd/MM/yyyy"
+                                      formControlName="effectEndDate"
+                                      nzFormat="dd/MM/yyyy">
+                      </nz-date-picker>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-2 text-left" nzFor="note">Nội dung</nz-form-label>
+                    <nz-form-control class="col-md-10">
+                      <textarea formControlName="description" nz-input name="description"
+                                id="description" [nzAutosize]="true"></textarea>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-4 text-left" nzFor="signer">Người ký</nz-form-label>
+                    <nz-form-control class="col-8">
+                      <input formControlName="signer" nz-input name="signer" type="text"
+                             id="signer">
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-4 text-left" nzFor="assessment">Chức vụ</nz-form-label>
+                    <nz-form-control class="col-8">
+                      <input formControlName="position" nz-input name="position" type="text"
+                             id="position">
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+            <div class="row" *ngIf="settlementExisted">
+              <div class="col-12 d-flex justify-content-center">
+                <span style="color: red">{{ 'Thông tin quyết định đã tồn tại, yêu cầu kiểm tra lại' }}</span>
+              </div>
+            </div>
+            <div class="row" *ngIf="settlementLowerDateOrder">
+              <div class="col-12 d-flex justify-content-center">
+                <span style="color: red">{{ 'Ngày ra quyết định sau phải lớn hơn hoặc bằng ngày ra quyết định trước!' }}</span>
+              </div>
+            </div>
+            <div class="row" *ngIf="settlementHigherDateOrder">
+              <div class="col-12 d-flex justify-content-center">
+                <span style="color: red">{{ 'Ngày ra quyết định trước phải nhỏ hơn hoặc bằng ngày ra quyết định tiếp theo!' }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+
+  <div *nzModalFooter>
+    <div class="d-flex align-items-center justify-content-center">
+          <button nz-button (click)="handleCancel()">{{ 'Thoát' }}</button>
+    </div>
+  </div>
+</nz-modal>

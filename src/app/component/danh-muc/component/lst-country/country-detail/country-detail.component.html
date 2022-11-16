@@ -1,0 +1,83 @@
+<nz-modal *ngIf="data" class="ant-form"
+          nzWidth="1000px" [(nzVisible)]="isVisible" nzClosable="false" [nzTitle]="title" nzMaskClosable="false">
+  <ng-template #title>
+    Thông tin chi tiết
+    <div class="pull-right icon-close">
+      <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+  <div class="data-table">
+    <nz-table class="w-100"
+              [nzNoResult]="noResultTpl"
+              nzSize="small">
+      <thead>
+      <tr>
+        <th class="text-nowrap" nzWidth="30%">Thông tin</th>
+        <th class="text-nowrap" nzWidth="70%">Chi tiết</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>
+            Mã quốc gia
+        </td>
+        <td>
+          {{data.counid}}
+        </td>
+      </tr>
+      <tr>
+        <td>
+            Tên quốc gia
+        </td>
+        <td>
+          {{data.counname}}
+        </td>
+      </tr>
+      <tr>
+        <td>
+            Ghi chú
+        </td>
+        <td>
+          {{data.remark}}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Người tạo
+        </td>
+        <td>
+          {{data.crtuser}}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Ngày tạo
+        </td>
+        <td>
+          {{ data.crtdate | dateFormat}}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Người sửa cuối
+        </td>
+        <td>
+          {{data.mdfuser}}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Ngày sửa cuối
+        </td>
+        <td>
+          {{ data.mdfdate | dateFormat}}
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
+    <ng-template #noResultTpl>
+    </ng-template>
+  </div>
+  <div *nzModalFooter>
+  </div>
+</nz-modal>

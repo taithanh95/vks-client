@@ -1,0 +1,91 @@
+<nz-modal *ngIf="data" class="ant-form" nzWidth="1000px" [(nzVisible)]="isVisible" nzTitle="Thêm mới" nzClosable="false" [nzTitle]="title" nzMaskClosable="false">
+  <ng-template #title>
+    Phân công Kiểm sát viên \ Điều tra viên
+    <div class="pull-right icon-close">
+      <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+  <ng-container>
+    <table width="100%" class="ui-panelgrid table-4-col">
+      <tr>
+        <td><label>
+          Vị trí công tác
+        </label></td>
+        <td>
+          <nz-radio-group [disabled]="checkDisabled()" [(ngModel)]="data.position_type" (ngModelChange)="changeInspector()">
+            <label nz-radio nzValue="KS">Kiểm sát viên</label>
+            <label nz-radio nzValue="DT">Điều tra viên</label>
+          </nz-radio-group>
+        </td>
+        <td>
+          <label>
+            Vai trò KSV
+          </label>
+        </td>
+        <td>
+          <nz-select title="Vai trò KSV" [disabled]="data.position_type === 'DT'" nzPlaceHolder="" style="width:200px" [(ngModel)]="data.position_ksv">
+            <nz-option [nzValue]="'PC'" nzLabel="KSV được phân công"></nz-option>
+            <nz-option [nzValue]="'TG'" nzLabel="KSV tham gia phiên tòa"></nz-option>
+          </nz-select>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label title='Nhấn dấu cách để chọn tất cả, hoặc gõ mã hoặc tên để chọn từ danh mục'>
+            {{ data.position_type == 'KS' ? 'Kiểm sát viên được phân công' : 'Điều tra viên được phân công'}}
+            <span class="required">*</span>
+          </label>
+        </td>
+        <td>
+          <input [disabled]="data.isEdit == true" title="Chọn người được phân công" [required]="isSubmited" placeholder="" nz-input [(ngModel)]="data.atxtIns" (input)="onInputInspector($event)"
+                 [nzAutocomplete]="auto" (blur)="blurInspector()"/>
+          <nz-autocomplete #auto>
+            <nz-auto-option *ngFor="let option of inspectorOpions" [nzLabel]="option.FULLNAME" [nzValue]="option">{{ option.INSPCODE }} - {{ option.FULLNAME }}</nz-auto-option>
+          </nz-autocomplete>
+        </td>
+        <td>
+          <label>
+            Quyết định phân công số
+          </label>
+        </td>
+        <td>
+          <input title="Quyết định phân công số" nz-input [(ngModel)]="data.setnum"/>
+        </td>
+      </tr>
+      <tr>
+        <td><label>
+          Ngày phân công <span class="required">*</span>
+        </label></td>
+        <td>
+          <nz-date-picker [required]="isSubmited" title="Chọn ngày" nzPlaceHolder="dd/MM/yyyy" [(ngModel)]="data.assigndate" nzFormat="dd/MM/yyyy"
+          (input)="onValueAssigndate($event)" (keypress)="validateOnlyNumbers($event)"></nz-date-picker>
+        </td>
+        <td>
+          <label>
+            Ngày kết thúc
+          </label>
+        </td>
+        <td>
+          <nz-date-picker title="Chọn ngày" nzPlaceHolder="dd/MM/yyyy" [(ngModel)]="data.finishdate" nzFormat="dd/MM/yyyy"
+          (input)="onValueFinishdate($event)" (keypress)="validateOnlyNumbers($event)"></nz-date-picker>
+        </td>
+      </tr>
+      <tr>
+        <td><label title="Nhấn dấu cách để chọn tất cả, hoặc gõ mã hoặc tên để chọn từ danh mục">
+          Người ký
+        </label></td>
+        <td>
+          <input placeholder="" nz-input [(ngModel)]="data.atxtAssignIns" (input)="onInputAssignInspector($event)" [nzAutocomplete]="auto1" />
+          <nz-autocomplete #auto1 [compareWith]="compareFun1">
+            <nz-auto-option *ngFor="let option of assignInsOptions" [nzLabel]="option.FULLNAME" [nzValue]="option">{{ option.INSPCODE }} - {{ option.FULLNAME }}</nz-auto-option>
+          </nz-autocomplete>
+        </td>
+      </tr>
+    </table>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="loading">{{'save' | translate }}</button>
+    <button nz-button (click)="handleReset()">Thêm mới</button>
+    <button nz-button (click)="handleCancel()">{{'cancel' | translate }}</button>
+  </div>
+</nz-modal>

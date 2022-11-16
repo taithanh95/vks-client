@@ -1,0 +1,7 @@
+.posts tr {
+  cursor: pointer;
+}
+
+.posts tr.selected td {
+  background-color: #ffef8f;
+}

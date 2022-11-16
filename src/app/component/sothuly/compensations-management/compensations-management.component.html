@@ -1,0 +1,182 @@
+<app-compensation-modal
+  [isVisible]="isVisible"
+  [popupMode]="popupMode"
+  [selectedItem]="selectedItem"
+  (closeChange)="onCloseModal($event)"
+  (saveChange)="saveOrUpdate($event)"></app-compensation-modal>
+<section>
+  <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+    <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse()">
+      <i nz-icon [nzType]="collapse ? 'minus' : 'plus'"></i> Tìm kiếm thông tin yêu cầu bồi thường
+    </legend>
+    <div class="ui-fieldset-content p-2" [ngClass]="collapse ? 'show' : 'hide' ">
+      <form nz-form [formGroup]="formSearch" class="ant-advanced-search-form">
+        <div class="row">
+          <div class="col-12 col-lg-4 col-sm-12">
+            <nz-form-item class="row mb-0">
+              <nz-form-label class="col-4 text-left">Mã tiếp nhận</nz-form-label>
+              <nz-form-control class="col-8">
+                <input class="w-100" formControlName="id" id="id" nz-input appNumberic
+                       placeholder="Mã tiếp nhận"
+                       type="text" (keypress)="numberOnly($event)">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <div class="col-12 col-lg-4 col-sm-12">
+            <nz-form-item class="row mb-0">
+              <nz-form-label class="col-4 text-left text-wrap" [ngStyle]="{'line-height': '20px'}">Tiếp nhận từ ngày
+              </nz-form-label>
+              <nz-form-control class="col-8">
+                <nz-date-picker [nzPlaceHolder]="'Chọn ngày'" nzFormat="dd/MM/yyyy"
+                                (input)="onFromDateValueChange($event)"
+                                (keypress)="numberOnly($event)"
+                                formControlName="fromDate" id="fromDate" class="w-100"></nz-date-picker>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div class="col-12 col-lg-4 col-sm-12">
+            <nz-form-item class="row mb-0">
+              <nz-form-label class="col-4 text-left text-wrap" [ngStyle]="{'line-height': '20px'}">Tiếp nhận đến ngày
+              </nz-form-label>
+              <nz-form-control class="col-8">
+                <nz-date-picker [nzPlaceHolder]="'Chọn ngày'" nzFormat="dd/MM/yyyy"
+                                (input)="onToDateValueChange($event)"
+                                (keypress)="numberOnly($event)"
+                                [nzMode]="'date'" nzPlaceHolder="dd/MM/yyyy" formControlName="toDate" id="toDate"
+                                class="w-100">
+                </nz-date-picker>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-lg-4 col-sm-12">
+            <nz-form-item class="row mb-0">
+              <nz-form-label class="col-4 text-left">Người yêu cầu</nz-form-label>
+              <nz-form-control class="col-8">
+                <input nz-input placeholder="Người yêu cầu" type="text" formControlName="claimantName" id="claimantName"
+                       class="w-100">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div class="col-12 col-lg-4 col-sm-12">
+            <nz-form-item class="row mb-0">
+              <nz-form-label class="col-4 text-left">Người thiệt hại</nz-form-label>
+              <nz-form-control class="col-8">
+                <input nz-input placeholder="Người thiệt hại" type="text" formControlName="damagesName"
+                       id="damagesName" class="w-100">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div class="col-12 col-lg-4 col-sm-12">
+            <nz-form-item class="row mb-0">
+              <nz-form-label class="col-4 text-left">Kết quả xử lý</nz-form-label>
+              <nz-form-control class="col-8">
+                <nz-select formControlName="resultCode" id="resultCode"
+                           nzAllowClear nzPlaceHolder="Chọn kết quả">
+                  <nz-option nzLabel="Thuộc thẩm quyền giải quyết" [nzValue]="1"></nz-option>
+                  <nz-option nzLabel="Chuyển VKS có thẩm quyền giải quyết bồi thường" [nzValue]="2"></nz-option>
+                  <nz-option nzLabel="Chuyển cơ quan khác" [nzValue]="3"></nz-option>
+                  <nz-option nzLabel="Trả lại đơn" [nzValue]="4"></nz-option>
+                  <nz-option nzLabel="Xử lý khác" [nzValue]="5"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </form>
+    </div>
+  </fieldset>
+
+  <nz-page-header>
+    <nz-page-header-subtitle [style]="'color: red; font-weight: bold'">Tổng số bản ghi: {{ pageResponse.totalElements }}
+      Trang: {{ pageResponse.pageNumber }}/{{ pageResponse.totalPages }}</nz-page-header-subtitle>
+    <nz-page-header-extra>
+      <button nz-button nzType="primary" (click)="loadDataFromServer(formSearch.value)"><i
+        class="fa fa-fw fa-search"></i>&nbsp;Tìm kiếm
+      </button>
+      <button nz-button nzType="primary" (click)="onOpenModal(popupModeEnum.CREATE);"><i class="fa fa-fw fa-plus"></i>&nbsp;Thêm
+        mới
+      </button>
+      <button nz-button nzType="primary" [disabled]="!selectedItem" (click)="onOpenModal(popupModeEnum.UPDATE)"><i
+        class="fa fa-fw fa-edit"></i>&nbsp;Cập nhật thông tin
+      </button>
+      <button nz-button nzType="primary" [disabled]="!selectedItem" (click)="onOpenModal(popupModeEnum.VIEW)"><i
+        class="fa fa-fw fa-eye"></i>&nbsp;Xem chi tiết
+      </button>
+      <button nz-button nzType="primary" [disabled]="!selectedItem" (click)="onConfirmDelete()"><i
+        class="fas fa-trash"></i>&nbsp;Xóa
+      </button>
+    </nz-page-header-extra>
+  </nz-page-header>
+  <nz-table
+    #sortTable [nzData]="listOfItem"
+    [nzScroll]="scroll"
+    [nzFrontPagination]="false"
+    [nzTotal]="pageResponse.totalElements"
+    [nzPageSize]="pageResponse.pageSize"
+    [nzPageIndex]="pageResponse.pageNumber"
+    nzSize="small"
+    nzShowSizeChanger [nzShowTotal]="rangeTemplate" [nzLoading]="loading"
+    (nzQueryParams)="onQueryParamsChange($event)"
+    [nzPageSizeOptions]=[10,20,50,100]
+    [nzNoResult]="noResultTpl">
+    <thead>
+    <tr>
+      <ng-container *ngFor="let col of cols">
+        <th *ngIf="col.sortDirections" [nzSortOrder]="col.sortOrder" [nzSortFn]="col.sortFn" [nzWidth]="col.width"
+            [nzSortDirections]="col.sortDirections">
+          {{ col.title }}
+        </th>
+        <th *ngIf="!col.sortDirections" [nzWidth]="col.width">
+          {{ col.title }}
+        </th>
+      </ng-container>
+    </tr>
+    </thead>
+    <tbody class="posts">
+    <ng-container *ngFor="let data of sortTable.data; index as i">
+      <tr (click)="onSelect(data)" class="actived" ngClass="s-{{data === selectedItem}}" >
+        <td [nzChecked]="setOfCheckedId.has(data.id)" (nzCheckedChange)="onItemChecked(data.id, $event)">
+        </td>
+        <td [nzAlign]="'center'">{{ data.id }}</td>
+        <td [nzAlign]="'center'">{{ data.compensationDate}}
+        </td>
+        <td [nzAlign]="'left'" nz-tooltip [nzTooltipTitle]="data.claimantName | nzSafeNull: '-' " nzEllipsis>
+          {{ data.claimantName | nzSafeNull: '-' }}
+        </td>
+        <td [nzAlign]="'left'" nz-tooltip [nzTooltipTitle]="data.damagesName | nzSafeNull: '-' " nzEllipsis>
+          {{ data.damagesName | nzSafeNull: '-' }}
+        </td>
+        <td [nzAlign]="'left'">{{data.resultName | nzSafeNull: '-'}}</td>
+      </tr>
+    </ng-container>
+    </tbody>
+  </nz-table>
+
+  <div nz-row nzJustify="end" class="mt-3">
+    <ng-template #rangeTemplate let-range="range" let-total> {{ range[0] }}
+      -{{ range[1] }} {{'of' | translate }} {{ total }} {{'items' | translate }}
+    </ng-template>
+  </div>
+
+  <ng-template #confirm>
+    <i nz-icon nzType="question-circle" nzTheme="twotone" nzTwotoneColor="#faad14"></i>
+    &nbsp; Bạn có chắc chắn muốn xóa bản ghi không?
+  </ng-template>
+  <ng-template #confirmHeader>
+    Xác nhận
+    <div class="pull-right icon-close">
+      <em (click)="confirmModalRef.close()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+
+  <ng-template #noResultTpl>
+    <nz-empty nzNotFoundImage="./assets/image/empty.svg" [nzNotFoundContent]="contentTpl">
+      <ng-template #contentTpl>
+        <p>Không tìm thấy kết quả.</p>
+      </ng-template>
+    </nz-empty>
+  </ng-template>
+</section>

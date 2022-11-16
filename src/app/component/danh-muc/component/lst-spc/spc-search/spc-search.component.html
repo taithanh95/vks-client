@@ -1,0 +1,142 @@
+<div *ngIf="isViewTable">
+  <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+    <div class="ui-fieldset-content ant-advanced-search-form">
+      <div nz-row>
+        <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10">Mã tòa án</nz-form-label>
+            <nz-form-control [nzSpan]="12">
+              <input [(ngModel)]="filterItem.spcId" nz-input placeholder="Mã tòa án">
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10">Tên tòa án</nz-form-label>
+            <nz-form-control [nzSpan]="12">
+              <input nz-input placeholder="Tên tòa án" [(ngModel)]="filterItem.name">
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div nz-row>
+        <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10">Địa chỉ</nz-form-label>
+            <nz-form-control [nzSpan]="12">
+              <input [(ngModel)]="filterItem.addr" nz-input placeholder="Địa chỉ">
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</div>
+<div class="ui-panel">
+  <div nz-row>
+    <div nz-col [nzSpan]="24" class="search-area">
+      <button nz-button [nzType]="'primary'" (click)="forwardTable()" style="float: left">
+        <span class="fa fa-fw fa-exchange-alt"></span>
+        {{ titleTable }}
+      </button>
+      <ng-container *ngIf="isViewTable">
+        <button nz-button [nzType]="'primary'" (click)="doSearch()">
+          <span class="fa fa-fw fa-search"></span>Tìm kiếm
+        </button>
+      </ng-container>
+      <button [disabled]="isDetailBtn" nz-button [nzType]="'primary'" (click)="showDetail()">
+        <span class="fa fa-fw fa-eye"></span>Chi tiết
+      </button>
+      <button [disabled]="isInsBtn" nz-button [nzType]="'primary'" (click)="showCreateForm()">
+        <span class="fa fa-fw fa-plus"></span> Thêm mới
+      </button>
+      <button [disabled]="isUpdBtn" nz-button [nzType]="'primary'" (click)="showEditForm()">
+        <span class="fa fa-fw fa-edit"></span> Sửa
+      </button>
+      <button [disabled]="isDeleteBtn" nz-button nzType="danger" nz-popconfirm
+              nzPopconfirmTitle="Bạn có chắc chắn muốn xóa dữ liệu không?" nzPopconfirmPlacement="top" nzCancelText="Hủy"
+              nzOkText="Đồng ý" (nzOnConfirm)="doDelete()" nzType="danger">
+        <span class="fa fa-fw fa-times"></span> Xóa
+      </button>
+    </div>
+  </div>
+</div>
+<ng-container *ngIf="isViewTable">
+  <div class="data-table">
+    <nz-table #basicTable nzShowSizeChanger [nzFrontPagination]="false" nzSize="small" [nzData]="datas"
+              [nzScroll]="{ x: '1200px' }" [nzLoading]="loading"
+              [nzShowTotal]="rangeTemplate" [nzPageSize]="defaultPage" [nzTotal]="total" [nzPageIndex]="pageIndex"
+              (nzQueryParams)="onQueryParamsChange($event)">
+      <thead>
+      <tr>
+        <th class="text-nowrap" nzWidth="5%">STT</th>
+        <th class="text-nowrap" nzWidth="10%">Mã tòa án</th>
+        <th class="text-nowrap" nzWidth="20%">Tên tòa án</th>
+        <th class="text-nowrap" nzWidth="25%">Địa chỉ</th>
+        <th class="text-nowrap" nzWidth="10%">Điện thoại</th>
+        <th class="text-nowrap" nzWidth="10%">Fax</th>
+        <th class="text-nowrap" nzWidth="10%">Người tạo</th>
+        <th class="text-nowrap" nzWidth="10%">Ngày tạo</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of basicTable.data; let i = index;" class="actived" (click)="onRowSelect(data)"
+          [class.selected]="data === selectedItem">
+        <td style="text-align: center" class="text-nowrap">{{getRowIndex(i, basicTable.nzPageIndex,
+          basicTable.nzPageSize)}}</td>
+        <td class="text-nowrap center">{{ data.spcid }}</td>
+        <td class="text-nowrap">{{ data.name }}</td>
+        <td class="text-nowrap">{{ data.addr }}</td>
+        <td class="text-nowrap">{{ data.tel }}</td>
+        <td class="text-nowrap">{{ data.fax }}</td>
+        <td class="text-nowrap center">{{ data.crtuser }}</td>
+        <td class="text-nowrap center">{{ data.crtdate | dateFormat }}</td>
+      </tr>
+      </tbody>
+    </nz-table>
+    <ng-template #rangeTemplate let-range="range" let-total>
+      {{ range[0] }}-{{ range[1] }} {{'of' | translate }} {{ total }} {{'items' | translate }}
+    </ng-template>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="!isViewTable">
+  <div class="data-table">
+      <nz-table #expandTable [nzData]="listOfMapData" nzTableLayout="fixed" [nzHideOnSinglePage]="true"
+          nzPaginationType="small" [nzShowPagination]="false" nzSize="small" [nzLoading]="loadTree">
+          <thead>
+              <tr>
+                <th class="text-nowrap" nzWidth="10%">Mã tòa án</th>
+                <th class="text-nowrap" nzWidth="20%">Tên tòa án</th>
+                <th class="text-nowrap" nzWidth="25%">Địa chỉ</th>
+                <th class="text-nowrap" nzWidth="10%">Điện thoại</th>
+                <th class="text-nowrap" nzWidth="10%">Fax</th>
+                <th class="text-nowrap" nzWidth="10%">Người tạo</th>
+                <th class="text-nowrap" nzWidth="10%">Ngày tạo</th>
+              </tr>
+          </thead>
+          <tbody>
+              <ng-container *ngFor="let data of expandTable.data">
+                  <ng-container *ngFor="let item of mapOfExpandedData[data.spcid]">
+                      <tr *ngIf="(item.parent && item.parent.expand) || !item.parent" class="actived"
+                          (click)="onRowSelect(item)" [class.selected]="item === selectedItem">
+                          <td [nzIndentSize]="item.spclevel! * 5" [nzShowExpand]="!!(item.pluschildren === 'Y')"
+                              [(nzExpand)]="item.expand"
+                              (nzExpandChange)="collapse(mapOfExpandedData[data.spcid], item, $event)">
+                              {{ item.spcid }}</td>
+                              <td class="text-nowrap">{{ item.name }}</td>
+                              <td class="text-nowrap">{{ item.addr }}</td>
+                              <td class="text-nowrap">{{ item.tel }}</td>
+                              <td class="text-nowrap">{{ item.fax }}</td>
+                              <td class="text-nowrap center">{{ item.crtuser }}</td>
+                              <td class="text-nowrap center">{{ item.crtdate | dateFormat }}</td>
+                      </tr>
+                  </ng-container>
+              </ng-container>
+          </tbody>
+      </nz-table>
+  </div>
+</ng-container>
+<app-spc-detail (closeModal)="closeDetail($event)" [isVisible]="isVisibleDetail" [data]="selectedItem"></app-spc-detail>
+<app-spc-create (closeModal)="closeCreateForm($event)" [isVisible]="isVisibleCreate" [data]="data" (reload)="reloadPage(true)"></app-spc-create>
+<app-spc-edit (closeModal)="closeEditForm($event)" [isVisible]="isVisibleEdit" [data]="data" (reload)="reloadPage(false)"></app-spc-edit>

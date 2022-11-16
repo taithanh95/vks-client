@@ -1,0 +1,77 @@
+<app-discipline-violation
+  [isVisibleDialog]="isVisibleDialog" [mode]="modeDisciplineViolation" [disciplineViolationModel]="disciplineViolationForEdit"
+  [listViolationIndex]="indexForEdit"
+  (saveEmitter)="addOrUpdateViolation($event)" (closeModal)="this.isVisibleDialog=false"
+></app-discipline-violation>
+
+<fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+  <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse()">
+    <i nz-icon [nzType]="isCollapse ? 'minus' : 'plus'"></i>Hành vi vi phạm
+  </legend>
+
+  <div class="px-3" [ngClass]="isCollapse ? 'show' : 'hide'">
+    <div class="data-table mt-0 mb-2">
+      <div *ngIf="mode != modeEnum.VIEW_FROM_PARENT && mode != modeEnum.VIEW">
+        <button class="float-right mb-2" nz-button (click)="openDetailDialog(modeEnum.CREATE)" nzType="primary" type="button">
+          <span class="fa fa-fw fa-plus"></span>Thêm mới</button>
+      </div>
+      <nz-table #basicTable class="custom-table" [nzData]="visibleViolationList" [nzShowPagination]="true"
+                nzSize="small" nzShowSizeChanger [nzTableLayout]="'fixed'" [nzLoading]="loading" [nzPageSize]="5"
+                [nzPageSizeOptions]="pageSize" [nzFrontPagination]="true" [nzShowTotal]="rangeTemplate">
+        <thead>
+        <tr>
+          <th style="width: 15%">Ngày vi phạm</th>
+          <th style="width: 30%">Nội dung vi phạm</th>
+          <th style="width: 40%">Hình thức xử lý</th>
+          <th style="width: 15%">Thao tác</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let data of basicTable.data;let i = index;" class="actived"
+            ngClass="s-{{data.selected}}">
+          <td nzEllipsis nz-tooltip [nzTooltipTitle]="data['violationDate'] | dateFormat" class="text-center">
+            {{ data['violationDate'] | dateFormat}}</td>
+          <td nzEllipsis nz-tooltip [nzTooltipTitle]="data['violationContent']">
+            {{ data['violationContent'] }}</td>
+          <td nzEllipsis nz-tooltip [nzTooltipTitle]="data['punishmentType']">
+            {{ data['punishmentType']  }}</td>
+          <td class="text-center">
+            <ng-container *ngIf="mode == modeEnum.VIEW_FROM_PARENT || mode == modeEnum.VIEW">
+              <button nz-button class="mx-1" type="button" [nzGhost]="true" style="padding-left: 8px !important;"
+                      nz-tooltip nzTooltipTitle="Xem"
+                      (click)="openDetailDialog(modeEnum.VIEW_FROM_PARENT, i)">
+                <i nz-icon nzType="file" nzTheme="twotone"></i>
+              </button>
+            </ng-container>
+            <ng-container *ngIf="mode != modeEnum.VIEW_FROM_PARENT && mode != modeEnum.VIEW">
+              <button nz-button class="mx-1" type="button" [nzGhost]="true"  style="padding-left: 8px !important"
+                      nz-tooltip nzTooltipTitle="Xem"
+                      (click)="openDetailDialog(modeEnum.VIEW, i)">
+                <i nz-icon nzType="file" nzTheme="twotone"></i>
+              </button>
+              <button nz-button class="mx-1" type="button" [nzGhost]="true"  style="padding-left: 8px !important"
+                      nz-tooltip nzTooltipTitle="Sửa"
+                      (click)="openDetailDialog(modeEnum.UPDATE, i)">
+                <i nz-icon nzType="edit" nzTheme="twotone"></i>
+              </button>
+              <button nz-button nz-popconfirm nzPopconfirmTitle="Bạn có chắc chắn xóa thông tin không?"
+                      [nzGhost]="true" style="padding-left: 8px !important"
+                      nz-tooltip nzTooltipTitle="Xóa"
+                      nzPopconfirmPlacement="bottom" class="mx-1" type="button"
+                      nzOkText="Không" nzCancelText="Có" nzOkType="default"
+                      (nzOnConfirm)="cancelDelete()"
+                      (nzOnCancel)="deleteViolation(i)">
+                <i nz-icon nzType="delete" nzTheme="twotone"></i>
+              </button>
+            </ng-container>
+          </td>
+        </tr>
+        </tbody>
+      </nz-table>
+      <ng-template #rangeTemplate let-range="range" let-total>
+        <!--    {{ range[0] }}-{{ range[1] }} {{'của' | translate }} {{ total }} {{ 'bản ghi' }}-->
+        {{ range[0] }}-{{ range[1] }} {{' của ' | translate }} {{ visibleViolationList.length }} {{ ' bản ghi' }}
+      </ng-template>
+    </div>
+  </div>
+</fieldset>

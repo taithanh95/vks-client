@@ -1,0 +1,84 @@
+<div nz-row>
+  <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="10">Giai đoạn</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <nz-select [(ngModel)]="filterItem.userfor" nzPlaceHolder="Giai đoạn">
+          <nz-option nzValue="" nzLabel="Tất cả" selected></nz-option>
+          <nz-option nzValue="G1" nzLabel="Kiểm sát điều tra"></nz-option>
+          <nz-option nzValue="G2" nzLabel="Kiểm sát giải quyết án - Truy tố"></nz-option>
+          <nz-option nzValue="G3" nzLabel="Xét xử sơ thẩm"></nz-option>
+          <nz-option nzValue="G4" nzLabel="Xét xử phúc thẩm"></nz-option>
+          <nz-option nzValue="G5" nzLabel="Xét xử giám đốc thẩm"></nz-option>
+          <nz-option nzValue="G6" nzLabel="Thi hành án"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+</div>
+<div nz-row>
+  <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="10">Số thụ lý</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <input nz-input placeholder="Số thụ lý" [(ngModel)]="filterItem.setNum">
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+</div>
+<div class="ui-panel">
+  <div nz-row>
+    <div nz-col [nzSpan]="24" class="search-area">
+      <button nz-button [nzType]="'primary'" (click)="doSearch()">
+        <span class="fa fa-fw fa-search"></span>
+        Tìm kiếm
+      </button>
+      <button [disabled]="isDetailBtn" nz-button [nzType]="'primary'" (click)="showDetail()">
+        <span class="fa fa-fw fa-eye"></span>Chi tiết
+      </button>
+      <a target="_blank" [routerLink]="['/report/caseinfo/', selectedItem?.CASECODE]" href="">
+        <button [disabled]="!selectedItem" nz-button nzType="primary">
+          <span class="fa fa-fw fa-eye"></span>
+          Chi tiết vụ án
+        </button>
+      </a>
+    </div>
+  </div>
+</div>
+<ng-container>
+  <div class="data-table">
+    <nz-table #basicTable nzShowSizeChanger [nzFrontPagination]="false" nzSize="small" [nzData]="datas"
+              [nzScroll]="{ x: '1200px' }" [nzLoading]="loading" [nzShowTotal]="rangeTemplate"
+              [nzPageSize]="defaultPage"
+              [nzTotal]="total" [nzPageIndex]="pageIndex" (nzQueryParams)="onQueryParamsChange($event)">
+      <thead>
+      <tr>
+        <th class="text-nowrap" nzWidth="5%">STT</th>
+        <th class="text-nowrap" mat-sort-header="casecode" nzWidth="10%">Mã vụ án</th>
+        <th class="text-nowrap" nzWidth="30%">Tên vụ án</th>
+        <th class="text-nowrap" nzWidth="30%">Mã thụ lý</th>
+        <th class="text-nowrap" nzWidth="10%">Số thụ lý</th>
+        <th class="text-nowrap" nzWidth="15%">Ngày thụ lý</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of basicTable.data; let i = index;" class="actived" (click)="onRowSelect(data)"
+          [class.selected]="data === selectedItem">
+        <td style="text-align: center" class="text-nowrap">{{getRowIndex(i, basicTable.nzPageIndex,
+          basicTable.nzPageSize)}}</td>
+        <td class="text-nowrap center">{{ data.CASECODE }}</td>
+        <td class="text-nowrap">{{ data.CASENAME }}</td>
+        <td class="text-nowrap center">{{ data.REGICODE }}</td>
+        <td class="text-nowrap center">{{ data.SETNUM }}</td>
+        <td class="text-nowrap center">{{ data.INDATE | dateFormat }}</td>
+      </tr>
+      </tbody>
+    </nz-table>
+    <ng-template #rangeTemplate let-range="range" let-total>
+      {{ range[0] }}-{{ range[1] }} {{'of' | translate }} {{ total }} {{'items' | translate }}
+    </ng-template>
+  </div>
+</ng-container>
+<ng-container *ngIf="isVisibleDetail">
+  <app-lookup-detail (closeModal)="closeDetail($event)" [isVisible]="isVisibleDetail" [data]="data"></app-lookup-detail>
+</ng-container>

@@ -1,0 +1,139 @@
+<div>
+  <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+    <div class="ui-fieldset-content ant-advanced-search-form">
+      <div nz-row>
+        <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10">Điều luật</nz-form-label>
+            <nz-form-control [nzSpan]="12">
+              <input [(ngModel)]="filterItem.lawId" nz-input placeholder="Điều luật">
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10">Khoản</nz-form-label>
+            <nz-form-control [nzSpan]="12">
+              <input nz-input placeholder="Khoản" [(ngModel)]="filterItem.item">
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div nz-row>
+        <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+          <nz-form-item>
+            <nz-form-label class="pd" [nzSpan]="10">Điểm</nz-form-label>
+            <nz-form-control class="pd" [nzSpan]="12">
+              <input [(ngModel)]="filterItem.point" nz-input placeholder="Điểm">
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+          <nz-form-item>
+            <nz-form-label class="pd" [nzSpan]="10">Tội danh</nz-form-label>
+            <nz-form-control [nzSpan]="12">
+              <textarea placeholder="Tội danh" nz-input [(ngModel)]="filterItem.lawName"></textarea>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div nz-row>
+        <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10">Tên bộ luật</nz-form-label>
+            <nz-form-control [nzSpan]="12">
+              <nz-select [(ngModel)]="filterItem.codeId" nzPlaceHolder="Tên bộ luật" nzShowSearch (ngModelChange)="onInputLawGroup()">
+                <nz-option [nzValue]="''" nzLabel="Tất cả"></nz-option>
+                <nz-option *ngFor="let option of lstCode" [nzLabel]="option.CODENAME"
+                           [nzValue]="option.CODEID">{{ option.CODENAME }}</nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10">Chương luật</nz-form-label>
+            <nz-form-control [nzSpan]="12">
+              <nz-select [disabled]="!filterItem.codeId" [(ngModel)]="filterItem.groupId" nzPlaceHolder="Chương luật" nzShowSearch>
+                <nz-option [nzValue]="''" nzLabel="Tất cả"></nz-option>
+                <nz-option *ngFor="let option of lstLawGroup" [nzLabel]="option.GROUPNAME"
+                           [nzValue]="option.GROUPID">{{ option.GROUPNAME }}</nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</div>
+<div class="ui-panel">
+  <div nz-row>
+    <div nz-col [nzSpan]="24" class="search-area">
+      <button nz-button [nzType]="'primary'" (click)="doSearch()">
+        <span class="fa fa-fw fa-search"></span>
+        Tìm kiếm
+      </button>
+      <button [disabled]="isDetailBtn" nz-button [nzType]="'primary'" (click)="showDetail()">
+        <span class="fa fa-fw fa-eye"></span>Chi tiết
+      </button>
+      <button nz-button [nzType]="'primary'" (click)="showCreateForm()">
+        <span class="fa fa-fw fa-plus"></span> Thêm mới
+      </button>
+      <button [disabled]="isUpdBtn" nz-button [nzType]="'primary'" (click)="showEditForm()">
+        <span class="fa fa-fw fa-edit"></span> Sửa
+      </button>
+      <button [disabled]="isDeleteBtn" nz-button nzType="danger" nz-popconfirm
+              nzPopconfirmTitle="Bạn có chắc chắn muốn xóa dữ liệu không?" nzPopconfirmPlacement="top"
+              nzCancelText="Hủy"
+              nzOkText="Đồng ý" (nzOnConfirm)="doDelete()" nzType="danger">
+        <span class="fa fa-fw fa-times"></span> Xóa
+      </button>
+    </div>
+  </div>
+  <ng-container>
+    <div class="data-table">
+      <nz-table #basicTable nzShowSizeChanger [nzFrontPagination]="false" nzSize="small" [nzData]="datas"
+                [nzScroll]="{ x: '1200px' }" (nzCurrentPageDataChange)="currentPageDataChange($event)"
+                [nzLoading]="loading"
+                [nzShowTotal]="rangeTemplate" [nzPageSize]="defaultPage" [nzTotal]="total" [nzPageIndex]="pageIndex"
+                (nzQueryParams)="onQueryParamsChange($event)">
+        <thead>
+        <tr>
+          <th class="text-nowrap" nzWidth="5%">STT</th>
+          <th class="text-nowrap" nzWidth="5%">Điều</th>
+          <th class="text-nowrap" nzWidth="5%">Khoản</th>
+          <th class="text-nowrap" nzWidth="5%">Điểm</th>
+          <th class="text-nowrap" nzWidth="40%">Tội danh</th>
+          <th class="text-nowrap" nzWidth="10%">Ngày ban hành</th>
+          <th class="text-nowrap" nzWidth="5%">Tên bộ luật</th>
+          <th class="text-nowrap" nzWidth="10%">Mức độ nghiêm trọng</th>
+          <th class="text-nowrap" nzWidth="5%">Người tạo</th>
+          <th class="text-nowrap" nzWidth="10%">Ngày tạo</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let data of basicTable.data; let i = index;" class="actived" (click)="onRowSelect(data)"
+            [class.selected]="data === selectedItem">
+          <td style="text-align: center" class="text-nowrap">{{getRowIndex(i, basicTable.nzPageIndex,
+            basicTable.nzPageSize)}}</td>
+          <td class="text-nowrap center">{{ data.lawId }}</td>
+          <td class="text-nowrap center">{{ data.item }}</td>
+          <td class="text-nowrap center">{{ data.point }}</td>
+          <td class="text-nowrap" nz-tooltip [nzTooltipTitle]="data['lawName']">{{ data.lawName }}</td>
+          <td class="text-nowrap center">{{ data.lawDate | dateFormat }}</td>
+          <td class="text-nowrap center">{{ convert(data.codeId) }}</td>
+          <td class="text-nowrap">{{ f(data.lawType) }}</td>
+          <td class="text-nowrap center">{{ data.crtUser }}</td>
+          <td class="text-nowrap center">{{ data.crtDate | dateFormat }}</td>
+        </tr>
+        </tbody>
+      </nz-table>
+      <ng-template #rangeTemplate let-range="range" let-total>
+        {{ range[0] }}-{{ range[1] }} {{'of' | translate }} {{ total }} {{'items' | translate }}
+      </ng-template>
+    </div>
+  </ng-container>
+</div>
+<app-law-detail (closeModal)="closeDetail($event)" [isVisible]="isVisibleDetail" [data]="data"></app-law-detail>
+<app-law-create (closeModal)="closeCreateForm($event)" [lstCode]="lstCode" [isVisible]="isVisibleCreate" (reload)="doSearch()"></app-law-create>
+<app-law-edit (closeModal)="closeEditForm($event)" [isVisible]="isVisibleEdit" [lstCode]="lstCode" [data]="data" (reload)="loadDataFromServer()"></app-law-edit>

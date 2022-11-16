@@ -1,0 +1,59 @@
+<nz-modal nzWidth="1000px" [(nzVisible)]="isVisible" nzClosable="false" [nzTitle]="title" nzMaskClosable="false">
+    <ng-template #title>
+        {{ titleName }} Dân tộc
+        <div class="pull-right icon-close">
+            <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+        </div>
+    </ng-template>
+    <div>
+        <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+            <div class="ui-fieldset-content ant-advanced-search-form">
+                <div nz-row>
+                    <div nz-col [nzLg]="10" [nzMd]="12" [nzXs]="12">
+                        <nz-form-item>
+                            <nz-form-label [nzSpan]="10">Mã dân tộc</nz-form-label>
+                            <nz-form-control [nzSpan]="12">
+                                <input nz-input placeholder="Hệ thống tự sinh" [(ngModel)]="data.natiid" disabled>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+    
+                    <div nz-col [nzLg]="10" [nzMd]="12" [nzXs]="12">
+                        <nz-form-item>
+                            <nz-form-label [nzSpan]="10">Tên dân tộc<span style="color: red">&nbsp;*</span></nz-form-label>
+                            <nz-form-control [nzSpan]="12">
+                                <input nz-input placeholder="Tên dân tộc" [(ngModel)]="data.name" [required]="isSubmited" >
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+<!-- Row -->
+                <div nz-row>
+                    <div nz-col [nzLg]="10" [nzMd]="12" [nzXs]="12">
+                        <nz-form-item>
+                            <nz-form-label [nzSpan]="10">Ghi chú</nz-form-label>
+                            <nz-form-control [nzSpan]="12">
+                                <input nz-input placeholder="Ghi chú" [(ngModel)]="data.remark">
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+    <div *nzModalFooter>
+        <div nz-col [nzSpan]="24" class="search-area">
+            <button nz-button [nzType]="'primary'" (click)="handleOk()">
+                <span class="fa fa-fw fa-save"></span>Ghi lại
+            </button>
+            <ng-container *ngIf="!data.isEdit">
+                <button nz-button [nzType]="'primary'" (click)="doReset()">
+                    <span class="fa fa-fw fa-plus"></span>Thêm mới
+                </button>
+            </ng-container>
+            <button nz-button [nzType]="'primary'" (click)="handleCancel()">
+                <span class="fa fa-fw fa-arrow-left"></span>Quay lại
+            </button>
+        </div>
+    </div>
+</nz-modal>

@@ -1,0 +1,160 @@
+<nz-modal
+  nzWidth="1300px"
+  [(nzVisible)]="isVisibleDialog"
+  [nzAutofocus]="'auto'"
+  nzClosable="false"
+  [nzTitle]="title"
+  nzMaskClosable="false"
+>
+  <ng-template #title>
+    <ng-container [ngSwitch]="mode">
+      <ng-container *ngSwitchCase="modeEnum.VIEW"
+        >Chi tiết hành vi phạm tội</ng-container
+      >
+      <ng-container *ngSwitchCase="modeEnum.UPDATE"
+        >Cập nhật hành vi phạm tội</ng-container
+      >
+      <ng-container *ngSwitchDefault>Hành vi phạm tội</ng-container>
+    </ng-container>
+    <div class="pull-right icon-close">
+      <em
+        (click)="handleCancel()"
+        nz-icon
+        nzType="close"
+        nzTheme="outline"
+      ></em>
+    </div>
+  </ng-template>
+
+  <form
+    id="lawOffenseModalForm"
+    [formGroup]="lawOffenseModalForm"
+    focusInvalidInput
+  >
+    <fieldset
+      class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border"
+    >
+      <legend
+        class="ui-fieldset-legend ui-corner-all ui-state-default"
+        (click)="toggleCollapse()"
+      >
+        <i nz-icon [nzType]="isCollapse ? 'minus' : 'plus'"></i>
+        <ng-container [ngSwitch]="mode">
+          <ng-container *ngSwitchCase="modeEnum.VIEW"
+            >Chi tiết hành vi phạm tội</ng-container
+          >
+          <ng-container *ngSwitchCase="modeEnum.UPDATE"
+            >Cập nhật hành vi phạm tội</ng-container
+          >
+          <ng-container *ngSwitchCase="modeEnum.CREATE"
+          >Thêm mới hành vi phạm tội</ng-container
+          >
+          <ng-container *ngSwitchDefault>Hành vi phạm tội</ng-container>
+        </ng-container>
+      </legend>
+
+      <div class="ui-fieldset-content">
+        <div
+          nz-form
+          class="ant-advanced-search-form"
+          [ngClass]="isCollapse ? 'show' : 'hide'"
+        >
+          <div class="col-12">
+            <div class="row">
+
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="lawName">Tên bộ luật
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8" [nzErrorTip]="lawNameErrorTpl">
+                      <input type="hidden" formControlName="lawId">
+                      <nz-select  nzShowSearch
+                                  formControlName="lawName"
+                                 (nzOnSearch)="onSearchGroupLaw($event)">
+                        <nz-option *ngFor="let lawName of groupLaws"
+                                   [nzValue]="lawName['codeName']"
+                                   [nzLabel]="lawName['codeName']"></nz-option>
+                      </nz-select>
+                      <ng-template #lawNameErrorTpl let-control>
+                        <ng-container *ngIf="control.hasError('notInList')">
+                          <small>Tên bộ luật không hợp lệ!</small>
+                        </ng-container>
+<!--                        <ng-container *ngIf="control.hasError('required')">-->
+<!--                          <small>Tên bộ luật bắt buộc nhập!</small>-->
+<!--                        </ng-container>-->
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="enactmentName">Điều luật
+                      <span style="color: red">&nbsp;*</span>
+                    </nz-form-label>
+                    <input type="hidden" formControlName="enactmentId">
+                    <input type="hidden" formControlName="point">
+                    <input type="hidden" formControlName="item">
+                    <nz-form-control class="col-md-8" [nzErrorTip]="enactmentNameErrorTpl">
+                      <nz-select nzAllowClear
+                                 nzShowSearch
+                                 nzServerSearch
+                                 formControlName="enactmentName"
+                                 (nzOnSearch)="onSearchLaw($event)">
+                        <nz-option *ngFor="let enactment of lstLaws"
+                                   [nzValue]="enactment.lawName"
+                                   [nzLabel]="'Điều ' + enactment.lawId + (enactment.item == null  ? '' : ' - ' + 'Khoản ' + enactment.item) + ' - '+ enactment.lawName" nzCustomContent>{{ enactment.lawId }} - {{ enactment.lawName }}</nz-option>
+                      </nz-select>
+                      <ng-template #enactmentNameErrorTpl let-control>
+                        <ng-container *ngIf="control.hasError('required')">
+                          <small>Trường bắt buộc nhập!</small>
+                        </ng-container>
+                        <ng-container *ngIf="control.hasError('notInList')">
+                          <small>Điều luật không hợp lệ!</small>
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+
+  <div *nzModalFooter>
+    <div class="d-flex align-items-center justify-content-center">
+      <ng-container [ngSwitch]="mode">
+        <ng-container *ngSwitchCase="modeEnum.VIEW">
+          <button nz-button (click)="handleCancel()">{{ "Hủy bỏ" }}</button>
+        </ng-container>
+        <ng-container *ngSwitchCase="modeEnum.VIEW_FROM_PARENT">
+          <button nz-button (click)="handleCancel()">{{ "Hủy bỏ" }}</button>
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+          <button
+            form="lawOffenseModalForm"
+            nz-button
+            class="button-submit"
+            type="button"
+            (click)="handleSave()"
+            [nzLoading]="isConfirmLoading"
+          >
+            <span nz-icon nzType="save" nzTheme="twotone"></span>
+            {{ "save" | translate }}
+          </button>
+          <button nz-button type="button" (click)="handleCancel()">
+            <span class="fa fa-fw fa-times"></span>
+            {{ "cancel" | translate }}
+          </button>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+</nz-modal>
+

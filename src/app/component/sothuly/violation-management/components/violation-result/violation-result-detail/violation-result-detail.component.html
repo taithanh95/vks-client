@@ -1,0 +1,150 @@
+<nz-modal nzWidth="960px"
+          [(nzVisible)]="isVisible"
+          [nzAutofocus]="'auto'"
+          [nzTitle]="title"
+          nzClosable="false"
+          nzMaskClosable="false">
+  <ng-template #title>
+    <ng-container [ngSwitch]="popupMode">
+      <ng-container *ngSwitchCase="popupModeEnum.VIEW">Chi tiết Kết quả thực hiện</ng-container>
+      <ng-container *ngSwitchCase="popupModeEnum.UPDATE">Cập nhật Kết quả thực hiện</ng-container>
+      <ng-container *ngSwitchDefault>Thêm mới Kết quả thực hiện</ng-container>
+    </ng-container>
+    <div class="pull-right icon-close">
+      <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+  <nz-spin [nzSpinning]="isSpinning">
+    <form nz-form [formGroup]="myForm" (ngSubmit)="handleOk(myForm.value)">
+      <div *nzModalContent>
+        <input type="hidden" formControlName="id">
+        <input type="hidden" formControlName="violationLawId">
+        <div class="row mb-1">
+          <div class="col-6">
+            <div class="row">
+              <nz-form-item class="w-100">
+                <nz-form-label class="col-md-4 text-left" nzFor="resultCode">Kết quả thực hiện</nz-form-label>
+                <nz-form-control class="col-md-8">
+                  <nz-select nzMode="multiple" [(ngModel)]="resultCode" [ngModelOptions]="{standalone: true}" nzPlaceHolder="Chọn kết quả" nzAllowClear>
+                    <nz-option [nzValue]="'CHAP_NHAN'" nzLabel="Chấp nhận"></nz-option>
+                    <nz-option [nzValue]="'KHONG_CHAP_NHAN'" nzLabel="Không chấp nhận"></nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row">
+              <label *ngIf="checkKQ('CHAP_NHAN')" formControlName="chapNhanMotPhan" nz-checkbox>Chấp nhận một phần</label>
+              <label *ngIf="checkKQ('KHONG_CHAP_NHAN')" formControlName="khongChapNhanMotPhan" nz-checkbox>Không chấp nhận một phần</label>
+            </div>
+          </div>
+        </div><!-- /.row -->
+
+        <div class="row mb-1">
+          <div class="col-6">
+            <div class="row">
+              <nz-form-item class="w-100">
+                <nz-form-label class="col-md-4 text-left" nzFor="resultNumber">Số kết quả</nz-form-label>
+                <nz-form-control class="col-md-8">
+                  <input formControlName="resultNumber" nz-input name="resultNumber" id="resultNumber" type="text">
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row">
+              <nz-form-item class="w-100">
+                <nz-form-label class="col-md-4 text-left" nzFor="resultDate">
+                  Ngày ra kết quả
+                </nz-form-label>
+                <nz-form-control class="col-md-8" [nzErrorTip]="resultDateErrorTpl">
+                  <nz-date-picker formControlName="resultDate" id="resultDate" class="w-100"
+                                  [nzMode]="'date'" nzFormat="dd/MM/yyyy"
+                                  nzPlaceHolder="dd/MM/yy"
+                                  [nzDisabledDate]="disabledResultDate"
+                                  (input)="onDateValueChange($event, myForm.get('resultDate'))"
+                                  (keypress)="numberOnly($event)"></nz-date-picker>
+                </nz-form-control>
+                <ng-template #resultDateErrorTpl let-control>
+                  <ng-container *ngIf="control.hasError('error')">
+                    <small class="form-text">Ngày ra kết quả phải lớn hơn hoặc bằng Ngày vi phạm!</small>
+                  </ng-container>
+                </ng-template>
+              </nz-form-item>
+            </div>
+          </div>
+        </div><!-- /.row -->
+
+<!--        <div class="row mb-1">-->
+<!--          <div class="col-12">-->
+<!--            <div class="row">-->
+<!--              <nz-form-item class="w-100">-->
+<!--                <nz-form-label class="col-md-2 text-left" nzFor="resultContent">Nội dung kết quả</nz-form-label>-->
+<!--                <nz-form-control class="col-md-10">-->
+<!--                    <textarea formControlName="resultContent" nz-input rows="2" name="resultContent" id="resultContent"-->
+<!--                              type="text"></textarea>-->
+<!--                </nz-form-control>-->
+<!--              </nz-form-item>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>&lt;!&ndash; /.row &ndash;&gt;-->
+
+
+        <div class="row mb-1">
+          <div class="col-8">
+            <div class="row">
+              <nz-form-item class="w-100">
+                <nz-form-label class="col-md-3 text-left" nzFor="resultContent">Nội dung kết quả</nz-form-label>
+                <nz-form-control class="col-md-9">
+                    <textarea [innerHTML]="myForm.get('resultContent').value" placeholder="Nhấn thêm mới để chọn nội dung kết quả"
+                              formControlName="resultContent" nz-input rows="4" name="resultContent" id="resultContent"
+                              type="text"></textarea>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <div *ngIf="popupMode != popupModeEnum.VIEW" class="col-4 justify-content-end">
+            <button nz-button (click)="openModal()" nzType="primary" type="button"> Thêm mới</button>
+          </div>
+        </div><!-- /.row -->
+
+        <div class="row mb-1">
+          <div class="col-12">
+            <div class="row">
+              <nz-form-item class="w-100">
+                <nz-form-label class="col-md-2 text-left" nzFor="note">Ghi chú</nz-form-label>
+                <nz-form-control class="col-md-10">
+                  <textarea formControlName="note" nz-input rows="2" name="note" id="note" type="text"></textarea>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+        </div><!-- /.row -->
+      </div><!-- /.nzModalContent -->
+      <div *nzModalFooter>
+        <div class="d-flex align-items-center justify-content-center">
+          <ng-container [ngSwitch]="popupMode">
+            <ng-container *ngSwitchCase="popupModeEnum.VIEW">
+              <button nz-button (click)="handleCancel()">{{ 'back' | translate }}</button>
+            </ng-container>
+            <ng-container *ngSwitchCase="popupModeEnum.VIEW_FROM_PARENT">
+              <button nz-button (click)="handleCancel()">{{ 'back' | translate }}</button>
+            </ng-container>
+            <ng-container *ngSwitchDefault>
+              <button nz-button nzType="primary" type="button" (click)="handleOk(myForm.value)">
+                <i nz-icon nzType="save" nzTheme="outline"></i>
+                {{'save' | translate }}
+              </button>
+              <button nz-button nzType="default" type="button" (click)="handleCancel()">
+                <i nz-icon nzType="close" nzTheme="outline"></i>
+                {{'cancel' | translate }}</button>
+            </ng-container>
+          </ng-container>
+        </div>
+      </div>
+    </form>
+  </nz-spin>
+</nz-modal>
+
+<app-create-result [isVisible]="isVisibleCreate" (submit)="submitResult($event)" (closeModal)="closeModal($event)"></app-create-result>

@@ -1,0 +1,207 @@
+<nz-modal nzWidth="1300px"
+          [(nzVisible)]="isVisibleDialog"
+          [nzAutofocus]="'auto'"
+          nzClosable="false"
+          [nzTitle]="title"
+          nzMaskClosable="false">
+  <ng-template #title>
+    <ng-container [ngSwitch]="mode">
+      <ng-container *ngSwitchCase="modeEnum.VIEW">Chi tiết hoạt động của VKS</ng-container>
+      <ng-container *ngSwitchCase="modeEnum.UPDATE">Cập nhật hoạt động của VKS</ng-container>
+      <ng-container *ngSwitchDefault>Thêm mới hoạt động của VKS</ng-container>
+    </ng-container>
+    <div class="pull-right icon-close">
+      <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+
+  <form id="verificationInvestigationForm" [formGroup]="form" focusInvalidInput>
+    <div nz-form class="ant-advanced-search-form" [ngClass]="isCollapse ? 'show' : 'hide' ">
+      <div class="col-12">
+        <div class="row">
+          <div class="col-6">
+            <div class="row">
+              <nz-form-item class="w-100">
+                <nz-form-label class="col-md-4 text-left" nzFor="verificationInvestigationCode">Số QĐ/yêu cầu
+                </nz-form-label>
+                <nz-form-control class="col-md-8" [nzErrorTip]="verificationInvestigationCodeErrTpl">
+                  <input formControlName="verificationInvestigationCode" nz-input
+                         name="verificationInvestigationCode" type="text"
+                         id="fullName">
+                </nz-form-control>
+                <ng-template #verificationInvestigationCodeErrTpl let-control>
+                  <ng-container *ngIf="control.hasError('maxlength')">
+                    <small>Độ dài ký tự đã vượt quá giới hạn, yêu cầu kiểm tra lại</small>
+                  </ng-container>
+                </ng-template>
+              </nz-form-item>
+            </div>
+          </div>
+
+          <div class="col-6">
+            <div class="row">
+              <nz-form-item class="w-100">
+                <nz-form-label class="col-md-4 text-left" nzFor="verificationDate">Ngày QĐ/yêu cầu
+                  <span style="color: red">&nbsp;*</span></nz-form-label>
+                <nz-form-control class="col-md-8" [nzErrorTip]="verificationDateErrorTpl">
+                  <nz-date-picker class="w-100 custom-datepicker-align"
+                                  nzPlaceHolder="dd/MM/yyyy"
+                                  formControlName="verificationDate"
+                                  (input)="onDateValueChange($event, form.get('verificationDate'))"
+                                  (keypress)="numberOnly($event)"
+                                  nzFormat="dd/MM/yyyy">
+                  </nz-date-picker>
+                  <ng-template #verificationDateErrorTpl let-control>
+                    <ng-container *ngIf="control.hasError('required')">
+                      <small>Ngày QĐ/yêu cầu bắt buộc chọn!</small>
+                    </ng-container>
+                    <ng-container *ngIf="control.hasError( 'lessThanNow')">
+                      <i class="red">Ngày tháng không hợp lệ </i>
+                    </ng-container>
+                  </ng-template>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-6">
+            <div class="row">
+              <nz-form-item class="w-100">
+                <input type="hidden" formControlName="procuratorsRequest">
+                <input type="hidden" formControlName="procuratorsRequestId">
+                <nz-form-label class="col-md-4 text-left" nzFor="procuratorsRequestTemp">KSV QĐ/yêu cầu</nz-form-label>
+                <nz-form-control class="col-md-8" [nzErrorTip]="procuratorErrorTpl">
+                  <input formControlName="procuratorsRequestTemp" nz-input type="text"
+                         (input)="onInputProcuratorName($event)"
+                         id="procuratorsRequestTemp" [nzAutocomplete]="autoProcuratorList">
+                  <nz-autocomplete #autoProcuratorList (selectionChange)="selectProcurator($event)"
+                                   [compareWith]="compareProcurator">
+                    <nz-auto-option *ngFor="let procurator of procuratorsSuggestion"
+                                    [nzLabel]="procurator['fullName']"
+                                    [nzValue]="procurator">{{procurator['fullName']}}
+                    </nz-auto-option>
+                  </nz-autocomplete>
+                  <ng-template #procuratorErrorTpl let-control>
+                    <ng-container *ngIf="control.hasError('notInList')">
+                      <small>Tên KSV không hợp lệ!</small>
+                    </ng-container>
+                  </ng-template>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row">
+              <nz-form-item class="w-100">
+                <nz-form-label class="col-md-4 text-left" nzFor="type">Loại QĐ/yêu cầu <span
+                  style="color: red">&nbsp;*</span></nz-form-label>
+                <nz-form-control class="col-md-8" nzHasFeedback [nzErrorTip]="typeErrorTpl">
+                  <nz-select formControlName="type" [required]="true" [nzPlaceHolder]="'Chọn loại QĐ/yêu cầu'">
+                    <nz-option [nzValue]="5" [nzLabel]="typeOfVerification[5]"></nz-option>
+                    <nz-option [nzValue]="1" [nzLabel]="typeOfVerification[1]"></nz-option>
+                    <nz-option [nzValue]="2" [nzLabel]="typeOfVerification[2]"></nz-option>
+                    <nz-option [nzValue]="3" [nzLabel]="typeOfVerification[3]"></nz-option>
+                    <nz-option [nzValue]="4" [nzLabel]="typeOfVerification[4]"></nz-option>
+                    <nz-option [nzValue]="6" [nzLabel]="typeOfVerification[6]"></nz-option>
+                  </nz-select>
+                  <ng-template #typeErrorTpl let-control>
+                    <ng-container *ngIf="control.hasError('required')">
+                      <small>Loại QĐ/yêu cầu buộc nhập nhập</small>
+                    </ng-container>
+                  </ng-template>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <div class="row">
+              <nz-form-item class="w-100">
+                <nz-form-label class="col-md-2 text-left" nzFor="contentRequest" style="white-space: normal;">
+                  Nội dung QĐ/yêu cầu
+                  <span style="color: red">&nbsp;*</span>
+                </nz-form-label>
+                <nz-form-control class="col-md-10" [nzErrorTip]="contentRequestErrorTpl">
+                      <textarea formControlName="contentRequest" nz-input
+                                id="contentRequest" [nzAutosize]="true"></textarea>
+                  <ng-template #contentRequestErrorTpl let-control>
+                    <ng-container *ngIf="control.hasError('required')">
+                      <small>Nội dung QĐ/yêu cầu bắt buộc nhập!</small>
+                    </ng-container>
+                    <ng-container *ngIf="control.hasError('maxlength')">
+                      <small>Độ dài ký tự đã vượt quá giới hạn, yêu cầu kiểm tra lại</small>
+                    </ng-container>
+                  </ng-template>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <div class="row">
+              <nz-form-item class="w-100">
+                <nz-form-label class="col-md-2 text-left" nzFor="result">Kết quả thực hiện</nz-form-label>
+                <nz-form-control class="col-md-10" [nzErrorTip]="resultErrorTpl">
+                      <textarea formControlName="result" nz-input name="result"
+                                id="result" [nzAutosize]="true"></textarea>
+                </nz-form-control>
+                <ng-template #resultErrorTpl let-control>
+                  <ng-container *ngIf="control.hasError('maxlength')">
+                    <small>Độ dài ký tự đã vượt quá giới hạn, yêu cầu kiểm tra lại</small>
+                  </ng-container>
+                </ng-template>
+              </nz-form-item>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <div class="row">
+              <nz-form-item class="w-100">
+                <nz-form-label class="col-md-2 text-left" nzFor="note">Ghi chú</nz-form-label>
+                <nz-form-control class="col-md-10" [nzErrorTip]="noteErrorTpl">
+                      <textarea formControlName="note" nz-input name="note"
+                                id="note" [nzAutosize]="true"></textarea>
+                </nz-form-control>
+                <ng-template #noteErrorTpl let-control>
+                  <ng-container *ngIf="control.hasError('maxlength')">
+                    <small>Độ dài ký tự đã vượt quá giới hạn, yêu cầu kiểm tra lại</small>
+                  </ng-container>
+                </ng-template>
+              </nz-form-item>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div *nzModalFooter>
+    <div class="d-flex align-items-center justify-content-center">
+      <ng-container [ngSwitch]="mode">
+        <ng-container *ngSwitchCase="modeEnum.VIEW">
+          <button nz-button (click)="handleCancel()">{{ 'Thoát' }}</button>
+        </ng-container>
+        <ng-container *ngSwitchCase="modeEnum.VIEW_FROM_PARENT">
+          <button nz-button (click)="handleCancel()">{{ 'Thoát' }}</button>
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+          <button form="verificationInvestigationForm" nz-button
+                  class="button-submit" type="button" (click)="handleOk()" [nzLoading]="isConfirmLoading">
+            <span nz-icon nzType="save" nzTheme="twotone"></span>
+            {{'save' | translate }}</button>
+          <button nz-button type="button" (click)="handleCancel()">
+            <span class="fa fa-fw fa-times"></span>
+            {{'cancel' | translate }}</button>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+</nz-modal>

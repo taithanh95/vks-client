@@ -1,0 +1,81 @@
+<app-settlement-decision-detail [isVisibleDialog]="isDialogVisible" [mode]="mode"
+                                [settlementDecision]="settlementDecisionForEdit"
+                                [decisionAgencies]="decisionAgencies" [settlementDecisionIndex]="indexForEdit"
+                                [settlementDecisionListToCheck]="visibleDecisionList"
+                                (saveEmitter)="addOrEditDecision($event)"
+                                (cancelEmitter)="this.isDialogVisible = false">
+</app-settlement-decision-detail>
+<fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+  <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse()">
+    <i nz-icon [nzType]="isCollapse ? 'minus' : 'plus'"></i>Quyết định giải quyết
+  </legend>
+
+  <div class="px-3" [ngClass]="isCollapse ? 'show' : 'hide'">
+    <div class="data-table mt-0 mb-2">
+      <div *ngIf="mode != modeEnum.VIEW_FROM_PARENT">
+        <button class="float-right mb-2" nz-button (click)="openDetailDialog(modeEnum.CREATE)" nzType="primary" type="button">
+          <span class="fa fa-fw fa-plus"></span>Thêm mới</button>
+      </div>
+      <nz-table #basicTable class="custom-table" [nzData]="visibleDecisionList" [nzShowPagination]="true"
+                nzSize="small" nzShowSizeChanger [nzTableLayout]="'fixed'" [nzLoading]="loading" [nzPageSize]="5"
+                [nzPageSizeOptions]="pageSize" [nzFrontPagination]="true" [nzShowTotal]="rangeTemplate">
+        <thead>
+        <tr>
+          <th style="width: 15%">Quyết định</th>
+          <th style="width: 15%">Số quyết định</th>
+          <th style="width: 15%">Ngày ra quyết định</th>
+          <th style="width: 40%">Nội dung</th>
+          <th style="width: 15%">Thao tác</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let data of basicTable.data;let i = index;" class="actived"
+            ngClass="s-{{data.selected}}">
+          <td nzEllipsis nz-tooltip [nzTooltipTitle]="data['decisionName']">
+            {{ data['decisionName'] }}</td>
+          <td nzEllipsis nz-tooltip [nzTooltipTitle]="data['decisionNumber']">
+            {{ data['decisionNumber'] }}</td>
+          <td nzEllipsis nz-tooltip [nzTooltipTitle]="(data['decisionDate'] != null) ? (data['decisionDate'] | dateFormat) : ''" class="text-center">
+            {{ (data['decisionDate'] != null) ? (data['decisionDate'] | dateFormat) : '' }}</td>
+          <td nzEllipsis nz-tooltip [nzTooltipTitle]="data['description']">
+            {{ data['description'] }}</td>
+          <td class="text-center">
+            <ng-container *ngIf="mode == modeEnum.VIEW_FROM_PARENT">
+              <button nz-button class="mx-1" type="button" [nzGhost]="true" style="padding-left: 8px !important;"
+                      nz-tooltip nzTooltipTitle="Xem"
+                      (click)="openDetailDialog(modeEnum.VIEW_FROM_PARENT, i)">
+                <i nz-icon nzType="file" nzTheme="twotone"></i>
+              </button>
+            </ng-container>
+            <ng-container *ngIf="mode != modeEnum.VIEW_FROM_PARENT">
+              <button nz-button class="mx-1" type="button" [nzGhost]="true"  style="padding-left: 8px !important"
+                      nz-tooltip nzTooltipTitle="Xem"
+                      (click)="openDetailDialog(modeEnum.VIEW, i)">
+                <i nz-icon nzType="file" nzTheme="twotone"></i>
+              </button>
+              <button nz-button class="mx-1" type="button" [nzGhost]="true"  style="padding-left: 8px !important"
+                      nz-tooltip nzTooltipTitle="Sửa"
+                      (click)="openDetailDialog(modeEnum.UPDATE, i)">
+                <i nz-icon nzType="edit" nzTheme="twotone"></i>
+              </button>
+              <button nz-button nz-popconfirm nzPopconfirmTitle="Bạn có muốn xóa quyết định giải quyết này không?"
+                      [nzGhost]="true" style="padding-left: 8px !important"
+                      nz-tooltip nzTooltipTitle="Xóa"
+                      nzPopconfirmPlacement="bottom" class="mx-1" type="button"
+                      nzOkText="Không" nzCancelText="Có" nzOkType="default"
+                      (nzOnConfirm)="cancelDelete()"
+                      (nzOnCancel)="deleteDecision(i)">
+                <i nz-icon nzType="delete" nzTheme="twotone"></i>
+              </button>
+            </ng-container>
+          </td>
+        </tr>
+        </tbody>
+      </nz-table>
+      <ng-template #rangeTemplate let-range="range" let-total>
+        <!--    {{ range[0] }}-{{ range[1] }} {{'của' | translate }} {{ total }} {{ 'bản ghi' }}-->
+        {{ range[0] }}-{{ range[1] }} {{' của ' | translate }} {{ visibleDecisionList.length }} {{ ' bản ghi' }}
+      </ng-template>
+    </div>
+  </div>
+</fieldset>

@@ -1,0 +1,183 @@
+<section>
+  <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+    <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse()">
+      <i nz-icon [nzType]="collapse ? 'minus' : 'plus'"></i> Tìm kiếm danh sách cấp lệnh, quyết định tin báo, tố giác,
+      kiến nghị khởi tố
+    </legend>
+    <div class="ui-fieldset-content p-2" [ngClass]="collapse ? 'show' : 'hide' ">
+      <form nz-form [formGroup]="formSearch" class="ant-advanced-search-form">
+        <div class="row">
+          <div class="col-xl-4 col-md-6 col-sm-12">
+            <nz-form-item class="mb-0">
+              <nz-form-label class="col-lg-4 col-md-5 col-sm-6 text-left text-wrap" [ngStyle]="{'line-height': '20px'}">
+                Tên quyết định
+              </nz-form-label>
+              <nz-form-control class="col-lg-8 col-md-7 col-sm-6">
+                <nz-select nzShowSearch nzAllowClear nzPlaceHolder="-Chọn tên quyết định-"
+                           formControlName="decisionCode" id="decisionCode" class="w-100">
+                  <ng-container *ngFor="let o of listOfOption">
+                    <nz-option [nzValue]="o.value" [nzLabel]="o.value + ' - ' + o.text"></nz-option>
+                  </ng-container>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <div class="col-xl-4 col-md-6 col-sm-12">
+            <nz-form-item class="mb-0">
+              <nz-form-label class="col-lg-4 col-md-5 col-sm-6 text-left text-wrap" [ngStyle]="{'line-height': '20px'}">
+                Loại tin báo
+              </nz-form-label>
+              <nz-form-control class="col-lg-8 col-md-7 col-sm-6">
+                <nz-select formControlName="denouncementType" id="denouncementType" class="w-100">
+                  <nz-option nzValue="" nzLabel="Tất cả"></nz-option>
+                  <nz-option nzValue="1" nzLabel="Là Tin báo"></nz-option>
+                  <nz-option nzValue="2" nzLabel="Là Tố giác"></nz-option>
+                  <nz-option nzValue="3" nzLabel="Là Kiến nghị khởi tố"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <div class="col-xl-4 col-md-6 col-sm-12">
+            <nz-form-item class="mb-0">
+              <nz-form-label class="col-lg-4 col-md-5 col-sm-6 text-left text-wrap" [ngStyle]="{'line-height': '20px'}">
+                Người báo tin
+              </nz-form-label>
+              <nz-form-control class="col-lg-8 col-md-7 col-sm-6">
+                <input nz-input placeholder="Người báo tin" type="text" formControlName="reporterName"
+                       id="reporterName" class="w-100">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-4 col-md-6 col-sm-12">
+            <nz-form-item>
+              <nz-form-label class="col-lg-4 col-md-5 col-sm-6 text-left text-wrap" [ngStyle]="{'line-height': '20px'}">
+                Cấp số lệnh, QĐ từ ngày
+              </nz-form-label>
+              <nz-form-control class="col-lg-8 col-md-7 col-sm-6">
+                <nz-date-picker #fromDatePicker [nzPlaceHolder]="'Chọn ngày'" nzFormat="dd/MM/yyyy"
+                                (input)="onFromDateValueChange($event)"
+                                (keypress)="numberOnly($event)"
+                                formControlName="fromDate" id="fromDate" class="w-100">
+                </nz-date-picker>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <div class="col-xl-4 col-md-6 col-sm-12">
+            <nz-form-item>
+              <nz-form-label class="col-lg-4 col-md-5 col-sm-6 text-left text-wrap" [ngStyle]="{'line-height': '20px'}">
+                Cấp số lệnh, QĐ đến ngày
+              </nz-form-label>
+              <nz-form-control class="col-lg-8 col-md-7 col-sm-6">
+                <nz-date-picker [nzPlaceHolder]="'Chọn ngày'" nzFormat="dd/MM/yyyy"
+                                [nzMode]="'date'" nzPlaceHolder="dd/MM/yyyy" formControlName="toDate" id="toDate"
+                                (input)="onToDateValueChange($event)"
+                                (keypress)="numberOnly($event)"
+                                class="w-100">
+                </nz-date-picker>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <div class="col-xl-4 col-md-6 col-sm-12">
+            <nz-form-item>
+              <nz-form-label class="col-lg-4 col-md-5 col-sm-6 text-left text-wrap" [ngStyle]="{'line-height': '20px'}">Đơn vị ra QĐ
+              </nz-form-label>
+              <nz-form-control class="col-lg-8 col-md-7 col-sm-6">
+                <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Chọn đơn vị"
+                           formControlName="sppid" id="sppid" class="w-100">
+                  <nz-option *ngFor="let option of lstSpp" nzLabel="{{ option.SPPID}} - {{option.NAME}}"
+                             [nzValue]="option.SPPID">{{ option.SPPID}} - {{option.NAME}}</nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </form>
+    </div>
+  </fieldset>
+
+  <nz-page-header>
+    <nz-page-header-subtitle [style]="'color: red; font-weight: bold'">Tổng số bản ghi: {{ totalElements }}
+      Trang: {{ pageNumber }}/{{ totalPages }}</nz-page-header-subtitle>
+    <nz-page-header-extra>
+      <button nz-button nzType="primary" (click)="loadDataFromServer()">
+        <i class="fa fa-fw fa-search"></i> Tìm kiếm
+      </button>
+      <button nz-button nzType="primary" [disabled]="!selectedItem" (click)="goToDetails()"><i
+        class="fa fa-fw fa-eye"></i> Xem chi tiết
+      </button>
+    </nz-page-header-extra>
+  </nz-page-header>
+  <nz-table
+    #sortTable
+    nzShowSizeChanger
+    nzTableLayout="fixed"
+    [nzSize]="'small'"
+    [nzScroll]="scroll"
+    [nzData]="listOfItem"
+    [nzLoading]="loading"
+    [nzTotal]="totalElements"
+    [nzPageSize]="pageSize"
+    [nzPageIndex]="pageNumber"
+    [nzShowPagination]="false"
+    [nzBordered]="true"
+    [nzNoResult]="noResultTpl">
+    <thead>
+    <tr>
+      <ng-container *ngFor="let col of cols">
+        <th *ngIf="col.sortDirections" [nzSortOrder]="col.sortOrder" [nzSortFn]="col.sortFn" [nzWidth]="col.width"
+            [nzSortDirections]="col.sortDirections">
+          {{ col.title }}
+        </th>
+        <th *ngIf="!col.sortDirections" [nzWidth]="col.width">
+          {{ col.title }}
+        </th>
+      </ng-container>
+    </tr>
+    </thead>
+    <tbody class="posts">
+    <tr *ngFor="let data of sortTable.data; index as i" (click)="onSelect(data)"
+        [class.selected]="data === selectedItem">
+      <td [nzChecked]="setOfCheckedId.has(data.id)" (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
+      <td [nzAlign]="'center'">{{ data.decisionNumAuto }}</td>
+      <td [nzAlign]="'left'" nz-tooltip nzTooltipTitle="{{ data.decisionCode }} - {{ data.decisionName }}" nzEllipsis>
+        {{ data.decisionCode | nzSafeNull: '-' }} - {{ data.decisionName }}</td>
+      <td [nzAlign]="'left'">{{ data.denouncementCode | nzSafeNull: '-' }}</td>
+      <td [nzAlign]="'left'" nz-tooltip nzTooltipTitle="{{ data.sreporter }}" nzEllipsis>{{ data.sreporter | nzSafeNull: '-' }}</td>
+      <td [nzAlign]="'center'">{{ data.issuesDate }}</td>
+      <td [nzAlign]="'center'">{{ data.fromDate | nzSafeNull: '-' }}</td>
+      <td [nzAlign]="'center'">{{ data.toDate | nzSafeNull: '-' }}</td>
+    </tr>
+    </tbody>
+  </nz-table>
+
+  <div nz-row nzJustify="end" class="mt-3">
+    <nz-pagination [nzPageIndex]="pageNumber" [nzPageSizeOptions]="[10,15,20,30,40,50,100,200,500,1000]"
+                   [nzTotal]="totalElements" [nzPageSize]="pageSize" [nzShowTotal]="rangeTemplate"
+                   (nzPageIndexChange)="onChangePageIndex($event)" (nzPageSizeChange)="onChangePageSize($event)"
+                   nzShowSizeChanger>
+    </nz-pagination>
+    <ng-template #rangeTemplate let-range="range" let-total> {{ range[0] }}
+      -{{ range[1] }} {{'of' | translate }} {{ total }} {{'items' | translate }}
+    </ng-template>
+  </div>
+
+  <ng-template #noResultTpl>
+    <nz-empty nzNotFoundImage="./assets/image/empty.svg" [nzNotFoundContent]="contentTpl">
+      <ng-template #contentTpl>
+        <p class="ant-empty-description ng-star-inserted">Không tìm thấy kết quả</p>
+      </ng-template>
+    </nz-empty>
+  </ng-template>
+</section>
+
+<div nz-row nzJustify="center">
+  <button nz-button nzType="primary" (click)="goBack()"><i class="fas fa-backward"></i> {{'back' | translate }}
+  </button>
+</div>

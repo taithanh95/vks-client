@@ -1,0 +1,128 @@
+<nz-modal nzWidth="960px"
+          [(nzVisible)]="isVisible"
+          [nzAutofocus]="'auto'"
+          [nzTitle]="title"
+          nzClosable="false"
+          nzMaskClosable="false">
+  <ng-template #title>
+    <ng-container [ngSwitch]="popupMode">
+      <ng-container *ngSwitchCase="popupModeEnum.VIEW">Chi tiết văn bản ban hành</ng-container>
+      <ng-container *ngSwitchCase="popupModeEnum.UPDATE">Cập nhật văn bản ban hành</ng-container>
+      <ng-container *ngSwitchDefault>Thêm mới văn bản ban hành</ng-container>
+    </ng-container>
+    <div class="pull-right icon-close">
+      <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+  <nz-spin [nzSpinning]="isSpinning">
+    <form nz-form [formGroup]="myForm" (ngSubmit)="handleOk(myForm.value)">
+      <div *nzModalContent>
+        <input type="hidden" formControlName="id">
+        <input type="hidden" formControlName="violationLawId">
+        <div class="row mb-1">
+          <div class="col-6">
+            <div class="row">
+              <nz-form-item class="w-100">
+                <nz-form-label class="col-md-4 text-left" nzFor="documentCode" nzRequired>Văn bản ban hành
+                </nz-form-label>
+                <nz-form-control class="col-md-8" [nzErrorTip]="documentCodeErrTpl">
+                  <nz-select [nzAutoFocus]="true" formControlName="documentCode" id="documentCode" nzPlaceHolder="Chọn loại văn bản"
+                             nzAllowClear>
+                    <nz-option [nzValue]="1" nzLabel="Kháng nghị"></nz-option>
+                    <nz-option [nzValue]="2" nzLabel="Kiến nghị"></nz-option>
+                    <nz-option [nzValue]="3" nzLabel="Thông báo rút kinh nghiệm"></nz-option>
+                    <nz-option [nzValue]="4" nzLabel="Yêu cầu"></nz-option>
+                    <nz-option [nzValue]="99" nzLabel="Khác"></nz-option>
+                  </nz-select>
+                  <ng-template #documentCodeErrTpl let-control>
+                    <ng-container *ngIf="control.hasError('required')">
+                      <small>Văn bản ban hành bắt buộc chọn!</small>
+                    </ng-container>
+                  </ng-template>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-1">
+          <div class="col-6">
+            <div class="row">
+              <nz-form-item class="w-100">
+                <nz-form-label class="col-md-4 text-left" nzFor="documentNumber" nzRequired>Số văn bản</nz-form-label>
+                <nz-form-control class="col-md-8" [nzErrorTip]="documentNumberErrorTpl">
+                  <input formControlName="documentNumber" nz-input name="documentNumber" id="documentNumber"
+                         type="text">
+                  <ng-template #documentNumberErrorTpl let-control>
+                    <ng-container *ngIf="control.hasError('required')">
+                      <small>Số văn bản bắt buộc nhập!</small>
+                    </ng-container>
+                  </ng-template>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row">
+              <nz-form-item class="w-100">
+                <nz-form-label class="col-md-4 text-left" nzFor="documentDate" nzRequired>Ngày ban hành
+                </nz-form-label>
+                <nz-form-control class="col-md-8" [nzErrorTip]="documentDateErrorTpl">
+                  <nz-date-picker formControlName="documentDate" id="documentDate" class="w-100"
+                                  [nzMode]="'date'" nzFormat="dd/MM/yyyy"
+                                  nzPlaceHolder="dd/MM/yyyy"
+                                  [nzDisabledDate]="disabledDocumentDate"
+                                  (input)="onDateValueChange($event, myForm.get('documentDate'))"
+                                  (keypress)="numberOnly($event)"></nz-date-picker>
+                  <ng-template #documentDateErrorTpl let-control>
+                    <ng-container *ngIf="control.hasError('required')">
+                      <small>Ngày ban hành bắt buộc chọn!</small>
+                    </ng-container>
+                  </ng-template>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+        </div><!-- /.row -->
+        <div class="row mb-1">
+          <div class="col-12">
+            <div class="row">
+              <nz-form-item class="w-100">
+                <nz-form-label class="col-md-2 text-left" nzFor="content">Nội dung văn bản</nz-form-label>
+                <nz-form-control class="col-md-10" [nzErrorTip]="contentErrorTpl">
+                <textarea formControlName="content" nz-input rows="2" name="content" id="content"
+                          type="text"></textarea>
+                  <ng-template #contentErrorTpl let-control>
+                    <ng-container *ngIf="control.hasError('maxlength')">
+                      <small>Nội dung văn bản tối đa 2000 ký tự!</small>
+                    </ng-container>
+                  </ng-template>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+        </div><!-- /.row -->
+      </div><!-- /.nzModalContent -->
+      <div *nzModalFooter>
+        <div class="d-flex align-items-center justify-content-center">
+          <ng-container [ngSwitch]="popupMode">
+            <ng-container *ngSwitchCase="popupModeEnum.VIEW">
+              <button nz-button (click)="handleCancel()">{{ 'back' | translate }}</button>
+            </ng-container>
+            <ng-container *ngSwitchCase="popupModeEnum.VIEW_FROM_PARENT">
+              <button nz-button (click)="handleCancel()">{{ 'back' | translate }}</button>
+            </ng-container>
+            <ng-container *ngSwitchDefault>
+              <button nz-button nzType="primary" type="button" (click)="handleOk(myForm.value)">
+                <i nz-icon nzType="save" nzTheme="outline"></i>
+                {{'save' | translate }}
+              </button>
+              <button nz-button nzType="default" type="button" (click)="handleCancel()">
+                <i nz-icon nzType="close" nzTheme="outline"></i>
+                {{'cancel' | translate }}</button>
+            </ng-container>
+          </ng-container>
+        </div>
+      </div>
+    </form>
+  </nz-spin>
+</nz-modal>

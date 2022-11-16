@@ -1,0 +1,35 @@
+<div class="data-table pl-1">
+  <nz-table #basicTable nzShowSizeChanger [nzFrontPagination]="false" nzSize="small" [nzData]="lstInspector"
+            [nzScroll]="{ x: '650px' }" [nzLoading]="loading" [nzShowTotal]="rangeTemplate"
+            [nzPageSize]="defaultPage"
+            [nzTotal]="total" [nzPageIndex]="rowIndex" (nzQueryParams)="onQueryParamsChange($event)">
+    <thead>
+    <tr>
+      <th class="text-nowrap" nzWidth="5%">STT</th>
+      <th class="text-nowrap" nzWidth="8%">Kiểm sát viên</th>
+      <th class="text-nowrap" nzWidth="10%">Địa chỉ</th>
+      <th class="text-nowrap" nzWidth="9%">Số ĐT</th>
+      <th class="text-nowrap" nzWidth="8%">Chức vụ</th>
+      <th class="text-nowrap" nzWidth="8%">Tình trạng</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of basicTable.data; let i = index;" (click)="onRowSelect(data)">
+      <td style="text-align: center" class="text-nowrap">{{getRowIndex(i, basicTable.nzPageIndex,
+        basicTable.nzPageSize)}}</td>
+      <td class="text-nowrap center">{{ data.FULLNAME }}</td>
+      <td class="text-nowrap center">{{ data.ADDRESS}}</td>
+      <td class="text-nowrap center">{{ data.TEL }}</td>
+      <td class="text-nowrap center">{{ data.JOBTITLE }}</td>
+      <td class="text-nowrap center">{{ data.STATUS === 'N' ? 'Có' : 'Không' }}</td>
+
+    </tr>
+    </tbody>
+  </nz-table>
+  <ng-template #rangeTemplate let-range="range" let-total>
+    {{ range[0] }}-{{ range[1] }} {{'of' | translate }} {{ total }} {{'items' | translate }}
+  </ng-template>
+</div>
+
+<app-detail-deci [data]="data" [isVisible]="isVisibleDetail" (closeModal)="closeModalDetail($event)">
+</app-detail-deci>

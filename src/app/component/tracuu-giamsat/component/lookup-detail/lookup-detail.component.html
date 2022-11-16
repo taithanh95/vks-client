@@ -1,0 +1,75 @@
+<nz-modal *ngIf="data" class="ant-form"
+          nzWidth="1000px" [(nzVisible)]="isVisible" nzClosable="false" [nzTitle]="title" nzMaskClosable="false">
+  <ng-template #title>
+    Thông tin chi tiết Vụ án: {{ value.CASECODE}} - {{value.CASENAME}}
+    <div class="pull-right icon-close">
+      <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+  <div class="nz-row input-wrap">
+    <nz-tabset nzSize="small" nzType="card" [nzTabPosition]="position">
+      <nz-tab *ngFor="let tab of lstUserfor" [nzTitle]="tab.USERFORNAME">
+        <fieldset
+          class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border pr-2 pb-1">
+          <div>
+            <ng-container>
+              <nz-tabset nzSize="small" nzType="card">
+                <nz-tab [nzTitle]="'Thụ lý'">
+                  <ng-container *ngTemplateOutlet="register"></ng-container>
+                </nz-tab>
+                <nz-tab [nzTitle]="'Bị can'">
+                  <ng-container *ngTemplateOutlet="accused"></ng-container>
+                </nz-tab>
+                <nz-tab [nzTitle]="'Kiểm sát viên'">
+                  <ng-container *ngTemplateOutlet="ksv"></ng-container>
+                </nz-tab>
+                <nz-tab [nzTitle]="'Quyết định'">
+                  <ng-container *ngTemplateOutlet="decision"></ng-container>
+                </nz-tab>
+                <nz-tab [nzTitle]="tab.USERFOR == 'G1' ? 'Kết luận điều tra' : tab.USERFOR == 'G2' ? 'Bản cáo trạng' : 'Bản án'">
+                  <ng-container *ngTemplateOutlet="kldt"></ng-container>
+                </nz-tab>
+                <nz-tab [nzTitle]="'Kháng nghị'">
+                  <ng-container *ngTemplateOutlet="against"></ng-container>
+                </nz-tab>
+                <nz-tab [nzTitle]="'Kháng cáo'">
+                  <ng-container *ngTemplateOutlet="appeal"></ng-container>
+                </nz-tab>
+                <nz-tab [nzTitle]="'Bàn giao'">
+                  <ng-container *ngTemplateOutlet="transfer"></ng-container>
+                </nz-tab>
+              </nz-tabset>
+            </ng-container>
+          </div>
+          <ng-container >
+            <ng-template #register>
+              <app-detail-register [tabs]="tab"></app-detail-register>
+            </ng-template>
+          </ng-container>
+          <ng-template #accused>
+            <app-detail-accused [tabs]="tab"></app-detail-accused>
+          </ng-template>
+          <ng-template #ksv>
+            <app-detail-inspector [tabs]="tab"></app-detail-inspector>
+          </ng-template>
+          <ng-template #decision>
+            <app-detail-decision [tabs]="tab"></app-detail-decision>
+          </ng-template>
+          <ng-template #kldt>
+            <app-detail-centence [tabs]="tab"></app-detail-centence>
+          </ng-template>
+          <ng-template #against>
+            <app-detail-against [tabs]="tab"></app-detail-against>
+          </ng-template>
+          <ng-template #appeal>
+            <app-detail-appeal [tabs]="tab"></app-detail-appeal>
+          </ng-template>
+          <ng-template #transfer>
+            <app-detail-transfer [tabs]="tab"></app-detail-transfer>
+          </ng-template>
+        </fieldset>
+      </nz-tab>
+    </nz-tabset>
+  </div>
+  <div *nzModalFooter></div>
+</nz-modal>

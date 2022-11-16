@@ -1,0 +1,93 @@
+<nz-modal *ngIf="data" nzWidth="1000px"
+          [(nzVisible)]="isVisible"
+          nzClosable="false"
+          [nzTitle]="title"
+          [nzAutofocus]="null"
+          nzMaskClosable="false">
+  <ng-template #title>
+    Thêm mới Trại giam
+    <div class="pull-right icon-close">
+      <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+
+  <div>
+    <div class="ui-fieldset-content ant-advanced-search-form">
+      <ng-container>
+        <table width="100%" class="ui-panelgrid table-4-col">
+          <tr>
+            <td>
+              <label class="text-right">Mã trại giam</label>
+            </td>
+            <td>
+              <input disabled nz-input [(ngModel)]="data.prisonid" nz-input>
+            </td>
+            <td>
+              <label>Tên trại giam<span class="required">*</span></label>
+            </td>
+            <td>
+              <input nz-input placeholder="Tên trại giam" [(ngModel)]="data.name">
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>Địa điểm<span class="required">*</span></label>
+            </td>
+            <td>
+              <input class="ng-pristine ng-valid" placeholder="Địa điểm" [(ngModel)]="data.addr" nz-input />
+            </td>
+            <td>
+              <label  class="text-right">Điện thoại</label>
+            </td>
+            <td>
+              <input class="ng-pristine ng-valid" placeholder="Điện thoại" nz-input [(ngModel)]="data.tel"/>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label class="text-right">Fax</label>
+            </td>
+            <td>
+              <input [(ngModel)]="data.fax" nz-input placeholder="Fax">
+            </td>
+            <td>
+              <label class="text-right">Loại trại giam<span class="required">*</span></label>
+            </td>
+            <td>
+<!--              <input [(ngModel)]="data.ptype" nz-input placeholder="Loại trại giam">-->
+              <nz-select [(ngModel)]="data.ptype" nzPlaceHolder="Chọn một">
+                <nz-option nzValue="1" nzLabel="1"></nz-option>
+                <nz-option nzValue="2" nzLabel="2"></nz-option>
+                <nz-option nzValue="3" nzLabel="3"></nz-option>
+                <nz-option nzValue="4" nzLabel="4"></nz-option>
+              </nz-select>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label class="text-right">Viện kiểm sát<span class="required">*</span></label>
+            </td>
+            <td>
+              <input class="ng-pristine ng-valid" placeholder="Viện kiểm sát" nz-input [(ngModel)]="data.sppid" nzAllowClear (input)="onInputSpp($event)"
+                     [nzAutocomplete]="autoSPP"/>
+              <nz-autocomplete #autoSPP>
+                <nz-auto-option *ngFor="let option of lstSpp" [nzLabel]="option.NAME" [nzValue]="option">{{ option.SPPID }} - {{ option.NAME }}</nz-auto-option>
+              </nz-autocomplete>
+            </td>
+          </tr>
+        </table>
+      </ng-container>
+    </div>
+  </div>
+
+  <div *nzModalFooter>
+    <div nz-col [nzSpan]="24" class="search-area">
+      <button nz-button [nzType]="'primary'" (click)="handleOk()">
+        <span class="fa fa-fw fa-save"></span>Ghi lại
+      </button>
+      <button nz-button [nzType]="'primary'" (click)="handleCancel()">
+        <span class="fa fa-fw fa-arrow-left"></span>Quay lại
+      </button>
+    </div>
+  </div>
+</nz-modal>

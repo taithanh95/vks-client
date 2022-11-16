@@ -1,0 +1,98 @@
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { GeneralService } from '../../../../../service/general-service';
+import { NotificationService } from '../../../../../service/notification.service';
+import { Constant } from '../../../../../shared/constants/constant.class';
+import { WebUtilities } from '../../../../../shared/utils/qla-utils.class';
+
+@Component({
+  selector: 'app-resolve-create',
+  templateUrl: './resolve-create.component.html',
+  styleUrls: ['./resolve-create.component.scss']
+})
+export class ResolveCreateComponent implements OnInit {
+
+  @Input() data: any;
+  @Input() isVisible: boolean;
+  @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
+  @Output() reloadModal: EventEmitter<boolean> = new EventEmitter();
+
+  sppid: string;
+
+  isSubmited: boolean;
+
+  titleName = 'Thêm mới';
+
+  constructor(
+    private generalService: GeneralService,
+    private notificationService: NotificationService
+  ) {
+    this.sppid = WebUtilities.getLoggedSppId();
+  }
+
+  ngOnInit(): void {
+    this.doReset();
+  }
+
+  ngOnChanges() {
+    if(this.isVisible) {
+      this.titleName = this.data.isEdit ? 'Cập nhật' : 'Thêm mới';
+    }
+  }
+
+  handleOk(){
+    let valid = true;
+    this.isSubmited = true;
+    if (!this.data.resolname) {
+      this.notificationService.showNotification(Constant.ERROR, 'Bạn phải nhập giá trị cho trường Tên loại kháng nghị')
+      valid = false;
+    }
+    if (!this.data.state) {
+      this.notificationService.showNotification(Constant.ERROR, 'Bạn phải nhập giá trị cho trường Giai đoạn')
+      valid = false;
+    }
+    if (valid) this.doSave();  
+  }
+
+  doSave() {
+    let msg, action;
+    if (this.data.isEdit) {
+      msg = 'Cập nhật';
+      action = 'U';
+    } else {
+      msg = 'Thêm mới';
+      action = 'I';
+    }
+    const payload = {
+      ...this.data,
+      action: action
+    }
+    this.generalService.saveLstResolve(payload).subscribe(res => {
+      if (res) {
+        this.notificationService.showNotification(Constant.ERROR, 'Tên trường hợp giải quyết này đã tồn tại trong cơ sở dữ liệu');
+      } else {
+        this.notificationService.showNotification(Constant.SUCCESS, `${msg} thành công`);
+        this.handleReload();
+      }
+    }, error => {
+      this.handleErr(error.error.text)
+    });
+  }
+
+  handleErr(err: string){
+    const msgErr = this.generalService.jsonErrorDM[err];
+    this.notificationService.showNotification(Constant.ERROR, msgErr ? msgErr : err);
+  }
+
+  doReset() {
+    this.data = {
+      resolid: '',
+      resolname: '',
+      state: 'CUSTODY',
+      isEdit : false
+    }
+  }
+
+  handleReload(){this.reloadModal.emit(false), this.isVisible = false}
+
+  handleCancel() {this.closeModal.emit(false), this.isVisible = false}
+}

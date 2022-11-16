@@ -1,0 +1,750 @@
+# Feedback
+feedback.promptLabel=Độ bảo mật của mật khẩu
+feedback.weakLabel=Mật khẩu yếu
+feedback.goodLabel=Mật khẩu bình thường
+feedback.strongLabel=Mật khẩu mạnh
+#####################################################################################
+#Phan cong tham phan
+phancongtp.button.icon=ui-state-default ui-corner-all
+# Login
+login.title=Đăng nhập hệ thống Quản lý án
+
+login.password.label=Mật khẩu
+login.password.title=Mật khẩu đăng nhập
+login.password.waterMark=Nhập mật khẩu vào đây
+
+login.userid.label=Tài khoản
+login.userid.title=Tên tài khoản đăng nhập
+login.userid.waterMark=Nhập tên tài khoản vào đây
+
+login.button.label=Đăng nhập
+login.button.icon=ui-icon-key
+
+logout.button.label=Đăng xuất
+logout.button.title=Quay trở lại màn hình đăng nhập
+logout.button.icon=ui-icon-power
+
+login.messages.loginFail=Tài khoản hoặc mật khẩu đăng nhập sai
+login.messages.expired=Tài khoản đã hết hạn sử dụng. Đề nghị liên hệ với Quản trị hệ thống.
+login.messages.locked=Tài khoản đang bị khóa. Đề nghị liên hệ với Quản trị hệ thống.
+#####################################################################################
+
+# Launcher
+launcher.title=Trang chủ
+launcher.icon=ui-icon-home
+
+launcher.qtht.label=Quản trị hệ thống
+launcher.qldm.label=Quản lý danh mục
+launcher.qlhsva.label=Quản lý Hồ sơ vụ án
+launcher.tcgs.label=Tra cứu giám sát
+launcher.mqd.label=Mẫu Quyết định
+launcher.bctk.label=Báo cáo, thống kê
+launcher.tthd.label=Tin tức, hỏi đáp
+
+launcher.messages.acessDenied=Bạn không có quyền thực hiện chức năng (phân hệ) này.
+
+#####################################################################################
+
+# Menu Items
+menuLayout.title=Chức năng hệ thống
+menu.title=Quản trị hệ thống
+menu.usersManager=Quản lý người sử dụng
+menu.functionsManager=Quản lý menu chức năng
+menu.systemFunctionsManager=Quản lý chức năng hệ thống
+menu.groupsManager=Quản lý nhóm người sử dụng
+menu.grantManager=Phân quyền
+menu.grantFunctionsToUser=Phân quyền chức năng cho NSD
+menu.grantFunctionsToGroup=Phân quyền chức năng cho nhóm NSD
+menu.grantGroupsToUser=Phân quyền NSD theo nhóm
+menu.grantActionsToUser=Phân quyền thao tác cho NSD
+menu.grantActionsToGroup=Phân quyền thao tác cho nhóm NSD
+menu.newsManager=Quản lý tin tức
+menu.systemHistories=Nhật ký hệ thống
+menu.personManager=Quản lý thông tin cá nhân
+menu.departments=Phòng ban
+menu.delCase=Xóa vụ án
+menu.convertData=In phiếu thống kê
+menu.changeSPPdepart=Chuyển vụ án giữa các đơn vị
+#####################################################################################
+
+# Annotations
+
+#####################################################################################
+
+# Adm_Parameters
+adm_Parameters.title=tham số hệ thống
+
+adm_Parameters.param.label=Tham số
+adm_Parameters.param.title=Tên tham số
+
+adm_Parameters.value.label=Giá trị
+adm_Parameters.value.title=Giá trị của tham số
+
+adm_Parameters.status.label=Trạng thái
+adm_Parameters.status.title=Trạng thái sử dụng
+
+adm_Parameters.statusvalue.label=Trạng thái
+
+adm_Parameters.messages.paramExist=Tham số đã tồn tại trong CSDL
+
+# Key này quy định các trường không hiển thị khi xem thông tin chi tiết
+adm_Parameters.detailInfo.exceptFields=status
+
+# Key này quy định các cột hiển thị trong result Table
+adm_Parameters.resultTable.displayColumns=param,value,statusvalue
+
+# Adm_Users
+adm_Users.title=người sử dụng
+adm_Users.changepwd.title=Đổi mật khẩu
+
+adm_Users.userid.label=Tài khoản
+adm_Users.userid.title=Tên tài khoản
+
+adm_Users.expiredate.label=Ngày hết hạn
+adm_Users.expiredate.title=Ngày hết hạn hiệu lực của tài khoản (Tài khoản hết hiệu lực sẽ không đăng nhập được)
+adm_Users.expiredate.styleClass=center
+
+adm_Users.password.label=Mật khẩu
+adm_Users.password.title=Mật khẩu đăng nhập
+adm_Users.password.watermark=Để trống: giữ nguyên mật khẩu cũ
+
+adm_Users.confirmPassword.label=Nhập lại mật khẩu
+adm_Users.confirmPassword.title=Nhập lại mật khẩu để xác nhận mật khẩu nhập là chính xác
+
+adm_Users.currentPassword.label=Mật khẩu hiện tại
+adm_Users.currentPassword.title=Mật khẩu đăng nhập hiện tại
+
+adm_Users.newPassword.label=Mật khẩu mới
+adm_Users.newPassword.title=Mật khẩu đăng nhập mới
+
+adm_Users.confirmNewPassword.label=Nhập lại mật khẩu mới
+adm_Users.confirmNewPassword.title=Nhập lại mật khẩu đăng nhập mới
+
+adm_Users.sppid.label=Thuộc VKS
+adm_Users.sppid.title=Nhập mã hoặc tên VKS nơi NSD (cán bộ) công tác
+
+adm_Users.inspcode.label=Cán bộ
+adm_Users.inspcode.title=Cán bộ sở hữu tài khoản (Danh sách tên cán bộ lấy từ danh mục Cán bộ)
+
+adm_Users.locked.label=Khóa tài khoản
+adm_Users.locked.styleClass=qla-text-align-center
+adm_Users.lockedvalue.label=Khóa tài khoản
+adm_Users.locked.title=Xác định trạng thái Tài khoản có bị khóa hay không (Tài khoản bị khóa sẽ không đăng nhập được, dù chưa đến ngày hết hạn hiệu lực)
+
+# Tiêu chí này dùng trong form tìm kiếm
+adm_Users.expired.label=Hết hạn
+adm_Users.expired.title=Xác định trạng thái Tài khoản có bị hết hạn hay không (Tài khoản bị hết hạn hiệu lực sẽ không đăng nhập được)
+
+adm_Users.delothers.label=Toàn quyền thao tác
+adm_Users.delothersname.label=Toàn quyền thao tác
+adm_Users.delothers.title=Cho phép NSD có quyền thao tác (sửa, xóa) thông tin của NSD khác hay không.
+
+adm_Users.depart.label=Phòng ban
+adm_Users.group.label=Nhóm NSD
+
+adm_Users.depart.title=Phòng ban
+adm_Users.group.title=Nhóm NSD
+
+
+# Hiển thị tên VKS trong phần thông tin chi tiết
+adm_Users.sppname.label=Thuộc VKS
+
+adm_Users.fullname.label=Họ và tên cán bộ
+adm_Users.fullname.title=Họ và tên cán bộ
+
+# Nhóm quyền hiển thị trên form search
+adm_Users.groupid.label=Nhóm NSD
+adm_Users.groupnames.label=Thuộc nhóm NSD
+
+# Key này quy định các trường không hiển thị khi xem thông tin chi tiết
+# Lưu ý: các trường cách nhau bởi dấu phẩy
+adm_Users.detailInfo.exceptFields=password, groupid, sppid, inspcode, expired, locked, delothers, delothersname
+
+# Key này quy định các cột hiển thị trong result Table
+# Lưu ý: các trường cách nhau bởi dấu phẩy
+adm_Users.resultTable.displayColumns=userid, fullname, sppname, groupnames, expiredate
+
+adm_Users.messages.passwordNotMatch=Giá trị trường Mật khẩu và Nhập lại mật khẩu phải giống nhau
+adm_Users.messages.newPasswordNotMatch=Giá trị trường Mật khẩu mới và Nhập lại mật khẩu mới phải giống nhau
+adm_Users.messages.wrongPassword=Mật khẩu hiện tại không đúng.
+adm_Users.messages.accountExist=Tài khoản đã tồn tại trong CSDL
+adm_Users.messages.canNotEdit=Bạn không được phép cập nhật ngày hết hạn, tình trạng khóa hoặc thay đổi VKS của tài khoản này.
+adm_Users.messages.valueTooLarge=Giá trị nhập vào có độ dài quá lớn. Bạn hãy kiểm tra lại.
+adm_Users.messages.canNotDelete=Không thể xóa (những) tài khoản này (admin, danhmuc, fpt).
+adm_Users.messages.canNotDeleteYou=Không thể xóa chính tài khoản của mình.
+adm_Users.messages.fk_adm_user_func_userid=Chưa thể xóa vì có ràng buộc dữ liệu. Tài khoản đã chọn đang được phân quyền chức năng. Bạn hãy kiểm tra lại.
+adm_Users.messages.fk_adm_user_group_userid=Chưa thể xóa vì có ràng buộc dữ liệu. Tài khoản đã chọn đang được phân quyền theo nhóm NSD. Bạn hãy kiểm tra lại.
+adm_Users.messages.fk_adm_user_method_userid=Chưa thể xóa vì có ràng buộc dữ liệu. Tài khoản đã chọn đang được phân quyền thao tác. Bạn hãy kiểm tra lại.
+#####################################################################################
+
+# Adm_Groups
+adm_Groups.title=nhóm người sử dụng
+
+adm_Groups.groupid.label=Mã nhóm NSD
+adm_Groups.groupid.title=Hệ thống tự sinh khi thêm mới
+adm_Groups.groupid.styleClass=center
+
+adm_Groups.groupname.label=Tên nhóm NSD
+adm_Groups.groupname.title=Tên nhóm NSD
+adm_Groups.sppname.label=VKS tạo
+adm_Groups.sppname.title=VKS tạo nhóm NSD
+
+adm_Groups.messages.groupExist=Mã nhóm NSD đã tồn tại trong CSDL
+adm_Groups.messages.groupNameExist=Tên nhóm NSD đã tồn tại trong CSDL
+adm_Groups.messages.userConstraint=Chưa thể xóa vì có ràng buộc dữ liệu. Nhóm NSD đã chọn đang được gán quyền cho NSD. Bạn hãy kiểm tra lại.
+adm_Groups.messages.functionConstraint=Chưa thể xóa vì có ràng buộc dữ liệu. Nhóm NSD đã chọn đang được phân quyền chức năng. Bạn hãy kiểm tra lại.
+#####################################################################################
+
+# Adm_Functions
+adm_Functions.title=chức năng hệ thống
+
+adm_Functions.module.label=Phân hệ
+adm_Functions.module.title=Chức năng thuộc Phân hệ nào (QTHT, QLDM, Quản lý HS vụ án...)
+
+adm_Functions.modulename.label=Phân hệ
+
+adm_Functions.funcid.label=Mã chức năng
+adm_Functions.funcid.title=Hệ thống tự sinh khi thêm mới
+adm_Functions.funcid.styleClass=center
+
+adm_Functions.funcname.label=Tên chức năng
+adm_Functions.funcname.title=Tên của chức năng
+
+adm_Functions.path.label=Đường dẫn
+adm_Functions.path.title=Đường dẫn đến trang Web của chức năng
+
+adm_Functions.province.label=Dùng cho VKS tỉnh
+adm_Functions.province.title=Chức năng này có dùng cho VKS tỉnh hay không?
+
+adm_Functions.province_txt.label=Dùng cho VKS tỉnh
+adm_Functions.province_txt.title=Chức năng này có dùng cho VKS tỉnh hay không?
+
+adm_Functions.parentid.label=Chức năng cha
+adm_Functions.parentid.title=Chức năng cha của chức năng hiện tại (nếu không có chức năng cha thì chọn "Gốc")
+
+adm_Functions.parentname.label=Chức năng cha
+
+#adm_Functions.systemfunction.label=Chức năng hệ thống
+#adm_Functions.systemfunction.title=Chức năng tương ứng trong hệ thống
+
+#adm_Functions.systemfunctionname.label=Chức năng hệ thống
+
+adm_Functions.menuorder.label=Thứ tự hiển thị
+adm_Functions.menuorder.title=Thứ tự hiển thị chức năng trong cùng 1 chức năng cha
+
+adm_Functions.clazz.label=Lớp thực thi
+adm_Functions.clazz.title=Là lớp chứa mã nguồn thực thi trong hệ thống. Gán một (hoặc nhiều) lớp thực thi cho chức năng thì chức năng mới hoạt động & việc phân quyền theo thao tác mới có tác dụng.
+
+# Key này quy định các trường không hiển thị khi xem thông tin chi tiết
+# Lưu ý: các trường cách nhau bởi dấu phẩy
+adm_Functions.detailInfo.exceptFields=module, parentid
+
+# Key này quy định các cột hiển thị trong result Table
+# Lưu ý: các trường cách nhau bởi dấu phẩy
+adm_Functions.resultTable.displayColumns=funcid, funcname, path, province_txt, modulename
+
+adm_Functions.messages.funcidExist=Mã chức năng này đã tồn tại trong CSDL
+adm_Functions.messages.functionExist=Chức năng này đã tồn tại trong CSDL (Trong cùng 1 cấp (cùng chức năng cha) thì không thể có 2 chức năng trùng tên)
+adm_Functions.messages.userConstraint=Chưa thể xóa vì có ràng buộc dữ liệu. Chức năng đã chọn đang được phân quyền cho NSD. Bạn hãy kiểm tra lại.
+adm_Functions.messages.groupConstraint=Chưa thể xóa vì có ràng buộc dữ liệu. Chức năng đã chọn đang được phân quyền cho nhóm NSD. Bạn hãy kiểm tra lại.
+#####################################################################################
+
+# Adm_SystemFunctions
+adm_SystemFunctions.title=chức năng hệ thống
+
+adm_SystemFunctions.funcid.label=Mã chức năng hệ thống
+adm_SystemFunctions.funcid.title=Hệ thống tự sinh khi thêm mới
+
+adm_SystemFunctions.funcname.label=Tên chức năng hệ thống
+adm_SystemFunctions.funcname.title=Tên của chức năng
+
+adm_SystemFunctions.beanname.label=Bean
+adm_SystemFunctions.beanname.title=Tên Bean
+
+adm_SystemFunctions.beanclass.label=Lớp thực thi của Bean
+adm_SystemFunctions.beanclass.title=Lớp chứa mã lệnh để thực thi chức năng.
+
+adm_SystemFunctions.beanMethods.label=Thao tác phân quyền
+adm_SystemFunctions.beanMethods.title=Đánh dấu chọn và nhập tên cho các thao tác (phương thức) sẽ phân quyền cho NSD sau này.
+
+# Key này quy định các trường không hiển thị khi xem thông tin chi tiết
+# Lưu ý: các trường cách nhau bởi dấu phẩy
+# adm_SystemFunctions.detailInfo.exceptFields=
+
+# Key này quy định các cột hiển thị trong result Table
+# Lưu ý: các trường cách nhau bởi dấu phẩy
+adm_SystemFunctions.resultTable.displayColumns=funcid,funcname,beanname,beanclass
+
+adm_SystemFunctions.messages.functionExist=Chức năng hệ thống này đã tồn tại trong CSDL
+#####################################################################################
+
+# Adm_GrantGroups
+adm_GrantGroups.title=Phân quyền cho nhóm NSD
+
+adm_GrantGroups.legends.groupInfo=Thông tin nhóm NSD
+adm_GrantGroups.legends.functions=Danh sách các chức năng của hệ thống
+
+
+adm_GrantGroups.messages.grantSuccess=Phân quyền cho nhóm NSD thành công
+#####################################################################################
+
+# Adm_GrantUsers
+adm_GrantUsers.title=Phân quyền cho NSD
+
+adm_GrantUsers.legends.userInfo=Thông tin NSD
+adm_GrantUsers.legends.functions=Danh sách các chức năng của hệ thống
+
+adm_GrantUsers.messages.grantSuccess=Phân quyền cho NSD thành công
+adm_GrantUsers.error.selfGrant=Bạn không thể tự phân quyền cho chính mình
+#####################################################################################
+
+# Adm_GrantGroupToUser
+adm_GrantGroupToUser.title=Phân quyền theo nhóm cho NSD
+
+adm_GrantGroupToUser.legends.groups=Chọn nhóm cần phân quyền cho NSD
+adm_GrantGroupToUser.messages.grantSuccess=Phân quyền theo nhóm cho NSD thành công
+
+#####################################################################################
+
+# Adm_GrantActionsToUser
+adm_GrantActionsToUser.title=Phân quyền thao tác cho NSD
+adm_GrantActionsToUser.legends.grantedFunctions=Danh sách các chức năng đã phân quyền cho NSD
+adm_GrantActionsToUser.dataTable.emptyMessage=NSD chưa được phân quyền chức năng.
+adm_GrantActionsToUser.messages.grantSuccess=Phân quyền thao tác cho NSD thành công
+#####################################################################################
+
+# Adm_GrantActionsToGroup
+adm_GrantActionsToGroup.title=Phân quyền thao tác cho nhóm NSD
+adm_GrantActionsToGroup.legends.grantedFunctions=Danh sách các chức năng đã phân quyền cho nhóm NSD
+adm_GrantActionsToGroup.dataTable.emptyMessage=Nhóm NSD chưa được phân quyền chức năng.
+adm_GrantActionsToGroup.messages.grantSuccess=Phân quyền thao tác cho nhóm NSD thành công
+#####################################################################################
+
+# Adm_Departments
+adm_Departments.title=phòng ban
+
+adm_Departments.departid.label=Mã phòng ban
+adm_Departments.departid.styleClass=center
+adm_Departments.name.label=Tên phòng ban
+adm_Departments.sppid.label=Viện kiểm sát
+adm_Departments.sppname.label=Viện kiểm sát
+adm_Departments.sppid.title=Nhập mã hoặc tên của Viện kiểm sát
+adm_Departments.resultTable.displayColumns=departid,name,sppname
+adm_Departments.detailInfo.exceptFields=sppid
+adm_Departments.error.existname=Tên phòng ban đã tồn tại trong CSDL.
+adm_Departments.error.phongCapHuyen=Không được tạo phòng ban cho VKS cấp Huyện
+# END Adm_Departments
+
+# Spp_DelCase : xóa toàn bộ vụ án
+spp_DelCase.title=xóa vụ án
+spp_DelCase.casecode.label=Mã vụ án
+spp_DelCase.casecode.styleClass=center
+spp_DelCase.casename.label=Tên vụ án
+spp_DelCase.begin_setnum.label=QĐ khởi tố vụ án số
+spp_DelCase.begin_indate.label=Ngày QĐ khởi tố vụ án
+spp_DelCase.sid.label=Cơ quan ra QĐ
+spp_DelCase.sid_txt.label=Cơ quan ra QĐ
+spp_DelCase.casetype.label=Loại tội phạm
+spp_DelCase.casetypename.label=Loại tội phạm
+spp_DelCase.firstacc.label=Bị can đầu vụ
+spp_DelCase.firstacc_txt.label=Bị can đầu vụ
+spp_DelCase.crimdate.label=Ngày xảy ra
+spp_DelCase.begin_setnum.label=QĐ khởi tố vụ án số
+spp_DelCase.crimdate_from.label=Ngày xảy ra từ ngày
+spp_DelCase.crimdate_to.label=Ngày xảy ra đến ngày
+spp_DelCase.resultTable.displayColumns=casecode, casename, begin_setnum, begin_indate, sid_txt, casetypename, firstacc_txt, crimdate
+spp_DelCase.detailInfo.exceptFields=crimdate_from, crimdate_to, sid, firstacc
+
+spp_DelCase.autocomplete.tooltip=Nhấn phím space hoặc gõ mã hoặc tên để chọn
+
+spp_DelCaseHis.title=nhât ký xóa vụ án
+spp_DelCaseHis.casecode.label=Mã vụ án
+spp_DelCaseHis.casename.label=Tên vụ án
+spp_DelCaseHis.casetype.label=Loại tội phạm
+spp_DelCaseHis.lawcode.label=Điều luật vụ
+spp_DelCaseHis.lawcode_txt.label=Điều luật vụ
+spp_DelCaseHis.casetypename.label=Loại tội phạm
+spp_DelCaseHis.sid.label=Cơ quan ra quyết định
+spp_DelCaseHis.sppspcid.label=Đơn vị ra quyết định
+spp_DelCaseHis.spccasecode.label=Mã vụ của Tòa án
+spp_DelCaseHis.crimwhere.label=Nơi xảy ra
+spp_DelCaseHis.crimwhere1.label=Chi tiết nơi xảy ra
+spp_DelCaseHis.checkcrimdate.label=Ngày xảy ra không chính xác
+spp_DelCaseHis.crimdate.label=Ngày xảy ra
+spp_DelCaseHis.crimdate1.label=Ngày xảy ra không chính xác
+spp_DelCaseHis.crimtime.label=Giờ
+spp_DelCaseHis.address.label=Địa chỉ lưu trữ hồ sơ
+spp_DelCaseHis.remark.label=Ghi chú
+spp_DelCaseHis.begin_setnum.label=QĐ khởi tố vụ án số
+spp_DelCaseHis.begin_indate.label=Ngày QĐ khởi tố vụ án
+spp_DelCaseHis.begin_indate.styleClass=center
+spp_DelCaseHis.sid_txt.label=Cơ quan ra QĐ
+spp_DelCaseHis.casetype_txt.label=Loại tội phạm
+spp_DelCaseHis.crimwhere_txt.label=Nơi xảy ra
+spp_DelCaseHis.firstacc.label=Bị can đầu vụ
+spp_DelCaseHis.firstacc_txt.label=Bị can đầu vụ
+spp_DelCaseHis.crimdate_from.label=Ngày xảy ra từ ngày
+spp_DelCaseHis.crimdate_to.label=Ngày xảy ra đến ngày
+spp_DelCaseHis.accuage.label=Tuổi bị can đầu vụ
+
+spp_DelCaseHis.resultTable.displayColumns=casecode,casename,begin_setnum,begin_indate,sid_txt,casetypename,crimdate
+spp_DelCaseHis.detailInfo.exceptFields=sid,casetype,crimwhere,begin_spp,begin_spc,begin_pol,accuage,firstacc,crimdate1,checkcrimdate,crimdate_from,crimdate_to,sppspcid,lawcode,firstacc_txt,casetype,mdfuser,mdfdate
+
+
+# Spp_ChangeSppid : Chuyển vụ án giữa các đơn vị
+Spp_ChangeSppid.title=Chuyển vụ án giữa các đơn vị
+Spp_ChangeSppid.casecode.label=Mã vụ án
+Spp_ChangeSppid.casecode.styleClass=center
+Spp_ChangeSppid.casename.label=Tên vụ án
+Spp_ChangeSppid.begin_setnum.label=QĐ khởi tố vụ án số
+Spp_ChangeSppid.begin_indate.label=Ngày QĐ khởi tố vụ án
+Spp_ChangeSppid.sid.label=Cơ quan ra QĐ
+Spp_ChangeSppid.sid_txt.label=Cơ quan ra QĐ
+Spp_ChangeSppid.casetype.label=Loại tội phạm
+Spp_ChangeSppid.casetypename.label=Loại tội phạm
+Spp_ChangeSppid.firstacc.label=Bị can đầu vụ
+Spp_ChangeSppid.firstacc_txt.label=Bị can đầu vụ
+Spp_ChangeSppid.crimdate.label=Ngày xảy ra
+Spp_ChangeSppid.begin_setnum.label=QĐ khởi tố vụ án số
+Spp_ChangeSppid.crimdate_from.label=Ngày xảy ra từ ngày
+Spp_ChangeSppid.crimdate_to.label=Ngày xảy ra đến ngày
+Spp_ChangeSppid.resultTable.displayColumns=casecode, casename, begin_setnum, begin_indate, sid_txt, casetypename, firstacc_txt, crimdate
+Spp_ChangeSppid.detailInfo.exceptFields=crimdate_from, crimdate_to, sid, firstacc
+
+Spp_ChangeSppid.autocomplete.tooltip=Nhấn phím space hoặc gõ mã hoặc tên để chọn
+
+# Spp_ConvertData
+spp_ConvertData.title=in phiếu thống kê
+# END Spp_ConvertData
+
+# END Spp_DelCase : xóa toàn bộ vụ án
+
+# Adm_Person
+adm_Person.title=Thông tin cá nhân
+
+adm_Person.address.label=Địa chỉ
+adm_Person.address.title=Địa chỉ hành chính (phường/xã - quận/huyện - tỉnh/thành)
+
+adm_Person.birthday.label=Ngày sinh
+adm_Person.birthday.title=Ngày sinh (định dạng: ngày/tháng/năm)
+
+adm_Person.email.label=Địa chỉ mail
+adm_Person.email.title=Địa chỉ mail
+
+adm_Person.fullname.label=Họ và tên
+adm_Person.fullname.title=Họ và tên đầy đủ của NSD
+
+adm_Person.phoneno.label=SĐT
+adm_Person.phoneno.title=Số điện thoại liên hệ
+
+adm_Person.sppcid.label=Thuộc VKS
+adm_Person.sppcid.title=VKS nơi NSD công tác
+
+adm_Person.userid.label=Tài khoản
+adm_Person.userid.title=Tên tài khoản
+
+adm_Person.personid.label=Mã người sử dụng
+adm_Person.personid.title=Mã người sử dụng
+
+adm_Person.identityCard.label=Số CMND
+adm_Person.identityCard.title=Số CMND
+
+adm_Person.messages.personExist=Người sử dụng đã tồn tại trong CSDL
+#####################################################################################
+
+# Adm User Info
+adm_UserInfo.title=Thông tin cá nhân
+
+adm_UserInfo.infoid.label=Mã cá nhân
+adm_UserInfo.infoid.title=Mã thông tin cá nhân (Hệ thống tự sinh khi thêm mới)
+
+adm_UserInfo.userid.label=Tài khoản
+adm_UserInfo.userid.title=Tài khoản đăng nhập
+
+adm_UserInfo.fullname.label=Họ và tên
+adm_UserInfo.fullname.title=Họ và tên đầy đủ
+
+adm_UserInfo.birthday.label=Ngày sinh
+adm_UserInfo.birthday.title=Ngày tháng năm sinh
+
+adm_UserInfo.idcard.label=Số CMT
+adm_UserInfo.idcard.title=Chứng minh nhân dân
+
+adm_UserInfo.addr.label=Địa chỉ hành chính
+adm_UserInfo.addr.title=Mã địa chỉ hành chính (Phường/Xã - Quận/Huyện - Tỉnh/Thành)
+
+adm_UserInfo.detailaddr.label=Địa chỉ chi tiết
+adm_UserInfo.detailaddr.title=Số nhà, ngõ, đường phố...
+
+adm_UserInfo.phoneno.label=SĐT
+adm_UserInfo.phoneno.title=Số điện thoại liên hệ
+
+adm_UserInfo.email.label=Thư điện tử
+adm_UserInfo.email.title=Địa chỉ hòm thư điện tử
+adm_UserInfo.email.regex=^[\w-]+(?:\.[\w-]+)*@(?:[\w-]+\.)+[a-zA-Z]{2,7}$
+
+adm_UserInfo.image.label=Ảnh đại diện
+adm_UserInfo.image.title=Ảnh chân dung cỡ nhỏ
+adm_UserInfo.image.allowTypes=/(\.|\/)(gif|jpe?g|png)$/
+
+adm_UserInfo.jurycode.label=Mã thẩm phán
+adm_UserInfo.jurycode.title=Nếu NSD là thẩm phán thì nhập mã thẩm phán vào
+
+# Key này quy định các trường không hiển thị khi xem thông tin chi tiết
+# Lưu ý: các trường cách nhau bởi dấu phẩy
+adm_UserInfo.detailInfo.exceptFields=addr
+
+# Key này quy định các cột hiển thị trong result Table
+# Lưu ý: các trường cách nhau bởi dấu phẩy
+adm_UserInfo.resultTable.displayColumns=infoid, userid, fullname, idcard, detailaddr, jurycode, image
+#####################################################################################
+
+# Report
+reports.summary.title=Báo cáo tổng hợp
+reports.ksxxsths.title=Báo cáo kiểm sát xét xử sơ thẩm hình sự
+reports.thongkethtp.title=Biểu thống kê những thiệt hại do tội phạm
+reports.otherReportG3.title=Báo cáo sơ thẩm khác
+reports.otherReportG4.title=Báo cáo phúc thẩm khác
+reports.accusedReport.title=Báo cáo về bị can bị cáo
+reports.youngReport.title=Báo cáo người chưa thành niên
+reports.nationalReport.title=Báo cáo thuộc chỉ tiêu thống kê quốc gia
+reports.annexReport.title=Phụ lục báo cáo
+reports.generalReport.title=Tổng hợp các báo cáo
+reports.summaryToG3.title=Báo cáo tổng hợp giai đoạn điều tra, truy tố, xx sơ thẩm
+reports.summaryG45.title=Báo cáo tổng hợp giai đoạn xx phúc thẩm, GĐT, TT
+reports.summaryG6.title=Báo cáo tổng hợp giai đoạn thi hành án
+reports.unit.title=Báo cáo theo đơn vị
+reports.annotations.summary_unit=Báo cáo tổng hợp/ Báo cáo theo đơn vị
+reports.annotations.hs.monthlyReport=Báo cáo tháng
+reports.heroinReport.title=Báo cáo về ma túy theo QĐ 436/2011
+reports.summary.legends.reportParameters=Tham số báo cáo
+reports.summary.legends.generateOptions=Tùy chọn tổng hợp số liệu
+reports.summary.legends.displayOptions=Tùy chọn hiển thị
+
+reports.summary.reportId.label=Báo cáo
+reports.summary.reportId.title=Chọn báo cáo để tổng hợp
+reports.summary.fromDate.label=Tổng hợp báo cáo từ ngày
+reports.summary.fromDate.title=Ngày bắt đầu của khoảng thời gian tổng hợp báo cáo (căn cứ theo ngày thụ lý)
+reports.summary.toDate.label=đến ngày
+reports.summary.toDate.title=Ngày kết thúc của khoảng thời gian tổng hợp báo cáo
+reports.summary.reportDate.label=Ngày báo cáo
+reports.summary.reportDate.title=Ngày thực hiện tổng hợp báo cáo
+reports.summary.paperSize.label=Khổ giấy in
+reports.summary.paperSize.title=Khổ giấy để in báo cáo (A3, A4)
+reports.summary.reporter.label=Người lập
+reports.summary.reporter.title=Họ và tên cán bộ thực hiện tổng hợp báo cáo
+reports.summary.approver.label=Viện trưởng (phê duyệt)
+reports.summary.approver.title=Họ và tên Chánh án (phê duyệt)
+
+reports.summary.buttons.viewReport.label=Xem báo cáo
+reports.summary.buttons.export.label=Kết xuất báo báo
+reports.buttons.exportToPDF.title=PDF
+reports.buttons.exportToPDF.icon=qla-icons-pdf
+reports.buttons.exportToDOC.title=Microsoft Word (97-2003)
+reports.buttons.exportToDOC.icon=qla-icons-docx
+reports.buttons.exportToXLS.title=Microsoft Excel (97-2003)
+reports.buttons.exportToXLS.icon=qla-icons-xlsx
+reports.buttons.exportToDBF.title=FoxPro
+reports.buttons.exportToDBF.icon=qla-icons-dbf
+
+reports.annotations.currentSPP=Tổng hợp số liệu của VKS hiện tại
+reports.annotations.childSPP=Tổng hợp số liệu của các VKS cấp trực thuộc
+reports.annotations.currentAndChildSPP=Tổng hợp số liệu của VKS hiện tại và các VKS cấp trực thuộc
+reports.annotations.customSPP=Tùy chọn tổng hợp số liệu từ các VKS
+
+reports.annotations.min=Rút gọn (chỉ hiển thị những bản ghi có số liệu)
+reports.annotations.all=Đầy đủ (tất cả các bản ghi)
+
+reports.messages.checkreport.targetNull=Bạn chưa chọn báo cáo
+reports.messages.spcs.targetNull=Bạn phải chọn ít nhất 01 VKS để tổng hợp số liệu
+reports.messages.invalidFromDate=Từ ngày không được lớn hơn ngày hiện tại
+reports.messages.invalidToDate=Đến ngày không được lớn hơn ngày hiện tại
+reports.messages.invalidDateOrder=Sai thứ tự ngày tháng. Từ ngày phải nhỏ hơn hoặc bằng đến ngày
+
+# HungtD5 06/01/2012: Báo cáo tháng
+reports.monthly_g3_case.title=Thống kê xét xử Sơ thẩm - vụ án
+reports.monthly_g3_accused.title=Thống kê xét xử Sơ thẩm - bị can, bị cáo
+reports.monthly_g4_case.title=Thống kê xét xử Phúc thẩm - vụ án
+reports.monthly_g4_accused.title=Thống kê xét xử Phúc thẩm - bị can, bị cáo
+reports.monthly_g5_case.title=Thống kê xét xử Giám đốc thẩm, tái thẩm - vụ án
+reports.monthly_g5_accused.title=Thống kê xét xử Giám đốc thẩm, tái thẩm - bị can, bị cáo
+
+# BacNV add (12.03.2013): danh sach cac reports hs
+# Report categories
+constants.categories.reports.hs.TH.1A.text=Thống kê thụ lý và giải quyết các vụ án hình sự sơ thẩm (mẫu 1A)
+constants.categories.reports.hs.TH.1A.value=1A
+constants.categories.reports.hs.TH.1B.text=Thống kê thụ lý và giải quyết các vụ án hình sự phúc thẩm (mẫu 1B)
+constants.categories.reports.hs.TH.1B.value=1B
+constants.categories.reports.hs.TH.1C.text=Thống kê thụ lý và giải quyết các vụ án hình sự giám đốc thẩm, tái thẩm (mẫu 1C)
+constants.categories.reports.hs.TH.1C.value=1C
+constants.categories.reports.hs.TH.1D.text=Thống kê kết quả thi hành án hình sự (mẫu 1D)
+constants.categories.reports.hs.TH.1D.value=1D
+constants.categories.reports.hs.TH.10.text=Thống kê thụ lý và giải quyết các vụ án hình sự sơ thẩm có bị cáo là người chưa thành niên(mẫu 10)
+constants.categories.reports.hs.TH.10.value=10
+
+# HS - Bao cao thang
+constants.categories.reports.hs.M.1A1.text=Thống kê thụ lý và giải quyết các vụ án hình sự sơ thẩm - Vụ án
+constants.categories.reports.hs.M.1A1.value=1A1
+constants.categories.reports.hs.M.1A2.text=Thống kê thụ lý và giải quyết các vụ án hình sự sơ thẩm - Bị cáo
+constants.categories.reports.hs.M.1A2.value=1A2
+constants.categories.reports.hs.M.1B1.text=Thống kê thụ lý và giải quyết các vụ án hình sự phúc thẩm - Vụ án
+constants.categories.reports.hs.M.1B1.value=1B1
+constants.categories.reports.hs.M.1B2.text=Thống kê thụ lý và giải quyết các vụ án hình sự phúc thẩm - Bị cáo
+constants.categories.reports.hs.M.1B2.value=1B2
+constants.categories.reports.hs.M.1C1.text=Thống kê thụ lý và giải quyết các vụ án hình sự giám đốc thẩm, tái thẩm - Vụ án
+constants.categories.reports.hs.M.1C1.value=1C1
+constants.categories.reports.hs.M.1C2.text=Thống kê thụ lý và giải quyết các vụ án hình sự giám đốc thẩm, tái thẩm - Bị cáo
+constants.categories.reports.hs.M.1C2.value=1C2
+
+########################################################
+
+# QuangLA add (20.12.2012): danh sach cac reports
+# Report categories
+constants.categories.reports.ds.TH.2A.text=Thống kê thụ lý và giải quyết các vụ việc dân sự sơ thẩm (mẫu 2A)
+constants.categories.reports.ds.TH.2A.value=2A
+constants.categories.reports.ds.TH.2B.text=Thống kê thụ lý và giải quyết các vụ việc dân sự phúc thẩm (mẫu 2B)
+constants.categories.reports.ds.TH.2B.value=2B
+constants.categories.reports.ds.TH.2C.text=Thống kê thụ lý và giải quyết các vụ việc dân sự giám đốc thẩm, tái thẩm (mẫu 2C)
+constants.categories.reports.ds.TH.2C.value=2C
+
+constants.categories.reports.ds.DV.2A.text=Thống kê thụ lý và giải quyết các vụ việc dân sự sơ thẩm (mẫu 2A)
+constants.categories.reports.ds.DV.2A.value=2A
+constants.categories.reports.ds.DV.2B.text=Thống kê thụ lý và giải quyết các vụ việc dân sự phúc thẩm (mẫu 2B)
+constants.categories.reports.ds.DV.2B.value=2B
+constants.categories.reports.ds.DV.2C.text=Thống kê thụ lý và giải quyết các vụ việc dân sự giám đốc thẩm, tái thẩm (mẫu 2C)
+constants.categories.reports.ds.DV.2C.value=2C
+
+constants.categories.reports.hn.TH.3A.text=Thống kê thụ lý và giải quyết các vụ việc HNGĐ sơ thẩm (mẫu 3A)
+constants.categories.reports.hn.TH.3A.value=3A
+constants.categories.reports.hn.TH.3B.text=Thống kê thụ lý và giải quyết các vụ việc HNGĐ phúc thẩm (mẫu 3B)
+constants.categories.reports.hn.TH.3B.value=3B
+constants.categories.reports.hn.TH.3C.text=Thống kê thụ lý và giải quyết các vụ việc HNGĐ giám đốc thẩm, tái thẩm (mẫu 3C)
+constants.categories.reports.hn.TH.3C.value=3C
+
+constants.categories.reports.hn.DV.3A.text=Thống kê thụ lý và giải quyết các vụ việc HNGĐ sơ thẩm (mẫu 3A)
+constants.categories.reports.hn.DV.3A.value=3A
+constants.categories.reports.hn.DV.3B.text=Thống kê thụ lý và giải quyết các vụ việc HNGĐ phúc thẩm (mẫu 3B)
+constants.categories.reports.hn.DV.3B.value=3B
+constants.categories.reports.hn.DV.3C.text=Thống kê thụ lý và giải quyết các vụ việc HNGĐ giám đốc thẩm, tái thẩm (mẫu 3C)
+constants.categories.reports.hn.DV.3C.value=3C
+
+#####################################################################################
+
+# HungTD5 06.01.2012: danh sách các tháng trong năm
+# Danh mục tháng
+constants.categories.reports.month.01.text=01
+constants.categories.reports.month.01.value=01
+constants.categories.reports.month.02.text=02
+constants.categories.reports.month.02.value=02
+constants.categories.reports.month.03.text=03
+constants.categories.reports.month.03.value=03
+constants.categories.reports.month.04.text=04
+constants.categories.reports.month.04.value=04
+constants.categories.reports.month.05.text=05
+constants.categories.reports.month.05.value=05
+constants.categories.reports.month.06.text=06
+constants.categories.reports.month.06.value=06
+constants.categories.reports.month.07.text=07
+constants.categories.reports.month.07.value=07
+constants.categories.reports.month.08.text=08
+constants.categories.reports.month.08.value=08
+constants.categories.reports.month.09.text=09
+constants.categories.reports.month.09.value=09
+constants.categories.reports.month.10.text=10
+constants.categories.reports.month.10.value=10
+constants.categories.reports.month.11.text=11
+constants.categories.reports.month.11.value=11
+constants.categories.reports.month.12.text=12
+constants.categories.reports.month.12.value=12
+
+#####################################################################################
+# So thu ly
+registerBook.ds.title=Sổ thụ lý và kết quả giải quyết các vụ án Dân sự
+registerBook.fromDate.label=Thụ lý từ ngày
+registerBook.fromDate.title=Ngày bắt đầu của khoảng thời gian thụ lý
+registerBook.toDate.label=đến ngày
+registerBook.toDate.title=Ngày kết thúc của khoảng thời gian thụ lý
+#####################################################################################
+# Hiển thị tên VKS trong phần thông tin chi tiết
+adm_Person.spcname.label=Thuộc VKS
+
+
+# Key này quy định các trường không hiển thị khi xem thông tin chi tiết
+# Lưu ý: các trường cách nhau bởi dấu phẩy
+adm_Person.detailInfo.exceptFields=partyid, userid
+
+# Key này quy định các cột hiển thị trong result Table
+# Lưu ý: các trường cách nhau bởi dấu phẩy
+adm_Person.resultTable.displayColumns=userid, fullname, spcname, email, adress
+
+#####################################################################################
+
+# Custom Buttons
+## grant Groups
+button.labels.grantFunctionToGroup=Phân quyền cho nhóm NSD
+button.icons.grant=ui-icon-gear
+
+## grant Users
+button.labels.grantFunctionToUser=Phân quyền cho NSD
+button.icons.grantFunctionToUser=ui-icon-person
+
+## grant Groups to User
+button.labels.grantGroupToUser=Phân quyền theo nhóm cho NSD
+
+## grant Actions to User
+button.labels.grantActionsToUser=Phân quyền thao tác cho NSD
+
+## grant Actions to Group
+button.labels.grantActionsToGroup=Phân quyền thao tác cho nhóm NSD
+
+## synchronize
+button.labels.synchronizeBeansToDB=Cập nhật lớp thực thi từ mã nguồn vào CSDL
+#####################################################################################
+
+# Custom menuButtons
+## grant
+menuButton.labels.grant=Phân quyền
+
+
+### TuanDV13 12/03/2015
+
+adm_user_login.userId.label=Tài khoản
+adm_user_login.userId.title=Tên tài khoản
+
+adm_user_login.sppId.label=Mã VKS
+adm_user_login.sppId.title=Nhập mã VKS nơi NSD (cán bộ) công tác
+
+adm_user_login.name.label=Tên VKS
+adm_user_login.name.title=Tên viện kiểm soát
+adm_user_login.loginTime.label=Thời gian Login
+adm_user_login.sessionId.label=SessionId
+adm_user_login.title=Số người online
+
+adm_user_login.inspcode.label=Cán bộ
+adm_user_login.inspcode.title=Cán bộ sở hữu tài khoản (Danh sách tên cán bộ lấy từ danh mục Cán bộ)
+
+adm_user_login.resultTable.displayColumns=sppId,userId,name,loginTime,sessionId
+
+### Duclm 08.10.2015
+adm_Notifications.title=Thông báo hệ thống
+
+adm_Notifications.notiid.label=Mã thông báo
+adm_Notifications.notiid.title=Mã thông báo
+
+adm_Notifications.active.label=Kích hoạt
+adm_Notifications.active.title=Đánh dấu để kích hoạt việc hiển thị thông báo.
+
+adm_Notifications.content.label=Nội dung thông báo
+adm_Notifications.content.title=Nội dung của thông báo
+
+adm_Notifications.fromDate.label=Từ ngày
+adm_Notifications.fromDate.title=Từ ngày
+
+adm_Notifications.toDate.label=Đến ngày
+adm_Notifications.toDate.title=Đến ngày
+
+
+# Key này quy định các cột hiển thị trong result Table
+adm_Notifications.resultTable.displayColumns=notiid,content,fromDate,toDate,active
+
+adm_Notifications.errors.exist=Thông báo đã tồn tại

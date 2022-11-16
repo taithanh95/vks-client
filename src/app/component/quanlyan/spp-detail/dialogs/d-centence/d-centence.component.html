@@ -1,0 +1,249 @@
+<nz-modal *ngIf="data" class="ant-form" nzWidth="1000px" [(nzVisible)]="isVisible" nzTitle="Thêm mới" nzClosable="false"
+    [nzTitle]="title" nzMaskClosable="false">
+    <ng-template #title>
+        {{ titleName }}
+        <div class="pull-right icon-close">
+            <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+        </div>
+    </ng-template>
+    <ng-container>
+        <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+            <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse()">
+                <i nz-icon [nzType]="isCollapse ? 'minus' : 'plus'"></i>
+                {{ userfor === 'G5' ? 'Thông tin Giám đốc thẩm/Tái thẩm' : 'Thông tin bản án' }}
+            </legend>
+            <div class="ui-fieldset-content ant-advanced-search-form" [ngClass]="isCollapse ? 'show' : 'hide' ">
+                <table width="100%" class="ui-panelgrid">
+                  <tr>
+                    <td>
+                      <label>{{ userfor === 'G5' ? 'Mã QĐ GĐT/TT' : 'Mã bản án' }}</label>
+                    </td>
+                    <td>
+                      <input nz-input disabled title="Mã bản án (tự sinh)" [(ngModel)]="data.centcode" />
+                    </td>
+                  </tr>
+                    <tr>
+                      <td>
+                        <label>Ngày xét xử <span class="required">*</span></label>
+                      </td>
+                      <td>
+                        <nz-date-picker [disabled]="isVisibleDisable" [required]="isSubmited"
+                                        title="Ngày xét xử" [(ngModel)]="data.trialdate" nzPlaceHolder="dd/MM/yyyy"
+                                        nzFormat="dd/MM/yyyy" (input)="onValueDate($event,'trialdate')"
+                                        (keypress)="validateOnlyNumbers($event)">
+                        </nz-date-picker>
+                      </td>
+                        <td>
+                            <label> {{ userfor === 'G5' ? 'Quyết định số' : 'Bản án số' }}</label>
+                        </td>
+                        <td>
+                            <input nz-input [disabled]="isVisibleDisable" title="Bản án số" [(ngModel)]="data.setnum" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Ngày tuyên án <span class="required">*</span></label>
+                        </td>
+                        <td>
+                            <nz-date-picker [disabled]="isVisibleDisable" (ngModelChange)="indateChange($event)" [required]="isSubmited"
+                                title="Ngày tuyên án" [(ngModel)]="data.indate" nzPlaceHolder="dd/MM/yyyy"
+                                nzFormat="dd/MM/yyyy" (input)="onValueDate($event,'indate')"
+                                (keypress)="validateOnlyNumbers($event)">
+                            </nz-date-picker>
+                        </td>
+                        <td>
+                            <label>Ngày hiệu lực</label>
+                        </td>
+                        <td>
+                            <nz-date-picker [disabled]="isVisibleDisable" (ngModelChange)="actdateChange($event)" title="Ngày hiệu lực"
+                                [(ngModel)]="data.actdate" nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"
+                                (input)="onValueDate($event,'actdate')" (keypress)="validateOnlyNumbers($event)">
+                            </nz-date-picker>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>{{ userfor === 'G5' ? 'Tòa án ra quyết định' : 'Tòa án ra bản án'}} <span class="required">*</span></label>
+                        </td>
+                        <td colspan="3">
+                            <input [disabled]="isVisibleDisable" placeholder="" [required]="isSubmited" nz-input [(ngModel)]="data.atxSpc" (input)="onInputSpc($event)"
+                                [nzAutocomplete]="autoSpc" />
+                            <nz-autocomplete #autoSpc>
+                                <nz-auto-option *ngFor="let option of lstSpcs"
+                                    nzLabel="{{ option.SPCID }} - {{ option.NAME }}" [nzValue]="option">{{
+                                    option.SPCID }} - {{ option.NAME }}</nz-auto-option>
+                            </nz-autocomplete>
+                        </td>
+                    </tr>
+                    <ng-container *ngIf="userfor !== 'G3'">
+                        <tr>
+                            <td>
+                                <label>Quan điểm của VKS</label>
+                            </td>
+                            <td colspan="3">
+                                <nz-select [disabled]="isVisibleDisable" nzShowSearch [(ngModel)]="data.concidspp">
+                                    <nz-option nzLabel=""></nz-option>
+                                    <nz-option *ngFor="let option of lstConclu" [nzValue]="option.concid"
+                                  [nzLabel]="option.concname"></nz-option>
+                                </nz-select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>{{ userfor === 'G5' ? 'Quan điểm của hội đồng GĐT/TT' : 'Bản án phúc phẩm' }}<span class="required">*</span></label>
+                            </td>
+                            <td colspan="3">
+                                <nz-select [disabled]="isVisibleDisable" nzShowSearch [(ngModel)]="data.concid">
+                                    <nz-option nzLabel=""></nz-option>
+                                    <nz-option *ngFor="let option of lstConclu" [nzValue]="option.concid"
+                                  [nzLabel]="option.concname"></nz-option>
+                                </nz-select>
+                            </td>
+                        </tr>
+                    </ng-container>
+                    <tr>
+                        <td>
+                            <label>Nội dung</label>
+                        </td>
+                        <td colspan="3">
+                            <textarea nz-input [disabled]="isVisibleDisable" rows="2" [(ngModel)]="data.content"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Người ký <span class="required">*</span></label>
+                        </td>
+                        <td>
+                          <input title="Người ký" [required]="isSubmited" class="ng-pristine ng-valid" placeholder="" nz-input
+                                 [(ngModel)]="data.signname" (ngModelChange)="handleChangeSignname()" [nzAutocomplete]="autoInpector" (input)="onInputInspector($event)"/>
+                          <nz-autocomplete #autoInpector>
+                            <nz-auto-option *ngFor="let option of lstInpectors" [nzLabel]="option.FULLNAME" [nzValue]="option.FULLNAME">{{ option.INSPCODE }} - {{ option.FULLNAME }}</nz-auto-option>
+                          </nz-autocomplete>
+                        </td>
+                        <td>
+                            <label>Chức vụ <span class="required">*</span></label>
+                        </td>
+                        <td>
+                            <input [disabled]="isVisibleDisable" title="Chức vụ" [required]="isSubmited" class="ng-pristine ng-valid" placeholder="Chức vụ"
+                                nz-input [(ngModel)]="data.signoffice"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Ý kiến của VKS</label>
+                        </td>
+                        <td colspan="3">
+                            <textarea nz-input [disabled]="isVisibleDisable" rows="2" [(ngModel)]="data.remark"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Ngày tòa giao bản án</label>
+                        </td>
+                        <td>
+                            <nz-date-picker [disabled]="isVisibleDisable" title="Ngày tòa giao bản án" [(ngModel)]="data.receivedate"
+                                nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"
+                                (keypress)="validateOnlyNumbers($event)"
+                                (input)="onValueDate($event,'receivedate')">
+                            </nz-date-picker>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label>Xét xử lưu động</label></td>
+                        <td colspan="2">
+                            <nz-radio-group [disabled]="isVisibleDisable" [(ngModel)]="data.movement">
+                                <label nz-radio nzValue="Y">Phiên tòa xét xử lưu động</label>
+                                <label nz-radio nzValue="N">Phiên tòa không xét xử lưu động</label>
+                            </nz-radio-group>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <label>Số bị cáo Tòa án xét xử theo khoản khác nhẹ hơn trong cùng điều luật hoặc một tội
+                                khác nhẹ hơn tội mà VKS đã truy tố</label>
+                        </td>
+                        <td>
+                            <input nz-input [disabled]="isVisibleDisable" appNumberic [(ngModel)]="data.spcdiffspp" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <label>Số bị cáo Tòa án xét xử về tội danh khác bằng tội danh mà VKS đã truy tố</label>
+                        </td>
+                        <td>
+                            <input nz-input [disabled]="isVisibleDisable" appNumberic [(ngModel)]="data.sppeq" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <label>Số bị cáo Tòa án xét xử theo khoản khác nặng hơn trong cùng điều luật hoặc về tội
+                                danh nặng hơn tội mà VKS đã truy tố</label>
+                        </td>
+                        <td>
+                            <input nz-input [disabled]="isVisibleDisable" appNumberic [(ngModel)]="data.sppnext" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <label>Số bị cáo Viện kiểm sát kháng nghị</label>
+                        </td>
+                        <td>
+                            <input nz-input [disabled]="isVisibleDisable" appNumberic [(ngModel)]="data.sppback" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label nz-checkbox [disabled]="isVisibleDisable" [(ngModel)]="data.xetxurutkn">
+                                Xét xử rút kinh nghiệm (Tòa án)
+                            </label>
+                        </td>
+                        <td>
+                            <label nz-checkbox [disabled]="isVisibleDisable" [(ngModel)]="data.xetxurutgon">
+                                Xét xử rút kinh nghiệm (VKS)
+                            </label>
+                        </td>
+                        <td>
+                            <label nz-checkbox [disabled]="isVisibleDisable" [(ngModel)]="data.xetxurutknvks">
+                                Xét xử theo thủ tục rút gọn
+                            </label>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </fieldset>
+    </ng-container>
+    <div class="div-btn-right btn-m-10" style="margin: 10px 0;border: solid 1px #bed6f8;float: none;overflow: hidden">
+        <button style="float: right;" nz-button (click)="handleCancel()">Hủy bỏ</button>
+        <button *ngIf ="!isVisibleDisable" style="float: right;" nz-button (click)="handleOk()" nzType="primary" [nzLoading]="loading">Ghi lại</button>
+        <button *ngIf ="(userfor === 'G4' || userfor === 'G5') && data.isEdit" style="float: right;" nz-button (click)="openCentenlaw()" nzType="primary" [nzLoading]="loading">
+            {{userfor === 'G5' ? 'Điều luật áp dụng' : 'Điều luật áp dụng cho Bản án'}}</button>
+    </div>
+    <ng-container *ngIf="data.isEdit">
+        <nz-table #basicTable [nzData]="lstAccu" nzSize="small" nzShowSizeChanger nzShowPagination="false" [nzFrontPagination] = "false">
+            <thead>
+                <tr>
+                    <th class="text-nowrap center" width="15%">Mã bị can</th>
+                    <th class="text-nowrap center" width="30%">Họ và tên</th>
+                    <th *ngIf="userfor !== 'G3'" class="text-nowrap center" width="25%">Quan điểm VKS/Kết luận Tòa án</th>
+                    <th *ngIf="userfor !== 'G5'" class="text-nowrap center" width="20%">Điều luật, hình phạt, chỉ tiêu</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of basicTable.data;let i = index;" ngClass="s-{{data.selected}}">
+                    <td class="text-nowrap center">{{ f(data,'accucode') }}</td>
+                    <td class="text-nowrap">{{ f(data,'fullname') }}</td>
+                    <td *ngIf="userfor !== 'G3'" class="text-nowrap center">
+                        <a (click)="openConclusions(i)"> Quan Điểm/Kết luận </a>
+                    </td>
+                    <td *ngIf="userfor !== 'G5'" class="text-nowrap center">
+                        <a (click)="openPopup(i)"> {{ isVisibleDisable ? 'Xem chi tiết' : 'Cập nhật'}}</a>
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </ng-container>
+    <div *nzModalFooter></div>
+</nz-modal>
+<app-d-cent-cenlaw-g1 (closeModal)="closePopupCenlaw()" [isVisible]="isVisibleCenLaw" [lstAccu]="lstAccu" [accuCode]="accuCode" [userfor]="userfor" [centence]="data" [register] = "register" [isVisibleDisable]="isVisibleDisableCenLaw"></app-d-cent-cenlaw-g1>
+<app-d-cent-conclu (closeModal)="closePopupConclu()" [isVisibleDisable]="isVisibleDisable" [isVisible]="isVisibleConclu" [lstAccu]="lstAccu" [accuCode]="accuCode" [userfor]="userfor" [centence]="data" [register] = "register"></app-d-cent-conclu>
+<app-d-centtenlaw [userfor]="userfor" [isVisible]="isVisibleCentenLaw" [isVisibleDisable]="isVisibleDisable" [centence]="data" (closeModal)="closeCentenlaw($event)"></app-d-centtenlaw>

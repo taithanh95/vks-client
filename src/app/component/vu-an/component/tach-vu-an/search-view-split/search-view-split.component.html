@@ -1,0 +1,353 @@
+<div>
+    <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+        <div class="ui-fieldset-content ant-advanced-search-form">
+            <!-- Begin row -->
+            <div nz-row>
+                <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">Chọn loại tách</nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <nz-select [(ngModel)]="filterItem.choicetype" (ngModelChange)="toggleTable()">
+                                <nz-option nzValue="b" nzLabel="Tách bị can bị cáo"></nz-option>
+                                <nz-option nzValue="a" nzLabel="Tách vụ án"></nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">Trạng thái</nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <nz-radio-group [(ngModel)]="filterItem.choice" nzName="radiogroup" (ngModelChange)="toggleTable()">
+                                <label nz-radio nzValue="1"> Các {{ filterItem.choicetype === 'a' ? 'vụ án':'bị can/bị
+                                    cáo'}} chưa tách</label>
+                                <label nz-radio nzValue="2"> Các {{ filterItem.choicetype === 'a' ? 'vụ án':'bị can/bị
+                                    cáo'}} đã tách</label>
+                            </nz-radio-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+            <!-- End row -->
+            <!-- Begin row -->
+            <div nz-row>
+                <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">Mã vụ án</nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <input appNumberic nz-input nzPlaceHolder="Mã vụ án" [(ngModel)]="filterItem.casecode">
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">Tên vụ án</nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <input nz-input nzPlaceHolder="Tên vụ án" [(ngModel)]="filterItem.casename">
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+            <!-- End row -->
+            <!-- Begin row -->
+            <ng-container *ngIf="filterItem.choicetype !== 'a'">
+                <div nz-row>
+                    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                        <nz-form-item>
+                            <nz-form-label [nzSpan]="10">Tên bị can</nz-form-label>
+                            <nz-form-control [nzSpan]="12">
+                                <input nz-input nzPlaceHolder="Nhập tên bị can" [(ngModel)]="filterItem.fullname">
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                        <nz-form-item>
+                            <nz-form-label [nzSpan]="10">CMND</nz-form-label>
+                            <nz-form-control [nzSpan]="12">
+                                <input nz-input appNumberic nzPlaceHolder="Số chứng minh nhân dân"
+                                    [(ngModel)]="filterItem.identify">
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+            </ng-container>
+            <!-- End row -->
+            <!-- Begin row -->
+            <ng-container *ngIf="filterItem.choicetype !== 'a'">
+                <div nz-row>
+                    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                        <nz-form-item>
+                            <nz-form-label [nzSpan]="10">Nơi ĐKHKTT</nz-form-label>
+                            <nz-form-control [nzSpan]="12">
+                                <input nz-input [(ngModel)]="filterItem.atxtLocaid" [nzAutocomplete]="atxLoca"
+                                    (input)="onInputLocaname($event)">
+                                <nz-autocomplete #atxLoca>
+                                    <nz-auto-option *ngFor="let option of lstLocation" [nzValue]="option"
+                                        [nzLabel]="option.remark">
+                                        {{ option.locaid }} - {{ option.remark }} </nz-auto-option>
+                                </nz-autocomplete>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                        <nz-form-item>
+                            <nz-form-label [nzSpan]="10">Nơi cư trú</nz-form-label>
+                            <nz-form-control [nzSpan]="12">
+                                <input nz-input [(ngModel)]="filterItem.atxtAddressid" [nzAutocomplete]="atxAddresss"
+                                    (input)="onInputRemark($event)">
+                                <nz-autocomplete #atxAddresss>
+                                    <nz-auto-option *ngFor="let option of lstAddress" [nzValue]="option"
+                                        [nzLabel]="option.remark">
+                                        {{ option.locaid }} - {{ option.remark }}</nz-auto-option>
+                                </nz-autocomplete>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+            </ng-container>
+            <!-- End row -->
+            <!-- Begin row -->
+            <ng-container *ngIf="filterItem.choicetype !== 'a'">
+                <div nz-row>
+                    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                        <nz-form-item>
+                            <nz-form-label [nzSpan]="10">Dân tộc</nz-form-label>
+                            <nz-form-control [nzSpan]="12">
+                                <nz-select nzShowSearch nzAllowClear [(ngModel)]="filterItem.atxtNatiid">
+                                    <nz-option *ngFor="let option of lstNation" [nzValue]="option"
+                                        [nzLabel]="option.name">
+                                        {{ option.natiid }} - {{ option.name }}
+                                    </nz-option>
+                                </nz-select>
+                                <!-- <input nz-input nz-tooltip nzTooltipTitle="Nhập mã hoặc tên của dân tộc" [(ngModel)]="filterItem.atxtNatiid" 
+                                [nzAutocomplete]="nation" (input)="onInputNatiname($event)">
+                                <nz-autocomplete #nation>
+                                    <nz-auto-option *ngFor="let option of lstNation" [nzValue]="option" [nzLabel]="option.name">
+                                         {{ option.natiid }} - {{ option.name }} </nz-auto-option>
+                                </nz-autocomplete> -->
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                        <nz-form-item>
+                            <nz-form-label [nzSpan]="10">Quốc tịch</nz-form-label>
+                            <nz-form-control [nzSpan]="12">
+                                <nz-select nzShowSearch nzAllowClear [(ngModel)]="filterItem.atxtCounid">
+                                    <nz-option *ngFor="let option of lstCountry" [nzValue]="option"
+                                        [nzLabel]="option.counname">
+                                        {{ option.counid }} - {{ option.counname }} </nz-option>
+                                </nz-select>
+                                <!-- <input nz-input nz-tooltip nzTooltipTitle="Nhập mã hoặc tên quốc tịch" [(ngModel)]="filterItem.atxtCounid"
+                                [nzAutocomplete]="counid" (input)="onInputCounname($event)">
+                                <nz-autocomplete #counid>
+                                    <nz-auto-option *ngFor="let option of lstCountry" [nzValue]="option" [nzLabel]="option.counname">
+                                         {{ option.counid }} - {{ option.counname }}</nz-auto-option>
+                                </nz-autocomplete> -->
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+            </ng-container>
+            <!-- End row -->
+            <!-- Begin row -->
+            <ng-container *ngIf="filterItem.choicetype !== 'a'">
+                <div nz-row>
+                    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                        <nz-form-item>
+                            <nz-form-label [nzSpan]="10">Trình độ học vấn</nz-form-label>
+                            <nz-form-control [nzSpan]="12">
+                                <nz-select nzShowSearch nzAllowClear [(ngModel)]="filterItem.atxtLevelid">
+                                    <nz-option *ngFor="let option of lstKnowledge" [nzValue]="option"
+                                        [nzLabel]="option.levelname">
+                                        {{ option.levelid }} - {{ option.levelname }} </nz-option>
+                                </nz-select>
+                                <!-- <input nz-input nz-tooltip nzTooltipTitle="Nhập mã hoặc tên của trình độ học vấn" [(ngModel)]="filterItem.levelname" 
+                                [nzAutocomplete]="knowledge" (ngModelChange)="onInputLevelname($event)">
+                                <nz-autocomplete #knowledge>
+                                    <nz-auto-option *ngFor="let option of lstKnowledge" [nzValue]="option" [nzLabel]="option.levelname">
+                                         {{ option.levelid }} - {{ option.levelname }} </nz-auto-option>
+                                </nz-autocomplete> -->
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+            </ng-container>
+            <!-- End row -->
+        </div>
+    </fieldset>
+</div>
+<div class="ui-panel">
+    <div nz-row>
+        <div nz-col [nzSpan]="24" class="search-area">
+            <button nz-button [nzType]="'primary'" (click)="doSearch()">
+                <span class="fa fa-fw fa-search"></span>
+                Tìm kiếm
+            </button>
+            <button [disabled]="isDetailBtnDisable" nz-button [nzType]="'primary'" (click)="openDetail()">
+                <span class="fa fa-fw fa-eye"></span>Chi tiết vụ án
+            </button>
+            <button [disabled]="isUpdBtnDisable" nz-button [nzType]="'primary'" (click)="showScreenEdit()">
+                <span class="fa fa-fw fa-plus"></span> Tách vụ án
+            </button>
+            <button [disabled]="isDelBtnDisable" nz-button nzType="danger" nz-popconfirm
+                nzPopconfirmTitle="Trường hợp này sẽ xóa Bị can/Bị cáo trong vụ chuyển đến. Bạn có chắc chắn xóa không ?"
+                nzPopconfirmPlacement="top" nzCancelText="Hủy" nzOkText="Đồng ý" (nzOnConfirm)="doDelete()"
+                nzType="danger">
+                <span class="fa fa-fw fa-times"></span> Xóa
+            </button>
+        </div>
+    </div>
+    <ng-container *ngIf="isVisibleTable">
+        <div class="data-table">
+            <nz-table #basicTable nzShowSizeChanger [nzFrontPagination]="false" nzSize="small" [nzData]="datas"
+                [nzScroll]="{ x: '1200px' }" [nzLoading]="loading" [nzShowTotal]="rangeTemplate"
+                [nzPageSize]="defaultPage" [nzTotal]="total" [nzPageIndex]="pageIndex"
+                (nzQueryParams)="onQueryParamsChange($event)">
+                <ng-container *ngIf="TYPE === 1">
+                    <thead>
+                        <tr>
+                            <th [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
+                                (nzCheckedChange)="onAllChecked($event)">
+                            </th>
+                            <th class="text-nowrap center" nzWidth="5%">STT</th>
+                            <th class="text-nowrap" nzWidth="10%">Mã vụ án</th>
+                            <th class="text-nowrap" nzWidth="10%">Tên vụ án</th>
+                            <th class="text-nowrap center" nzWidth="10%">Mã bị can</th>
+                            <th class="text-nowrap" nzWidth="10%">Tên bị can</th>
+                            <th class="text-nowrap center" nzWidth="7%">CMND</th>
+                            <th class="text-nowrap center" nzWidth="10%">Ngày sinh</th>
+                            <th class="text-nowrap" nzWidth="13%">Nơi cư trú</th>
+                            <th class="text-nowrap" nzWidth="10%">Người tạo</th>
+                            <th class="text-nowrap center" nzWidth="10%">Ngày tạo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of basicTable.data; let i = index;" class="actived"
+                            (click)="onRowSelect(data, data.selected)" [class.selected]="data.selected === true">
+                            <td [nzChecked]="setOfCheckedId.has(data)"
+                                (nzCheckedChange)="onItemChecked(data, $event)"></td>
+                            <td class="text-nowrap center">{{getRowIndex(i, basicTable.nzPageIndex,
+                                basicTable.nzPageSize)}}</td>
+                            <td class="text-nowrap center">{{ data.CASECODE }}</td>
+                            <td class="text-nowrap">{{ data.CASENAME }}</td>
+                            <td class="text-nowrap center">{{ data.ACCUCODE }}</td>
+                            <td class="text-nowrap">{{ data.FULLNAME }}</td>
+                            <td class="text-nowrap center">{{ data.IDENTIFY }}</td>
+                            <td class="text-nowrap center">{{ data.BIRTHDAY | dateFormat }}</td>
+                            <td class="text-nowrap">{{ data.REMARK }}</td>
+                            <td class="text-nowrap">{{ data.CRTUSER }}</td>
+                            <td class="text-nowrap center">{{ data.CRTDATE | dateFormat }}</td>
+                        </tr>
+                    </tbody>
+                </ng-container>
+                <ng-container *ngIf="TYPE === 2">
+                    <thead>
+                        <tr>
+                            <th [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
+                                (nzCheckedChange)="onAllChecked($event)">
+                            </th>
+                            <th class="text-nowrap center" nzWidth="5%">STT</th>
+                            <th class="text-nowrap" nzWidth="15%">Tên bị can</th>
+                            <th class="text-nowrap center" nzWidth="10%">Mã vụ án cũ</th>
+                            <th class="text-nowrap" nzWidth="15%">Tên vụ án cũ</th>
+                            <th class="text-nowrap center" nzWidth="15%">Mã vụ án mới</th>
+                            <th class="text-nowrap" nzWidth="10%">Tên vụ án mới</th>
+                            <th class="text-nowrap center" nzWidth="10%">Ngày tách vụ án</th>
+                            <th class="text-nowrap" nzWidth="10%">Người tạo</th>
+                            <th class="text-nowrap center" nzWidth="10%">Ngày tạo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of basicTable.data; let i = index;" class="actived"
+                            (click)="onRowSelect(data, data.selected)" [class.selected]="data.selected === true">
+                            <td [nzChecked]="setOfCheckedId.has(data)"
+                                (nzCheckedChange)="onItemChecked(data, $event)"></td>
+                            <td class="text-nowrap center">{{getRowIndex(i, basicTable.nzPageIndex,
+                                basicTable.nzPageSize)}}</td>
+                            <td class="text-nowrap">{{ data.FULLNAME }}</td>
+                            <td class="text-nowrap center">{{ data.CASECODE1 }}</td>
+                            <td class="text-nowrap">{{ data.CASENAME1 }}</td>
+                            <td class="text-nowrap center">{{ data.CASECODE2 }}</td>
+                            <td class="text-nowrap">{{ data.CASENAME2 }}</td>
+                            <td class="text-nowrap center">{{ data.SPLITDATE | dateFormat }}</td>
+                            <td class="text-nowrap">{{ data.CRTUSER }}</td>
+                            <td class="text-nowrap center">{{ data.CRTDATE | dateFormat }}</td>
+                        </tr>
+                    </tbody>
+                </ng-container>
+                <ng-container *ngIf="TYPE === 3">
+                    <thead>
+                        <tr>
+                            <th [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
+                            (nzCheckedChange)="onAllChecked($event)">
+                            </th>
+                            <th class="text-nowrap center" nzWidth="5%">STT</th>
+                            <th class="text-nowrap center" nzWidth="15%">Mã vụ án</th>
+                            <th class="text-nowrap" nzWidth="30%">Tên vụ án</th>
+                            <th class="text-nowrap center" nzWidth="15%">Ngày xảy ra vụ án</th>
+                            <th class="text-nowrap" nzWidth="15%">Người tạo</th>
+                            <th class="text-nowrap center" nzWidth="15%">Ngày tạo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of basicTable.data; let i = index;" class="actived"
+                            (click)="onRowSelect(data, data.selected)" [class.selected]="data.selected === true">
+                            <td [nzChecked]="setOfCheckedId.has(data)"
+                                (nzCheckedChange)="onItemChecked(data, $event)"></td>
+                            <td class="text-nowrap center">{{getRowIndex(i, basicTable.nzPageIndex,
+                                basicTable.nzPageSize)}}</td>
+                            <td class="text-nowrap center">{{ data.CASECODE }}</td>
+                            <td class="text-nowrap">{{ data.CASENAME }}</td>
+                            <td class="text-nowrap center">{{ data.CRIMDATE | dateFormat }}</td>
+                            <td class="text-nowrap">{{ data.CRTUSER }}</td>
+                            <td class="text-nowrap center">{{ data.CRTDATE | dateFormat }}</td>
+                        </tr>
+                    </tbody>
+                </ng-container>
+                <ng-container *ngIf="TYPE === 4">
+                    <thead>
+                        <tr>
+                            <th [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
+                                (nzCheckedChange)="onAllChecked($event)">
+                            </th>
+                            <th class="text-nowrap center" nzWidth="5%">STT</th>
+                            <th class="text-nowrap center" nzWidth="15%">Mã vụ án cũ</th>
+                            <th class="text-nowrap" nzWidth="15%">Tên vụ án cũ</th>
+                            <th class="text-nowrap center" nzWidth="15%">Mã vụ án mới</th>
+                            <th class="text-nowrap" nzWidth="15%">Tên vụ án mới</th>
+                            <th class="text-nowrap center" nzWidth="10%">Ngày tách vụ án</th>
+                            <th class="text-nowrap" nzWidth="15%">Người tạo</th>
+                            <th class="text-nowrap center" nzWidth="10%">Ngày tạo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of basicTable.data; let i = index;" class="actived"
+                            (click)="onRowSelect(data, data.selected)" [class.selected]="data.selected === true">
+                            <td [nzChecked]="setOfCheckedId.has(data)"
+                                (nzCheckedChange)="onItemChecked(data, $event)"></td>
+                            <td class="text-nowrap center">{{getRowIndex(i, basicTable.nzPageIndex,
+                                basicTable.nzPageSize)}}</td>
+                            <td class="text-nowrap center">{{ data.CASECODE1 }}</td>
+                            <td class="text-nowrap">{{ data.CASENAME1 }}</td>
+                            <td class="text-nowrap center">{{ data.CASECODE2 }}</td>
+                            <td class="text-nowrap">{{ data.CASENAME2 }}</td>
+                            <td class="text-nowrap center">{{ data.SPLITDATE | dateFormat }}</td>
+                            <td class="text-nowrap">{{ data.CRTUSER }}</td>
+                            <td class="text-nowrap center">{{ data.CRTDATE | dateFormat }}</td>
+                        </tr>
+                    </tbody>
+                </ng-container>
+            </nz-table>
+            <ng-template #rangeTemplate let-range="range" let-total>
+                {{ range[0] }}-{{ range[1] }} {{'of' | translate }} {{ total }} {{'items' | translate }}
+            </ng-template>
+        </div>
+    </ng-container>
+</div>
+<app-detail-view-split [isVisible]="isVisibleDetail" [data]="dataDetail" (closeModal)="closeDetail($event)">
+</app-detail-view-split>

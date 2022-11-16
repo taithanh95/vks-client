@@ -1,0 +1,21 @@
+.margin-3 {
+  margin: 3px;
+}
+
+.des {
+  color: #25ca25;
+  font-size: 12px;
+}
+
+.red {
+  color: red;
+  font-size: 12px;
+}
+
+.ant-select-disabled.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  color: rgba(0,0,0,1) !important;
+}
+
+.ant-select[disabled] {
+  color: rgba(0,0,0,1) !important;
+}

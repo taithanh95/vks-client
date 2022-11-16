@@ -1,0 +1,105 @@
+<div class="data-table pl-1">
+  <nz-form-label class="lab">Thông tin bàn giao giữa Cơ quan điều tra và Viện kiểm sát</nz-form-label>
+  <nz-table #basicTable1 nzShowSizeChanger [nzFrontPagination]="false" nzSize="small" [nzData]="lstTransfer1"
+            [nzScroll]="{ x: '650px' }" [nzLoading]="loading" [nzShowTotal]="rangeTemplate1"
+            [nzPageSize]="defaultPage"
+            [nzTotal]="total" [nzPageIndex]="rowIndex" (nzQueryParams)="onQueryParamsChange($event)">
+    <thead>
+    <tr>
+      <th class="text-nowrap" nzWidth="5%">STT</th>
+      <th class="text-nowrap" nzWidth="8%">Loại bàn giao</th>
+      <th class="text-nowrap" nzWidth="15%">Đơn vị giao</th>
+      <th class="text-nowrap" nzWidth="15%">Đơn vị nhận</th>
+      <th class="text-nowrap" nzWidth="8%">Ngày bàn giao</th>
+      <th class="text-nowrap" nzWidth="8%">Người giao</th>
+      <th class="text-nowrap" nzWidth="8%">Người nhận</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of basicTable1.data; let i = index;">
+      <td style="text-align: center" class="text-nowrap">{{getRowIndex(i, basicTable1.nzPageIndex,
+        basicTable1.nzPageSize)}}</td>
+      <td class="text-nowrap center">{{ data.TRANSTYPE }}</td>
+      <td class="text-nowrap center">{{ data.TRANSFROM }}</td>
+      <td class="text-nowrap center">{{ data.TRANSTO }}</td>
+      <td class="text-nowrap center">{{ data.TRANSDATE | dateFormat }}</td>
+      <td class="text-nowrap center">{{ data.SENDER }}
+      <td class="text-nowrap center">{{ data.RECEIPTER }}
+    </tr>
+    </tbody>
+  </nz-table>
+  <ng-template #rangeTemplate1 let-range="range" let-total>
+    {{ range[0] }}-{{ range[1] }} {{'of' | translate }} {{ total }} {{'items' | translate }}
+  </ng-template>
+</div>
+
+<div class="data-table pl-1">
+  <nz-form-label class="lab">Thông tin bàn giao giữa Viện kiểm sát và Viện kiểm sát</nz-form-label>
+  <nz-table #basicTable2 nzShowSizeChanger [nzFrontPagination]="false" nzSize="small" [nzData]="lstTransfer2"
+            [nzScroll]="{ x: '650px' }" [nzLoading]="loading" [nzShowTotal]="rangeTemplate2"
+            [nzPageSize]="defaultPage"
+            [nzTotal]="total" [nzPageIndex]="rowIndex" (nzQueryParams)="onQueryParamsChange($event)">
+    <thead>
+    <tr>
+      <th class="text-nowrap" nzWidth="5%">STT</th>
+      <th class="text-nowrap" nzWidth="15%">Đơn vị giao</th>
+      <th class="text-nowrap" nzWidth="15%">Đơn vị nhận</th>
+      <th class="text-nowrap" nzWidth="8%">Ngày bàn giao</th>
+      <th class="text-nowrap" nzWidth="8%">Người giao</th>
+      <th class="text-nowrap" nzWidth="8%">Người nhận</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data2 of basicTable2.data; let i = index;">
+      <td style="text-align: center" class="text-nowrap">{{getRowIndex(i, basicTable2.nzPageIndex,
+        basicTable2.nzPageSize)}}</td>
+      <td class="text-nowrap center">{{ data2.TRANSFROM }}</td>
+      <td class="text-nowrap center">{{ data2.TRANSTO }}</td>
+      <td class="text-nowrap center">{{ data2.TRANSDATE | dateFormat }}</td>
+      <td class="text-nowrap center">{{ data2.SENDER }}
+      <td class="text-nowrap center">{{ data2.RECEIPTER }}
+    </tr>
+    </tbody>
+  </nz-table>
+  <ng-template #rangeTemplate2 let-range="range" let-total>
+    {{ range[0] }}-{{ range[1] }} {{'of' | translate }} {{ total }} {{'items' | translate }}
+  </ng-template>
+</div>
+
+<div class="data-table pl-1">
+  <nz-form-label class="lab">Thông tin bàn giao giữa Viện kiểm sát và Tòa án</nz-form-label>
+  <nz-table #basicTable3 nzShowSizeChanger [nzFrontPagination]="false" nzSize="small" [nzData]="lstTransfer3"
+            [nzScroll]="{ x: '650px' }" [nzLoading]="loading" [nzShowTotal]="rangeTemplate3"
+            [nzPageSize]="defaultPage"
+            [nzTotal]="total" [nzPageIndex]="rowIndex" (nzQueryParams)="onQueryParamsChange($event)">
+    <thead>
+    <tr>
+      <th class="text-nowrap" nzWidth="5%">STT</th>
+      <th class="text-nowrap" nzWidth="8%">Loại bàn giao</th>
+      <th class="text-nowrap" nzWidth="15%">Đơn vị giao</th>
+      <th class="text-nowrap" nzWidth="15%">Đơn vị nhận</th>
+      <th class="text-nowrap" nzWidth="8%">Ngày bàn giao</th>
+      <th class="text-nowrap" nzWidth="8%">Người giao</th>
+      <th class="text-nowrap" nzWidth="8%">Người nhận</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data3 of basicTable3.data; let i = index;">
+      <td style="text-align: center" class="text-nowrap">{{getRowIndex(i, basicTable3.nzPageIndex,
+        basicTable3.nzPageSize)}}</td>
+      <td class="text-nowrap center">{{ data3.TRANSTYPE }}</td>
+      <td class="text-nowrap center">{{ data3.TRANSFROM }}</td>
+      <td class="text-nowrap center">{{ data3.TRANSTO }}</td>
+      <td class="text-nowrap center">{{ data3.TRANSDATE | dateFormat }}</td>
+      <td class="text-nowrap center">{{ data3.SENDER }}
+      <td class="text-nowrap center">{{ data3.RECEIPTER }}
+    </tr>
+    </tbody>
+  </nz-table>
+  <ng-template #rangeTemplate3 let-range="range" let-total>
+    {{ range[0] }}-{{ range[1] }} {{'of' | translate }} {{ total }} {{'items' | translate }}
+  </ng-template>
+</div>
+
+<app-detail-deci [data]="data" [isVisible]="isVisibleDetail" (closeModal)="closeModalDetail($event)">
+</app-detail-deci>

@@ -1,0 +1,37 @@
+<div class="data-table pl-1">
+  <nz-table #basicTable nzShowSizeChanger [nzFrontPagination]="false" nzSize="small" [nzData]="lstAgainst"
+            [nzScroll]="{ x: '650px' }" [nzLoading]="loading" [nzShowTotal]="rangeTemplate"
+            [nzPageSize]="defaultPage"
+            [nzTotal]="total" [nzPageIndex]="rowIndex" (nzQueryParams)="onQueryParamsChange($event)">
+    <thead>
+    <tr>
+      <th class="text-nowrap" nzWidth="5%">STT</th>
+      <th class="text-nowrap" nzWidth="8%">Số KN</th>
+      <th class="text-nowrap" nzWidth="8%">Ngày KN</th>
+      <th class="text-nowrap" nzWidth="9%">Đơn vị KN</th>
+      <th class="text-nowrap" nzWidth="8%">BA/QĐ KN</th>
+      <th class="text-nowrap" nzWidth="13%">Kháng nghị</th>
+      <th class="text-nowrap" nzWidth="10%">Nội dung</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of basicTable.data; let i = index;" (click)="onRowSelect(data)">
+      <td style="text-align: center" class="text-nowrap">{{getRowIndex(i, basicTable.nzPageIndex,
+        basicTable.nzPageSize)}}</td>
+      <td class="text-nowrap center">{{ data.SETNUM }}</td>
+      <td class="text-nowrap center">{{ data.INDATE | dateFormat}}</td>
+      <td class="text-nowrap center">{{ data.SPPSPC }}</td>
+      <td class="text-nowrap center">{{ data.SETNUMCEN }}</td>
+      <td class="text-nowrap center">{{ f(data.USERFOR) }}</td>
+      <td class="text-nowrap center">{{ data.CONTENT }}</td>
+
+    </tr>
+    </tbody>
+  </nz-table>
+  <ng-template #rangeTemplate let-range="range" let-total>
+    {{ range[0] }}-{{ range[1] }} {{'of' | translate }} {{ total }} {{'items' | translate }}
+  </ng-template>
+</div>
+
+<app-detail-deci [data]="data" [isVisible]="isVisibleDetail" (closeModal)="closeModalDetail($event)">
+</app-detail-deci>

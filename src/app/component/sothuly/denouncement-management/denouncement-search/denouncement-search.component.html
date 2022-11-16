@@ -1,0 +1,421 @@
+<fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+  <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse(0)">
+    <i nz-icon [nzType]="arrCollapse[0] ? 'minus' : 'plus'"></i>Thông tin tìm kiếm
+  </legend>
+  <div class="ui-fieldset-content" (keyup.enter)="doSearch()">
+    <div nz-form class="ant-advanced-search-form px-3" [ngClass]="arrCollapse[0] ? 'show' : 'hide' ">
+      <div class="row mb-2">
+        <label class="col-md-2">
+          Mã tin báo
+        </label>
+        <div class="col-md-2">
+          <input type="text" autofocus nz-input placeholder="Mã tin báo"
+                 [(ngModel)]="filterItem.denouncementCode" name="denouncementCode">
+        </div>
+        <label class="col-md-2">
+          Tiếp nhận từ ngày
+        </label>
+        <div class="col-md-2">
+          <nz-date-picker [ngStyle]="{width: '100%'}" nzSize="large" [(ngModel)]="filterItem.fromDate"
+                          name="fromDate"
+                          (input)="onDateValueChange('fromDate', $event)"
+                          (keypress)="numberOnly($event)"
+                          nzPlaceHolder="Tiếp nhận từ ngày" nzFormat="dd/MM/yyyy">
+          </nz-date-picker>
+          <div class="text-danger margin-top-5" *ngIf="requiredFromDate">
+            <small>Tiếp nhận từ ngày phải nhỏ hơn hoặc bằng tiếp nhận đến ngày</small>
+          </div>
+        </div>
+        <label class="col-md-2 ">
+          Tiếp nhận đến ngày
+        </label>
+        <div class="col-md-2">
+          <nz-date-picker [ngStyle]="{width: '100%'}" [(ngModel)]="filterItem.toDate" name="toDate"
+                          (input)="onDateValueChange('toDate', $event)"
+                          (keypress)="numberOnly($event)"
+                          nzPlaceHolder="Tiếp nhận đến ngày" nzFormat="dd/MM/yyyy"></nz-date-picker>
+        </div>
+      </div>
+      <div class="row mb-2">
+        <label class="col-md-2 ">
+          Người báo tin/bị tố giác
+        </label>
+        <div class="col-md-2">
+          <input nz-input placeholder="Người tố giác, bị tố giác" [(ngModel)]="filterItem.delatorOrAccused"
+                 name="delatorOrAccused">
+        </div>
+        <label class="col-md-2">
+          Loại tin báo
+        </label>
+        <div class="col-md-2">
+          <nz-select nzMode="multiple" class="custom-arrow" nzShowSearch nzAllowClear
+                     nzPlaceHolder="Chọn loại tin báo"
+                     [nzMaxTagCount]="1"
+                     [nzMaxTagPlaceholder]="tagPlaceHolder"
+                     [(ngModel)]="listOfSelectedValue" name="listOfSelectedValue">
+            <nz-option *ngFor="let denouncementSource of denouncementSources"
+                       [nzValue]="denouncementSource.paramValue"
+                       [nzLabel]="denouncementSource.paramName">
+            </nz-option>
+          </nz-select>
+          <ng-template #tagPlaceHolder let-selectedList>{{ selectedList.length }} more</ng-template>
+        </div>
+        <label class="col-md-2">
+          Kết quả giải quyết
+        </label>
+        <div class="col-md-2">
+          <nz-select nzMode="multiple" style="width:100%" nzShowSearch nzAllowClear nzServerSearch
+                     nzPlaceHolder="Chọn kết quả giải quyết"
+                     [nzMaxTagCount]="1"
+                     [nzMaxTagPlaceholder]="tagPlaceHolder"
+                     [(ngModel)]="lstSettlementResultsSelected" name="lstSettlementResultsSelected"
+                     (nzOnSearch)="searchAuto($event)"
+          >
+            <nz-option *ngFor="let denouncementSource of lstSettlementResults"
+                       [nzValue]="denouncementSource.deciid"
+                       [nzLabel]="denouncementSource.deciname">
+            </nz-option>
+          </nz-select>
+          <ng-template #tagPlaceHolder let-selectedList>{{ selectedList.length }} more</ng-template>
+        </div>
+      </div>
+      <div class="row mb-2">
+        <label class="col-md-2 ">
+          Bộ luật
+        </label>
+        <div class="col-md-2">
+          <nz-select id="codeId"
+                     nzPlaceHolder="Chọn bộ luật"
+                     nzAllowClear
+                     [(ngModel)]="filterItem.codeId"
+                     (ngModelChange)="onCodeIdChange($event,true)">
+            <nz-option *ngFor="let o of listGroupLawCode" [nzValue]="o.codeId"
+                       [nzLabel]="o.codeName"></nz-option>
+          </nz-select>
+        </div>
+        <label class="col-md-2">
+          Điều luật
+        </label>
+        <div class="col-md-2">
+          <nz-select nzAllowClear
+                     nzShowSearch
+                     nzServerSearch
+                     nzPlaceHolder="Chọn điều luật"
+                     [(ngModel)]="filterItem.ipnEnactmentId"
+                     (nzOpenChange)="handleLawIdOpenChange($event)"
+                     (nzOnSearch)="onSearchLaw($event)">
+            <nz-option *ngFor="let option of lstLaws" nzCustomContent [nzLabel]="option.label"
+                       [nzValue]="option.lawCode">
+              {{ option.label }}
+            </nz-option>
+          </nz-select>
+        </div>
+        <label class="col-md-2 ">
+          Trạng thái
+        </label>
+        <div class="col-md-2">
+          <nz-select nzMode="multiple" style="width:100%" nzShowSearch nzAllowClear
+                     nzPlaceHolder="Chọn trạng thái"
+                     [nzMaxTagCount]="1"
+                     [nzMaxTagPlaceholder]="tagPlaceHolder"
+                     [(ngModel)]="lstDenouncementStatusSelected" name="lstDenouncementStatusSelected">
+            <nz-option *ngFor="let denouncementSource of denouncementStatus"
+                       [nzValue]="denouncementSource.paramValue"
+                       [nzLabel]="denouncementSource.paramName">
+            </nz-option>
+          </nz-select>
+          <ng-template #tagPlaceHolder let-selectedList>{{ selectedList.length }} more</ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</fieldset>
+<fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+  <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse(1)">
+    <i nz-icon [nzType]="arrCollapse[1] ? 'minus' : 'plus'"></i>Tìm kiếm nâng cao
+  </legend>
+  <div class="ui-fieldset-content">
+    <div nz-form class="ant-advanced-search-form px-3" [ngClass]="arrCollapse[1] ? 'show' : 'hide' ">
+      <div class="row mb-2">
+        <label class="col-md-2">
+          Cơ quan tiếp nhận
+        </label>
+        <div class="col-md-2">
+          <nz-select nzMode="multiple" class="custom-arrow" nzShowSearch nzAllowClear
+                     nzPlaceHolder="Chọn cơ quan"
+                     [nzMaxTagCount]="1"
+                     [(ngModel)]="listTakenOverAgency" name="listTakenOverAgency">
+            <nz-option *ngFor="let o of takenOverAgencies"
+                       [nzValue]="o.paramValue"
+                       [nzLabel]="o.paramName">
+            </nz-option>
+          </nz-select>
+        </div>
+        <label class="col-md-2 ">
+          Cán bộ tiếp nhận
+        </label>
+        <div class="col-md-2">
+          <input nz-input placeholder="Cán bộ tiếp nhận" [(ngModel)]="filterItem.takenOverOfficer"
+                 name="takenOverOfficer">
+        </div>
+        <label class="col-md-2 ">
+          Số QĐ phân công của CQĐT
+        </label>
+        <div class="col-md-2">
+          <input nz-input placeholder="Số QĐ phân công của CQĐT" [(ngModel)]="filterItem.iaAssignmentDecisionNumber"
+                 name="iaAssignmentDecisionNumber">
+        </div>
+      </div>
+      <div class="row mb-2">
+        <label class="col-md-2 ">
+          Cán bộ điều tra thụ lý
+        </label>
+        <div class="col-md-2">
+          <input nz-input placeholder="Cán bộ điều tra thụ lý" [(ngModel)]="filterItem.iaHandlingOfficer"
+                 name="iaHandlingOfficer">
+        </div>
+        <label class="col-md-2 ">
+          VKS thụ lý từ ngày
+        </label>
+        <div class="col-md-2">
+          <nz-date-picker [ngStyle]="{width: '100%'}" [(ngModel)]="filterItem.phandlingFromDate"
+                          name="phandlingFromDate"
+                          (input)="onDateValueChange('phandlingFromDate', $event)"
+                          (keypress)="numberOnly($event)"
+                          nzPlaceHolder="VKS thụ lý từ ngày" nzFormat="dd/MM/yyyy"></nz-date-picker>
+          <div class="text-danger margin-top-5" *ngIf="requiredPhandlingFromDate">
+            <small>VKS thụ lý từ ngày phải nhỏ hơn hoặc bằng VKS thụ lý đến ngày</small>
+          </div>
+        </div>
+        <label class="col-md-2">
+          VKS thụ lý đến ngày
+        </label>
+        <div class="col-md-2">
+          <nz-date-picker [ngStyle]="{width: '100%'}" nzSize="large" [(ngModel)]="filterItem.phandlingToDate"
+                          name="phandlingToDate"
+                          (input)="onDateValueChange('phandlingToDate', $event)"
+                          (keypress)="numberOnly($event)"
+                          nzPlaceHolder="VKS thụ lý từ ngày" nzFormat="dd/MM/yyyy">
+          </nz-date-picker>
+        </div>
+      </div>
+      <div class="row mb-2">
+        <label class="col-md-2 ">
+          Số thụ lý
+        </label>
+        <div class="col-md-2">
+          <input nz-input placeholder="Số thụ lý" [(ngModel)]="filterItem.phandlingNumber"
+                 name="phandlingNumber">
+        </div>
+        <label class="col-md-2">
+          KSV thụ lý
+
+
+
+        </label>
+        <div class="col-md-2">
+          <nz-select class="custom-arrow" nzShowSearch nzAllowClear
+                     nzPlaceHolder="Chọn kiểm sát viên"
+                     [(ngModel)]="filterItem.phandlingProsecutorId" name="phandlingProsecutorId">
+            <nz-option *ngFor="let option of procurators" nzCustomContent
+                       [nzLabel]="option.fullName"
+                       [nzValue]="option.inspCode">
+              {{ option.fullName }}
+            </nz-option>
+          </nz-select>
+        </div>
+        <label class="col-md-2 ">
+          Số QĐ phân công của VKS
+        </label>
+        <div class="col-md-2">
+          <input nz-input placeholder="Số QĐ phân công của VKS" [(ngModel)]="filterItem.passignmentDecisionNumber"
+                 name="passignmentDecisionNumber">
+        </div>
+      </div>
+      <div class="row mb-2">
+        <label class="col-md-2">
+          Cơ quan giải quyết
+        </label>
+        <div class="col-md-2">
+          <nz-select class="custom-arrow" nzShowSearch nzAllowClear
+                     nzPlaceHolder="Cơ quan giải quyết"
+                     [(ngModel)]="filterItem.ipnSettlementAgency" name="ipnSettlementAgency">
+            <nz-option *ngFor="let option of ipnSettlementAgencyList"
+                       [nzLabel]="option.paramName"
+                       [nzValue]="option.paramValue">
+            </nz-option>
+          </nz-select>
+        </div>
+        <label class="col-md-2">
+          Phân loại tin
+        </label>
+        <div class="col-md-2">
+          <nz-select class="custom-arrow" nzShowSearch nzAllowClear
+                     nzPlaceHolder="Phân loại tin"
+                     [(ngModel)]="filterItem.ipnClassifiedNews" name="ipnClassifiedNews">
+            <nz-option *ngFor="let option of ipnClassifiedNews"
+                       [nzLabel]="option.paramName"
+                       [nzValue]="option.paramValue">
+            </nz-option>
+          </nz-select>
+        </div>
+        <label class="col-md-2">
+          Hoạt động điều tra
+        </label>
+        <div class="col-md-2">
+          <nz-select class="custom-arrow" nzShowSearch nzAllowClear nzPlaceHolder="Hoạt động điều tra"
+                     [(ngModel)]="filterItem.investigationActivityType" name="investigationActivityType"> >
+            <nz-option *ngFor="let activityType of investigationActivityType"
+                       [nzValue]="activityType['paramValue']"
+                       [nzLabel]="activityType['paramName']"></nz-option>
+          </nz-select>
+        </div>
+      </div>
+      <div class="row mb-2">
+        <label class="col-md-2">
+          Số QĐ/yêu cầu của VKS
+        </label>
+        <div class="col-md-2">
+          <input nz-input placeholder="Số QĐ/yêu cầu của VKS" [(ngModel)]="filterItem.verificationInvestigationCode"
+                 name="verificationInvestigationCode">
+        </div>
+        <label class="col-md-2 ">
+          QĐ/yêu cầu của VKS từ ngày
+        </label>
+        <div class="col-md-2">
+          <nz-date-picker [ngStyle]="{width: '100%'}" [(ngModel)]="filterItem.verificationFromDate"
+                          name="verificationFromDate"
+                          (input)="onDateValueChange('verificationFromDate', $event)"
+                          (keypress)="numberOnly($event)"
+                          nzPlaceHolder="QĐ/yêu cầu của VKS từ ngày" nzFormat="dd/MM/yyyy"></nz-date-picker>
+          <div class="text-danger margin-top-5" *ngIf="requiredVerificationFromDate">
+            <small>QĐ/yêu cầu của VKS từ ngày phải nhỏ hơn hoặc bằng QĐ/yêu cầu của VKS đến ngày</small>
+          </div>
+        </div>
+        <label class="col-md-2 ">
+          QĐ/yêu cầu của VKS đến ngày
+        </label>
+        <div class="col-md-2">
+          <nz-date-picker [ngStyle]="{width: '100%'}" [(ngModel)]="filterItem.verificationToDate"
+                          name="verificationToDate"
+                          (input)="onDateValueChange('verificationToDate', $event)"
+                          (keypress)="numberOnly($event)"
+                          nzPlaceHolder="QĐ/yêu cầu của VKS đến ngày" nzFormat="dd/MM/yyyy"></nz-date-picker>
+        </div>
+      </div>
+      <div class="row mb-2">
+        <label class="col-md-2">
+          Loại QĐ/yêu cầu của VKS
+        </label>
+        <div class="col-md-2">
+          <nz-select class="custom-arrow" nzShowSearch nzAllowClear
+                     nzPlaceHolder="Loại QĐ/yêu cầu của VKS"
+                     [(ngModel)]="filterItem.type" name="type">
+            <nz-option [nzValue]="5" [nzLabel]="typeOfVerification[5]"></nz-option>
+            <nz-option [nzValue]="1" [nzLabel]="typeOfVerification[1]"></nz-option>
+            <nz-option [nzValue]="2" [nzLabel]="typeOfVerification[2]"></nz-option>
+            <nz-option [nzValue]="3" [nzLabel]="typeOfVerification[3]"></nz-option>
+            <nz-option [nzValue]="4" [nzLabel]="typeOfVerification[4]"></nz-option>
+            <nz-option [nzValue]="6" [nzLabel]="typeOfVerification[6]"></nz-option>
+          </nz-select>
+        </div>
+
+        <label class="col-md-2" nz-checkbox [(ngModel)]="filterItem.corruptionCrime">Tội phạm tham nhũng</label>
+        <label class="col-md-2" nz-checkbox [(ngModel)]="filterItem.economicCrime">Tội phạm kinh tế</label>
+        <label class="col-md-2" nz-checkbox [(ngModel)]="filterItem.otherCrime">Tội phạm khác</label>
+
+      </div>
+    </div>
+  </div>
+</fieldset>
+<div class="ui-panel d-flex justify-content-end">
+  <button nz-button nzSize="small" (click)="doSearch()" [nzType]="'primary'">
+    <span class="fa fa-fw fa-search"></span>&nbsp;Tìm kiếm
+  </button>
+  <button nz-button nzSize="small" nzType="primary" (click)="showModalAdd()">
+    <span class="fa fa-fw fa-plus"></span>&nbsp;Thêm mới
+  </button>
+  <button [disabled]="isBtnUpd"
+          nz-button nzSize="small" nzType="primary" (click)="showModalUpdate()">
+    <span class="fa fa-fw fa-edit"></span>&nbsp;Cập nhật thông tin
+  </button>
+  <button [disabled]="isBtnDelete"
+          nz-button nzSize="small" nzType="nzDanger" (click)="onDelete()">
+    <span class="fa fa-fw fa-times"></span>&nbsp;Xóa
+  </button>
+  <button [disabled]="isBtnDetail"
+          nz-button nzSize="small" nzType="primary" (click)="showModalDetail()">
+    <span class="fa fa-fw fa-eye"></span>&nbsp;Xem chi tiết
+  </button>
+</div>
+<nz-table #basicTable [nzData]="datas"
+          [nzScroll]="{ x: '1200px' }"
+          [nzFrontPagination]="false"
+          [nzTotal]="defaultPage.totalElements"
+          [nzPageSize]="defaultPage.size"
+          [nzPageIndex]="defaultPage.number + 1"
+          nzSize="small"
+          nzShowSizeChanger [nzShowTotal]="rangeTemplate" [nzLoading]="loading"
+          (nzQueryParams)="onQueryParamsChange($event)"
+          [nzPageSizeOptions]="pageSize"
+          [nzNoResult]="contentTpl"
+>
+  <thead>
+  <tr>
+    <th nzWidth="3%">&nbsp;</th>
+    <th nzWidth="3%">STT</th>
+    <th nzWidth="10%">Mã tin báo</th>
+    <th nzWidth="10%" nzColumnKey="s_date_receive" [nzSortFn]="true">Ngày tiếp nhân</th>
+    <th nzWidth="10%">Người báo tin</th>
+    <th nzWidth="10%">Người bị tố giác</th>
+    <th nzWidth="18%">Điều luật</th>
+    <th nzWidth="10%" nzColumnKey="s_status" [nzSortFn]="true">Trạng thái</th>
+    <th>Kết quả giải quyết</th>
+    <th nzWidth="8%">Vụ án liên quan</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let data of basicTable.data;let i = index;" class="actived" ngClass="s-{{data.checked}}"
+      (click)="onRowSelect(data)">
+    <td nzShowCheckbox [(nzChecked)]="data.checked"
+        (nzCheckedChange)="onItemChecked(data, $event)"></td>
+    <td nzAlign="center">{{ data['stt'] + (defaultPage.number) * defaultPage.size }}</td>
+    <td nzAlign="center">{{ data['denouncementCode'] }}</td>
+    <td nzAlign="center">{{ data['takenOverDate']}}</td>
+    <td nzEllipsis nz-tooltip [nzTooltipTitle]="data['rreporter']">{{ data['rreporter'] }}</td>
+    <td nzEllipsis nz-tooltip [nzTooltipTitle]="data['nameAccused']">{{ data['nameAccused'] }}</td>
+    <td nzEllipsis nz-tooltip [nzTooltipTitle]="data['lawnames']"><div [innerHTML]="data['lawnames']"></div></td>
+    <td nzAlign="center" [ngStyle]="{'color': data['settlementStatus'] | denouncementStatusColor: 'color' }">
+      {{ data['settlementStatus'] | denouncementStatusColor: 'statusName' }}
+    </td>
+    <td nzEllipsis nz-tooltip [nzTooltipTitle]="data['decisionName']">{{ data['decisionName'] }}</td>
+    <td nzAlign="center" nzEllipsis nz-tooltip [nzTooltipTitle]="data['casename']">{{ data['casecode'] }}</td>
+  </tr>
+  </tbody>
+</nz-table>
+<ng-template #rangeTemplate let-range="range" let-total>
+  {{ range[0] }}-{{ range[1] }} {{' của ' | translate }} {{ defaultPage.totalElements }} {{ ' bản ghi' }}
+</ng-template>
+<ng-template #contentTpl>
+  <p class="ant-empty-description ng-star-inserted">Không tìm thấy kết quả</p>
+</ng-template>
+
+<app-denouncement-create [isVisibleAdd]="isVisibleAdd"
+                         (closeModal)="closeModalAdd($event)">
+</app-denouncement-create>
+<app-denouncement-update [isVisibleUpdate]="isVisibleUpdate" [mode]="modeEnum.UPDATE"
+                         (closeModal)="closeModalUpdate($event)" [denouncementId]="selectedItem?.id">
+</app-denouncement-update>
+<app-denouncement-update [isVisibleUpdate]="isVisibleDetail" [mode]="modeEnum.VIEW_FROM_PARENT"
+                         (closeModal)="closeModalDetail()" [denouncementId]="selectedItem?.id">
+</app-denouncement-update>
+<ng-template #confirm>
+  <i nz-icon nzType="question-circle" nzTheme="twotone" nzTwotoneColor="#faad14"></i>
+  &nbsp; Bạn có chắc chắn muốn xóa bản tin không?
+</ng-template>
+<ng-template #confirmHeader>
+  Xác nhận
+  <div class="pull-right icon-close">
+    <em (click)="confirmModalRef.close()" nz-icon nzType="close" nzTheme="outline"></em>
+  </div>
+</ng-template>

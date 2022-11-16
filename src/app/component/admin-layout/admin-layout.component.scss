@@ -1,0 +1,78 @@
+
+* {
+  box-sizing: border-box;
+}
+nz-header {
+  background: #fff;
+  padding: 0;
+}
+nz-content {
+  margin: 0 15px;
+
+}
+nz-breadcrumb {
+  margin: 15px 0;
+
+}
+.icon-layout{
+  display: inline-flex;
+}
+.inner-content {
+  padding: 24px;
+  background: #fff;
+  min-height: 750px;
+}
+
+nz-footer {
+  text-align: center;
+}
+.image{
+  width: 80px;
+  display: block;
+  margin: 20px auto;
+  margin-bottom: 5px;
+  padding: 0 5px;
+}
+.trigger {
+  font-size: 18px;
+  line-height: 64px;
+  padding: 0 24px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.trigger:hover {
+  color: #1890ff;
+}
+.user-info {
+  color: black;
+  font-size: 12px;
+}
+.dropdown-menu {
+  min-width: 8rem !important;
+}
+.menu-item-flex{
+  display: flex;
+  align-items: center;
+}
+.ant-layout-sider-collapsed .menu-item-flex {
+  display: block;
+}
+/*Responsive*/
+@media screen and (max-width:767px) {
+  nz-content {
+    margin: 0 5px;
+
+  }
+  nz-breadcrumb {
+    margin: 0 0 15px 0;
+
+  }
+  .inner-content[_ngcontent-bhd-c270] {
+    padding: 15px;
+}
+
+}
+legend{
+  margin-bottom: 0;
+}

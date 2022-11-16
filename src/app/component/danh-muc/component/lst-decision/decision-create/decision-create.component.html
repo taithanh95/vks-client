@@ -1,0 +1,137 @@
+<nz-modal nzWidth="1000px" [(nzVisible)]="isVisible" nzClosable="false" [nzTitle]="title" nzMaskClosable="false"
+    [nzAutofocus]="null">
+    <ng-template #title>
+        {{ titleName }} Quyết định
+        <div class="pull-right icon-close">
+            <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+        </div>
+    </ng-template>
+    <div>
+        <div class="ui-fieldset-content ant-advanced-search-form">
+            <table width="100%" class="ui-panelgrid table-4-col">
+                <tr>
+                    <ng-container *ngIf="!data.isEdit">
+                        <td>
+                            <label>Cấp quyết định <span style="color: red">&nbsp;*</span></label>
+                        </td>
+                        <td>
+                            <nz-radio-group [(ngModel)]="data.type_ins" (ngModelChange)="updApplyfor()">
+                                <label nz-radio nzValue="CHA">Cấp Cha</label>
+                                <label nz-radio nzValue="CON">Cấp Con</label>
+                            </nz-radio-group>
+                        </td>
+                    </ng-container>
+                    <td>
+                        <label>Mã quyết định</label>
+                    </td>
+                    <td>
+                        <input nz-input placeholder="Hệ thống tự sinh" [(ngModel)]="data.deciid" disabled>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Tên quyết định <span style="color: red">&nbsp;*</span></label>
+                    </td>
+                    <td colspan="3">
+                        <textarea nz-input rows="2" [(ngModel)]="data.deciname" [required]="isSubmited"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label nz-checkbox [(ngModel)]="data.limittime">Có thời hạn</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Thời hạn<span style="color: red">&nbsp;*</span></label>
+                    </td>
+                    <td>
+                        <input nz-input placeholder="" [(ngModel)]="data.settime" [required]="isSubmited"
+                            [disabled]="!data.limittime" appIsNumber>
+                    </td>
+                    <td>
+                        <label>Đơn vị tính</label>
+                    </td>
+                    <td>
+                        <nz-select [(ngModel)]="data.setunit" [disabled]="!data.limittime">
+                            <nz-option nzValue="D" nzLabel="Ngày"></nz-option>
+                            <nz-option nzValue="M" nzLabel="Tháng"></nz-option>
+                            <nz-option nzValue="Y" nzLabel="Năm"></nz-option>
+                        </nz-select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Áp dụng cho</label>
+                    </td>
+                    <td>
+                        <nz-select [(ngModel)]="data.applyfor" [disabled]="updateapplyfor">
+                            <nz-option nzValue="A" nzLabel="Bị can"></nz-option>
+                            <nz-option nzValue="C" nzLabel="Vụ án"></nz-option>
+                        </nz-select>
+                    </td>
+                    <td>
+                        <label>Kết thúc hiệu lực</label>
+                    </td>
+                    <td>
+                        <nz-select [(ngModel)]="data.applyfinish">
+                            <nz-option nzValue="N" nzLabel="Không"></nz-option>
+                            <nz-option nzValue="Y" nzLabel="Có"></nz-option>
+                        </nz-select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Trạng thái sử dụng</label>
+                    </td>
+                    <td>
+                        <nz-select [(ngModel)]="data.status">
+                            <nz-option nzValue="N" nzLabel="Không"></nz-option>
+                            <nz-option nzValue="Y" nzLabel="Có"></nz-option>
+                        </nz-select>
+                    </td>
+                    <td>
+                        <label>Loại quyết định</label>
+                    </td>
+                    <td>
+                        <nz-select [(ngModel)]="data.decitypeid">
+                            <nz-option *ngFor="let option of lstDecitype" [nzValue]="option.decitypeid"
+                                nzLabel="{{ option.decitypeid }} - {{option.name}}">
+                                {{ option.decitypeid }} - {{option.name}}
+                            </nz-option>
+                        </nz-select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Giai đoạn áp dụng<span style="color: red">&nbsp;*</span></label>
+                    </td>
+                    <td colspan="3">
+                        <label nz-checkbox nzValue="Tbtg" [(ngModel)]="isForArr[6]" id="Tbtg">Tin báo</label>
+                        <label nz-checkbox nzValue="G1" [(ngModel)]="isForArr[0]" id="G1">Kiểm sát điều tra</label>
+                        <label nz-checkbox nzValue="G2" [(ngModel)]="isForArr[1]" id="G2">Truy tố</label>
+                        <label nz-checkbox nzValue="G3" [(ngModel)]="isForArr[2]" id="G3">Sơ thẩm</label>
+                        <label nz-checkbox nzValue="G4" [(ngModel)]="isForArr[3]" id="G4">Phúc thẩm</label>
+                        <label nz-checkbox nzValue="G5" [(ngModel)]="isForArr[4]" id="G5">Giám đốc thẩm</label>
+                        <label nz-checkbox nzValue="G6" [(ngModel)]="isForArr[5]" id="G6">Thi hành án</label>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div *nzModalFooter>
+        <div nz-col [nzSpan]="24" class="search-area">
+            <button nz-button [nzType]="'primary'" (click)="handleOk()">
+                <span class="fa fa-fw fa-save"></span>Ghi lại
+            </button>
+            <ng-container *ngIf="!data.isEdit">
+                <button nz-button [nzType]="'primary'" (click)="doReset()">
+                    <span class="fa fa-fw fa-plus"></span>Thêm mới
+                </button>
+            </ng-container>
+            <button nz-button [nzType]="'primary'" (click)="handleCancel()">
+                <span class="fa fa-fw fa-arrow-left"></span>Quay lại
+            </button>
+        </div>
+    </div>
+</nz-modal>

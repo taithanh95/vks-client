@@ -1,0 +1,152 @@
+<div>
+    <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+        <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse()">
+            <i nz-icon [nzType]="isCollapse ? 'minus' : 'plus'"></i> Thông tin tìm kiếm
+        </legend>
+        <div class="ui-fieldset-content ant-advanced-search-form" [ngClass]="isCollapse ? 'show' : 'hide' ">
+            <div nz-row>
+                <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">Ngày cập nhật</nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <nz-date-picker style="width: 100%" [(ngModel)]="filterItem.createdat"
+                                nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"
+                                (input)="onValueDate('createdat',$event)" (keypress)="validateOnlyNumbers($event)">
+                            </nz-date-picker>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">Kỳ báo báo</nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <nz-date-picker style="width: 100%" [(ngModel)]="filterItem.period"
+                                nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"
+                                (input)="onValueDate('period',$event)" (keypress)="validateOnlyNumbers($event)">
+                            </nz-date-picker>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+            <!-- /.nz-row -->
+
+            <div nz-row>
+                <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">Đơn vị</nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <input placeholder="Đơn vị" nz-input [(ngModel)]="filterItem.sppid" (input)="onInputSpp($event)"
+                            [nzAutocomplete]="autoSpp"/>
+                        <nz-autocomplete #autoSpp>
+                            <nz-auto-option *ngFor="let option of lstSpp" [nzLabel]="option.name"
+                                  [nzValue]="option">{{ option.sppid }} - {{ option.name }}</nz-auto-option>
+                        </nz-autocomplete>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">Ghi chú</nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <input nz-input [(ngModel)]="filterItem.note">
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+            <!-- /.nz-row -->
+            <div nz-row>
+                <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">Sổ tìm kiếm</nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <nz-select nzShowSearch title="Sổ tìm kiếm" [(ngModel)]="filterItem.reportcode">
+                                <nz-option [nzValue]="33" nzLabel="Biểu 33"></nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+            <!-- /.nz-row -->
+        </div>
+    </fieldset>
+</div>
+<div class="ui-panel">
+    <div nz-row>
+        <div nz-col [nzSpan]="24" class="search-area">
+            <button nz-button [nzType]="'primary'" (click)="doSearch()">
+                <span class="fa fa-fw fa-search"></span>
+                Tìm kiếm
+            </button>
+            <button nz-button nzType="primary" (click)="showForm()">
+                <span class="fa fa-fw fa-plus"></span>
+                Thêm mới
+            </button>
+            <button nz-button nzType="primary" (click)="goListReport()">
+                <span class="fa fa-fw fa-eye"></span>
+                Cập nhật tiêu chí
+            </button>
+        </div>
+    </div>
+</div>
+<div class="data-table">
+    <nz-table #basicTable nzShowSizeChanger [nzFrontPagination]="false" nzSize="small" [nzData]="datas"
+        [nzScroll]="{ x: '1200px' }" [nzLoading]="loading" [nzShowTotal]="rangeTemplate" [nzPageSize]="defaultPage"
+        [nzTotal]="total" [nzPageIndex]="pageIndex" (nzQueryParams)="onQueryParamsChange($event)"
+        [nzNoResult]="noResultTpl">
+        <thead>
+            <tr>
+                <th class="text-nowrap center" nzWidth="5%">STT</th>
+                <th class="text-nowrap center" nzWidth="10">Mã</th>
+                <th class="text-nowrap center" nzWidth="10">Ngày cập nhật</th>
+                <th class="text-nowrap center" nzWidth="10">Kỳ báo cáo</th>
+                <th class="text-nowrap center" nzWidth="15">Đơn vị</th>
+                <th class="text-nowrap center" nzWidth="30">Ghi chú</th>
+                <th class="text-nowrap center" nzWidth="20">Tháo tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of basicTable.data; let i = index;" class="actived">
+                <td style="text-align: center" class="text-nowrap">{{getRowIndex(i, basicTable.nzPageIndex,
+                    basicTable.nzPageSize)}}</td>
+                <td class="text-nowrap center">{{ data.REQUESTREPORTID }}</td>
+                <td class="text-nowrap center">{{ data.CREATEDAT | dateFormat }}</td>
+                <td class="text-nowrap center">{{ data.PERIOD | dateFormat }}</td>
+                <td class="text-nowrap">{{ data.SPPNAME }}</td>
+                <td class="text-nowrap center">{{ data.NOTE }}</td>
+                <td class="text-nowrap center">
+                    <button nz-tooltip nzTooltipTitle="Sửa" class="btn-qla" (click)="showForm(data)">
+                        <span class="fa fa-fw fa-edit"></span></button>
+                        <button nz-tooltip nzTooltipTitle="Xem" class="btn-qla" (click)="showDisableForm(data)" nzTooltipTitle="Xem" nz-tooltip>
+                          <span class="fa fa-fw fa-eye"></span></button>
+                      <button class="btn-qla" nz-tooltip nzTooltipTitle="Xóa"
+                              nz-popconfirm
+                              nzPopconfirmTitle="Bạn có chắc muốn xóa bản ghi này không?"
+                              nzPopconfirmPlacement="top"
+                              nzCancelText="Hủy"
+                              nzOkText="Đồng ý"
+                              (nzOnConfirm)="deleteRow(data.REQUESTREPORTID)"
+                              (nzOnCancel)="cancel()"
+                      >
+                        <span class="fa fa-fw fa-times"></span>
+                      </button>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+    <ng-template #rangeTemplate let-range="range" let-total>
+        {{ range[0] }}-{{ range[1] }} {{'of' | translate }} {{ total }} {{'items' | translate }}
+    </ng-template>
+</div>
+<ng-template #noResultTpl>
+    <nz-empty [nzNotFoundContent]="contentTpl" nzNotFoundImage="./assets/image/empty.svg">
+        <ng-template #contentTpl>
+            <p>Không có dữ liệu</p>
+        </ng-template>
+    </nz-empty>
+</ng-template>
+<app-update-view 
+[data]="refData" [isVisible]="isVisible" [isVisibleDis]="isVisibleDis" 
+(closeModal)="closeModalUpdate()" (realoadForm)="reloadPage()">
+</app-update-view>

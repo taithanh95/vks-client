@@ -1,0 +1,209 @@
+<nz-modal [(nzVisible)]="isVisible" nzWidth="1000px" nzClosable="false"
+          [nzTitle]="title" nzMaskClosable="false">
+  <ng-template #title>
+    Chi tiết kết quả kháng nghị
+    <div class="pull-right icon-close">
+      <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+  <nz-table #basicTable [nzData]="lstAgainst" nzSize="small" nzShowSizeChanger nzShowPagination="false" [nzFrontPagination] = "false">
+    <thead>
+    <tr>
+      <th class="text-nowrap">Mã vụ án</th>
+      <th class="text-nowrap">Tên vụ án</th>
+      <th class="text-nowrap">Ngày thụ lý</th>
+      <th class="text-nowrap">Bị cáo bị KN</th>
+      <th class="text-nowrap">Loại kháng nghị</th>
+      <th class="text-nowrap">Ngày kháng nghị</th>
+      <th class="text-nowrap">Đơn vị kháng nghị</th>
+      <th class="text-nowrap" width="120px">Thao tác</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of basicTable.data;let i = index;" ngClass="s-{{data.selected}}">
+      <td class="text-break">{{ data.CASECODE }}</td>
+      <td class="text-break">{{ data.CASENAME }}</td>
+      <td class="text-break">{{ data.REGIS_INDATE | dateFormat }} </td>
+      <td class="text-break">{{ data.ACCUNAME }}</td>
+      <td class="text-break">{{ data.ARRAGAINSTNAME }}</td>
+      <td class="text-break">{{ data.INDATE | dateFormat }}</td>
+      <td class="text-break">{{ data.SPPSPC === 'SPC' ? 'Tòa án' : data.SPPSPC === 'SPP' ? 'Viện kiểm sát' : '' }}</td>
+      <td class="text-break">
+        <button nz-tooltip nzTooltipTitle="Sửa" class="btn-qla" (click)="showEditForm(data)">
+          <span class="fa fa-fw fa-edit"></span></button>
+      </td>
+    </tr>
+    </tbody>
+  </nz-table>
+  <ng-container *ngIf="isVisibleTable">
+    <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+      <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse()">
+        <i nz-icon [nzType]="isCollapse ? 'minus' : 'plus'"></i>Thông tin {{ labelScreen}}
+      </legend>
+      <div class="ui-fieldset-content ant-advanced-search-form" [ngClass]="isCollapse ? 'show' : 'hide' ">
+        <table width="100%" class="ui-panelgrid">
+          <tr>
+            <td>
+              <label>Mã {{ labelScreen}}</label>
+            </td>
+            <td>
+              <input nz-input disabled title="Mã kháng nghị (tự sinh)" [(ngModel)]="data.againstcode" />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>Mã vụ án</label>
+            </td>
+            <td>
+              <input nz-input disabled title="Mã kháng cáo (tự sinh)" [(ngModel)]="data.casecode" />
+            </td>
+            <td>
+              <label>Tên vụ án</label>
+            </td>
+            <td>
+              <input disabled nz-input title="Tên vụ án" [(ngModel)]="data.casename" />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>{{ userfor === 'G4' ? 'Đề nghị' : 'Kháng nghị'}}<span class="required">*</span></label>
+            </td>
+            <td>
+              <nz-radio-group disabled (ngModelChange)="changeAgofor()" [(ngModel)]="data.agafor" nzName="radiogroup">
+                <label nz-radio nzValue="C">Bản án</label>
+                <label nz-radio nzValue="D">Quyết định</label>
+              </nz-radio-group>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>{{data.agafor === 'C' ? 'Số bản án' : 'Số quyết định'}}<span class="required">*</span></label>
+            </td>
+            <td>
+              <nz-select disabled [required]="isSubmited" (ngModelChange)="changeSetnum($event)" nzShowSearch nzAllowClear [nzPlaceHolder]="data.agafor === 'C' ? 'Số bản án' : 'Số quyết định'" [(ngModel)]="data.forsetnum">
+                <ng-container *ngIf="data.agafor === 'C'">
+                  <nz-option *ngFor="let o of lstCentence" [nzLabel]="o.SETNUM" [nzValue]="o.SETNUM"></nz-option>
+                </ng-container>
+                <ng-container *ngIf="data.agafor === 'D'">
+                  <nz-option *ngFor="let o of lstDecisionCase" nzLabel="{{ o.SETNUM }} - {{ o.DECINAME }}"[nzValue]="o.SETNUM"></nz-option>
+                </ng-container>
+              </nz-select>
+            </td>
+            <td>
+              <label>{{data.agafor === 'C' ? 'Ngày bản án' : 'Ngày quyết định'}}</label>
+            </td>
+            <td>
+              <nz-date-picker disabled (ngModelChange)="indateChange($event)" [required]="isSubmited"
+                              [title]="data.agafor === 'C' ? 'Ngày bản án' : 'Ngày quyết định'" [(ngModel)]="data.forindate" nzPlaceHolder="dd/MM/yyyy"
+                              nzFormat="dd/MM/yyyy" (input)="onValueDate($event,'forindate')"
+                              (keypress)="validateOnlyNumbers($event)">
+              </nz-date-picker>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>Đơn vị {{ labelScreen}}<span class="required">*</span></label>
+            </td>
+            <td>
+              <nz-radio-group disabled [(ngModel)]="data.sppspc" nzName="radiogroup">
+                <ng-container *ngIf="userfor === 'G5'">
+                  <label nz-radio nzValue="SPC">Tòa án</label>
+                </ng-container>
+                <label nz-radio nzValue="SPP">Viện kiểm sát</label>
+              </nz-radio-group>
+            </td>
+            <td>
+              <label>Số {{ labelScreen}}<span class="required">*</span></label>
+            </td>
+            <td>
+              <input disabled [required]="isSubmited" nz-input title="Số kháng nghị" [(ngModel)]="data.setnum" />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>Cấp {{ labelScreen}}<span class="required">*</span></label>
+            </td>
+            <td>
+              <nz-radio-group disabled [(ngModel)]="data.agalevel" nzName="radiogroup">
+                <label nz-radio nzValue="CC">Cùng cấp</label>
+                <label nz-radio nzValue="CT">Trên một cấp</label>
+              </nz-radio-group>
+            </td>
+            <td>
+              <label>Ngày {{ labelScreen}}<span class="required">*</span></label>
+            </td>
+            <td>
+              <nz-date-picker disabled (ngModelChange)="indateChange($event)" [required]="isSubmited"
+                              title="Ngày kháng nghị" [(ngModel)]="data.indate" nzPlaceHolder="dd/MM/yyyy"
+                              nzFormat="dd/MM/yyyy" (input)="onValueDate($event,'indate')"
+                              (keypress)="validateOnlyNumbers($event)">
+              </nz-date-picker>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label *ngIf="data.sppspc === 'SPP'">Tên Viện kiểm sát {{ labelScreen}}</label>
+            </td>
+            <td>
+              <input disabled *ngIf="data.sppspc === 'SPP'" nz-input title="Tên viện kiểm sát" [(ngModel)]="data.logedSppName" />
+            </td>
+            <td>
+              <label>Tên bị cáo<span class="required">*</span></label>
+            </td>
+            <td>
+              <nz-select disabled [required]="isSubmited" nzShowSearch nzAllowClear nzPlaceHolder="Tên bị cáo" [(ngModel)]="data.accucode">
+                <nz-option *ngFor="let o of lstAccu" nzLabel="{{o.FULLNAME}} - {{o.ACCUCODE}}" [nzValue]="o.ACCUCODE"></nz-option>
+              </nz-select>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>Giai đoạn {{ labelScreen}}<span class="required">*</span></label>
+            </td>
+            <td colspan="3">
+              <nz-radio-group disabled [(ngModel)]="data.gd_tt" nzName="radiogroup">
+                <label *ngIf="userfor === 'G3'" nz-radio nzValue="PT">Phúc thẩm</label>
+                <label nz-radio nzValue="GD">Giám đốc thẩm</label>
+                <label nz-radio nzValue="TT">Tái thẩm</label>
+              </nz-radio-group>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>{{ userfor === 'G3' ? 'Tên loại kháng nghị' : userfor === 'G4' ? 'Nội dung đề nghị' : 'Nội dung kháng nghị'}}<span class="required">*</span></label>
+            </td>
+            <td colspan="3">
+              <textarea disabled nz-input rows="4" [(ngModel)]="data.arragainstname"></textarea>
+            </td>
+          </tr>
+          <ng-container *ngIf="userfor != 'G5'">
+            <tr>
+              <td>
+                <label>{{ userfor != 'G4' ? 'Nội dung kháng nghị' : 'Ghi chú'}}</label>
+              </td>
+              <td colspan="3">
+                <textarea disabled nz-input rows="5" title="Họ và tên" [(ngModel)]="data.content"></textarea>
+              </td>
+            </tr>
+          </ng-container>
+          <tr>
+            <td>
+              <label>Kết quả<span class="required">*</span></label>
+            </td>
+            <td colspan="3">
+              <nz-select nzShowSearch nzAllowClear nzPlaceHolder="--Vui lòng chọn--" [(ngModel)]="data.resultid">
+                <nz-option *ngFor="let o of lstResult" [nzLabel]="o.RESULTNAME" [nzValue]="o.RESULTID"></nz-option>
+              </nz-select>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </fieldset>
+  </ng-container>
+  <div class="div-btn-right btn-m-10" style="margin: 10px 0;border: solid 1px #bed6f8;float: none;overflow: hidden">
+    <button style="float: right;" nz-button (click)="handleCancel()">Hủy bỏ</button>
+    <button *ngIf="isVisibleTable" style="float: right;" nz-button (click)="handleOk()" nzType="primary" [nzLoading]="loading">Ghi lại</button>
+  </div>
+  <div *nzModalFooter></div>
+</nz-modal>
+

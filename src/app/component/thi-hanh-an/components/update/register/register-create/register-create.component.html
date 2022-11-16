@@ -1,0 +1,81 @@
+<nz-modal *ngIf="data" class="ant-form" nzWidth="1000px" [(nzVisible)]="isVisible" nzTitle="Thêm mới" nzClosable="false" [nzTitle]="title" nzMaskClosable="false">
+  <ng-template #title>
+    Cập nhật thông tin thụ lý
+    <div class="pull-right icon-close">
+      <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+  <ng-container>
+    <table width="100%" class="ui-panelgrid table-4-col">
+      <tr>
+        <td><label>
+          Mã thụ lý
+        </label></td>
+        <td>
+          <input  nz-input disabled [(ngModel)]="data.regicode"/>
+        </td>
+        <td>
+          <label>
+            Loại
+          </label>
+        </td>
+        <td>
+          <!--[(ngModel)]="SppCase.spccasecode"-->
+          <nz-select nzAllowClear [disabled]="isVisibleDisable" nzPlaceHolder="" style="width:100%" [(ngModel)]="data.transfer">
+            <nz-option [nzValue]="'AGA'" nzLabel="Thụ lý điều tra lại"></nz-option>
+            <nz-option [nzValue]="'NEW'" nzLabel="Thụ lý mới"></nz-option>
+            <nz-option [nzValue]="'OLD'" nzLabel="Thụ lý xét xử lại"></nz-option>
+          </nz-select>
+        </td>
+      </tr>
+      <tr>
+        <td><label>
+          Thụ lý số <span class="required">*</span>
+        </label></td>
+        <td>
+          <input [disabled]="isVisibleDisable" title="Thụ lý số" [required]="isSubmited" nz-input [(ngModel)]="data.setnum"/>
+        </td>
+        <td>
+          <label>
+            Ngày thụ lý <span class="required">*</span>
+          </label>
+        </td>
+        <td>
+          <nz-date-picker [disabled]="isVisibleDisable" title="Ngày thụ lý" [required]="isSubmited" title="Chọn ngày" nzPlaceHolder="dd/MM/yyyy" [(ngModel)]="data.indate" nzFormat="dd/MM/yyyy"
+                          (input)="onValueIndate($event)" (keypress)="validateOnlyNumbers($event)" (ngModelChange)="valiDate()"></nz-date-picker>
+        </td>
+      </tr>
+      <tr>
+        <td><label>
+          Thời hạn thụ lý từ ngày <span class="required">*</span>
+        </label></td>
+        <td>
+          <nz-date-picker disabled [required]="isSubmited" [(ngModel)]="data.fromdate" title="Từ ngày" nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"
+                          (input)="onValueFromdate($event)" (keypress)="validateOnlyNumbers($event)"></nz-date-picker>
+        </td>
+        <td>
+          <label>
+            Thời hạn thụ lý đến ngày <span class="required">*</span>
+          </label>
+        </td>
+        <td>
+          <nz-date-picker [disabled]="isVisibleDisable" [required]="isSubmited" title="Thời hạn thụ lý đến ngày" [(ngModel)]="data.todate" nzPlaceHolder="dd/MM/yyyy"  nzFormat="dd/MM/yyyy"
+                          (input)="onValueTodate($event)" (keypress)="validateOnlyNumbers($event)" (ngModelChange)="valiDate()"></nz-date-picker>
+        </td>
+      </tr>
+      <tr>
+        <td><label>
+          Ghi chú
+        </label></td>
+        <td colspan="3">
+          <textarea [disabled]="isVisibleDisable" [(ngModel)]="data.remark" nz-input rows="3"></textarea>
+        </td>
+      </tr>
+    </table>
+  </ng-container>
+
+  <div *nzModalFooter>
+    <button nz-button *ngIf="!isVisibleDisable" nzType="primary" (click)="handleOk()" class="button-submit" [nzLoading]="loading">{{'save' | translate }}</button>
+    <button nz-button (click)="handleCancel()">{{'cancel' | translate }}</button>
+  </div>
+</nz-modal>

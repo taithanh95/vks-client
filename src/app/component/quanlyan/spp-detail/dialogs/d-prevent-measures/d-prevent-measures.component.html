@@ -1,0 +1,50 @@
+<nz-modal class="ant-form" nzWidth="700px" [(nzVisible)]="isVisible" nzTitle="Thêm mới biện pháp ngăn chặn"
+          nzClosable="false" [nzTitle]="title" nzMaskClosable="false">
+  <ng-template #title>
+    {{ titleName }}
+    <div class="pull-right icon-close">
+      <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+  <ng-container>
+    <table class="ui-panelgrid table-4-col" style="width: 100%">
+      <tr>
+        <td><label>
+          Tên biện pháp ngăn chặn
+        </label></td>
+        <td>
+          <nz-select style="width:100%" nzPlaceHolder=""
+                     [(ngModel)]="selectedPreventMeasures.measuresName">
+            <nz-option [nzValue]="'Tạm giữ'" nzLabel="Tạm giữ"></nz-option>
+            <nz-option [nzValue]="'Tạm giam'" nzLabel="Tạm giam"></nz-option>
+            <nz-option [nzValue]="'Bảo lĩnh'" nzLabel="Bảo lĩnh"></nz-option>
+            <nz-option [nzValue]="'Đặt tiền để đảm bảo'" nzLabel="Đặt tiền để đảm bảo"></nz-option>
+            <nz-option [nzValue]="'Cấm đi khỏi nơi cư trú'" nzLabel="Cấm đi khỏi nơi cư trú"></nz-option>
+            <nz-option [nzValue]="'Tạm hoãn xuất nhập cảnh'" nzLabel="Tạm hoãn xuất nhập cảnh"></nz-option>
+            <nz-option [nzValue]="'Giao cho người đại diện giám sát'" nzLabel="Giao cho người đại diện giám sát"></nz-option>
+          </nz-select>
+        </td>
+        <td><label>
+          Ngày thực hiện <span class="required">*</span>
+        </label></td>
+        <td>
+          <nz-date-picker [required]="isSubmited" style="width: 100%" nzPlaceHolder="dd/MM/yyyy" [required]="isSubmited" title="dd/MM/yyyy"
+                          [(ngModel)]="selectedPreventMeasures.measuresDate" required nzFormat="dd/MM/yyyy"
+                          (input)="onValueDateOfViolation($event)" (keypress)="validateOnlyNumbers($event)"></nz-date-picker>
+        </td>
+      </tr>
+      <tr>
+        <td><label>
+          Lý do
+        </label></td>
+        <td colspan="3">
+          <textarea nz-input rows="3" [(ngModel)]="selectedPreventMeasures.reason"></textarea>
+        </td>
+      </tr>
+    </table>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button (click)="handleSubmit(selectedPreventMeasures)" [nzLoading]="loading">Ghi lại</button>
+    <button nz-button (click)="handleCancel()">Hủy bỏ</button>
+  </div>
+</nz-modal>

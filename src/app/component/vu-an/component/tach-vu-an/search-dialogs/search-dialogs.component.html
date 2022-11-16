@@ -1,0 +1,122 @@
+<nz-modal class="ant-form" nzWidth="1000px" [(nzVisible)]="isVisible" nzTitle="Thêm mới" nzClosable="false"
+    [nzTitle]="title" nzMaskClosable="false">
+    <ng-template #title>
+        Tìm kiếm vụ án
+        <div class="pull-right icon-close">
+            <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+        </div>
+    </ng-template>
+    <ng-container>
+        <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+            <legend class="ui-fieldset-legend ui-corner-all ui-state-default margin-left margin-left"
+                (click)="toggleCollapse()">
+                <i nz-icon [nzType]="isCollapse ? 'minus' : 'plus'"></i>Thông tin tìm kiếm
+            </legend>
+            <div class="ui-fieldset-content ant-advanced-search-form" [ngClass]="isCollapse ? 'show' : 'hide' ">
+                <!-- Begin row -->
+                <div nz-row>
+                    <div nz-col [nzLg]="12" [nzMd]="12" [nzXs]="12">
+                        <nz-form-item>
+                            <nz-form-label [nzSpan]="10">Mã vụ án</nz-form-label>
+                            <nz-form-control [nzSpan]="12">
+                                <input appNumberic nz-input nzPlaceHolder="Mã vụ án" [(ngModel)]="filterItem.casecode">
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                    <div nz-col [nzLg]="12" [nzMd]="12" [nzXs]="12">
+                        <nz-form-item>
+                            <nz-form-label [nzSpan]="10">Tên vụ án</nz-form-label>
+                            <nz-form-control [nzSpan]="12">
+                                <input nz-input nzPlaceHolder="Tên vụ án" [(ngModel)]="filterItem.casename">
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+                <!-- End row -->
+                <!-- Begin row -->
+                <div nz-row>
+                    <div nz-col [nzLg]="12" [nzMd]="12" [nzXs]="12">
+                        <nz-form-item>
+                            <nz-form-label [nzSpan]="10">Ngày xảy ra vụ án từ ngày</nz-form-label>
+                            <nz-form-control [nzSpan]="12">
+                                <nz-date-picker style="width: 100%" [(ngModel)]="filterItem.crimdatef"
+                                nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"
+                                (input)="changeValueDate($event,'crimdatef')"
+                                (keypress)="validateOnlyNumbers($event)">
+                                </nz-date-picker>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                    <div nz-col [nzLg]="12" [nzMd]="12" [nzXs]="12">
+                        <nz-form-item>
+                            <nz-form-label [nzSpan]="10">Đến ngày</nz-form-label>
+                            <nz-form-control [nzSpan]="12">
+                                <nz-date-picker style="width: 100%" [(ngModel)]="filterItem.crimdatet"
+                                nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"
+                                (input)="changeValueDate($event,'crimdatet')"
+                                (keypress)="validateOnlyNumbers($event)">
+                                </nz-date-picker>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+                <!-- End row -->
+            </div>
+        </fieldset>
+    </ng-container>
+    <div class="ui-panel">
+        <div nz-row>
+            <div nz-col [nzSpan]="24" class="search-area">
+                <button nz-button [nzType]="'primary'" (click)="doSearch()">
+                    <span class="fa fa-fw fa-search"></span>
+                    Tìm kiếm
+                </button>
+                <button [disabled]="isSubmited" nz-button [nzType]="'primary'" (click)="handleOk()">
+                    <span class="fa fa-fw fa-eye"></span>Chọn
+                </button>
+            </div>
+        </div>
+        <ng-container *ngIf="datas">
+            <div class="data-table">
+                <nz-table #basicTable nzShowSizeChanger [nzFrontPagination]="false" nzSize="small" [nzData]="datas"
+                    [nzLoading]="loading" [nzShowTotal]="rangeTemplate"
+                    [nzPageSize]="defaultPage" [nzTotal]="total" [nzPageIndex]="pageIndex"
+                    (nzQueryParams)="onQueryParamsChange($event)" [nzNoResult]="noResultTpl">
+                    <thead>
+                        <tr>
+                            <th class="text-nowrap center" nzWidth="5%">STT</th>
+                            <th class="text-nowrap" nzWidth="30%">Mã vụ án</th>
+                            <th class="text-nowrap" nzWidth="40%">Tên vụ án</th>
+                            <th class="text-nowrap" nzWidth="15%">Người tạo</th>
+                            <th class="text-nowrap" nzWidth="10%">Ngày tạo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of basicTable.data; let i = index;" class="actived"
+                            (click)="onRowSelect(data)" [class.selected]="data.selected === true">
+                            <td class="text-nowrap center">{{getRowIndex(i, basicTable.nzPageIndex,
+                                basicTable.nzPageSize)}}</td>       
+                            <td class="text-nowrap center">{{ data.CASECODE }}</td>
+                            <td class="text-nowrap">{{ data.CASENAME }}</td>
+                            <td class="text-nowrap center">{{ data.CRTUSER }}</td>
+                            <td class="text-nowrap center">{{ data.CRTDATE | dateFormat}}</td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+                <ng-template #rangeTemplate let-range="range" let-total>
+                    {{ range[0] }}-{{ range[1] }} {{'of' | translate }} {{ total }} {{'items' | translate }}
+                </ng-template>
+            </div>
+        </ng-container>
+        <ng-template #noResultTpl>
+            <nz-empty nzNotFoundImage="./assets/image/empty.svg" [nzNotFoundContent]="contentTpl">
+              <ng-template #contentTpl>
+                <p>Không tìm thấy kết quả.</p>
+              </ng-template>
+            </nz-empty>
+          </ng-template>
+    </div>
+    <div *nzModalFooter></div>
+</nz-modal>

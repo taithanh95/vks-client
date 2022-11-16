@@ -1,0 +1,23 @@
+button {
+    margin-right: 8px;
+}
+
+.search-area {
+    text-align: right;
+}
+
+.collapse {
+    margin-left: 8px;
+    font-size: 12px;
+}
+
+::ng-deep .ant-modal-body
+{
+  max-height: 560px;
+  overflow: auto;
+}
+
+::ng-deep .ant-form-item-label{
+    text-align: left !important;
+    padding: 0 10px !important;
+}

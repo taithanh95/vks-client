@@ -1,0 +1,71 @@
+<section class="mb-2">
+  <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+    <legend class="ui-fieldset-legend ui-corner-all ui-state-default mb-0" (click)="toggleCollapse()">
+      <i nz-icon [nzType]="collapse ? 'minus' : 'plus'"></i> Thông tin bị can
+    </legend>
+    <div class="ui-fieldset-content ant-advanced-search-form p-2" [ngClass]="collapse ? 'show' : 'hide' ">
+      <form *ngIf="accused">
+        <table class="table table-borderless table-sm w-auto">
+          <tbody>
+          <tr>
+            <td><label for="accuCode">Mã bị can</label></td>
+            <td>
+              <input type="text" nz-input [value]="accused.accuCode" id="accuCode" placeholder="Mã bị can"
+                     disabled>
+            </td>
+            <td><label for="fullName">Họ tên bị can</label></td>
+            <td>
+              <input type="text" nz-input [value]="accused.fullName" id="fullName" placeHolder="Họ tên bị can"
+                     disabled>
+            </td>
+          </tr>
+          <tr>
+            <td><label for="caseCode">Mã vụ án</label></td>
+            <td>
+              <input type="text" nz-input [value]="accused.ccase.caseCode" id="caseCode"
+                     placeholder="Mã vụ án" disabled>
+            </td>
+            <td><label for="caseName">Tên vụ án</label></td>
+            <td>
+              <input type="text" nz-input [value]="accused.ccase.caseName"
+                     id="caseName"
+                     placeholder="Tên vụ án" disabled>
+            </td>
+          </tr>
+          <tr>
+            <td><label for="birthDay">Ngày sinh</label></td>
+            <td>
+              <input type="text" nz-input [ngModel]="accused.birthDay" name="birthDay" id="birthDay" disabled>
+            </td>
+            <td><label for="sex">Giới tính</label></td>
+            <td>
+              <nz-select [(ngModel)]="accused.sex" name="sex" id="sex" [nzDisabled]="true">
+                <nz-option nzValue="B" nzLabel="Nam"></nz-option>
+                <nz-option nzValue="G" nzLabel="Nữ"></nz-option>
+                <nz-option nzValue="K" nzLabel="Không xác định"></nz-option>
+              </nz-select>
+            </td>
+          </tr>
+          <tr>
+            <td><label for="law">Tội danh</label></td>
+            <td colspan="3">
+              <input type="text" nz-input
+                     [value]="(accused.law?.lawId ? 'Điều ' + accused.law?.lawId : '') +
+                       (accused.law?.item ? '- Khoản ' + accused.law?.item : '') +
+                       (accused.law?.point ? '- Điểm ' + accused.law?.point : '') +
+                       (accused.law?.lawName ? ' - ' + accused.law?.lawName : '')"
+                     id="law"
+                     placeholder="Tội danh"
+                     [title]="(accused.law?.lawId ? 'Điều ' + accused.law?.lawId : '') +
+                       (accused.law?.item ? '- Khoản ' + accused.law?.item : '') +
+                       (accused.law?.point ? '- Điểm ' + accused.law?.point : '') +
+                       (accused.law?.lawName ? ' - ' + accused.law?.lawName : '')"
+                     disabled>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </form>
+    </div>
+  </fieldset>
+</section>

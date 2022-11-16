@@ -1,0 +1,289 @@
+<div nz-row>
+  <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="10">Tên bị can</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <input [(ngModel)]="filterItem.fullname" nz-input placeholder="Tên bị can">
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+
+  <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="10">CMND</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <input [(ngModel)]="filterItem.identify" nz-input placeholder="CMND">
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+
+  <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="10">Giới tính</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Giới tính" style="width:100%" [(ngModel)]="filterItem.sex">
+          <nz-option nzValue="B" nzLabel="Nam">Nam</nz-option>
+          <nz-option nzValue="G" nzLabel="Nữ">Nữ</nz-option>
+          <nz-option nzValue="K" nzLabel="Không xác định">Không xác định</nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+</div>
+
+<div nz-row>
+  <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="10">Ngày sinh từ ngày</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <nz-date-picker (input)="onValueFDate($event)"
+                        (keypress)="validateOnlyNumbers($event)"
+                        [(ngModel)]="filterItem.birthdayfrom"
+                        nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"
+                        nz-tooltip nzTooltipTitle="Ngày sinh từ ngày">
+        </nz-date-picker>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+
+  <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="10">Đến ngày</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <nz-date-picker (input)="onValueTDate($event)"
+                        (keypress)="validateOnlyNumbers($event)"
+                        [(ngModel)]="filterItem.birthdayto"
+                        (ngModelChange)="checkDate()"
+                        nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"
+                        nz-tooltip nzTooltipTitle="Ngày sinh đến ngày">
+        </nz-date-picker>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+
+  <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="10">Đảng viên</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <nz-select nzMode="multiple" [nzMaxTagCount]="1" nzShowSearch nzAllowClear nzPlaceHolder="Đảng viên"
+                   style="width:100%" [(ngModel)]="filterItem.partyid">
+          <nz-option nzValue="" nzLabel="Không">Không</nz-option>
+          <nz-option *ngFor="let option of lstParties" [nzValue]="option.partyid"
+                     nzLabel="{{option.partyid}} - {{option.partyname}}"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+</div>
+<div nz-row>
+  <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="10">Nơi ĐKHKTT</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <input title="Nhấn phím space hoặc gõ mã hoặc tên để chọn Nơi ĐKHKTT"
+               placeholder="Nhấn phím space hoặc gõ mã hoặc tên để chọn Nơi ĐKHKTT" nz-input
+               [(ngModel)]="filterItem.locaid" (input)="onInputLocation($event)"
+               [nzAutocomplete]="autoLocation"/>
+        <nz-autocomplete #autoLocation nzWidth="300">
+          <nz-auto-option *ngFor="let option of lstLocation" nzLabel="{{option.REMARK}}"
+                          [nzValue]="option">{{ option.LOCAID}} - {{option.REMARK}}</nz-auto-option>
+        </nz-autocomplete>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+
+  <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="10">Nơi cư trú</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <input title="Nhấn phím space hoặc gõ mã hoặc tên để chọn Nơi cư trú"
+               placeholder="Nhấn phím space hoặc gõ mã hoặc tên để chọn Nơi cư trú" nz-input
+               [(ngModel)]="filterItem.address" (input)="onInputLocation($event)"
+               [nzAutocomplete]="autoAddress"/>
+        <nz-autocomplete #autoAddress nzWidth="300">
+          <nz-auto-option *ngFor="let option of lstLocation" nzLabel="{{option.REMARK}}"
+                          [nzValue]="option">{{ option.LOCAID}} - {{option.REMARK}}</nz-auto-option>
+        </nz-autocomplete>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+
+  <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="10">Số tiền án/ tiền sự</nz-form-label>
+      <nz-form-control [nzSpan]="14">
+        <div nz-row [nzGutter]="24">
+          <div nz-col [nzSpan]="12">
+            <nz-input-number title="Số tiền án/tiền sự" class="input-number" [(ngModel)]="filterItem.conviction"
+                             [nzMin]="0" [nzStep]="1"></nz-input-number>
+          </div>
+          <div nz-col [nzSpan]="12">
+            <nz-input-number title="Số tiền án/tiền sự" class="input-number" [(ngModel)]="filterItem.offence"
+                             [nzMin]="0" [nzStep]="1"></nz-input-number>
+          </div>
+        </div>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+
+</div>
+
+<div nz-row>
+  <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="10">Dân tộc</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <input title="Nhấn phím space hoặc gõ mã hoặc tên để chọn Dân tộc"
+               placeholder="Nhấn phím space hoặc gõ mã hoặc tên để chọn Dân tộc" nz-input
+               [(ngModel)]="filterItem.natiid" (input)="onInputNation($event)"
+               [nzAutocomplete]="autoNati"/>
+        <nz-autocomplete #autoNati nzWidth="300">
+          <nz-auto-option *ngFor="let option of lstNati" nzLabel="{{option.NAME}}"
+                          [nzValue]="option">{{ option.NATIID}} - {{option.NAME}}</nz-auto-option>
+        </nz-autocomplete>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+
+  <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="10">Quốc tịch</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <input title="Nhấn phím space hoặc gõ mã hoặc tên để chọn Quốc tịch"
+               placeholder="Nhấn phím space hoặc gõ mã hoặc tên để chọn Quốc tịch" nz-input
+               [(ngModel)]="filterItem.counid" (input)="onInputCountry($event)"
+               [nzAutocomplete]="autoCount"/>
+        <nz-autocomplete #autoCount nzWidth="300">
+          <nz-auto-option *ngFor="let option of lstCountry" nzLabel="{{option.COUNNAME}}"
+                          [nzValue]="option">{{ option.COUNID}} - {{option.COUNNAME}}</nz-auto-option>
+        </nz-autocomplete>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+
+  <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="10">Điều / Khoản / Điểm
+      </nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <div nz-row [nzGutter]="24">
+          <div nz-col [nzSpan]="8">
+            <input title="Điều" type="text"
+                   [(ngModel)]="filterItem.lawid" id="lawid" nz-input placeholder="Điều"/>
+          </div>
+          <div nz-col [nzSpan]="8">
+            <input title="Khoản" type="text"
+                   [(ngModel)]="filterItem.item" id="item" nz-input placeholder="Khoản"/>
+          </div>
+          <div nz-col [nzSpan]="8">
+            <input title="Điểm" type="text"
+                   [(ngModel)]="filterItem.point" id="point" nz-input placeholder="Điểm"/>
+          </div>
+        </div>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+</div>
+
+<div nz-row>
+  <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="10">Nghề nghiệp</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <input title="Nhấn phím space hoặc gõ mã hoặc tên để chọn Nghề nghiệp"
+               placeholder="Nhấn phím space hoặc gõ mã hoặc tên để chọn Nghề nghiệp" nz-input
+               [(ngModel)]="filterItem.occuid" (input)="onInputOccupation($event)"
+               [nzAutocomplete]="autoOccupation"/>
+        <nz-autocomplete #autoOccupation nzWidth="300">
+          <nz-auto-option *ngFor="let option of lstOccupation" nzLabel="{{option.NAME}}"
+                          [nzValue]="option">{{ option.OCCUID}} - {{option.NAME}}</nz-auto-option>
+        </nz-autocomplete>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+
+  <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="10">Chức vụ chính quyền</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <nz-select nzMode="multiple" [nzMaxTagCount]="1" nzShowSearch nzAllowClear nzPlaceHolder="Chức vụ chính quyền"
+                   style="width:100%" [(ngModel)]="filterItem.officeid">
+          <nz-option *ngFor="let option of lstOffices" [nzValue]="option.officeid"
+                     nzLabel="{{option.officeid}} - {{option.officename}}"></nz-option>
+          <nz-option nzValue="98" nzLabel="98 - Chức vụ không xác định"></nz-option>
+          <nz-option nzValue="99" nzLabel="99 - Không chức vụ"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+
+  <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+  <nz-form-item>
+    <button nz-button [nzType]="'primary'" (click)="showPopupLaw()">
+      <span class="fa fa-fw fa-search"></span>
+      Tìm kiếm tội danh
+    </button>
+  </nz-form-item>
+</div>
+</div>
+
+<div class="ui-panel">
+  <div nz-row>
+    <div nz-col [nzSpan]="24" class="search-area">
+      <button nz-button [nzType]="'primary'" (click)="doSearch()">
+        <span class="fa fa-fw fa-search"></span>
+        Tìm kiếm
+      </button>
+      <button [disabled]="isDetailBtn" nz-button [nzType]="'primary'" (click)="showDetail()">
+        <span class="fa fa-fw fa-eye"></span>Chi tiết
+      </button>
+      <a target="_blank" [routerLink]="['/report/caseinfo/', selectedItem?.CASECODE]" href="">
+        <button [disabled]="!selectedItem" nz-button nzType="primary">
+          <span class="fa fa-fw fa-eye"></span>
+          Chi tiết vụ án
+        </button>
+      </a>
+    </div>
+  </div>
+</div>
+<ng-container>
+  <div class="data-table">
+    <nz-table #basicTable nzShowSizeChanger [nzFrontPagination]="false" nzSize="small" [nzData]="datas"
+              [nzScroll]="{ x: '1200px' }" [nzLoading]="loading" [nzShowTotal]="rangeTemplate"
+              [nzPageSize]="defaultPage"
+              [nzTotal]="total" [nzPageIndex]="pageIndex" (nzQueryParams)="onQueryParamsChange($event)">
+      <thead>
+      <tr>
+        <th class="text-nowrap" nzWidth="5%">STT</th>
+        <th class="text-nowrap" mat-sort-header="casecode" nzWidth="10%">Mã vụ án</th>
+        <th class="text-nowrap" nzWidth="25%">Tên vụ án</th>
+        <th class="text-nowrap" nzWidth="10%">Mã bị can</th>
+        <th class="text-nowrap" nzWidth="15%">Tên bị can</th>
+        <th class="text-nowrap" nzWidth="10%">Ngày sinh</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of basicTable.data; let i = index;" class="actived" (click)="onRowSelect(data)"
+          [class.selected]="data === selectedItem">
+        <td style="text-align: center" class="text-nowrap">{{getRowIndex(i, basicTable.nzPageIndex,
+          basicTable.nzPageSize)}}</td>
+        <td class="text-nowrap center">{{ data.CASECODE }}</td>
+        <td class="text-nowrap">{{ data.CASENAME }}</td>
+        <td class="text-nowrap center">{{ data.ACCUCODE }}</td>
+        <td class="text-nowrap center">{{ data.FULLNAME }}</td>
+        <td class="text-nowrap center">{{ data.BIRTHDAY | dateFormat }}</td>
+      </tr>
+      </tbody>
+    </nz-table>
+    <ng-template #rangeTemplate let-range="range" let-total>
+      {{ range[0] }}-{{ range[1] }} {{'of' | translate }} {{ total }} {{'items' | translate }}
+    </ng-template>
+  </div>
+</ng-container>
+<ng-container *ngIf="isVisibleDetail">
+  <app-lookup-detail (closeModal)="closeDetail($event)" [isVisible]="isVisibleDetail" [data]="data"></app-lookup-detail>
+</ng-container>
+<ng-container *ngIf="isVisiblePopupLaw">
+  <app-grouplaw-search [isVisible]="isVisiblePopupLaw" (closeModal)="closePopupLaw($event)"
+                       (submitModal)="submitPopupLaw($event)"></app-grouplaw-search>
+</ng-container>

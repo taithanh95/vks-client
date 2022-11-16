@@ -1,0 +1,36 @@
+<div class="data-table pl-1">
+  <nz-table #basicTable nzShowSizeChanger [nzFrontPagination]="false" nzSize="small" [nzData]="lstDecision"
+            [nzScroll]="{ x: '650px' }" [nzLoading]="loading" [nzShowTotal]="rangeTemplate"
+            [nzPageSize]="defaultPage"
+            [nzTotal]="total" [nzPageIndex]="rowIndex" (nzQueryParams)="onQueryParamsChange($event)">
+    <thead>
+    <tr>
+      <th class="text-nowrap" nzWidth="5%">STT</th>
+      <th class="text-nowrap" nzWidth="15%">Tên quyết định</th>
+      <th class="text-nowrap" nzWidth="8%">Số quyết định</th>
+      <th class="text-nowrap" nzWidth="10%">Ngày quyết định</th>
+      <th class="text-nowrap" nzWidth="7%">Chi tiết</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of basicTable.data; let i = index;">
+      <td style="text-align: center" class="text-nowrap">{{getRowIndex(i, basicTable.nzPageIndex,
+        basicTable.nzPageSize)}}</td>
+      <td class="text-nowrap center">{{ data.DECINAME }}</td>
+      <td class="text-nowrap center">{{ data.SETNUM }}</td>
+      <td class="text-nowrap center">{{ data.INDATE | dateFormat }}</td>
+      <td class="text-nowrap center">
+        <button nz-button [nzType]="'primary'" (click)="showDetail(data)">
+          <span class="fa fa-fw fa-eye"></span>Chi tiết
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </nz-table>
+  <ng-template #rangeTemplate let-range="range" let-total>
+    {{ range[0] }}-{{ range[1] }} {{'of' | translate }} {{ total }} {{'items' | translate }}
+  </ng-template>
+</div>
+
+<app-detail-deci [data]="data" [isVisible]="isVisibleDetail" (closeModal)="closeModalDetail($event)">
+</app-detail-deci>

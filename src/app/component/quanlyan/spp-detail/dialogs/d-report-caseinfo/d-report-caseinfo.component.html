@@ -1,0 +1,16 @@
+<nz-modal [nzStyle]="{ top: '50px' }" class="ant-form" nzWidth="1000px" [(nzVisible)]="isVisible" nzTitle="Thêm mới" nzClosable="false" [nzTitle]="title" nzMaskClosable="false">
+    <ng-template #title>
+        Thông tin chi tiết của vụ án
+        <div class="pull-right icon-close">
+            <em (click)="handleCancelModal()" nz-icon nzType="close" nzTheme="outline"></em>
+        </div>
+    </ng-template>
+<ng-container *nzModalContent>
+<nz-spin [nzSpinning]="isSpinning" [nzSize]="'large'">
+    <div *ngIf="innerHtml"
+        [innerHTML]="innerHtml">
+    </div>
+</nz-spin>
+</ng-container>
+<div *nzModalFooter></div>
+</nz-modal>

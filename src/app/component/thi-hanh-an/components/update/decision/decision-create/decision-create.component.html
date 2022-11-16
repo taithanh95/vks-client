@@ -1,0 +1,521 @@
+<nz-modal *ngIf="data" class="ant-form" nzWidth="1000px" [(nzVisible)]="isVisible" nzTitle="Thêm mới" nzClosable="false" [nzTitle]="title" nzMaskClosable="false" [nzLoading]="loading">
+  <ng-template #title>
+    Cập nhật thông tin quyết định khác
+    <div class="pull-right icon-close">
+      <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+  <ng-container>
+    <table width="100%" class="ui-panelgrid table-4-col" >
+      <tr>
+        <td><label>
+          Mã quyết định
+        </label></td>
+        <td>
+          <input nz-input disabled [(ngModel)]="data.decicode"/>
+        </td>
+        <td><label>
+          Quyết định số <span class="required">*</span>
+        </label></td>
+        <td>
+          <input [disabled]="isVisibleDisable" title="Quyết định số" [required]="isSubmited" nz-input [(ngModel)]="data.setnum"/>
+        </td>
+      </tr>
+      <tr>
+        <td><label>Đơn vị ra quyết định <span class="required">*</span> </label></td>
+        <td>
+          <nz-select [disabled]="isVisibleDisable" title="Đơn vị ra quyết định" [required]="isSubmited" class="ng-pristine ng-valid" [(ngModel)]="data.begin_office" nzPlaceHolder="--Cơ quan ra quyết định--" (ngModelChange)="polChangeEvent()">
+            <nz-option *ngFor="let o of LstSidOptions" [nzValue]="o.POLID" [nzLabel]="o.NAME"></nz-option>
+            <nz-option [nzValue]="'09'" nzLabel="Bộ đội biên phòng"></nz-option>
+            <nz-option [nzValue]="'SPP'" nzLabel="Viện kiểm sát"></nz-option>
+            <nz-option [nzValue]="'SPC'" nzLabel="Tòa án"></nz-option>
+          </nz-select>
+        </td>
+        <td><label>
+          <ng-container *ngIf="data.begin_office === '02'">
+            Công an <span class="required">*</span>
+          </ng-container>
+          <ng-container *ngIf="data.begin_office === '04'">
+            Quân đội <span class="required">*</span>
+          </ng-container>
+          <ng-container *ngIf="data.begin_office === '06'">
+           Hải quan <span class="required">*</span>
+          </ng-container>
+          <ng-container *ngIf="data.begin_office === '08'">
+            Kiểm lâm <span class="required">*</span>
+          </ng-container>
+          <ng-container *ngIf="data.begin_office === '09'">
+            Bộ đội biên phòng <span class="required">*</span>
+          </ng-container>
+          <ng-container *ngIf="data.begin_office === 'SPP'">
+            Viện kiểm sát <span class="required">*</span>
+          </ng-container>
+          <ng-container *ngIf="data.begin_office === 'SPC'">
+            Tòa án <span class="required">*</span>
+          </ng-container>
+        </label></td>
+        <td>
+          <ng-container *ngIf="data.begin_office === '02'">
+            <input [disabled]="isVisibleDisable" [required]="isSubmited" class="ng-pristine ng-valid" placeholder="" nz-input [(ngModel)]="data.atxPolice" (input)="onInputPolice($event)"
+                   [nzAutocomplete]="autoPolice"/>
+            <nz-autocomplete #autoPolice>
+              <nz-auto-option *ngFor="let option of lstPolices" [nzLabel]="option.NAME" [nzValue]="option">{{ option.POLICEID }} - {{ option.NAME }}</nz-auto-option>
+            </nz-autocomplete>
+          </ng-container>
+          <ng-container *ngIf="data.begin_office === '04'">
+            <input [disabled]="isVisibleDisable" placeholder="" nz-input [(ngModel)]="data.atxArmy" (input)="onInputArmy($event)"
+                   [nzAutocomplete]="autoArmy"/>
+            <nz-autocomplete #autoArmy>
+              <nz-auto-option *ngFor="let option of lstArmies" [nzLabel]="option.NAME" [nzValue]="option">{{ option.ARMYID }} - {{ option.NAME }}</nz-auto-option>
+            </nz-autocomplete>
+          </ng-container>
+          <ng-container *ngIf="data.begin_office === '06'">
+            <input [disabled]="isVisibleDisable" placeholder="" nz-input [(ngModel)]="data.atxCustoms" (input)="onInputCustoms($event)"
+                   [nzAutocomplete]="autoCustom"/>
+            <nz-autocomplete #autoCustom>
+              <nz-auto-option *ngFor="let option of lstCustoms" [nzLabel]="option.NAME" [nzValue]="option">{{ option.CUSTOMID }} - {{ option.NAME }}</nz-auto-option>
+            </nz-autocomplete>
+          </ng-container>
+          <ng-container *ngIf="data.begin_office === '08'">
+            <input [disabled]="isVisibleDisable" placeholder="" nz-input [(ngModel)]="data.atxRanger" (input)="onInputRangers($event)"
+                   [nzAutocomplete]="autoRanger"/>
+            <nz-autocomplete #autoRanger>
+              <nz-auto-option *ngFor="let option of lstRangers" [nzLabel]="option.NAME" [nzValue]="option">{{ option.RANGID }} - {{ option.NAME }}</nz-auto-option>
+            </nz-autocomplete>
+          </ng-container>
+          <ng-container *ngIf="data.begin_office === '09'">
+            <input [disabled]="isVisibleDisable" placeholder="" nz-input [(ngModel)]="data.atxBorderGuards" (input)="onInputBorderGuards($event)"
+                   [nzAutocomplete]="autoBorderGuard"/>
+            <nz-autocomplete #autoBorderGuard>
+              <nz-auto-option *ngFor="let option of lstBorderGuards" [nzLabel]="option.NAME" [nzValue]="option">{{ option.BORGUAID }} - {{ option.NAME }}</nz-auto-option>
+            </nz-autocomplete>
+          </ng-container>
+          <ng-container *ngIf="data.begin_office === 'SPP'">
+            <input [disabled]="isVisibleDisable" placeholder="" nz-input [(ngModel)]="data.atxSpp" (input)="onInputSpp($event)"
+                   [nzAutocomplete]="autoSpp"/>
+            <nz-autocomplete #autoSpp>
+              <nz-auto-option *ngFor="let option of lstSpps" [nzLabel]="option.name" [nzValue]="option">{{ option.sppid }} - {{ option.name }}</nz-auto-option>
+            </nz-autocomplete>
+          </ng-container>
+          <ng-container *ngIf="data.begin_office === 'SPC'">
+            <input [disabled]="isVisibleDisable" placeholder="" nz-input [(ngModel)]="data.atxSpc" (input)="onInputSpc($event)"
+                   [nzAutocomplete]="autoSpc"/>
+            <nz-autocomplete #autoSpc>
+              <nz-auto-option *ngFor="let option of lstSpcs" [nzLabel]="option.NAME" [nzValue]="option">{{ option.SPCID }} - {{ option.NAME }}</nz-auto-option>
+            </nz-autocomplete>
+          </ng-container>
+        </td>
+      </tr>
+      <tr>
+        <td><label>
+          Tên quyết định <span class="required">*</span>
+        </label></td>
+        <td>
+          <nz-select [disabled]="isVisibleDisable" [required]="isSubmited" class="ng-pristine ng-valid" nzShowSearch nzPlaceHolder="" style="width:100%;max-width: 100%" [(ngModel)]="data.deciid" (ngModelChange)="deciChange($event)">
+            <nz-option *ngFor="let option of lstDecis" [nzValue]="option.DECIID" nzLabel="{{option.DECIID}} - {{option.DECINAME}}"></nz-option>
+          </nz-select>
+        </td>
+        <td>
+          <label>
+            Lý do
+          </label>
+        </td>
+        <td>
+          <nz-select [disabled]="!reasonable || isVisibleDisable" nzShowSearch nzPlaceHolder="" style="width:100%" [(ngModel)]="data.reasonid">
+            <nz-option *ngFor="let option of lstReasons" [nzValue]="option.REASONID" nzLabel="{{option.REASONID}} - {{option.REASONNAME}}"></nz-option>
+          </nz-select>
+        </td>
+      </tr>
+      <!-- Nâng cấp chức năng Quyết định khác ở giai đoạn Kiểm sát thi hành án -->
+        <!-- Quyết định đưa người chấp hành án đến trại giam, trại tạm giam -->
+        <ng-container *ngIf="data.deciid === '8714'">
+          <tr>
+            <td><label>
+              Ngày đến thi hành án <span class="required">*</span>
+            </label></td>
+            <td>
+              <nz-date-picker [required]="isSubmited" [disabled]="isVisibleDisable" title="Ngày đến thi hành án" [required]="isSubmited"
+                class="ng-pristine ng-valid" style="width: 100%" [(ngModel)]="decidata.actdate" nzPlaceHolder="dd/MM/yyyy"
+                nzFormat="dd/MM/yyyy" (input)="onValueDateDeciData('actdate',$event)" (keypress)="validateOnlyNumbers($event)"></nz-date-picker>
+            </td>
+          </tr>
+        </ng-container>
+        <!-- Quyết định giảm thời hạn chấp hành án phạt tù -->
+        <ng-container *ngIf="data.deciid === '8716'">
+          <tr>
+            <td>
+              <label>
+                Lần giảm
+              </label>
+            </td>
+            <td>
+              <nz-form-control>
+                <div nz-row [nzGutter]="24">
+                  <div nz-col [nzSpan]="18">
+                    <nz-input-number [disabled]="isVisibleDisable" [(ngModel)]="decidata.time_reduction" [nzMin]="0" [nzMax]="5" [nzStep]="1"></nz-input-number>
+                  </div>
+                </div>
+              </nz-form-control>
+            </td>
+            <td>
+              <label>
+                Thời hạn được giảm
+              </label>
+            </td>
+            <td>
+              <nz-form-control>
+                <div nz-row [nzGutter]="24">
+                  <div nz-col [nzSpan]="7">
+                    <nz-input-number [disabled]="isVisibleDisable" placeholder="Năm" [(ngModel)]="decidata.tyear" [nzMin]="0" [nzStep]="1"
+                    [nzFormatter]="formatterYear"
+                    [nzParser]="parserYear"></nz-input-number>
+                  </div>
+                  <div nz-col [nzSpan]="7">
+                    <nz-input-number [disabled]="isVisibleDisable" placeholder="Tháng" [(ngModel)]="decidata.tmonth" [nzMin]="0" [nzStep]="1"
+                    [nzFormatter]="formatterMonth"
+                    [nzParser]="parserMonth"></nz-input-number>
+                  </div>
+                  <div nz-col [nzSpan]="7">
+                    <nz-input-number [disabled]="isVisibleDisable" placeholder="Ngày" [(ngModel)]="decidata.tday" [nzMin]="0" [nzStep]="1"
+                    [nzFormatter]="formatterDay"
+                    [nzParser]="parserDay"></nz-input-number>
+                  </div>
+                </div>
+              </nz-form-control>
+            </td>
+          </tr>
+        </ng-container>
+        <!-- Quyết định rút ngắn thời gian thử thách -->
+        <ng-container *ngIf="data.deciid === '8723'">
+          <tr>
+            <td>
+              <label>
+                Lần rút ngắn
+              </label>
+            </td>
+            <td>
+              <nz-form-control>
+                <div nz-row [nzGutter]="24">
+                  <div nz-col [nzSpan]="18">
+                    <nz-input-number [disabled]="isVisibleDisable" [(ngModel)]="decidata.time_reduction" [nzMin]="0" [nzStep]="1" [nzMax]="5"></nz-input-number>
+                  </div>
+                </div>
+              </nz-form-control>
+            </td>
+            <td>
+              <label>
+                Thời gian rút ngắn
+              </label>
+            </td>
+            <td>
+              <nz-form-control>
+                <div nz-row [nzGutter]="24">
+                  <div nz-col [nzSpan]="7">
+                    <nz-input-number [disabled]="isVisibleDisable" placeholder="Năm" [(ngModel)]="decidata.tyear" [nzMin]="0" [nzStep]="1"
+                    [nzFormatter]="formatterYear"
+                    [nzParser]="parserYear"></nz-input-number>
+                  </div>
+                  <div nz-col [nzSpan]="7">
+                    <nz-input-number [disabled]="isVisibleDisable" placeholder="Tháng" [(ngModel)]="decidata.tmonth" [nzMin]="0" [nzStep]="1"
+                    [nzFormatter]="formatterMonth"
+                    [nzParser]="parserMonth"></nz-input-number>
+                  </div>
+                  <div nz-col [nzSpan]="7">
+                    <nz-input-number [disabled]="isVisibleDisable" placeholder="Ngày" [(ngModel)]="decidata.tday" [nzMin]="0" [nzStep]="1"
+                    [nzFormatter]="formatterDay"
+                    [nzParser]="parserDay"></nz-input-number>
+                  </div>
+                </div>
+              </nz-form-control>
+            </td>
+          </tr>
+        </ng-container>
+        <!-- Quyết định chuyển thi hành án -->
+        <ng-container *ngIf="data.deciid === '8702'">
+          <tr>
+            <td><label>
+              Ngày đi thi hành án <span class="required">*</span>
+            </label></td>
+            <td>
+              <nz-date-picker [required]="isSubmited" [disabled]="isVisibleDisable" title="Ngày đến thi hành án" [required]="isSubmited"
+                class="ng-pristine ng-valid" style="width: 100%" [(ngModel)]="decidata.actdate" nzPlaceHolder="dd/MM/yyyy"
+                nzFormat="dd/MM/yyyy" (input)="onValueDateDeciData('actdate',$event)" (keypress)="validateOnlyNumbers($event)"></nz-date-picker>
+            </td>
+          </tr>
+          <tr>
+            <td><label>
+              Phương thức thi hành án
+            </label></td>
+            <td>
+              <input [disabled]="isVisibleDisable" class="ng-pristine" placeholder="" nz-input [(ngModel)]="decidata.enforcetype"/>
+            </td>
+            <td><label>
+              Cơ quan tổ chức được giao giám sát giáo dục
+            </label></td>
+            <td>
+              <input [disabled]="isVisibleDisable" class="ng-pristine" placeholder="" nz-input [(ngModel)]="decidata.agency_assigned"/>
+            </td>
+          </tr>
+        </ng-container>
+        <!-- Quyết định hoãn thi hành án -->
+        <ng-container *ngIf="data.deciid === '8712'">
+          <tr>
+            <td><label>
+              Thời hạn hoãn thi hành án
+            </label></td>
+            <td>
+              <nz-form-control>
+                <div nz-row [nzGutter]="24">
+                  <div nz-col [nzSpan]="7">
+                    <nz-input-number [disabled]="isVisibleDisable" placeholder="Năm" [(ngModel)]="decidata.tyear" [nzMin]="0" [nzStep]="1"
+                    [nzFormatter]="formatterYear"
+                    [nzParser]="parserYear"></nz-input-number>
+                  </div>
+                  <div nz-col [nzSpan]="7">
+                    <nz-input-number [disabled]="isVisibleDisable" placeholder="Tháng" [(ngModel)]="decidata.tmonth" [nzMin]="0" [nzStep]="1"
+                    [nzFormatter]="formatterMonth"
+                    [nzParser]="parserMonth"></nz-input-number>
+                  </div>
+                  <div nz-col [nzSpan]="7">
+                    <nz-input-number [disabled]="isVisibleDisable" placeholder="Ngày" [(ngModel)]="decidata.tday" [nzMin]="0" [nzStep]="1"
+                    [nzFormatter]="formatterDay"
+                    [nzParser]="parserDay"></nz-input-number>
+                  </div>
+                </div>
+              </nz-form-control>
+            </td>
+          </tr>
+        </ng-container>
+        <!-- Quyết định tạm đình chỉ thi hành án -->
+        <ng-container *ngIf="data.deciid === '8705'">
+          <tr>
+            <td><label>
+              Thời hạn tạm đình chỉ thi hành án
+            </label></td>
+            <td>
+              <nz-form-control>
+                <div nz-row [nzGutter]="24">
+                  <div nz-col [nzSpan]="7">
+                    <nz-input-number [disabled]="isVisibleDisable" placeholder="Năm" [(ngModel)]="decidata.tyear" [nzMin]="0" [nzStep]="1"
+                    [nzFormatter]="formatterYear"
+                    [nzParser]="parserYear"></nz-input-number>
+                  </div>
+                  <div nz-col [nzSpan]="7">
+                    <nz-input-number [disabled]="isVisibleDisable" placeholder="Tháng" [(ngModel)]="decidata.tmonth" [nzMin]="0" [nzStep]="1"
+                    [nzFormatter]="formatterMonth"
+                    [nzParser]="parserMonth"></nz-input-number>
+                  </div>
+                  <div nz-col [nzSpan]="7">
+                    <nz-input-number [disabled]="isVisibleDisable" placeholder="Ngày" [(ngModel)]="decidata.tday" [nzMin]="0" [nzStep]="1"
+                    [nzFormatter]="formatterDay"
+                    [nzParser]="parserDay"></nz-input-number>
+                  </div>
+                </div>
+              </nz-form-control>
+            </td>
+          </tr>
+        </ng-container>
+        <!-- Quyết định tiếp tục thi hành án -->
+        <ng-container *ngIf="data.deciid === '8729'">
+          <tr>
+            <td><label>
+              Ngày tiếp tục thi hành án <span class="required">*</span>
+            </label></td>
+            <td>
+              <nz-date-picker [required]="isSubmited" [disabled]="isVisibleDisable" title=" Ngày tiếp tục thi hành án" [required]="isSubmited"
+                class="ng-pristine ng-valid" style="width: 100%" [(ngModel)]="decidata.actdate" nzPlaceHolder="dd/MM/yyyy"
+                nzFormat="dd/MM/yyyy" (input)="onValueDateDeciData('actdate',$event)" (keypress)="validateOnlyNumbers($event)"></nz-date-picker>
+            </td>
+          </tr>
+        </ng-container>
+        <!-- Quyết định tha tù trước thời hạn có điều kiện -->
+        <ng-container *ngIf="data.deciid === '8721'"> 
+          <tr>
+            <td><label>
+              Thời gian thực tế đã chấp hành án
+            </label></td>
+            <td>
+              <nz-form-control>
+                <div nz-row [nzGutter]="24">
+                  <div nz-col [nzSpan]="7">
+                    <nz-input-number [disabled]="isVisibleDisable" placeholder="Năm" [(ngModel)]="decidata.tyear" [nzMin]="0" [nzStep]="1"
+                    [nzFormatter]="formatterYear"
+                    [nzParser]="parserYear"></nz-input-number>
+                  </div>
+                  <div nz-col [nzSpan]="7">
+                    <nz-input-number [disabled]="isVisibleDisable" placeholder="Tháng" [(ngModel)]="decidata.tmonth" [nzMin]="0" [nzStep]="1"
+                    [nzFormatter]="formatterMonth"
+                    [nzParser]="parserMonth"></nz-input-number>
+                  </div>
+                  <div nz-col [nzSpan]="7">
+                    <nz-input-number [disabled]="isVisibleDisable" placeholder="Ngày" [(ngModel)]="decidata.tday" [nzMin]="0" [nzStep]="1"
+                    [nzFormatter]="formatterDay"
+                    [nzParser]="parserDay"></nz-input-number>
+                  </div>
+                </div>
+              </nz-form-control>
+            </td>
+            <td><label>
+              Thời gian đã được giảm thời hạn chấp hành án
+            </label></td>
+            <td>
+              <nz-form-control>
+                <div nz-row [nzGutter]="24">
+                  <div nz-col [nzSpan]="7">
+                    <nz-input-number [disabled]="isVisibleDisable" placeholder="Năm" [(ngModel)]="decidata.fyear" [nzMin]="0" [nzStep]="1"
+                    [nzFormatter]="formatterYear"
+                    [nzParser]="parserYear"></nz-input-number>
+                  </div>
+                  <div nz-col [nzSpan]="7">
+                    <nz-input-number [disabled]="isVisibleDisable" placeholder="Tháng" [(ngModel)]="decidata.fmonth" [nzMin]="0" [nzStep]="1"
+                    [nzFormatter]="formatterMonth"
+                    [nzParser]="parserMonth"></nz-input-number>
+                  </div>
+                  <div nz-col [nzSpan]="7">
+                    <nz-input-number [disabled]="isVisibleDisable" placeholder="Ngày" [(ngModel)]="decidata.fday" [nzMin]="0" [nzStep]="1"
+                    [nzFormatter]="formatterDay"
+                    [nzParser]="parserDay"></nz-input-number>
+                  </div>
+                </div>
+              </nz-form-control>
+            </td>
+          </tr>
+          <tr>
+            <td><label>
+              Thời gian thử thách
+            </label></td>
+            <td>
+              <nz-form-control>
+                <div nz-row [nzGutter]="24">
+                  <div nz-col [nzSpan]="7">
+                    <nz-input-number [disabled]="isVisibleDisable" placeholder="Năm" [(ngModel)]="decidata.chell_year" [nzMin]="0" [nzStep]="1"
+                    [nzFormatter]="formatterYear"
+                    [nzParser]="parserYear"></nz-input-number>
+                  </div>
+                  <div nz-col [nzSpan]="7">
+                    <nz-input-number [disabled]="isVisibleDisable" placeholder="Tháng" [(ngModel)]="decidata.chell_month" [nzMin]="0" [nzStep]="1"
+                    [nzFormatter]="formatterMonth"
+                    [nzParser]="parserMonth"></nz-input-number>
+                  </div>
+                  <div nz-col [nzSpan]="7">
+                    <nz-input-number [disabled]="isVisibleDisable" placeholder="Ngày" [(ngModel)]="decidata.chell_day" [nzMin]="0" [nzStep]="1"
+                    [nzFormatter]="formatterDay"
+                    [nzParser]="parserDay"></nz-input-number>
+                  </div>
+                </div>
+              </nz-form-control>
+            </td>
+            <td><label>
+              Cơ quan được giao nhiệm vụ quản lý
+            </label></td>
+            <td>
+              <input [disabled]="isVisibleDisable" class="ng-pristine" placeholder="" nz-input [(ngModel)]="decidata.agency_assigned"/>
+            </td>
+          </tr>
+        </ng-container>
+      <!-- END Nâng cấp chức năng Quyết định khác ở giai đoạn Kiểm sát thi hành án -->
+      <tr>
+        <td>
+          <label>
+            Ngày ra quyết định <span class="required">*</span>
+          </label>
+        </td>
+        <td>
+          <nz-date-picker [disabled]="isVisibleDisable" title="Ngày ra quyết định" nzPlaceHolder="dd/MM/yyyy" [required]="isSubmited" class="ng-pristine ng-valid" style="width: 100%"
+            (ngModelChange)="indateChange($event)" [(ngModel)]="data.indate" nzFormat="dd/MM/yyyy"
+            (input)="onValueDate('indate',$event)" (keypress)="validateOnlyNumbers($event)"></nz-date-picker>
+        </td>
+      </tr>
+      <tr>
+        <td><label>
+          Thời hạn/Hiệu lực từ ngày <span class="required">*</span>
+        </label></td>
+        <td>
+          <nz-date-picker [disabled]="isVisibleDisable" (ngModelChange)="fromdateChange($event)" title="Thời hạn/Hiệu lực từ ngày" [required]="isSubmited"
+            class="ng-pristine ng-valid" style="width: 100%" [(ngModel)]="data.fromdate" nzPlaceHolder="dd/MM/yyyy"
+            nzFormat="dd/MM/yyyy" (input)="onValueDate('fromdate',$event)" (keypress)="validateOnlyNumbers($event)"></nz-date-picker>
+        </td>
+        <td><label>
+          Thời hạn/Hiệu lực đến ngày
+        </label></td>
+        <td>
+          <nz-date-picker [disabled]="isVisibleDisable" title="Thời hạn/Hiệu lực đến ngày" (ngModelChange)="todateChange($event)" [(ngModel)]="data.todate"
+            nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"
+            (input)="onValueDate('todate',$event)" (keypress)="validateOnlyNumbers($event)"></nz-date-picker>       
+          </td>
+      </tr>
+      <tr>
+        <td>
+          <label>
+            Thời hạn luật định
+          </label>
+        </td>
+        <td>
+          <nz-form-control>
+            <div nz-row [nzGutter]="24">
+              <div nz-col [nzSpan]="14">
+                <nz-input-number disabled title="Thời hạn theo luật định" placeholder="Năm" [(ngModel)]="data.settime" [nzMin]="0" [nzStep]="1"></nz-input-number>
+              </div>
+              <div nz-col [nzSpan]="10">
+                <nz-select disabled style="width:100%" [(ngModel)]="data.setunit">
+                  <nz-option [nzValue]="'Y'" nzLabel="Năm"></nz-option>
+                  <nz-option [nzValue]="'M'" nzLabel="Tháng"></nz-option>
+                  <nz-option [nzValue]="'D'" nzLabel="Ngày"></nz-option>
+                </nz-select>
+              </div>
+            </div>
+          </nz-form-control>
+        </td>
+        <td>
+          <label>
+            Thời hạn thực tế
+          </label>
+        </td>
+        <td>
+          <nz-form-control>
+            <div nz-row [nzGutter]="24">
+              <div nz-col [nzSpan]="14">
+                <nz-input-number [disabled]="isVisibleDisable" title="Thời hạn thực tế" placeholder="Năm" (ngModelChange)="changeEset()" [(ngModel)]="data.esettime" [nzMin]="0" [nzStep]="1"></nz-input-number>
+              </div>
+              <div nz-col [nzSpan]="10">
+                <nz-select [disabled]="isVisibleDisable" style="width:100%" [(ngModel)]="data.esetunit" (ngModelChange)="changeEset()" >
+                  <nz-option [nzValue]="'Y'" nzLabel="Năm"></nz-option>
+                  <nz-option [nzValue]="'M'" nzLabel="Tháng"></nz-option>
+                  <nz-option [nzValue]="'D'" nzLabel="Ngày"></nz-option>
+                </nz-select>
+              </div>
+            </div>
+          </nz-form-control>
+        </td>
+      </tr>
+      <tr>
+        <td><label>
+          Người ký <span class="required">*</span>
+        </label></td>
+        <td>
+          <input [disabled]="isVisibleDisable" title="Người ký" [required]="isSubmited" class="ng-pristine ng-valid" placeholder="" nz-input [(ngModel)]="data.signname"/>
+        </td>
+        <td><label>
+          Chức vụ <span class="required">*</span>
+        </label></td>
+        <td>
+          <input [disabled]="isVisibleDisable" class="ng-pristine ng-valid" placeholder="" nz-input [(ngModel)]="data.signoffice"/>
+        </td>
+      </tr>
+      <tr>
+        <td><label>
+          Nội dung
+        </label></td>
+        <td colspan="3">
+          <textarea [disabled]="isVisibleDisable" [(ngModel)]="data.content" nz-input rows="3"></textarea>
+        </td>
+      </tr>
+    </table>
+  </ng-container>
+
+  <div *nzModalFooter>
+    <button *ngIf="!isVisibleDisable" nz-button nzType="primary" (click)="handleOk()" [nzLoading]="loading">{{'save' | translate }}</button>
+    <button *ngIf="!isVisibleDisable" nz-button (click)="handleReset()">{{'add_user' | translate }}</button>
+    <button nz-button (click)="handleCancel()">{{'cancel' | translate }}</button>
+  </div>
+</nz-modal>

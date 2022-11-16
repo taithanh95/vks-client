@@ -1,0 +1,106 @@
+<!--<div *ngFor="let tabs of lstUserfor">-->
+<div nz-row>
+  <div nz-col [nzSpan]="12">
+    <nz-form-item>
+      <nz-form-label [nzSm]="10" [nzXs]="24">Mã thụ lý</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input [readOnly]="true" nz-input placeholder="Mã thụ lý" [(ngModel)]="tabs.REGICODE">
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+
+  <div nz-col [nzSpan]="12">
+    <nz-form-item>
+      <nz-form-label [nzSm]="10" [nzXs]="24">Số thụ lý</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input [readOnly]="true" nz-input placeholder="Số thụ lý" [(ngModel)]="tabs.SETNUM">
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+</div>
+
+<div nz-row>
+  <div nz-col [nzSpan]="12">
+    <nz-form-item>
+      <nz-form-label [nzSm]="10" [nzXs]="24">Ngày thụ lý</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-date-picker [nzInputReadOnly]="true" style="width: 100%" [(ngModel)]="tabs.INDATE"
+                        nzPlaceHolder="dd/MM/yyyy"
+                        nzFormat="dd/MM/yyyy">
+        </nz-date-picker>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+
+  <div nz-col [nzSpan]="12">
+    <nz-form-item>
+      <nz-form-label [nzSm]="10" [nzXs]="24">Đơn vị thụ lý</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nzEllipsis nz-tooltip [readOnly]="true" class="ng-pristine ng-valid" placeholder="" nz-input
+               [(ngModel)]="tabs.SPPID + ' - ' + tabs.SPPNAME"
+               [nzTooltipTitle]="tabs.SPPID + ' - ' + tabs.SPPNAME">
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+</div>
+
+<div nz-row>
+  <div nz-col [nzSpan]="12">
+    <nz-form-item>
+      <nz-form-label [nzSm]="10" [nzXs]="24">Từ ngày</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-date-picker [nzInputReadOnly]="true" style="width: 100%" [(ngModel)]="tabs.FROMDATE"
+                        nzPlaceHolder="dd/MM/yyyy"
+                        nzFormat="dd/MM/yyyy">
+        </nz-date-picker>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+
+  <div nz-col [nzSpan]="12">
+    <nz-form-item>
+      <nz-form-label [nzSm]="10" [nzXs]="24">Đến ngày</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-date-picker [nzInputReadOnly]="true" style="width: 100%" [(ngModel)]="tabs.TODATE"
+                        nzPlaceHolder="dd/MM/yyyy"
+                        nzFormat="dd/MM/yyyy">
+        </nz-date-picker>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+</div>
+
+<div nz-row>
+  <div nz-col [nzSpan]="12">
+    <nz-form-item>
+      <nz-form-label [nzSm]="10" [nzXs]="24">Ngày kết thúc</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-date-picker aria-readonly="true" style="width: 100%" [(ngModel)]="tabs.FINISHDATE"
+                        nzPlaceHolder="dd/MM/yyyy"
+                        nzFormat="dd/MM/yyyy">
+        </nz-date-picker>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+
+  <div nz-col [nzSpan]="12">
+    <nz-form-item>
+      <nz-form-label [nzSm]="10" [nzXs]="24">Tình trạng</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input [readOnly]="true" nz-input placeholder="Tình trạng" [value]="tabs.STATUSNAME">
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+</div>
+
+<div nz-row>
+  <div nz-col nz-col [nzSpan]="24">
+    <nz-form-item>
+      <nz-form-label [nzSm]="5" [nzXs]="24">Ghi chú</nz-form-label>
+      <nz-form-control [nzSm]="19" [nzXs]="24">
+        <textarea [readOnly]="true" nz-input [(ngModel)]="tabs.REMARK" rows="3"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+</div>
+<!--</div>-->

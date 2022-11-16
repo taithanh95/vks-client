@@ -1,0 +1,96 @@
+<div>
+  <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+    <div class="ui-fieldset-content ant-advanced-search-form">
+      <div nz-row>
+        <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10">Đơn vị<span style="color: red">&nbsp;*</span></nz-form-label>
+            <nz-form-control [nzSpan]="12">
+              <nz-select nzAllowClear nzShowSearch nzMode="multiple" [nzMaxTagCount]="1"
+                     [(ngModel)]="filterItem.sppid" (input)="onInputSpp($event)" (ngModelChange)="sppChange($event)">
+                <nz-option *ngFor="let option of lstSpps" nzLabel="{{ option.SPPID}} - {{option.NAME}}"
+                                [nzValue]="option.SPPID">{{ option.SPPID}} - {{option.NAME}}</nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10">Xem cả cấp trực thuộc</nz-form-label>
+            <nz-form-control>
+              <label nz-checkbox [(ngModel)]="filterItem.underlevel" (ngModelChange)="changeUnderLevel($event)"></label>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+  <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+    <div>
+      <ng-container>
+        <nz-tabset [nzSize]="'small'" nzType="card">
+          <nz-tab [nzTitle]="'Thụ lý'">
+            <ng-container *ngTemplateOutlet="register"></ng-container>
+          </nz-tab>
+          <nz-tab [nzTitle]="'Vụ án'">
+            <ng-container *ngTemplateOutlet="case"></ng-container>
+          </nz-tab>
+          <nz-tab [nzTitle]="'Bị can, bị cáo'">
+            <ng-container *ngTemplateOutlet="accused"></ng-container>
+          </nz-tab>
+          <nz-tab [nzTitle]="'Điều luật'">
+            <ng-container *ngTemplateOutlet="law"></ng-container>
+          </nz-tab>
+          <nz-tab [nzTitle]="'Hình phạt'">
+            <ng-container *ngTemplateOutlet="penalty"></ng-container>
+          </nz-tab>
+          <nz-tab [nzTitle]="'Quyết định'">
+            <ng-container *ngTemplateOutlet="decision"></ng-container>
+          </nz-tab>
+          <nz-tab [nzTitle]="'Kháng nghị'">
+            <ng-container *ngTemplateOutlet="against"></ng-container>
+          </nz-tab>
+          <nz-tab [nzTitle]="'Kháng cáo'">
+            <ng-container *ngTemplateOutlet="appeal"></ng-container>
+          </nz-tab>
+          <nz-tab [nzTitle]="'Bàn giao'">
+            <ng-container *ngTemplateOutlet="transfer"></ng-container>
+          </nz-tab>
+          <nz-tab [nzTitle]="'Kiểm tra dữ liệu'">
+            <ng-container *ngTemplateOutlet="verify"></ng-container>
+          </nz-tab>
+        </nz-tabset>
+      </ng-container>
+    </div>
+    <ng-template #register>
+      <app-tab-register></app-tab-register>
+    </ng-template>
+    <ng-template #case>
+      <app-tab-case></app-tab-case>
+    </ng-template>
+    <ng-template #accused>
+      <app-tab-accused></app-tab-accused>
+    </ng-template>
+    <ng-template #law>
+      <app-tab-law></app-tab-law>
+    </ng-template>
+    <ng-template #penalty>
+      <app-tab-penalty></app-tab-penalty>
+    </ng-template>
+    <ng-template #decision>
+      <app-tab-decision></app-tab-decision>
+    </ng-template>
+    <ng-template #against>
+      <app-tab-against></app-tab-against>
+    </ng-template>
+    <ng-template #appeal>
+      <app-tab-appeal></app-tab-appeal>
+    </ng-template>
+    <ng-template #transfer>
+      <app-tab-transfer></app-tab-transfer>
+    </ng-template>
+    <ng-template #verify>
+      <app-tab-verify></app-tab-verify>
+    </ng-template>
+  </fieldset>
+</div>

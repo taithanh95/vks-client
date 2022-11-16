@@ -1,0 +1,41 @@
+<app-case [sppCase]="sppCase"></app-case>
+<app-register [isCheck]="isDecisisionable" [registerable]="registerable" (showPopup)="showPopupRegister($event)"
+              (deleteRow)="deleteRegister($event)" (registerChange)="registerChange($event)" [sppCase]="sppCase"
+              [datas]="lstRegister" (showPopupDisable)="showPopupRegisterDisable($event)"></app-register>
+<app-regins [datas]="lstRegins" [register]="selectedRegister" (showPopup)="showPopupRegins($event)"
+            (showPopupDisable)="showPopupDisableRegins($event)" (deleteRow)="deleteRowRegins($event)"></app-regins>
+<app-penalty [register]="selectedRegister" [datas]="lstPenalty" (showPopup)="showPopupPenalty($event)" (showPopupDisable)="showPopupPenaltyDisabled($event)"
+(deleteRow)="deleteRowPenalty($event)"></app-penalty>
+<app-decision-judicial [checkDeciJudicial]="isDeciJudicialable"  [register]="selectedRegister" (showPopup)="showPopupDecisionJudicial($event)"
+                       (showPopupDisable)="showPopupDecisionJudicialDisable($event)"
+                       [listOfData]="lstDecisionJudicial"
+                       (deleteRow)="deleteRowDecisionJudicial($event)"></app-decision-judicial>
+<app-decision [isCheck]="isDecisisionable" [datas]="lstDecisionAccu" [register]="selectedRegister"
+              (showPopup)="showPopupDecision($event)" (showPopupDisable)="showPopupDisableDecision($event)"
+              (deleteRow)="deleteRowDecision($event)"></app-decision>
+
+<!-- SCREEN DIALOG -->
+<app-register-create [sppCase]="sppCase" [userfor]="userfor" (closeModal)="closePopupRegister()"
+                     [isVisible]="isShowPopupRegister" [isVisibleDisable]="isShowPopupRegisterDisable"
+                     [data]="selectedRegister" (reloadRegister)="reloadRegister($event)"></app-register-create>
+<app-regins-create [userfor]="userfor" [isVisible]="isShowPopupRegins" [isVisibleDisable]="isShowPopupReginsDisable"
+                   [data]="selectedRegins" [selectedRegister]="selectedRegister" (reloadRegins)="reloadRegins($event)"
+                   (closeModal)="closePopupRegins($event)"></app-regins-create>
+<app-penalty-create
+[isVisible]="isShowPopupPenalty" [isVisibleDisable]="isShowPopupPenaltyDisable"
+[data]="selectedPenalty" (realoadForm)="realoadPenalty($event)"
+(closeModal)="closePopupPenalty($event)">
+</app-penalty-create>
+<app-decision-judicial-create [sppCase]="sppCase" [register]="selectedRegister" [isVisible]="isShowPopupDecisionJudicial"
+                              [isVisibleDisable]="isShowPopupDecisionJudicialDisable"
+                              [deciJudicial]="selectedDecisionJudicial"
+                              (closeModal)="closePopupDecisionJudicial($event)"
+                              (realoadForm)="realoadDecisionJudicial($event)"></app-decision-judicial-create>
+<app-decision-create [userfor]="userfor" [isVisible]="isShowPopupDecision"
+                     [isVisibleDisable]="isShowPopupDecisionDisable" [register]="selectedRegister"
+                     [data]="selectedDecision" (closeModal)="closePopupDecision($event)"
+                     (realoadForm)="realoadDecision($event)"></app-decision-create>
+<a class="btn-back ant-btn ant-btn-primary" href="/#/admin/thi-hanh-an">
+  <span class="fa fa-fw fa-arrow-left"></span>
+  Quay lại
+</a>

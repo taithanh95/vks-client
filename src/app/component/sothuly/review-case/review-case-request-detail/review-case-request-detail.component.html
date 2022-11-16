@@ -1,0 +1,165 @@
+<nz-modal nzWidth="1300px"
+          [(nzVisible)]="isVisibleDialog"
+          [nzAutofocus]="'auto'"
+          nzClosable="false"
+          [nzTitle]="title"
+          nzMaskClosable="false">
+  <ng-template #title>
+    <ng-container [ngSwitch]="mode">
+      <ng-container *ngSwitchCase="modeEnum.VIEW">Chi tiết yêu cầu, kiến nghị, đề nghị</ng-container>
+      <ng-container *ngSwitchCase="modeEnum.UPDATE">Cập nhật yêu cầu, kiến nghị, đề nghị</ng-container>
+      <ng-container *ngSwitchDefault>Thêm mới yêu cầu, kiến nghị, đề nghị</ng-container>
+    </ng-container>
+    <div class="pull-right icon-close">
+      <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+
+  <form id="denouncedPersonForm" [formGroup]="reviewCaseRequestForm" (ngSubmit)="onSubmit()" focusInvalidInput>
+    <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+      <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse()">
+        <i nz-icon [nzType]="isCollapse ? 'minus' : 'plus'"></i>
+        <ng-container [ngSwitch]="mode">
+          <ng-container *ngSwitchCase="modeEnum.VIEW">Chi tiết yêu cầu, kiến nghị, đề nghị</ng-container>
+          <ng-container *ngSwitchCase="modeEnum.UPDATE">Cập nhật yêu cầu, kiến nghị, đề nghị</ng-container>
+          <ng-container *ngSwitchDefault>Thêm mới yêu cầu, kiến nghị, đề nghị</ng-container>
+        </ng-container>
+      </legend>
+
+      <div class="ui-fieldset-content">
+        <div nz-form class="ant-advanced-search-form" [ngClass]="isCollapse ? 'show' : 'hide' ">
+          <div class="col-12">
+            <div class="row">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="accusedCode">Bị cáo
+                      <span style="color: red">&nbsp;*</span></nz-form-label>
+
+                    <nz-form-control class="col-md-8" [nzErrorTip]="accusedErrorTpl">
+                      <nz-select formControlName="accusedCode" (nzOnSearch)="onSearchAccused($event)" nzShowSearch nzAllowClear nzPlaceHolder="Chọn bị cáo">
+                        <nz-option *ngFor="let accused of fullAccusedList"
+                                   [nzValue]="accused['accuCode']"
+                                   [nzLabel]="accused['fullName']">
+                        </nz-option>
+                      </nz-select>
+                      <ng-template #accusedErrorTpl let-control>
+                        <ng-container *ngIf="control.hasError('customRequired')">
+                          <small>Bị cáo bắt buộc chọn</small>
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="requestNum">Yêu cầu, kiến nghị, đề nghị số
+                      <span style="color: red">&nbsp;*</span></nz-form-label>
+                    <nz-form-control class="col-md-8" [nzErrorTip]="requestNumErrorTpl">
+                      <input formControlName="requestNum" nz-input type="text"
+                             id="requestNum">
+                      <ng-template #requestNumErrorTpl let-control>
+                        <ng-container *ngIf="control.hasError('customRequired')">
+                          <small>Yêu cầu, kiến nghị, đề nghị số bắt buộc nhập</small>
+                        </ng-container>
+                        <ng-container *ngIf="!control.hasError('customRequired') && control.hasError('maxlength')">
+                          <small>Độ dài ký tự đã vượt quá giới hạn, yêu cầu kiểm tra lại</small>
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+
+                  </nz-form-item>
+                </div>
+              </div>
+
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="dRequestDate">Yêu cầu, kiến nghị, đề nghị ngày<span
+                      style="color: red">&nbsp;*</span></nz-form-label>
+                    <nz-form-control class="col-md-8" [nzErrorTip]="requestDateError" required="true">
+                      <nz-date-picker class="w-100 custom-datepicker-align"
+                                      required="true"
+                                      formControlName="dRequestDate"
+                                      nzPlaceHolder="dd/MM/yyyy"
+                                      [nzDisabledDate]="disabledEndDate"
+                                      nzFormat="dd/MM/yyyy">
+                      </nz-date-picker>
+                      <ng-template #requestDateError let-control>
+                        <ng-container *ngIf="control.hasError('required')">
+                          <small>Yêu cầu, kiến nghị, đề nghị ngày bắt buộc nhập</small>
+                        </ng-container>
+                        <ng-container *ngIf="control.hasError( 'lessThanNow')">
+                          <small>Ngày tháng không hợp lệ </small>
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row">
+
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="requestOffice">Cơ quan ban hành</nz-form-label>
+                    <nz-form-control class="col-md-8">
+                             <nz-select formControlName="requestOffice" nzAllowClear nzPlaceHolder="Cơ quan ban hành" name="requestOffice" id="job">
+                              <nz-option [nzValue]=""></nz-option>
+                              <nz-option nzValue="Ủy ban thường vụ Quốc hội yêu cầu" nzLabel="Ủy ban thường vụ Quốc hội yêu cầu"></nz-option>
+                              <nz-option nzValue="Ủy ban tư pháp của Quốc hội" nzLabel="Ủy ban tư pháp của Quốc hội"></nz-option>
+                              <nz-option nzValue="Viện trưởng Viện kiểm sát nhân dân tối cao kiến nghị " nzLabel="Viện trưởng Viện kiểm sát nhân dân tối cao kiến nghị"></nz-option>
+                              <nz-option nzValue="Chánh án Toà án nhân dân tối cao đề nghị" nzLabel="Chánh án Toà án nhân dân tối cao đề nghị"></nz-option>
+                            </nz-select>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </fieldset>
+
+    <div *nzModalFooter>
+      <div class="d-flex align-items-center justify-content-center">
+        <ng-container [ngSwitch]="mode">
+          <ng-container *ngSwitchCase="modeEnum.VIEW">
+            <button nz-button (click)="handleCancel()">{{ 'Thoát' }}</button>
+          </ng-container>
+          <ng-container *ngSwitchCase="modeEnum.VIEW_FROM_PARENT">
+            <button nz-button (click)="handleCancel()">{{ 'Thoát' }}</button>
+          </ng-container>
+          <ng-container *ngSwitchDefault>
+            <button form="denouncedPersonForm" nz-button
+                    type="submit" class="button-submit">
+              <span nz-icon nzType="save" nzTheme="twotone"></span>
+              {{'save' | translate }}</button>
+            <button nz-button (click)="handleCancel()">
+              <span class="fa fa-fw fa-times"></span>
+              {{'cancel' | translate }}</button>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+  </form>
+</nz-modal>
+<ng-template #confirm>
+  <i nz-icon nzType="question-circle" nzTheme="twotone" nzTwotoneColor="#faad14"></i>
+  &nbsp; Bạn có chắc chắn muốn lưu dữ liệu không?
+</ng-template>
+<ng-template #confirmHeader>
+  Xác nhận
+  <div class="pull-right icon-close">
+    <em (click)="confirmModalRef.close()" nz-icon nzType="close" nzTheme="outline"></em>
+  </div>
+</ng-template>

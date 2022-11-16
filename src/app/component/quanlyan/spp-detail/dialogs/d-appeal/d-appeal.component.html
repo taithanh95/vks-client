@@ -1,0 +1,159 @@
+<nz-modal *ngIf="data" class="ant-form" nzWidth="1000px" [(nzVisible)]="isVisible" nzTitle="Thêm mới" nzClosable="false"
+          [nzTitle]="title" nzMaskClosable="false">
+  <ng-template #title>
+    Cập nhật kháng cáo
+    <div class="pull-right icon-close">
+      <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+  <ng-container>
+    <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+      <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse()">
+        <i nz-icon [nzType]="isCollapse ? 'minus' : 'plus'"></i>Thông tin kháng cáo
+      </legend>
+      <div class="ui-fieldset-content ant-advanced-search-form" [ngClass]="isCollapse ? 'show' : 'hide' ">
+        <table width="100%" class="ui-panelgrid">
+          <tr>
+            <td>
+              <label>Mã kháng cáo</label>
+            </td>
+            <td>
+              <input nz-input disabled title="Mã kháng cáo (tự sinh)" [(ngModel)]="data.appecode" />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>Mã vụ án</label>
+            </td>
+            <td>
+              <input nz-input disabled title="Mã kháng cáo (tự sinh)" [(ngModel)]="data.casecode" />
+            </td>
+            <td>
+              <label>Tên vụ án</label>
+            </td>
+            <td>
+              <input disabled nz-input title="Tên vụ án" [(ngModel)]="data.casename" />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>Kháng cáo<span class="required">*</span></label>
+            </td>
+            <td>
+              <nz-radio-group [(ngModel)]="data.appeafor" nzName="radiogroup" (ngModelChange)="changeAppeafor($event)">
+                <label nz-radio nzValue="C">Bản án</label>
+                <label nz-radio nzValue="D">Quyết định</label>
+              </nz-radio-group>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>{{data.appeafor === 'C' ? 'Số bản án' : 'Số quyết định'}}<span class="required">*</span></label>
+            </td>
+            <td>
+              <nz-select (ngModelChange)="changeSetnum($event)" nzShowSearch nzAllowClear [nzPlaceHolder]="data.appeafor === 'C' ? 'Số bản án' : 'Số quyết định'" [(ngModel)]="data.setnum">
+                <ng-container *ngIf="data.appeafor === 'C'">
+                  <nz-option *ngFor="let o of lstCentence" [nzLabel]="o.SETNUM" [nzValue]="o.SETNUM"></nz-option>
+                </ng-container>
+                <ng-container *ngIf="data.appeafor === 'D'">
+                  <nz-option *ngFor="let o of lstDecisionCase" nzLabel="{{ o.SETNUM }} - {{ o.DECINAME }}" [nzValue]="o.SETNUM"></nz-option>
+                </ng-container>
+              </nz-select>
+            </td>
+            <td>
+              <label>{{data.appeafor === 'C' ? 'Ngày bản án' : 'Ngày quyết định'}}</label>
+            </td>
+            <td>
+              <nz-date-picker disabled (ngModelChange)="indateChange($event)"
+                              [title]="data.appeafor === 'C' ? 'Ngày bản án' : 'Ngày quyết định'" [(ngModel)]="data.setdate" nzPlaceHolder="dd/MM/yyyy"
+                              nzFormat="dd/MM/yyyy" (input)="onValueDate($event,'setdate')"
+                              (keypress)="validateOnlyNumbers($event)">
+              </nz-date-picker>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>Ngày kháng cáo <span class="required">*</span></label>
+            </td>
+            <td>
+              <nz-date-picker (ngModelChange)="indateChange($event)" [required]="isSubmited"
+                              title="Ngày kháng cáo" [(ngModel)]="data.indate" nzPlaceHolder="dd/MM/yyyy"
+                              nzFormat="dd/MM/yyyy" (input)="onValueDate($event,'indate')"
+                              (keypress)="validateOnlyNumbers($event)">
+              </nz-date-picker>
+            </td>
+            <td>
+              <label>Tên viện kiểm sát</label>
+            </td>
+            <td>
+              <input nz-input disabled title="Tên viện kiểm sát" [(ngModel)]="data.logedSppName" />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>Người kháng cáo</label>
+            </td>
+            <td>
+              <nz-radio-group [(ngModel)]="data.acctype" nzName="radiogroup">
+                <label nz-radio nzValue="A">Bị cáo</label>
+                <label nz-radio nzValue="P">Người khác</label>
+              </nz-radio-group>
+            </td>
+            <td>
+              <label>{{data.acctype === 'A' ? 'Tên bị cáo' : 'Họ và tên'}} <span class="required">*</span></label>
+            </td>
+            <td>
+              <input style="text-transform:capitalize" nz-input *ngIf="data.acctype === 'P'" title="Họ và tên" [(ngModel)]="data.perapp" [required]="isSubmited" />
+              <nz-select *ngIf="data.acctype === 'A'" nzShowSearch nzAllowClear nzPlaceHolder="Tên bị cáo" [(ngModel)]="data.accucode" [required]="isSubmited">
+                <nz-option *ngFor="let o of lstAccu" nzLabel="{{o.FULLNAME}} - {{o.ACCUCODE}}" [nzValue]="o.ACCUCODE"></nz-option>
+              </nz-select>
+            </td>
+          </tr>
+          <ng-container *ngIf="data.acctype === 'P'">
+            <tr>
+              <td></td>
+              <td></td>
+              <td>
+                <label>Tư cách tham gia tố tụng vụ án</label>
+              </td>
+              <td>
+                <nz-select nzPlaceHolder="Tư cách tham gia tố tụng vụ án" [(ngModel)]="data.participate">
+                  <nz-option nzValue="" nzLabel=""></nz-option>
+                  <nz-option nzValue="Bị hại" nzLabel="Bị hại"></nz-option>
+                  <nz-option nzValue="Người đại diện" nzLabel="Người đại diện"></nz-option>
+                  <nz-option nzValue="Người bào chữa" nzLabel="Người bào chữa"></nz-option>
+                  <nz-option nzValue="Người có quyền lợi, nghĩa vụ liên quan đến vụ án" nzLabel="Người có quyền lợi, nghĩa vụ liên quan đến vụ án"></nz-option>
+                  <nz-option nzValue="Người bảo vệ quyền và lợi ích hợp pháp của bị hại" nzLabel="Người bảo vệ quyền và lợi ích hợp pháp của bị hại"></nz-option>
+                  <nz-option nzValue="Người được Toà án tuyên không có tội" nzLabel="Người được Toà án tuyên không có tội"></nz-option>
+                </nz-select>
+              </td>
+            </tr>
+          </ng-container>
+          <tr>
+            <td>
+              <label>Tên loại kháng cáo<span class="required">*</span></label>
+            </td>
+            <td colspan="3">
+              <nz-select nzMode="tags" nzPlaceHolder="Loại kháng cáo" [(ngModel)]="data.arrAppealid" [required]="isSubmited">
+                <nz-option *ngFor="let option of lstAppeals" [nzLabel]="option.APPEALNAME" [nzValue]="option.APPEALID"></nz-option>
+              </nz-select>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>Nội dung kháng cáo</label>
+            </td>
+            <td colspan="3">
+              <textarea nz-input rows="5" title="Nội dung kháng cáo" [(ngModel)]="data.content"></textarea>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </fieldset>
+  </ng-container>
+  <div class="div-btn-right btn-m-10" style="margin: 10px 0;border: solid 1px #bed6f8;float: none;overflow: hidden">
+    <button style="float: right;" nz-button (click)="handleCancel()">Hủy bỏ</button>
+    <button style="float: right;" nz-button (click)="handleOk()" nzType="primary" [nzLoading]="loading">Ghi lại</button>
+  </div>
+  <div *nzModalFooter></div>
+</nz-modal>

@@ -1,0 +1,98 @@
+<nz-modal class="ant-form" nzWidth="950px" [(nzVisible)]="isVisible" nzTitle="Thêm mới điều luật khởi tố" nzClosable="false" [nzTitle]="title" nzMaskClosable="false" [nzAutofocus]="null">
+  <ng-template #title>
+    Thêm điều luật khởi tố
+    <div class="pull-right icon-close">
+      <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+  <ng-container>
+    <table class="ui-panelgrid table-4-col">
+      <tr>
+        <td><label>
+          Tên bộ luật
+        </label></td>
+        <td>
+          <nz-select (ngModelChange)="lawCodeChange($event)" nzShowSearch  style="width:100%" nzPlaceHolder="" [(ngModel)]="law.code">
+            <nz-option [nzValue]="''" nzLabel="Tất cả"></nz-option>
+            <nz-option *ngFor="let option of lstCode" [nzValue]="option.CODEID" [nzLabel]="option.CODENAME"></nz-option>
+          </nz-select>
+        </td>
+        <td>
+          <label>
+            Chương luật
+          </label>
+        </td>
+        <td>
+          <nz-select nzShowSearch  nzPlaceHolder="" style="width:200px" [(ngModel)]="law.group">
+            <nz-option [nzValue]="''" nzLabel="Tất cả"></nz-option>
+            <nz-option *ngFor="let option of lstGroup" [nzValue]="option.GROUPID" [nzLabel]="option.GROUPNAME"></nz-option>
+          </nz-select>
+        </td>
+        <td>
+          <button nz-button (click)="handleSearch()">Tìm kiếm</button>
+        </td>
+      </tr>
+      <tr>
+        <td><label>
+          Điều/Khoản/Điểm
+        </label></td>
+        <td>
+          <nz-form-control>
+            <div nz-row [nzGutter]="24">
+              <div nz-col [nzSpan]="8">
+                <input [(ngModel)]="law.lawid" nz-input placeholder="Điều" />
+              </div>
+              <div nz-col [nzSpan]="8">
+                <input [(ngModel)]="law.item" nz-input placeholder="Khoản"/>
+              </div>
+              <div nz-col [nzSpan]="8">
+                <input [(ngModel)]="law.point" nz-input placeholder="Điểm"/>
+              </div>
+            </div>
+          </nz-form-control>
+        </td>
+      </tr>
+    </table>
+      <nz-table style="width: 100%"
+                [nzTotal]="total"
+                [nzPageSize]="pageSize"
+                [nzPageIndex]="pageIndex"
+                #basicTable
+                [nzData]="lstLaw"
+                [nzFrontPagination]="false"
+                nzSize="small"
+                [nzShowTotal]="rangeTemplate"
+                (nzQueryParams)="onQueryParamsChange($event)"
+                [nzLoading]="loading">
+      <thead>
+      <tr>
+        <th class="text-nowrap center" style="width: 60px">Điều</th>
+        <th class="text-nowrap center" style="width: 60px">Khoản</th>
+        <th class="text-nowrap center" style="width: 60px">Điểm</th>
+        <th class="text-nowrap">Tội danh</th>
+        <th class="text-nowrap" style="width: 120px">Tên bộ luật</th>
+        <th class="text-nowrap" style="width: 60px" *ngIf="lstLaw && lstLaw.length > 0">Thao tác</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of basicTable.data;let i = index;" class="actived">
+        <td class="text-nowrap center">{{ data.LAWID }}</td>
+        <td class="text-nowrap center">{{ data.ITEM }}</td>
+        <td class="text-nowrap center">{{ data.POINT }}</td>
+        <td class="text-nowrap" title="{{data.LAWNAME}}">{{ data.LAWNAME }}</td>
+        <td class="text-nowrap">{{ data.CODENAME }}</td>
+        <td class="text-nowrap" *ngIf="lstLaw && lstLaw.length > 0">
+          <button class="btn-qla" (click)="chooseLaw(data)" nz-tooltip nzTooltipTitle="Áp dụng">
+            <span class="fa fa-fw fa-check"></span></button>
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button (click)="handleCancel()">Bỏ qua</button>
+  </div>
+</nz-modal>
+<ng-template #rangeTemplate let-range="range" let-total>
+  {{ range[0] }}-{{ range[1] }} {{'of' | translate }} {{ total }} {{'items' | translate }}
+</ng-template>

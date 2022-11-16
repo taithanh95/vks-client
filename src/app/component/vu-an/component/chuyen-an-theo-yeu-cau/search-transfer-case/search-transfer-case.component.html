@@ -1,0 +1,128 @@
+<div>
+  <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+    <div class="ui-fieldset-content ant-advanced-search-form">
+      <div nz-row>
+        <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10">Mã vụ án</nz-form-label>
+            <nz-form-control [nzSpan]="12">
+              <input [(ngModel)]="filterItem.casecode" nz-input placeholder="Mã vụ án">
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10">Tên vụ án</nz-form-label>
+            <nz-form-control [nzSpan]="12">
+              <input nz-input placeholder="Tên vụ án" [(ngModel)]="filterItem.casename">
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div nz-row>
+        <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10">Từ ngày</nz-form-label>
+            <nz-form-control [nzSpan]="12">
+              <nz-date-picker style="width: 100%" [(ngModel)]="filterItem.fromdate" nzPlaceHolder="dd/MM/yyyy"
+                              nzFormat="dd/MM/yyyy" (input)="changeValueDate('fromdate',$event)"
+                              (keypress)="validateOnlyNumbers($event)" (ngModelChange)="changeDate($event)"></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10">Đến ngày</nz-form-label>
+            <nz-form-control [nzSpan]="12">
+              <nz-date-picker style="width: 100%" [(ngModel)]="filterItem.todate" nzPlaceHolder="dd/MM/yyyy"
+                              nzFormat="dd/MM/yyyy" (input)="changeValueDate('todate',$event)"
+                              (keypress)="validateOnlyNumbers($event)" (ngModelChange)="changeDate($event)"></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div *ngIf="check" nz-row>
+        <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10">VKS cấp Tỉnh</nz-form-label>
+            <nz-form-control [nzSpan]="12">
+              <nz-select placeholder="Chọn đơn vị VKS" [(ngModel)]="filterItem.sppid" nzAllowClear nzShowSearch (ngModelChange)="onInputSppChild()">
+                <nz-option *ngFor="let option of lstSpp" [nzLabel]="option.NAME"
+                           [nzValue]="option">{{ option.SPPID }} - {{ option.NAME }}</nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <ng-container>
+          <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+            <nz-form-item>
+              <nz-form-label [nzSpan]="10">VKS cấp Huyện</nz-form-label>
+              <nz-form-control [nzSpan]="12">
+                <nz-select placeholder="Chọn đơn vị VKS" [(ngModel)]="filterItem.sppname" nzAllowClear nzShowSearch>
+                  <nz-option *ngFor="let option of lstSppChild" [nzLabel]="option.NAME"
+                             [nzValue]="option">{{ option.SPPID }} - {{ option.NAME }}</nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </fieldset>
+</div>
+<div class="ui-panel">
+  <div nz-row>
+    <div nz-col [nzSpan]="24" class="search-area">
+      <button nz-button [nzType]="'primary'" (click)="doSearch()">
+        <span class="fa fa-fw fa-search"></span>
+        Tìm kiếm
+      </button>
+      <button [disabled]="isDetailBtn" nz-button [nzType]="'primary'" (click)="showDetail()">
+        <span class="fa fa-fw fa-eye"></span>Chi tiết
+      </button>
+      <button [disabled]="isInsBtn" nz-button [nzType]="'primary'" (click)="onHandle('1')">
+        <span class="fa fa-fw fa-save"></span> Ghi lại
+      </button>
+      <button [disabled]="isDeleteBtn" nz-button nzType="danger" nz-popconfirm
+              nzPopconfirmTitle="Bạn có chắc chắn muốn hủy yêu cầu không?" nzPopconfirmPlacement="top" nzCancelText="Hủy"
+              nzOkText="Đồng ý" (nzOnConfirm)="onHandle('0')" nzType="danger">
+        <span class="fa fa-fw fa-times"></span> Hủy yêu cầu
+      </button>
+    </div>
+  </div>
+  <ng-container *ngIf="datas">
+    <div class="data-table">
+      <nz-table #basicTable nzShowSizeChanger [nzFrontPagination]="false" nzSize="small" [nzData]="datas"
+                [nzScroll]="{ x: '1200px' }" (nzCurrentPageDataChange)="currentPageDataChange($event)" [nzLoading]="loading"
+                [nzShowTotal]="rangeTemplate" [nzPageSize]="defaultPage" [nzTotal]="total" [nzPageIndex]="pageIndex"
+                (nzQueryParams)="onQueryParamsChange($event)">
+        <thead>
+        <tr>
+          <th class="text-nowrap" nzWidth="8%">STT</th>
+          <th class="text-nowrap" nzWidth="11%">Mã thụ lý</th>
+          <th class="text-nowrap" nzWidth="11%">Mã vụ án</th>
+          <th class="text-nowrap" nzWidth="20%">Tên vụ án</th>
+          <th class="text-nowrap" nzWidth="10%">Giai đoạn</th>
+          <th class="text-nowrap" nzWidth="20%">Yêu cầu chuyển án</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let data of basicTable.data; let i = index;" class="actived" (click)="onRowSelect(data)"
+            [class.selected]="data === selectedItem">
+          <td style="text-align: center" class="text-nowrap">{{getRowIndex(i, basicTable.nzPageIndex,
+            basicTable.nzPageSize)}}</td>
+          <td class="text-nowrap">{{ data.REGICODE }}</td>
+          <td class="text-nowrap">{{ data.CASECODE }}</td>
+          <td class="text-nowrap">{{ data.CASENAME }}</td>
+          <td class="text-nowrap">{{ f(data.USERFOR_REGIS) }}</td>
+          <td class="text-nowrap">{{ convert(data.RQTRANSFER) }}</td>
+        </tr>
+        </tbody>
+      </nz-table>
+      <ng-template #rangeTemplate let-range="range" let-total>
+        {{ range[0] }}-{{ range[1] }} {{'of' | translate }} {{ total }} {{'items' | translate }}
+      </ng-template>
+    </div>
+  </ng-container>
+</div>
+<app-detail-transfer-case (closeModal)="closeDetail($event)" [isVisible]="isVisibleDetail" [data]="selectedItem"></app-detail-transfer-case>

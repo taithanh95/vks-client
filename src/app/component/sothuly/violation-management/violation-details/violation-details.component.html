@@ -1,0 +1,146 @@
+<nz-modal nzWidth="960px"
+          [(nzVisible)]="isVisible"
+          [nzAutofocus]="'auto'"
+          [nzTitle]="title"
+          (nzOnCancel)="handleCancel()">
+  <ng-template #title>
+    <ng-container [ngSwitch]="popupMode">
+      <ng-container *ngSwitchCase="popupModeEnum.VIEW_FROM_PARENT">Chi tiết thông tin vi phạm pháp luật trong HĐTP</ng-container>
+      <ng-container *ngSwitchCase="popupModeEnum.UPDATE">Cập nhật thông tin vi phạm pháp luật trong HĐTP</ng-container>
+      <ng-container *ngSwitchDefault>Thêm mới thông tin vi phạm pháp luật trong HĐTP</ng-container>
+    </ng-container>
+  </ng-template>
+  <nz-spin [nzSpinning]="isSpinning">
+    <form nz-form [formGroup]="myForm">
+      <div *nzModalContent>
+        <div class="row mb-1">
+          <div class="col-6">
+            <div class="row">
+              <nz-form-item class="w-100">
+                <nz-form-label class="col-md-4 text-left" nzFor="id">Mã vi phạm</nz-form-label>
+                <nz-form-control class="col-md-8">
+                  <input formControlName="id" nz-input name="id" id="id" type="text">
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row">
+              <nz-form-item class="w-100">
+                <nz-form-label class="col-md-4 text-left" nzFor="violationDate" nzRequired>
+                  Ngày vi phạm
+                </nz-form-label>
+                <nz-form-control class="col-md-8" [nzErrorTip]="violationDateErrorTpl">
+                  <nz-date-picker formControlName="violationDate" id="violationDate" class="w-100"
+                                  [nzMode]="'date'" nzFormat="dd/MM/yyyy"
+                                  nzPlaceHolder="dd/MM/yyyy"
+                                  [nzDisabledDate]="disabledViolationDate"
+                                  (input)="onDateValueChange($event, myForm.get('violationDate'))"
+                                  (keypress)="numberOnly($event)"
+                  ></nz-date-picker>
+                  <ng-template #violationDateErrorTpl let-control>
+                    <ng-container *ngIf="control.hasError('required')">
+                      <small class="form-text">Vui lòng nhập Ngày vi phạm!</small>
+                    </ng-container>
+                  </ng-template>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+        </div><!-- /.row -->
+
+        <div class="row mb-1">
+          <div class="col-6">
+            <div class="row">
+              <nz-form-item class="w-100">
+                <nz-form-label class="col-md-4 text-left" nzFor="violatedAgency" nzRequired>
+                  Cơ quan vi phạm
+                </nz-form-label>
+                <nz-form-control class="col-md-8" [nzErrorTip]="violatedAgencyErrorTpl">
+                  <nz-select formControlName="violatedAgency" id="violatedAgency" nzPlaceHolder="Chọn cơ quan"
+                             (ngModelChange)="violatedAgencyChange($event)"
+                             nzAllowClear>
+                    <nz-option [nzValue]="'02'" nzLabel="Công an"></nz-option>
+                    <nz-option [nzValue]="'04'" nzLabel="Quân đội"></nz-option>
+                    <nz-option [nzValue]="'06'" nzLabel="Hải quan"></nz-option>
+                    <nz-option [nzValue]="'08'" nzLabel="Kiểm lâm"></nz-option>
+                    <nz-option [nzValue]="'09'" nzLabel="Bộ đội biên phòng"></nz-option>
+                    <nz-option [nzValue]="'10'" nzLabel="Cảnh sát biển"></nz-option>
+                    <nz-option [nzValue]="'12'" nzLabel="Cơ quan khác"></nz-option>
+                    <nz-option [nzValue]="'SPP'" nzLabel="Viện kiểm sát"></nz-option>
+                    <nz-option [nzValue]="'SPC'" nzLabel="Tòa án"></nz-option>
+                  </nz-select>
+                  <ng-template #violatedAgencyErrorTpl let-control>
+                    <ng-container *ngIf="control.hasError('required')">
+                      <small class="form-text">Vui lòng chọn Cơ quan vi phạm!</small>
+                    </ng-container>
+                  </ng-template>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <div class="col-6" *ngIf="violatedAgency().value !== '10' && violatedAgency().value !== '12'">
+            <div class="row">
+              <nz-form-item class="w-100">
+                <nz-form-label class="col-md-4 text-left" nzFor="violatedUnitsId" nzRequired>
+                  Đơn vị vi phạm
+                </nz-form-label>
+                <nz-form-control class="col-md-8" [nzErrorTip]="violatedUnitsIdErrorTpl">
+                  <input nz-input formControlName="violatedUnitsId" id="violatedUnitsId">
+                  <ng-template #violatedUnitsIdErrorTpl let-control>
+                    <ng-container *ngIf="control.hasError('required')">
+                      <small class="form-text">Vui lòng chọn Đơn vị vi phạm!</small>
+                    </ng-container>
+                  </ng-template>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+        </div><!-- /.row -->
+
+        <app-violation-legislation-document-list
+          [listOfData]="violationLegislationDocumentList"
+          [popupMode]="popupMode"
+          [violationId]="violationId"
+        ></app-violation-legislation-document-list>
+
+        <app-violation-result-list
+          [violationResults]="violationResultLists"
+          [popupMode]="popupMode"
+          [violationLaw]="myForm.value"
+        ></app-violation-result-list>
+      </div>
+      <div *nzModalFooter>
+        <div class="d-flex align-items-center justify-content-center">
+          <ng-container [ngSwitch]="popupMode">
+            <ng-container *ngSwitchCase="popupModeEnum.VIEW">
+              <button nz-button (click)="handleCancel()">{{ 'back' | translate }}</button>
+            </ng-container>
+            <ng-container *ngSwitchCase="popupModeEnum.VIEW_FROM_PARENT">
+              <button nz-button (click)="handleCancel()">{{ 'back' | translate }}</button>
+            </ng-container>
+            <ng-container *ngSwitchDefault>
+              <button nz-button nzType="primary" type="button" (click)="onSubmit()">
+                <i nz-icon nzType="save" nzTheme="outline"></i>
+                {{'save' | translate }}
+              </button>
+              <button nz-button nzType="default" type="button" (click)="handleCancel()">
+                <i nz-icon nzType="close" nzTheme="outline"></i>
+                {{'cancel' | translate }}</button>
+            </ng-container>
+          </ng-container>
+        </div>
+      </div>
+    </form>
+  </nz-spin>
+</nz-modal>
+<ng-template #confirm>
+  <i nz-icon nzType="question-circle" nzTheme="twotone" nzTwotoneColor="#faad14"></i>
+  &nbsp; Bạn có chắc chắn muốn lưu dữ liệu không?
+</ng-template>
+<ng-template #confirmHeader>
+  Xác nhận
+  <div class="pull-right icon-close">
+    <i (click)="confirmModalRef.close()" nz-icon nzType="close" nzTheme="outline"></i>
+  </div>
+</ng-template>

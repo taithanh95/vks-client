@@ -1,0 +1,46 @@
+<nz-modal *ngIf="data" class="ant-form" nzWidth="1000px" [(nzVisible)]="isVisible" nzTitle="Thêm mới" nzClosable="false" [nzTitle]="title" nzMaskClosable="false">
+  <ng-template #title>
+    Báo cáo đề nghị VKSND tối cao kháng nghị GĐT,TT
+    <div class="pull-right icon-close">
+      <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+  <ng-container>
+    <table width="100%" class="ui-panelgrid table-4-col">
+      <tr>
+        <td>
+          <label>
+            Số báo cáo<span class="required">*</span>
+          </label>
+        </td>
+        <td>
+          <input [required]="isSubmited" [disabled]="isVisibleDisable" title="Số báo cáo" nz-input [(ngModel)]="data.setnum"/>
+        </td>
+        <td>
+          <label>
+            Ngày báo cáo<span class="required">*</span>
+          </label>
+        </td>
+        <td>
+          <nz-date-picker [disabled]="isVisibleDisable" [required]="isSubmited" title="Chọn ngày" nzPlaceHolder="dd/MM/yyyy" [(ngModel)]="data.indate" nzFormat="dd/MM/yyyy"
+                          (input)="onValueIndate($event)" (keypress)="validateOnlyNumbers($event)"></nz-date-picker>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>
+            Nội dung báo cáo<span class="required">*</span>
+          </label>
+        </td>
+        <td colspan="3">
+          <textarea [required]="isSubmited" [disabled]="isVisibleDisable" title="Nội dung báo cáo" [(ngModel)]="data.content" nz-input rows="3"></textarea>
+        </td>
+      </tr>
+    </table>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="loading">{{'save' | translate }}</button>
+    <button nz-button (click)="handleReset()">Thêm mới</button>
+    <button nz-button (click)="handleCancel()">{{'cancel' | translate }}</button>
+  </div>
+</nz-modal>

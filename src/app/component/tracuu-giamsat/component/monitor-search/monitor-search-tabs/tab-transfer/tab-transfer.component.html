@@ -1,0 +1,95 @@
+<div>
+  <div nz-row>
+    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Loại báo cáo</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <nz-select [(ngModel)]="filterItem.typeTransfer" placeholder="Loại báo cáo">
+            <nz-option *ngFor="let item of listTypeTransfer|keyvalue" nzValue="{{item.key}}" nzLabel="{{item.value}}"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+  <div nz-row>
+    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Từ ngày</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <nz-date-picker (input)="onValueFDate($event)"
+                          (keypress)="validateOnlyNumbers($event)"
+                          [(ngModel)]="filterItem.fdateTransfer"
+                          nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Đến ngày</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <nz-date-picker (input)="onValueTDate($event)"
+                          (keypress)="validateOnlyNumbers($event)"
+                          [(ngModel)]="filterItem.tdateTransfer"
+                          nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+  <div nz-row *ngIf="filterItem.typeTransfer =='cqdt_vks' || filterItem.typeTransfer =='vks_ta' ">
+    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Loại bàn giao</nz-form-label>
+        <nz-radio-group [(ngModel)]="filterItem.type" >
+          <label nz-radio nzValue="I" >Nhận hồ sơ</label>
+          <label nz-radio nzValue="O">Giao hồ sơ</label>
+        </nz-radio-group>
+      </nz-form-item>
+    </div>
+  </div>
+  <div nz-row *ngIf="filterItem.typeTransfer =='vks_vks'">
+    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Viện kiểm sát giao</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <input title="Nhấn phím space hoặc gõ mã hoặc tên để chọn VKS"
+                 placeholder="Nhấn phím space hoặc gõ mã hoặc tên để chọn VKS" nz-input
+                 [(ngModel)]="filterItem.sppidfTransfer" (input)="onInputSpp($event)"
+                 [nzAutocomplete]="autoSpp"/>
+          <nz-autocomplete #autoSpp nzWidth="300">
+            <nz-auto-option *ngFor="let option of lstSpps" nzLabel="{{ option.SPPID}} - {{option.NAME}}"
+                            [nzValue]="option.SPPID">{{ option.SPPID}} - {{option.NAME}}</nz-auto-option>
+          </nz-autocomplete>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="10">Viện kiểm sát nhận</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <input title="Nhấn phím space hoặc gõ mã hoặc tên để chọn VKS"
+                 placeholder="Nhấn phím space hoặc gõ mã hoặc tên để chọn VKS" nz-input
+                 [(ngModel)]="filterItem.sppidtTransfer" (input)="onInputSpp($event)"
+                 [nzAutocomplete]="autoSpp"/>
+          <nz-autocomplete #autoSpp nzWidth="300">
+            <nz-auto-option *ngFor="let option of lstSpps" nzLabel="{{ option.SPPID}} - {{option.NAME}}"
+                            [nzValue]="option.SPPID">{{ option.SPPID}} - {{option.NAME}}</nz-auto-option>
+          </nz-autocomplete>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+</div>
+<div class="ui-panel">
+  <div nz-row>
+    <div nz-col [nzSpan]="24" class="search-area">
+      <button nz-button [nzType]="'primary'" (click)="showResult()">
+        <span class="fa fa-fw fa-search"></span>
+        Tìm kiếm
+      </button>
+    </div>
+  </div>
+</div>
+<ng-container *ngIf="isVisibleResult">
+  <app-result-transfer [isVisible]="isVisibleResult" (closeModal)="closeModalResult($event)" [filterItem]="filterItem">
+  </app-result-transfer>
+</ng-container>

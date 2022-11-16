@@ -1,0 +1,136 @@
+<section>
+  <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+    <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse()">
+      <i nz-icon [nzType]="collapse ? 'minus' : 'plus'"></i> Tìm kiếm thông tin tin báo, tố giác, kiến nghị khởi tố
+    </legend>
+    <div class="ui-fieldset-content p-2" [ngClass]="collapse ? 'show' : 'hide' ">
+      <form nz-form [formGroup]="formSearch" class="ant-advanced-search-form">
+        <div class="row">
+          <div class="col-xl-3 col-md-6 col-sm-12">
+            <nz-form-item class="row mb-0">
+              <nz-form-label class="text-left col-sm-4">Loại tin báo</nz-form-label>
+              <nz-form-control class="col-sm-8">
+                <nz-select nzPlaceHolder="Chọn loại tin báo" formControlName="crimeReportSource" id="crimeReportSource"
+                           class="w-100">
+                  <nz-option nzValue="1" nzLabel="Tin báo"></nz-option>
+                  <nz-option nzValue="2" nzLabel="Tin tố giác"></nz-option>
+                  <nz-option nzValue="3" nzLabel="Kiến nghị khởi tố"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div class="col-xl-3 col-md-6 col-sm-12">
+            <nz-form-item class="row mb-0">
+              <nz-form-label class="text-left col-sm-4">Mã tin báo</nz-form-label>
+              <nz-form-control class="col-sm-8">
+                <input nz-input placeholder="Mã tin báo" type="text" formControlName="denouncementCode"
+                       id="denouncementCode" class="w-100">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div class="col-xl-3 col-md-6 col-sm-12">
+            <nz-form-item class="row mb-0">
+              <nz-form-label class="text-left col-sm-4">Người báo tin</nz-form-label>
+              <nz-form-control class="col-sm-8">
+                <input nz-input placeholder="Người báo tin" type="text" formControlName="reporter" id="reporter"
+                       class="w-100">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div class="col-xl-3 col-md-6 col-sm-12">
+            <nz-form-item class="row mb-0">
+              <nz-form-label class="text-left col-sm-4">Người bị tố giác</nz-form-label>
+              <nz-form-control class="col-sm-8">
+                <input nz-input placeholder="Người bị tố giác" type="text" formControlName="accusedName"
+                       id="accusedName" class="w-100">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </form>
+    </div>
+  </fieldset>
+
+  <nz-page-header>
+    <nz-page-header-subtitle [style]="'color: red; font-weight: bold'">Tổng số bản ghi: {{ totalElements }}
+      Trang: {{ pageNumber }}/{{ totalPages }}</nz-page-header-subtitle>
+    <nz-page-header-extra>
+      <button nz-button nzType="primary" (click)="loadDataFromServer()"><i class="fa fa-fw fa-search"></i> Tìm kiếm
+      </button>
+      <button nz-button nzType="primary" (click)="goToList();"><i class="fas fa-list"></i> Danh sách cấp số lệnh/ QĐ
+      </button>
+      <button nz-button nzType="primary" [disabled]="!selectedItem" (click)="goToCreate()"><i
+        class="fa fa-fw fa-edit"></i> Cấp số lệnh/ Quyết định
+      </button>
+      <button nz-button nzType="primary" [disabled]="!selectedItem" (click)="goToDetails()"><i
+        class="fa fa-fw fa-eye"></i> Xem chi tiết
+      </button>
+    </nz-page-header-extra>
+  </nz-page-header>
+  <nz-table
+    #sortTable
+    nzShowSizeChanger
+    nzTableLayout="fixed"
+    [nzSize]="'small'"
+    [nzData]="listOfItem"
+    [nzScroll]="scroll"
+    [nzLoading]="loading"
+    [nzTotal]="totalElements"
+    [nzPageSize]="pageSize"
+    [nzPageIndex]="pageNumber"
+    [nzShowPagination]="false"
+    [nzBordered]="true"
+    [nzNoResult]="noResultTpl">
+    <thead>
+    <tr>
+      <ng-container *ngFor="let col of cols">
+        <th *ngIf="col.sortDirections" [nzSortOrder]="col.sortOrder" [nzSortFn]="col.sortFn" [nzWidth]="col.width"
+            [nzSortDirections]="col.sortDirections">
+          {{ col.title }}
+        </th>
+        <th *ngIf="!col.sortDirections" [nzWidth]="col.width">
+          {{ col.title }}
+        </th>
+      </ng-container>
+    </tr>
+    </thead>
+    <tbody class="posts">
+    <tr *ngFor="let data of sortTable.data; index as i" (click)="onSelect(data)"
+        [class.selected]="data === selectedItem">
+      <td [nzChecked]="setOfCheckedId.has(data.id)"
+          (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
+      <td [nzAlign]="'left'">{{ data.denouncementCode | nzSafeNull: '-' }}</td>
+      <td [nzAlign]="'left'" nz-tooltip nzTooltipTitle="{{ data.rreporter }}" nzEllipsis>{{ data.crimeReportSource | crimeReportSource }}</td>
+      <td [nzAlign]="'left'" nz-tooltip [nzTooltipTitle]="data.rreporter">
+        {{ data.rreporter | nzSafeNull: '-' }}
+      </td>
+      <td [nzAlign]="'left'" nz-tooltip nzTooltipTitle="{{ data.fullName }}" nzEllipsis>
+        {{ data.fullName | nzSafeNull: '-' }}
+      </td>
+      <td [nzAlign]="'left'" nz-tooltip [nzTooltipTitle]="data.rdelation" nzEllipsis>
+        {{ data.rdelation }}
+      </td>
+      <td [nzAlign]="'center'">{{ data.takenOverDate }}</td>
+    </tr>
+    </tbody>
+  </nz-table>
+
+  <div nz-row nzJustify="end" class="mt-3">
+    <nz-pagination [nzPageIndex]="pageNumber" [nzPageSizeOptions]="[10,15,20,30,40,50,100,200,500,1000]"
+                   [nzTotal]="totalElements" [nzPageSize]="pageSize" [nzShowTotal]="rangeTemplate"
+                   (nzPageIndexChange)="onChangePageIndex($event)" (nzPageSizeChange)="onChangePageSize($event)"
+                   nzShowSizeChanger>
+    </nz-pagination>
+    <ng-template #rangeTemplate let-range="range" let-total> {{ range[0] }}
+      -{{ range[1] }} {{'of' | translate }} {{ total }} {{'items' | translate }}
+    </ng-template>
+  </div>
+
+  <ng-template #noResultTpl>
+    <nz-empty nzNotFoundImage="./assets/image/empty.svg" [nzNotFoundContent]="contentTpl">
+      <ng-template #contentTpl>
+        <p>Không tìm thấy kết quả.</p>
+      </ng-template>
+    </nz-empty>
+  </ng-template>
+</section>

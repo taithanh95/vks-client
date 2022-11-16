@@ -1,0 +1,218 @@
+<nz-modal nzWidth="960px"
+          [(nzVisible)]="isVisible"
+          [nzTitle]="title"
+          nzTitle="Thêm mới" 
+		  nzClosable="false"
+		  nzMaskClosable="false">
+  <ng-template #title>
+    Thêm mới thông tin vi phạm pháp luật trong HĐTP
+    <div class="pull-right icon-close">
+      <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template> 
+  <nz-spin [nzSpinning]="isSpinning">
+    <form nz-form [formGroup]="myForm">
+      <div *nzModalContent>
+        <div class="row mb-1">
+          <div class="col-6">
+            <div class="row">
+              <nz-form-item class="w-100">
+                <nz-form-label class="col-md-4 text-left" nzFor="id">Mã vi phạm</nz-form-label>
+                <nz-form-control class="col-md-8">
+                  <input formControlName="id" nz-input name="id" id="id" type="text">
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row">
+              <nz-form-item class="w-100">
+                <nz-form-label class="col-md-4 text-left" nzFor="violationDate" nzRequired>
+                  Ngày vi phạm
+                </nz-form-label>
+                <nz-form-control class="col-md-8" [nzErrorTip]="violationDateErrorTpl">
+                  <nz-date-picker [nzAutoFocus]="true" formControlName="violationDate" id="violationDate" class="w-100"
+                                  [nzMode]="'date'" nzFormat="dd/MM/yyyy"
+                                  nzPlaceHolder="dd/MM/yyyy"
+                                  [nzDisabledDate]="disabledViolationDate"
+                                  (input)="onDateValueChange($event, myForm.get('violationDate'))"
+                                  (keypress)="numberOnly($event)"
+                  ></nz-date-picker>
+                  <ng-template #violationDateErrorTpl let-control>
+                    <ng-container *ngIf="control.hasError('required')">
+                      <small class="form-text">Vui lòng nhập Ngày vi phạm!</small>
+                    </ng-container>
+                  </ng-template>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+        </div><!-- /.row -->
+
+        <div class="row mb-1">
+          <div class="col-6">
+            <div class="row">
+              <nz-form-item class="w-100">
+                <nz-form-label class="col-md-4 text-left" nzFor="violatedAgency" nzRequired>
+                  Cơ quan vi phạm
+                </nz-form-label>
+                <nz-form-control class="col-md-8" [nzErrorTip]="violatedAgencyErrorTpl">
+                  <nz-select formControlName="violatedAgency" id="violatedAgency" nzPlaceHolder="Chọn cơ quan"
+                             (ngModelChange)="violatedAgencyChange($event)"
+                             nzAllowClear>
+                    <nz-option [nzValue]="'02'" nzLabel="Công an"></nz-option>
+                    <nz-option [nzValue]="'04'" nzLabel="Quân đội"></nz-option>
+                    <nz-option [nzValue]="'06'" nzLabel="Hải quan"></nz-option>
+                    <nz-option [nzValue]="'08'" nzLabel="Kiểm lâm"></nz-option>
+                    <nz-option [nzValue]="'09'" nzLabel="Bộ đội biên phòng"></nz-option>
+                    <nz-option [nzValue]="'10'" nzLabel="Cảnh sát biển"></nz-option>
+                    <nz-option [nzValue]="'12'" nzLabel="Cơ quan khác"></nz-option>
+                    <nz-option [nzValue]="'SPP'" nzLabel="Viện kiểm sát"></nz-option>
+                    <nz-option [nzValue]="'SPC'" nzLabel="Tòa án"></nz-option>
+                  </nz-select>
+                  <ng-template #violatedAgencyErrorTpl let-control>
+                    <ng-container *ngIf="control.hasError('required')">
+                      <small class="form-text">Vui lòng chọn Cơ quan vi phạm!</small>
+                    </ng-container>
+                  </ng-template>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <div class="col-6" *ngIf="violatedAgency.value !== '10' && violatedAgency.value !== '12'">
+            <div class="row">
+              <nz-form-item class="w-100">
+                <nz-form-label class="col-md-4 text-left" nzFor="violatedUnitsId" nzRequired>
+                  Đơn vị vi phạm
+                </nz-form-label>
+                <nz-form-control class="col-md-8" [nzErrorTip]="violatedUnitsIdErrorTpl">
+                  <nz-input-group class="pl-0" nzSize="small" [nzSuffix]="suffixIcon">
+                    <ng-container [ngSwitch]="violatedAgency.value">
+                      <!--                    02 - Công an-->
+                      <input nz-input *ngSwitchCase="'02'" formControlName="violatedUnitsId"
+                             [placeholder]="'Chọn đơn vị'"
+                             (input)="onInputPolice($event)"
+                             [nzAutocomplete]="autoPolice"/>
+                      <nz-autocomplete #autoPolice>
+                        <nz-auto-option *ngFor="let option of lstPolices" [nzLabel]="option.NAME"
+                                        [nzValue]="option">{{ option.POLICEID }} - {{ option.NAME }}</nz-auto-option>
+                      </nz-autocomplete>
+                      <!--                    04 - Quân đội-->
+                      <input nz-input *ngSwitchCase="'04'" formControlName="violatedUnitsId"
+                             [placeholder]="'Chọn đơn vị'"
+                             (input)="onInputArmy($event)"
+                             [nzAutocomplete]="autoArmy"/>
+                      <nz-autocomplete #autoArmy>
+                        <nz-auto-option *ngFor="let option of lstArmies" [nzLabel]="option.NAME"
+                                        [nzValue]="option">{{ option.ARMYID }} - {{ option.NAME }}</nz-auto-option>
+                      </nz-autocomplete>
+                      <!--                    06 - Hải quan-->
+                      <input *ngSwitchCase="'06'" nz-input formControlName="violatedUnitsId"
+                             [placeholder]="'Chọn đơn vị'"
+                             (input)="onInputCustoms($event)"
+                             [nzAutocomplete]="autoCustom"/>
+                      <nz-autocomplete #autoCustom>
+                        <nz-auto-option *ngFor="let option of lstCustoms" [nzLabel]="option.NAME"
+                                        [nzValue]="option">{{ option.CUSTOMID }} - {{ option.NAME }}</nz-auto-option>
+                      </nz-autocomplete>
+                      <!--                    08 - Kiểm lâm-->
+                      <input *ngSwitchCase="'08'" nz-input formControlName="violatedUnitsId"
+                             [placeholder]="'Chọn đơn vị'"
+                             (input)="onInputRangers($event)"
+                             [nzAutocomplete]="autoRanger"/>
+                      <nz-autocomplete #autoRanger>
+                        <nz-auto-option *ngFor="let option of lstRangers" [nzLabel]="option.NAME"
+                                        [nzValue]="option">{{ option.RANGID }} - {{ option.NAME }}</nz-auto-option>
+                      </nz-autocomplete>
+                      <!--                    09 - Bộ đội biên phòng-->
+                      <input *ngSwitchCase="'09'" nz-input formControlName="violatedUnitsId"
+                             [placeholder]="'Chọn đơn vị'"
+                             (input)="onInputBorderGuards($event)"
+                             [nzAutocomplete]="autoBorderGuard"/>
+                      <nz-autocomplete #autoBorderGuard>
+                        <nz-auto-option *ngFor="let option of lstBorderGuards" [nzLabel]="option.NAME"
+                                        [nzValue]="option">{{ option.BORGUAID }} - {{ option.NAME }}</nz-auto-option>
+                      </nz-autocomplete>
+                      <!--                    10 - Cảnh sát biển-->
+                      <input *ngSwitchCase="'10'" nz-input formControlName="violatedUnitsId"
+                             [placeholder]="'Chọn đơn vị'"
+                             (focus)="onFocusViolatedUnitsId($event)"/>
+                      <!--                    12 - Cơ quan khác-->
+                      <input *ngSwitchCase="'12'" nz-input formControlName="violatedUnitsId"
+                             [placeholder]="'Chọn đơn vị'"
+                             (focus)="onFocusViolatedUnitsId($event)"/>
+                      <!--                    SPP - Viện kiểm sát-->
+                      <input *ngSwitchCase="'SPP'" nz-input formControlName="violatedUnitsId"
+                             [placeholder]="'Chọn đơn vị'"
+                             (input)="onInputSpp($event)"
+                             [nzAutocomplete]="autoSpp"/>
+                      <nz-autocomplete #autoSpp>
+                        <nz-auto-option *ngFor="let option of lstSpps" [nzLabel]="option.name"
+                                        [nzValue]="option">{{ option.sppid }} - {{ option.name }}</nz-auto-option>
+                      </nz-autocomplete>
+                      <!--                    SPC - Tòa án-->
+                      <input *ngSwitchCase="'SPC'" nz-input formControlName="violatedUnitsId"
+                             [placeholder]="'Chọn đơn vị'"
+                             (input)="onInputSpc($event)"
+                             [nzAutocomplete]="autoSpc"/>
+                      <nz-autocomplete #autoSpc>
+                        <nz-auto-option *ngFor="let option of lstSpcs" [nzLabel]="option.NAME"
+                                        [nzValue]="option">{{ option.SPCID }} - {{ option.NAME }}</nz-auto-option>
+                      </nz-autocomplete>
+                      <input *ngSwitchDefault nz-input formControlName="violatedUnitsId" [placeholder]="'Chọn đơn vị'"
+                             (focus)="onFocusViolatedUnitsId($event)"/>
+                    </ng-container>
+                  </nz-input-group>
+                  <ng-template #suffixIcon>
+                    <i nz-icon nzType="search"></i>
+                  </ng-template>
+                  <ng-template #violatedUnitsIdErrorTpl let-control>
+                    <ng-container *ngIf="control.hasError('required')">
+                      <small class="form-text">Vui lòng chọn Đơn vị vi phạm!</small>
+                    </ng-container>
+                  </ng-template>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+        </div><!-- /.row -->
+
+        <app-violation-legislation-document-list
+          [listOfData]="violationLegislationDocumentList"
+          (dataChange)="onDataChange($event)"
+        ></app-violation-legislation-document-list>
+
+        <app-violation-result-list
+          [violationResults]="violationResultList"
+          [violationLaw]="myForm.value"
+          (dataChange)="onViolationResultDataChange($event)"
+        ></app-violation-result-list>
+      </div>
+      <div *nzModalFooter>
+        <nz-form-item>
+          <nz-form-control [nzOffset]="7" [nzSpan]="12">
+            <div class="d-flex align-items-center justify-content-center">
+              <button nz-button nzType="primary" type="button" (click)="onSubmit()">
+                <i nz-icon nzType="save" nzTheme="outline"></i>
+                {{'save' | translate }}
+              </button>
+              <button nz-button nzType="default" type="button" (click)="handleCancel()">
+                <i nz-icon nzType="close" nzTheme="outline"></i>
+                {{'cancel' | translate }}</button>
+            </div>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </form>
+  </nz-spin>
+</nz-modal>
+<ng-template #confirm>
+  <i nz-icon nzType="question-circle" nzTheme="twotone" nzTwotoneColor="#faad14"></i>
+  &nbsp; Bạn có chắc chắn muốn lưu dữ liệu không?
+</ng-template>
+<ng-template #confirmHeader>
+  Xác nhận
+  <div class="pull-right icon-close">
+    <i (click)="confirmModalRef.close()" nz-icon nzType="close" nzTheme="outline"></i>
+  </div>
+</ng-template>

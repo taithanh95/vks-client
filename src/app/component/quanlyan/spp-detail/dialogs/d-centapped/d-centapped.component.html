@@ -1,0 +1,752 @@
+<nz-modal class="ant-form" nzWidth="1000px" [(nzVisible)]="isVisible" nzTitle="Thông tin Bản án/Quyết định bị kháng cáo/kháng nghị"
+    nzClosable="false" [nzTitle]="title" nzMaskClosable="false">
+<ng-template #title>
+    Thông tin Bản án/Quyết định bị kháng cáo/kháng nghị
+    <div class="pull-right icon-close">
+        <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"> </em>
+    </div>
+</ng-template>
+<div class="div-btn-right btn-m-10" style="margin: 10px 0;border: solid 1px #bed6f8;float: none;overflow: hidden">
+    <button class="change-btn" style="float: left;" nz-button (click)="resetOpenTable(0,'C')">Bản án bị kháng cáo/kháng nghị</button>
+    <button class="change-btn" style="float: left;" nz-button (click)="resetOpenTable(1,'D')">Quyết định bị kháng cáo/kháng nghị</button>
+</div>
+<ng-container *ngIf="openTable[0]">
+    <nz-table style="width:100%" class="ui-table" #basicTable [nzData]="lstCentences" nzSize="small" nzShowSizeChanger
+    nzShowPagination="false" [nzFrontPagination]="false">
+        <thead>
+            <tr>
+                <th class="text-nowrap center">Mã bản án</th>
+                <th class="text-nowrap center">Bản án số</th>
+                <th class="text-nowrap center">Ngày ra bản án</th>
+                <th class="text-nowrap center">Người KC/đơn vị KN</th>
+                <th class="text-nowrap center">Cấp</th>
+                <th class="text-nowrap center">KC/KN</th>
+                <th class="text-nowrap center">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of basicTable.data;let i = index;">
+                <td class="text-nowrap center">{{ data.CENTCODE }}</td>
+                <td class="text-nowrap center">{{ data.SETNUM }}</td>
+                <td class="text-nowrap center">{{ data.INDATE | dateFormat }}</td>
+                <td class="text-nowrap center">{{ data.ACCUNAME }}</td>
+                <td class="text-nowrap center">{{ toUseforName(data.USERFOR) }}</td>
+                <td class="text-nowrap center">{{ toLabelName(data.USERFOR,data.CHECKA) }}</td>
+                <td class="text-nowrap center"><a (click)="openDetails(data)"><div class="text-link">Chi tiết</div></a></td>
+            </tr>
+        </tbody>
+    </nz-table>
+    <ng-container *ngIf="isVisibleCent">
+        <ng-container *ngIf="centapped.checka === '1'">
+            <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+                <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse(0)">
+                    <i nz-icon [nzType]="arrCollapse[0] ? 'minus' : 'plus'"></i>Thông tin Kháng cáo
+                </legend>
+                <div class="ui-fieldset-content" [ngClass]="arrCollapse[0] ? 'show' : 'hide' ">
+                    <div style="display: flex">
+                        <table width="100%" class="ui-panelgrid table-4-col">
+                        <tr>
+                            <td><label>Mã kháng cáo :</label></td>
+                            <td>
+                                <input nz-input disabled [(ngModel)]="centapped.appecode" />
+                            </td>
+                            <td><label>Tên Viện kiểm sát :</label></td>
+                            <td>
+                                <input nz-input disabled [(ngModel)]="centapped.asppname" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>Ngày kháng cáo:</label></td>
+                            <td>
+                                <nz-date-picker disabled
+                                    title="Ngày kháng cáo" [(ngModel)]="centapped.aindate" nzPlaceHolder="dd/MM/yyyy"
+                                    nzFormat="dd/MM/yyyy">
+                                </nz-date-picker>
+                            </td>
+                            <td><label>Người kháng cáo :</label></td>
+                            <td>
+                                <input nz-input disabled [(ngModel)]="centapped.accuname" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>Tên loại kháng cáo :</label></td>
+                            <td>
+                                <textarea nz-input rows="2" disabled [(ngModel)]="centapped.appealname"></textarea>
+                            </td>
+                            <td><label>Nội dung kháng cáo :</label></td>
+                            <td>
+                                <input nz-input disabled [(ngModel)]="centapped.acontent" />
+                            </td>
+                        </tr>
+                        </table>
+                    </div> 
+                </div>
+            </fieldset>
+        </ng-container>
+        <ng-contaier *ngIf="centapped.checka === '0'">
+            <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+                <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse(0)">
+                    <i nz-icon [nzType]="arrCollapse[0] ? 'minus' : 'plus'"></i>Thông tin {{ toLabelName() }}
+                </legend>
+                <div class="ui-fieldset-content" [ngClass]="arrCollapse[0] ? 'show' : 'hide' ">
+                    <div style="display: flex">
+                        <table width="100%" class="ui-panelgrid table-4-col">
+                        <tr>
+                            <td><label>Mã {{ toLabelName() }} :</label></td>
+                            <td>
+                                <input nz-input disabled [(ngModel)]="centapped.appecode" />
+                            </td>
+                            <td><label>Tên Viện kiểm sát :</label></td>
+                            <td>
+                                <input nz-input disabled [(ngModel)]="centapped.asppname" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>{{ toLabelName(centapped.userfor) }}</label></td>
+                            <td>
+                                <input nz-input disabled [(ngModel)]="centapped.asetnum" />
+                            </td>
+                            <td><label>Ngày {{ toLabelName() }} :</label></td>
+                            <td>
+                                <nz-date-picker disabled
+                                    title="Ngày ra bản án" [(ngModel)]="centapped.aindate" nzPlaceHolder="dd/MM/yyyy"
+                                    nzFormat="dd/MM/yyyy">
+                                </nz-date-picker>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>Đơn vị {{ toLabelName() }} :</label></td>
+                            <td>
+                                <input nz-input disabled [(ngModel)]="centapped.sppspc" />
+                            </td>
+                            <td><label>Giai đoạn {{ toLabelName() }} :</label></td>
+                            <td>
+                                <input nz-input disabled [(ngModel)]="centapped.gd_tt" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>Tên loại {{ toLabelName() }} :</label></td>
+                            <td colspan="3">
+                                <textarea nz-input rows="2" disabled [(ngModel)]="centapped.appealname"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>Nội dung {{ toLabelName() }} :</label></td>
+                            <td colspan="3">
+                                <input nz-input disabled [(ngModel)]="centapped.acontent" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>Kết quả :</label></td>
+                            <td colspan="3">
+                                <input nz-input disabled [(ngModel)]="centapped.resultname" />
+                            </td>
+                        </tr>
+                        </table>
+                    </div> 
+                </div>
+            </fieldset>
+        </ng-contaier>
+        <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+            <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse(1)">
+                <i nz-icon [nzType]="arrCollapse[1] ? 'minus' : 'plus'"></i>Thông tin Bản án bị kháng cáo/{{ toLabelName() }}
+            </legend>
+            <div class="ui-fieldset-content" [ngClass]="arrCollapse[1] ? 'show' : 'hide' ">
+                <div style="display: flex">
+                    <table width="100%" class="ui-panelgrid table-4-col">
+                    <tr>
+                        <td><label>Mã bản án :</label></td>
+                        <td>
+                            <input nz-input disabled [(ngModel)]="centence.centcode" />
+                        </td>
+                        <td><label>Bản án số :</label></td>
+                        <td>
+                            <input nz-input disabled [(ngModel)]="centence.setnum" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label>Ngày ra bản án :</label></td>
+                        <td>
+                            <nz-date-picker disabled
+                                    title="Ngày ra bản án" [(ngModel)]="centence.indate" nzPlaceHolder="dd/MM/yyyy"
+                                    nzFormat="dd/MM/yyyy">
+                            </nz-date-picker>
+                        </td>
+                        <td><label>Ngày hiệu lực :</label></td>
+                        <td>
+                            <nz-date-picker disabled
+                                    title="Ngày hiệu lực" [(ngModel)]="centence.actdate" nzPlaceHolder="dd/MM/yyyy"
+                                    nzFormat="dd/MM/yyyy">
+                            </nz-date-picker>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label>Kết luận Tòa án :</label></td>
+                        <td colspan="3">
+                            <input nz-input disabled [(ngModel)]="centence.concname" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label>Nội dung :</label></td>
+                        <td colspan="3">
+                            <input nz-input disabled [(ngModel)]="centence.content" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label>Người ký :</label></td>
+                        <td>
+                            <input nz-input disabled [(ngModel)]="centence.signname" />
+                        </td>
+                        <td><label>Người ký :</label></td>
+                        <td>
+                            <input nz-input disabled [(ngModel)]="centence.signoffice" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label>Ý kiến của VKS :</label></td>
+                        <td colspan="3">
+                            <input nz-input disabled [(ngModel)]="centence.remark" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label>Xét xử lưu động :</label></td>
+                        <td>
+                            <input nz-input disabled [(ngModel)]="centence.movement" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"><label>{{ toSpcDiffName(centence.userfor) }} :</label></td>
+                        <td>
+                            <input nz-input disabled [(ngModel)]="centence.spcdiffspp" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"><label>{{ toSppNextName(centence.userfor) }} :</label></td>
+                        <td>
+                            <input nz-input disabled [(ngModel)]="centence.sppnext" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"><label>{{ toSppBackName(centence.userfor) }} :</label></td>
+                        <td>
+                            <input nz-input disabled [(ngModel)]="centence.sppback" />
+                        </td>
+                    </tr>
+                    </table>
+                </div> 
+            </div>
+        </fieldset>
+        <nz-table #basicTable class="ui-table" [nzData]="lstAccu" nzSize="small" nzShowSizeChanger nzShowPagination="false" [nzFrontPagination] = "false">
+            <thead>
+                <tr>
+                    <th class="text-nowrap center" width="15%">Mã bị can</th>
+                    <th class="text-nowrap center" width="30%">Họ và tên</th>
+                    <th class="text-nowrap center" width="20%">Điều luật, hình phạt, chỉ tiêu</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of basicTable.data;let i = index;" ngClass="s-{{data.selected}}">
+                    <td class="text-nowrap center">{{ data.ACCUCODE}}</td>
+                    <td class="text-nowrap">{{ data.FULLNAME}}</td>
+                    <td class="text-nowrap center">
+                        <a (click)="openPopup(data.ACCUCODE)">
+                            <div class="text-link">Xem chi tiết</div></a>
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </ng-container>
+</ng-container>
+<ng-container *ngIf="openTable[1]">
+    <nz-table style="width:100%" #basicTable [nzData]="lstDecitions" nzSize="small" [nzFrontPagination]="false">
+        <thead>
+            <tr>
+                <th class="text-nowrap center">Mã quyết định</th>
+                <th class="text-nowrap center">Quyết định số</th>
+                <th class="text-nowrap center">Ngày ra quyết định</th>
+                <th class="text-nowrap center">Tên quyết định</th>
+                <th class="text-nowrap center">Cấp</th>
+                <th class="text-nowrap center">KC/KN</th>
+                <th class="text-nowrap center">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of basicTable.data;let i = index;">
+                <td class="text-nowrap center">{{ data.DECICODE }}</td>
+                <td class="text-nowrap center">{{ data.SETNUM }}</td>
+                <td class="text-nowrap center">{{ data.INDATE | dateFormat }}</td>
+                <td class="text-nowrap center">{{ data.DECINAME }}</td>
+                <td class="text-nowrap center">{{ toUseforName(data.USERFOR) }}</td>
+                <td class="text-nowrap center">{{ toLabelName(data.USERFOR,data.CHECKA) }}</td>
+                <td class="text-nowrap center"><a (click)="openDeciDetail(data)"><div class="text-link">Chi tiết</div></a></td>
+            </tr>
+        </tbody>
+    </nz-table>
+    <ng-container *ngIf="isVisibleDeci">
+        <ng-container *ngIf="centapped.checka === '1'">
+            <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+                <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse(0)">
+                    <i nz-icon [nzType]="arrCollapse[0] ? 'minus' : 'plus'"></i>Thông tin Kháng cáo
+                </legend>
+                <div class="ui-fieldset-content" [ngClass]="arrCollapse[0] ? 'show' : 'hide' ">
+                    <div style="display: flex">
+                        <table width="100%" class="ui-panelgrid table-4-col">
+                        <tr>
+                            <td><label>Mã kháng cáo :</label></td>
+                            <td>
+                                <input nz-input disabled [(ngModel)]="centapped.appecode" />
+                            </td>
+                            <td><label>Tên Viện kiểm sát :</label></td>
+                            <td>
+                                <input nz-input disabled [(ngModel)]="centapped.asppname" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>Ngày kháng cáo:</label></td>
+                            <td>
+                                <nz-date-picker disabled
+                                    title="Ngày kháng cáo" [(ngModel)]="centapped.aindate" nzPlaceHolder="dd/MM/yyyy"
+                                    nzFormat="dd/MM/yyyy">
+                                </nz-date-picker>
+                            </td>
+                            <td><label>Người kháng cáo :</label></td>
+                            <td>
+                                <input nz-input disabled [(ngModel)]="centapped.accuname" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>Tên loại kháng cáo :</label></td>
+                            <td colspan="3">
+                                <textarea nz-input rows="2" nz-input disabled [(ngModel)]="centapped.appealname"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>Nội dung kháng cáo :</label></td>
+                            <td colspan="3">
+                                <textarea nz-input rows="2" disabled [(ngModel)]="centapped.acontent" ></textarea>
+                            </td>
+                        </tr>
+                        </table>
+                    </div> 
+                </div>
+            </fieldset>
+        </ng-container>
+        <ng-contaier *ngIf="centapped.checka === '0'">
+            <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+                <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse(0)">
+                    <i nz-icon [nzType]="arrCollapse[0] ? 'minus' : 'plus'"></i>Thông tin {{ toLabelName() }}
+                </legend>
+                <div class="ui-fieldset-content" [ngClass]="arrCollapse[0] ? 'show' : 'hide' ">
+                    <div style="display: flex">
+                        <table width="100%" class="ui-panelgrid table-4-col">
+                        <tr>
+                            <td><label>Mã {{ toLabelName() }} :</label></td>
+                            <td>
+                                <input nz-input disabled [(ngModel)]="centapped.appecode" />
+                            </td>
+                            <td><label>Tên Viện kiểm sát :</label></td>
+                            <td>
+                                <input nz-input disabled [(ngModel)]="centapped.asppname" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>{{ toLabelName(centapped.userfor) }}</label></td>
+                            <td>
+                                <input nz-input disabled [(ngModel)]="centapped.asetnum" />
+                            </td>
+                            <td><label>Ngày {{ toLabelName() }} :</label></td>
+                            <td>
+                                <nz-date-picker disabled
+                                    title="Ngày ra bản án" [(ngModel)]="centapped.aindate" nzPlaceHolder="dd/MM/yyyy"
+                                    nzFormat="dd/MM/yyyy">
+                                </nz-date-picker>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>Đơn vị {{ toLabelName() }} :</label></td>
+                            <td>
+                                <input nz-input disabled [(ngModel)]="centapped.sppspc" />
+                            </td>
+                            <td><label>Giai đoạn {{ toLabelName() }} :</label></td>
+                            <td>
+                                <input nz-input disabled [(ngModel)]="centapped.gd_tt" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>Tên loại {{ toLabelName() }} :</label></td>
+                            <td colspan="3">
+                                <textarea nz-input rows="2" nz-input disabled [(ngModel)]="centapped.appealname"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>Nội dung {{ toLabelName() }} :</label></td>
+                            <td>
+                                <input nz-input disabled [(ngModel)]="centapped.acontent" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>Kết quả :</label></td>
+                            <td colspan="3">
+                                <input nz-input disabled [(ngModel)]="centapped.resultname" />
+                            </td>
+                        </tr>
+                        </table>
+                    </div> 
+                </div>
+            </fieldset>
+        </ng-contaier>
+        <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+            <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse(1)">
+                <i nz-icon [nzType]="arrCollapse[1] ? 'minus' : 'plus'"></i>Thông tin Quyết định bị kháng cáo/{{ toLabelName() }}
+            </legend>
+            <div class="ui-fieldset-content" [ngClass]="arrCollapse[1] ? 'show' : 'hide' ">
+                <div style="display: flex">
+                    <table width="100%" class="ui-panelgrid table-4-col">
+                    <tr>
+                        <td><label>Mã quyết định :</label></td>
+                        <td>
+                            <input nz-input disabled [(ngModel)]="decidata.decicode" />
+                        </td>
+                        <td><label>Tên quyết định :</label></td>
+                        <td>
+                            <input nz-input disabled [(ngModel)]="decidata.deciname" />
+                        </td>
+                    </tr>
+                    <ng-container *ngIf="decidata.reasonid">
+                        <tr>
+                            <td><label>Lý do :</label></td>
+                            <td>
+                                <input nz-input disabled [(ngModel)]="decidata.reasonname" />
+                            </td>
+                        </tr>
+                    </ng-container>
+                    <tr>
+                        <td><label>Đơn vị ra QĐ :</label></td>
+                        <td>
+                            <input nz-input disabled [(ngModel)]="decidata.sid_txt" />
+                        </td>
+                        <td><label>Quyết định số :</label></td>
+                        <td>
+                            <input nz-input disabled [(ngModel)]="decidata.setnum" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label>Ngày quyết định :</label></td>
+                        <td>
+                            <nz-date-picker disabled
+                                    title="Ngày hiệu lực" [(ngModel)]="decidata.indate" nzPlaceHolder="dd/MM/yyyy"
+                                    nzFormat="dd/MM/yyyy">
+                            </nz-date-picker>
+                        </td>
+                        <td><label>Thời hạn/Hiệu lực từ ngày :</label></td>
+                        <td>
+                            <nz-date-picker disabled
+                                    title="Ngày hiệu lực" [(ngModel)]="decidata.fromdate" nzPlaceHolder="dd/MM/yyyy"
+                                    nzFormat="dd/MM/yyyy">
+                            </nz-date-picker>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label>Thời hạn theo luật định :</label></td>
+                        <td>
+                            <input nz-input disabled [(ngModel)]="decidata.settime_txt" />
+                        </td>
+                        <td><label>Thời hạn thực tế :</label></td>
+                        <td>
+                            <input nz-input disabled [(ngModel)]="decidata.esettime_txt" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label>Ngày kết thúc :</label></td>
+                        <td>
+                            <nz-date-picker disabled
+                                    title="Ngày hiệu lực" [(ngModel)]="decidata.finishdate" nzPlaceHolder="dd/MM/yyyy"
+                                    nzFormat="dd/MM/yyyy">
+                            </nz-date-picker>
+                        </td>
+                        <td><label>Thời hạn/Hiệu lực đến ngày :</label></td>
+                        <td>
+                            <nz-date-picker disabled
+                                    title="Ngày hiệu lực" [(ngModel)]="decidata.todate" nzPlaceHolder="dd/MM/yyyy"
+                                    nzFormat="dd/MM/yyyy">
+                            </nz-date-picker>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label>Người ký :</label></td>
+                        <td>
+                            <input nz-input disabled [(ngModel)]="decidata.signname" />
+                        </td>
+                        <td><label>Chức vụ :</label></td>
+                        <td>
+                            <input nz-input disabled [(ngModel)]="decidata.signoffice" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label>Ghi chú :</label></td>
+                        <td colspan="3">
+                            <input nz-input disabled [(ngModel)]="decidata.content" />
+                        </td>
+                    </tr>
+                    </table>
+                </div> 
+            </div>
+        </fieldset>
+    </ng-container>
+</ng-container>
+<!-- <nz-tabset nzType="card" nzSize="small">
+    <nz-tab nzTitle="Bản án bị kháng cáo/kháng nghị" [nzForceRender]="true">
+        <nz-table style="width:100%" #basicTable [nzData]="lstCentences" nzSize="small" [nzFrontPagination]="false">
+            <thead>
+                <tr>
+                    <th class="text-nowrap center">Mã bản án</th>
+                    <th class="text-nowrap center">Bản án số</th>
+                    <th class="text-nowrap center">Ngày ra bản án</th>
+                    <th class="text-nowrap center">Người KC/đơn vị KN</th>
+                    <th class="text-nowrap center">Cấp</th>
+                    <th class="text-nowrap center">KC/KN</th>
+                    <th class="text-nowrap center">Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of basicTable.data;let i = index;">
+                    <td class="text-nowrap center">{{ data.CENTCODE }}</td>
+                    <td class="text-nowrap center">{{ data.SETNUM }}</td>
+                    <td class="text-nowrap center">{{ data.INDATE | dateFormat }}</td>
+                    <td class="text-nowrap center">{{ data.ACCUNAME }}</td>
+                    <td class="text-nowrap center">{{ toUseforName(data.USERFOR) }}</td>
+                    <td class="text-nowrap center">{{ data.CHECKA ? 'Kháng cáo' : 'Kháng nghị' }}</td>
+                    <td class="text-nowrap center"><a (click)="openDetails(data)">Chi tiết</a></td>
+                </tr>
+            </tbody>
+        </nz-table>
+        <ng-container *ngIf="isVisibleApped">
+            <ng-container *ngIf="centapped.checka">
+                <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+                    <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse(0)">
+                        <i nz-icon [nzType]="arrCollapse[0] ? 'minus' : 'plus'"></i>Thông tin Kháng cáo
+                    </legend>
+                    <div class="ui-fieldset-content" [ngClass]="arrCollapse[0] ? 'show' : 'hide' ">
+                        <div style="display: flex">
+                            <table width="100%" class="ui-panelgrid table-4-col">
+                            <tr>
+                                <td><label>Mã kháng cáo :</label></td>
+                                <td>
+                                    <input nz-input disabled [(ngModel)]="centapped.appecode" />
+                                </td>
+                                <td><label>Tên Viện kiểm sát :</label></td>
+                                <td>
+                                    <input nz-input disabled [(ngModel)]="centapped.asppname" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label>Ngày kháng cáo:</label></td>
+                                <td>
+                                    <nz-date-picker disabled
+                                        title="Ngày ra bản án" [(ngModel)]="centapped.centcode" nzPlaceHolder="dd/MM/yyyy"
+                                        nzFormat="dd/MM/yyyy">
+                                    </nz-date-picker>
+                                </td>
+                                <td><label>Người kháng cáo :</label></td>
+                                <td>
+                                    <input nz-input disabled [(ngModel)]="centapped.accuname" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label>Tên loại kháng cáo :</label></td>
+                                <td>
+                                    <input nz-input disabled [(ngModel)]="centapped.appealname" /> 
+                                </td>
+                                <td><label>Nội dung kháng cáo :</label></td>
+                                <td>
+                                    <input nz-input disabled [(ngModel)]="centapped.acontent" />
+                                </td>
+                            </tr>
+                            </table>
+                        </div> 
+                    </div>
+                </fieldset>
+            </ng-container>
+            <ng-contaier *ngIf="!centapped.checka">
+                <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+                    <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse(0)">
+                        <i nz-icon [nzType]="arrCollapse[0] ? 'minus' : 'plus'"></i>Thông tin Kháng nghị
+                    </legend>
+                    <div class="ui-fieldset-content" [ngClass]="arrCollapse[0] ? 'show' : 'hide' ">
+                        <div style="display: flex">
+                            <table width="100%" class="ui-panelgrid table-4-col">
+                            <tr>
+                                <td><label>Mã kháng nghị :</label></td>
+                                <td>
+                                    <input nz-input disabled [(ngModel)]="centapped.appecode" />
+                                </td>
+                                <td><label>Tên Viện kiểm sát :</label></td>
+                                <td>
+                                    <input nz-input disabled [(ngModel)]="centapped.asppname" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label>Kháng nghị số:</label></td>
+                                <td>
+                                    <input nz-input disabled [(ngModel)]="centapped.asetnum" />
+                                </td>
+                                <td><label>Ngày kháng nghị :</label></td>
+                                <td>
+                                    <nz-date-picker disabled
+                                        title="Ngày ra bản án" [(ngModel)]="centapped.aindate" nzPlaceHolder="dd/MM/yyyy"
+                                        nzFormat="dd/MM/yyyy">
+                                    </nz-date-picker>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label>Đơn vị kháng nghị :</label></td>
+                                <td>
+                                    <input nz-input disabled [(ngModel)]="centapped.sppspc" />
+                                </td>
+                                <td><label>Giai đoạn kháng nghị :</label></td>
+                                <td>
+                                    <input nz-input disabled [(ngModel)]="centapped.gd_tt" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label>Tên loại kháng nghị :</label></td>
+                                <td>
+                                    <input nz-input disabled [(ngModel)]="centapped.appealname" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label>Nội dung kháng nghị :</label></td>
+                                <td>
+                                    <input nz-input disabled [(ngModel)]="centapped.acontent" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label>Kết quả :</label></td>
+                                <td>
+                                    <input nz-input disabled [(ngModel)]="centapped.resultname" />
+                                </td>
+                            </tr>
+                            </table>
+                        </div> 
+                    </div>
+                </fieldset>
+            </ng-contaier>
+            <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+                <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse(1)">
+                    <i nz-icon [nzType]="arrCollapse[1] ? 'minus' : 'plus'"></i>Thông tin Bản án bị kháng cáo/kháng nghị
+                </legend>
+                <div class="ui-fieldset-content" [ngClass]="arrCollapse[1] ? 'show' : 'hide' ">
+                    <div style="display: flex">
+                        <table width="100%" class="ui-panelgrid table-4-col">
+                        <tr>
+                            <td><label>Mã bản án :</label></td>
+                            <td>
+                                <input nz-input disabled [(ngModel)]="centence.centcode" />
+                            </td>
+                            <td><label>Bản án số :</label></td>
+                            <td>
+                                <input nz-input disabled [(ngModel)]="centence.setnum" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>Ngày ra bản án :</label></td>
+                            <td>
+                                <nz-date-picker disabled
+                                        title="Ngày ra bản án" [(ngModel)]="centence.indate" nzPlaceHolder="dd/MM/yyyy"
+                                        nzFormat="dd/MM/yyyy">
+                                </nz-date-picker>
+                            </td>
+                            <td><label>Ngày hiệu lực :</label></td>
+                            <td>
+                                <nz-date-picker disabled
+                                        title="Ngày hiệu lực" [(ngModel)]="centence.actdate" nzPlaceHolder="dd/MM/yyyy"
+                                        nzFormat="dd/MM/yyyy">
+                                </nz-date-picker>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>Kết luận Tòa án :</label></td>
+                            <td>
+                                <input nz-input disabled [(ngModel)]="centence.concname" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>Nội dung :</label></td>
+                            <td>
+                                <input nz-input disabled [(ngModel)]="centence.content" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>Người ký :</label></td>
+                            <td>
+                                <input nz-input disabled [(ngModel)]="centence.signname" />
+                            </td>
+                            <td><label>Người ký :</label></td>
+                            <td>
+                                <input nz-input disabled [(ngModel)]="centence.signoffice" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3"><label>Ý kiến của VKS :</label></td>
+                            <td>
+                                <input nz-input disabled [(ngModel)]="centence.remark" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3"><label>Xét xử lưu động :</label></td>
+                            <td>
+                                <input nz-input disabled [(ngModel)]="centence.movement" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3"><label>Số bị cáo Tòa xử khác với mức đề nghị của Viện kiểm sát :</label></td>
+                            <td>
+                                <input nz-input disabled [(ngModel)]="centence.spcdiffspp" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3"><label>Số bị cáo có báo cáo đề nghị GĐT, TT :</label></td>
+                            <td>
+                                <input nz-input disabled [(ngModel)]="centence.sppnext" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3"><label>Số bị cáo Viện kiểm sát rút kháng nghị :</label></td>
+                            <td>
+                                <input nz-input disabled [(ngModel)]="centence.sppback" />
+                            </td>
+                        </tr>
+                        </table>
+                    </div> 
+                </div>
+            </fieldset>
+            <nz-table #basicTable [nzData]="lstAccu" nzSize="small" nzShowSizeChanger nzShowPagination="false" [nzFrontPagination] = "false">
+                <thead>
+                    <tr>
+                        <th class="text-nowrap center" width="15%">Mã bị can</th>
+                        <th class="text-nowrap center" width="30%">Họ và tên</th>
+                        <th class="text-nowrap center" width="20%">Điều luật, hình phạt, chỉ tiêu</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of basicTable.data;let i = index;" ngClass="s-{{data.selected}}">
+                        <td class="text-nowrap center"></td>
+                        <td class="text-nowrap"></td>
+                        <td class="text-nowrap center">
+                            <a (click)="openPopup(i)">Xem chi tiết</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </ng-container>
+    </nz-tab>
+    <nz-tab nzTitle="Quyết định bị kháng cáo/kháng nghị">
+        <h1>Hello</h1>
+    </nz-tab>
+</nz-tabset> -->
+<div class="div-btn-right btn-m-10" style="margin: 10px 0;border: solid 1px #bed6f8;float: none;overflow: hidden">
+    <button style="float: right;" nz-button (click)="handleCancel()">Hủy bỏ</button>
+</div>
+<div *nzModalFooter></div>
+</nz-modal>
+<app-d-cent-cenlaw-g1 (closeModal)="closePopupCenlaw()" [isVisible]="isVisibleCenLaw" [lstAccu]="lstAccu" [accuCode]="accuCode" [userfor]="userforOld" [centence]="centence" [register] = "registerOld" [isVisibleDisable]="isVisibleDisableCenLaw"></app-d-cent-cenlaw-g1>

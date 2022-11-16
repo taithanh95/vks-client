@@ -1,0 +1,105 @@
+<div>
+    <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+        <div class="ui-fieldset-content ant-advanced-search-form">
+            <table class="ui-panelgrid w-70">
+                <tr>
+                    <td>
+                        <label>Mã vụ án</label>
+                    </td>
+                    <td>
+                        <input disabled [(ngModel)]="data.casecode" nz-input placeholder="Mã vụ án">
+                    </td>
+                    <td>
+                        <label>Tên vụ án</label>
+                    </td>
+                    <td>
+                        <input disabled nz-input placeholder="Tên vụ án" [(ngModel)]="data.casename">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Giai đoạn <span class="required">*</span></label>
+                    </td>
+                    <td>
+                        <nz-select nzShowSearch title="Giới tính" [required]="isSubmited" nzPlaceHolder="---Vui lòng chọn---"
+                            style="width:100%" [(ngModel)]="data.userfor" (ngModelChange)="resetTransfer()">
+                            <nz-option [nzValue]="'G1'" nzLabel="Điều tra"></nz-option>
+                            <nz-option [nzValue]="'G2'" nzLabel="Truy tố"></nz-option>
+                            <nz-option [nzValue]="'G3'" nzLabel="Sơ thẩm"></nz-option>
+                            <nz-option [nzValue]="'G4'" nzLabel="Phúc thẩm"></nz-option>
+                            <nz-option [nzValue]="'G5'" nzLabel="Giám đốc thẩm/Tái thẩm"></nz-option>
+                        </nz-select>
+                    </td>
+                    <td>
+                        <label>Trường hợp giao nhận <span class="required">*</span></label>
+                    </td>
+                    <td>
+                        <nz-select nzShowSearch title="Giới tính" [required]="isSubmited" nzPlaceHolder="---Vui lòng chọn---"
+                            style="width:100%" [(ngModel)]="data.transid" (ngModelChange)="resetSppid()">
+                            <nz-option *ngFor="let option of lstTransfer" [nzValue]="option.TRANSID"
+                                nzLabel="{{option.TRANSNAME}}"></nz-option>
+                        </nz-select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Tên VKS giao</label>
+                    </td>
+                    <td>
+                        <input disabled [(ngModel)]="data.sppnamef" nz-input placeholder="Tên VKS giao">
+                    </td>
+                    <td>
+                        <label>Tên VKS nhận <span class="required">*</span> </label>
+                    </td>
+                    <ng-container *ngIf="data.transid">
+                    <td>
+                        <input [(ngModel)]="atxSpp" nz-input placeholder="Tên VKS nhận" [required]="isSubmited"
+                            (input)="onInputSppName($event)" [nzAutocomplete]="autosppname" (blur)="blurSppName()">
+                        <nz-autocomplete #autosppname>
+                            <nz-auto-option *ngFor="let option of lstSppid" nzLabel="{{option.SPPID}} - {{option.NAME}}" [nzValue]="option"
+                            title="{{option.NAME}}">
+                                {{option.SPPID}} - {{option.NAME}}
+                            </nz-auto-option>
+                        </nz-autocomplete>
+                    </td>
+                    </ng-container>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Ngày giao <span class="required">*</span></label>
+                    </td>
+                    <td>
+                        <nz-date-picker style="width: 100%" [(ngModel)]="data.transdate" [required]="isSubmited"
+                            nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy" (input)="changeValueDate($event)"
+                            (keypress)="validateOnlyNumbers($event)">
+                        </nz-date-picker>
+                    </td>
+                    <td>
+                        <label>Người giao <span class="required">*</span></label>
+                    </td>
+                    <td>
+                        <input style="text-transform:capitalize" [required]="isSubmited" nz-input [(ngModel)]="data.sender" placeholder="Người giao">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Ghi chú</label>
+                    </td>
+                    <td colspan="3">
+                        <textarea nz-input rows="3" [(ngModel)]="data.remark"></textarea>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </fieldset>
+</div>
+<div nz-row class="ui-fieldset-content ant-advanced-search-form">
+    <div nz-col [nzSpan]="24" class="search-area">
+        <button nz-button [nzType]="'primary'" (click)="handleOk()">
+            <span class="fa fa-fw fa-save"></span>Ghi lại
+        </button>
+        <button nz-button [nzType]="'primary'" (click)="handleCancel()">
+            <span class="fa fa-fw fa-arrow-left"></span>quay lại
+        </button>
+    </div>
+</div>

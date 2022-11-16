@@ -1,0 +1,10 @@
+::ng-deep {
+  .ant-input, .ant-select-selection--single, .ant-input-number, .ant-select-selector, .ant-picker {
+    max-width: 100% !important;
+  }
+}
+
+.text-link{
+  color:blue;
+  text-decoration-line: underline;
+}

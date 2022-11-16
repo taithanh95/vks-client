@@ -1,0 +1,120 @@
+<fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+  <legend (click)="toggleCollapse()" class="ui-fieldset-legend ui-corner-all ui-state-default">
+    <i [nzType]="collapse ? 'minus' : 'plus'" nz-icon></i> Hành vi vi phạm
+  </legend>
+  <div [ngClass]="collapse ? 'show' : 'hide' " class="ui-fieldset-content p-2">
+    <nz-page-header class="p-0">
+      <nz-page-header-extra>
+        <button [disabled]="modalType === 'details'" (click)="onOpenModal()" nz-button nzType="primary"><i class="fa fa-fw fa-plus"></i> Thêm
+          mới
+        </button>
+      </nz-page-header-extra>
+    </nz-page-header>
+    <nz-table #basicTable nzSize="small"
+              [nzData]="listOfData"
+              [nzLoading]="loading"
+              [nzNoResult]="noResultTpl">
+      <thead>
+      <tr>
+        <th nzWidth="10%">Loại vi phạm</th>
+        <th nzWidth="10%">Ngày vi phạm</th>
+        <th nzWidth="10%">Nội dung vi phạm</th>
+        <th nzWidth="10%">Hình thức xử lý</th>
+        <th nzWidth="10%">Thao tác</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of basicTable.data; index as i">
+        <td class="text-center">{{ (data.typeOfViolations === 1) ? 'Nghĩa vụ' : 'Kỷ luật' }}</td>
+        <td class="text-center">{{data.dateOfViolation | dateFormat}}</td>
+        <td class="text-left" nzEllipsis nz-tooltip
+            [nzTooltipTitle]="data.contentViolations">{{data.contentViolations}}</td>
+        <td class="text-center">{{data.processing}}</td>
+        <td class="text-center">
+          <button [disabled]="modalType === 'details'" (click)="onOpenModal(data)" nz-tooltip nzTooltipTitle="Sửa" class="btn-qla">
+            <span class="fa fa-fw fa-edit"></span></button>
+          <button (click)="onOpenModal(data, 'details')" nz-tooltip nzTooltipTitle="Xem" class="btn-qla">
+            <span class="fa fa-fw fa-eye"></span></button>
+          <button [disabled]="modalType === 'details'" nz-tooltip nzTooltipTitle="Xóa" class="btn-qla"
+                  nz-popconfirm
+                  nzPopconfirmTitle="Bạn có chắc muốn xóa bản ghi này không?"
+                  nzPopconfirmPlacement="top"
+                  nzCancelText="Hủy"
+                  nzOkText="Đồng ý"
+                  (nzOnConfirm)="deleteRow(data.index)">
+            <span class="fa fa-fw fa-times"></span>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</fieldset>
+<ng-template #noResultTpl>
+  <nz-empty [nzNotFoundContent]="contentTpl" nzNotFoundImage="./assets/image/empty.svg">
+    <ng-template #contentTpl>
+      <p>Không có dữ liệu</p>
+    </ng-template>
+  </nz-empty>
+</ng-template>
+<nz-modal nzWidth="768px" [(nzVisible)]="isVisible" nzTitle="Thêm mới hành vi vi phạm"
+          nzClosable="false" [nzTitle]="title" [nzContent]="modalContent" [nzFooter]="modalFooter" nzMaskClosable="false">
+  <ng-template #title>
+    Hành vi vi phạm
+    <div class="pull-right icon-close">
+      <em (click)="onCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+  <ng-template #modalContent>
+    <table class="ui-panelgrid table-4-col w-100">
+      <tr>
+        <td>
+          <label for="typeOfViolations">Loại vi phạm</label>
+        </td>
+        <td>
+          <nz-select name="typeOfViolations" id="typeOfViolations" nzShowSearch class="w-100" nzPlaceHolder="Loại vi phạm"
+                     [(ngModel)]="sppViolantion.typeOfViolations" [nzDisabled]="fieldsetDisabled">
+            <nz-option [nzValue]="1" nzLabel="Nghĩa vụ"></nz-option>
+            <nz-option [nzValue]="2" nzLabel="Kỷ luật"></nz-option>
+          </nz-select>
+        </td>
+        <td>
+          <label>Ngày vi phạm <span class="required">*</span></label>
+        </td>
+        <td>
+          <nz-date-picker [(ngModel)]="sppViolantion.dateOfViolation" name="dateOfViolation" id="dateOfViolation"
+                          class="w-100"
+                          [nzMode]="'date'" nzFormat="dd/MM/yyyy"
+                          nzPlaceHolder="dd/MM/yyyy"
+                          [nzDisabledDate]="disabledInDate"
+                          (input)="sppViolantion.dateOfViolation=onDateValueChange($event)"
+                          (keypress)="validateOnlyNumbers($event)"
+                          [nzDisabled]="fieldsetDisabled"
+          ></nz-date-picker>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>Hình thức xử lý</label>
+        </td>
+        <td colspan="3">
+          <input nz-input [(ngModel)]="sppViolantion.processing" name="processing" id="processing" [disabled]="fieldsetDisabled">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>Nội dung vi phạm</label>
+        </td>
+        <td colspan="3">
+          <textarea nz-input rows="3" [(ngModel)]="sppViolantion.contentViolations" name="contentViolations"
+                    id="contentViolations" [disabled]="fieldsetDisabled"></textarea>
+        </td>
+      </tr>
+    </table>
+  </ng-template>
+  <ng-template #modalFooter>
+    <button nz-button (click)="onSubmit()" [disabled]="fieldsetDisabled" [nzLoading]="loading">{{'save' | translate }}</button>
+    <button nz-button (click)="onCancel()">{{'cancel' | translate }}</button>
+  </ng-template>
+</nz-modal>
+

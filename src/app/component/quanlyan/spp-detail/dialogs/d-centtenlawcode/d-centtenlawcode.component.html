@@ -1,0 +1,140 @@
+<nz-modal class="ant-form" nzWidth="1000px" [(nzVisible)]="isVisible" nzTitle="Thêm mới điều luật khởi tố"
+    nzClosable="false" [nzTitle]="title" nzMaskClosable="false">
+    <ng-template #title>
+        Tìm kiếm Điều luật
+        <div class="pull-right icon-close">
+            <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+        </div>
+    </ng-template>
+    <ng-container>
+        <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+            <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse()">
+                <i nz-icon [nzType]="isCollapse ? 'minus' : 'plus'"></i>Thông tin tìm kiếm
+            </legend>
+            <div class="ui-fieldset-content" [ngClass]="isCollapse ? 'show' : 'hide' ">
+                <div style="display: flex">
+                    <table width="100%" class="ui-panelgrid table-4-col">
+                        <tr>
+                            <td><label>
+                                    Tên bộ luật
+                                </label></td>
+                            <td>
+                                <nz-select (ngModelChange)="lawCodeChange($event)" nzShowSearch style="width:100%"
+                                    nzPlaceHolder="" [(ngModel)]="law.codeid">
+                                    <nz-option [nzValue]="''" nzLabel="Tất cả"></nz-option>
+                                    <nz-option *ngFor="let option of lstCode" [nzValue]="option.CODEID"
+                                        [nzLabel]="option.CODENAME">
+                                    </nz-option>
+                                </nz-select>
+                            </td>
+                            <td>
+                                <label>
+                                    Chương luật
+                                </label>
+                            </td>
+                            <td>
+                                <nz-select nzShowSearch nzPlaceHolder="" [(ngModel)]="law.groupid">
+                                    <nz-option [nzValue]="''" nzLabel="Tất cả"></nz-option>
+                                    <nz-option *ngFor="let option of lstGroup" [nzValue]="option.GROUPID"
+                                        [nzLabel]="option.GROUPNAME"></nz-option>
+                                </nz-select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Điều</label>
+                            </td>
+                            <td>
+                                <input [(ngModel)]="law.lawid" nz-input placeholder="Điều" />
+                            </td>
+                            <td>
+                                <label>Khoản</label>
+                            </td>
+                            <td>
+                                <input [(ngModel)]="law.item" nz-input placeholder="Khoản" />
+                            </td>
+                        <tr>
+                            <td>
+                                <label>Điểm</label>
+                            </td>
+                            <td>
+                                <input [(ngModel)]="law.point" nz-input placeholder="Điểm" />
+                            </td>
+                            <td>
+                                <label>Tội danh</label>
+                            </td>
+                            <td>
+                                <input [(ngModel)]="law.lawname" nz-input placeholder="Điểm" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Ngày ban hành từ ngày</label>
+                            </td>
+                            <td>
+                                <nz-date-picker title="Ngày ban hành từ ngày" [(ngModel)]="law.fromdate"
+                                    nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"
+                                    (keypress)="validateOnlyNumbers($event)" (input)="onValueDate($event,'fromdate')">
+                                </nz-date-picker>
+                            </td>
+                            <td>
+                                <label>đến ngày</label>
+                            </td>
+                            <td>
+                                <nz-date-picker title="đến ngày" [(ngModel)]="law.todate" nzPlaceHolder="dd/MM/yyyy"
+                                    nzFormat="dd/MM/yyyy" (keypress)="validateOnlyNumbers($event)"
+                                    (input)="onValueDate($event,'todate')">
+                                </nz-date-picker>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </fieldset>
+        <div class="div-btn-right btn-m-10" style="margin: 10px 0;border: solid 1px #bed6f8;float: none;overflow: hidden">
+            <button style="float: right;" nz-button (click)="handleCancel()">Hủy bỏ</button>
+            <button [disabled]="!isSelected" style="float: right;" nz-button (click)="handleOk()" nzType="primary">Ghi lại</button>
+            <button style="float: right;" nz-button (click)="handleSearch()" nzType="primary">Tìm kiếm</button>
+        </div>
+        <ng-container *ngIf="isLstLaw">
+            <nz-table style="width: 100%" [nzTotal]="total" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" #basicTable
+            [nzData]="lstLaw" [nzFrontPagination]="false" nzSize="small" [nzShowTotal]="rangeTemplate" [nzScroll]="{y: '400px' }"
+            (nzQueryParams)="onQueryParamsChange($event)" [nzLoading]="loading" nzTableLayout="fixed">
+            <thead>
+                <tr>
+                    <th class="text-nowrap center" nzWidth="4%">STT</th>
+                    <th class="text-nowrap center" nzWidth="4%">Điều</th>
+                    <th class="text-nowrap center" nzWidth="5%">Khoản</th>
+                    <th class="text-nowrap center" nzWidth="5%">Điểm</th>
+                    <th class="text-nowrap center" nzWidth="30%">Tội danh</th>
+                    <th class="text-nowrap center" nzWidth="10%">Ngày ban hành</th>
+                    <th class="text-nowrap center" nzWidth="10%">Tên bộ luật</th>
+                    <th class="text-nowrap center" nzWidth="14%">Mức độ nghiêm trọng</th>
+                    <th class="text-nowrap center" nzWidth="10%">Người tạo</th>
+                    <th class="text-nowrap center" nzWidth="8%">Ngày tạo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of basicTable.data;let i = index;" (click)="onRowSelect(data)"
+                ngClass="s-{{data.selected}}">
+                    <td style="text-align: center" class="text-nowrap text-break">{{getRowIndex(i, basicTable.nzPageIndex,
+                        basicTable.nzPageSize)}}</td>
+                    <td class="text-break">{{ f(data,'lawid') }}</td>
+                    <td class="text-break">{{ f(data,'item') }}</td>
+                    <td class="text-break">{{ f(data,'point1') }}</td>
+                    <td class="text-break">{{ f(data,'lawname') }}</td>
+                    <td class="text-break">{{ f(data,'lawdate') | dateFormat}}</td>
+                    <td class="text-break">{{ f(data,'codename') }}</td>
+                    <td class="text-break">{{ lawType(data.LAWTYPE) }}</td>
+                    <td class="text-break">{{ f(data,'crtuser') }}</td>
+                    <td class="text-break">{{ f(data,'crtdate') | dateFormat }}</td>
+                </tr>
+            </tbody>
+        </nz-table>
+        </ng-container>
+    </ng-container>
+    <div *nzModalFooter></div>
+</nz-modal>
+<ng-template #rangeTemplate let-range="range" let-total>
+    {{ range[0] }}-{{ range[1] }} {{'of' | translate }} {{ total }} {{'items' | translate }}
+</ng-template>

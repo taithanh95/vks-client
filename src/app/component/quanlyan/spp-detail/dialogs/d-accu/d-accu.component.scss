@@ -1,0 +1,36 @@
+.input-number{
+  width: 100%;
+}
+.btn-right button{
+  float: right;
+  margin-right: 5px;
+}
+.btn-right{
+  padding: 5px;
+}
+.table-header{
+  text-align: center;
+  background: #ebf3ff;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 5px;
+}
+::ng-deep .nz-disable-td.ant-table-cell{
+  display: none;
+}
+.error{
+  border:1px solid #cd0a0a !important;
+}
+.add-item {
+  flex: 0 0 auto;
+  padding: 2px 5px;
+  display: block;
+}
+.container {
+  display: flex;
+  flex-wrap: nowrap;
+  padding: 2px;
+}
+nz-date-picker {
+  width: 100%;
+}

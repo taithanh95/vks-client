@@ -1,0 +1,180 @@
+<app-case-details [case]="case"></app-case-details>
+
+<fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+  <legend class="ui-fieldset-legend ui-corner-all ui-state-default mb-0" (click)="toggleCollapse()">
+    <i nz-icon [nzType]="collapse ? 'minus' : 'plus'"></i> Thông tin cấp lệnh/ quyết định
+  </legend>
+  <div class="ui-fieldset-content ant-advanced-search-form p-2" [ngClass]="collapse ? 'show' : 'hide' ">
+    <nz-table #basicTable nzBordered [nzData]="listOfItems" [nzSize]="'small'" [nzNoResult]="noResultTpl">
+      <thead>
+      <tr>
+        <th>Giai đoạn</th>
+        <th>Tên quyết định</th>
+        <th>Số quyết định</th>
+        <th>Ngày cấp số</th>
+        <th nzWidth="150px">Thao tác</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of basicTable.data">
+        <td nzAlign="center">
+          <span [textContent]="data.stageName"></span>
+        </td>
+        <td>{{ data.decisionCode }} - {{ data.decisionName }}</td>
+        <td nzAlign="center">{{ data.decisionNumAuto }}</td>
+        <td nzAlign="center">{{ data.issuesDate }}</td>
+        <td nzAlign="center">
+          <button nz-button nzType="primary" (click)="showPopupView(data)" nz-tooltip nzTooltipTitle="Xem chi tiết">
+            <i class="fa fa-fw fa-eye"></i>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
+  </div>
+  <ng-template #noResultTpl>
+    <nz-empty nzNotFoundImage="./assets/image/empty.svg" [nzNotFoundContent]="contentTpl">
+      <ng-template #contentTpl>
+        <p class="ant-empty-description ng-star-inserted">Không tìm thấy kết quả</p>
+      </ng-template>
+    </nz-empty>
+  </ng-template>
+</fieldset>
+
+<nz-modal nzWidth="768px" [(nzVisible)]="isVisible" nzTitle="Chọn quyết định" [nzTitle]="title" nzClosable="false" nzMaskClosable="false">
+  <ng-template #title>
+    Chọn quyết định
+    <div class="pull-right icon-close">
+      <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+  <div *nzModalContent>
+    <div *ngIf="selectedItem">
+      <div class="row">
+        <div class="col-6">
+          <nz-form-item class="row mb-0">
+            <nz-form-label class="col-lg-4 col-sm-12 text-left">Giai đoạn</nz-form-label>
+            <nz-form-control class="col-lg-8 col-sm-12">
+              <nz-select id="stage" [ngModel]="selectedItem.stage" name="stage" nzDisabled>
+                <nz-option nzValue="G1" nzLabel="Điều tra"></nz-option>
+                <nz-option nzValue="G2" nzLabel="Truy tố"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div class="col-6">
+          <nz-form-item class="row mb-0">
+            <nz-form-label class="col-lg-4 col-sm-12 text-left">Ngày cấp số</nz-form-label>
+            <nz-form-control class="col-lg-8 col-sm-12">
+              <input nz-input type="text" [ngModel]="selectedItem.issuesDate" name="issuesDate" id="issuesDate"
+                     disabled>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <nz-form-item class="row mb-0">
+            <nz-form-label class="col-lg-2 col-sm-12 text-left">Tên quyết định</nz-form-label>
+            <nz-form-control class="col-lg-10 col-sm-12">
+              <nz-select nzShowSearch nzAllowClear nzPlaceHolder="-Chọn tên quyết định-"
+                         [ngModel]="selectedItem.decisionCode" name="decisionCode" id="decisionCode" nzDisabled>
+                <nz-option [nzValue]="selectedItem.decisionCode"
+                           [nzLabel]="selectedItem.decisionCode + ' - ' + selectedItem.decisionName"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="selectedItem.stage == 'G2' && selectedItem.decisionCode == '0201'">
+        <div class="col-12">
+          <nz-form-item class="row">
+            <nz-form-label class="col-lg-2 text-left">Theo thủ tục rút gọn
+            </nz-form-label>
+            <nz-form-control class="col-lg-10 col-sm-12">
+              <label nzDisabled nz-checkbox name="rutgon" [ngModel]="this.tttrutgon"></label>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-6">
+          <nz-form-item class="row mb-0">
+            <nz-form-label class="col-lg-4 col-sm-12 text-left">Số QĐ</nz-form-label>
+            <nz-form-control class="col-lg-8 col-sm-12">
+              <nz-input-number [ngModel]="selectedItem.decisionNumAuto" id="decisionNumAuto" name="decisionNumAuto"
+                               [nzMin]="1" [nzStep]="1" class="w-100" nzDisabled></nz-input-number>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+<!--        <div class="col-6">-->
+<!--          <nz-form-item class="row mb-0">-->
+<!--            <nz-form-label class="col-lg-4 col-sm-12 text-left">Số QĐ thực tế</nz-form-label>-->
+<!--            <nz-form-control class="col-lg-8 col-sm-12">-->
+<!--              <nz-input-number [ngModel]="selectedItem.decisionNum" id="decisionNum" name="decisionNum" [nzMin]="1"-->
+<!--                               [nzStep]="1" class="w-100" nzDisabled></nz-input-number>-->
+<!--            </nz-form-control>-->
+<!--          </nz-form-item>-->
+<!--        </div>-->
+      </div>
+
+      <div class="row">
+        <div class="col-6">
+          <nz-form-item class="row mb-0">
+            <nz-form-label class="col-lg-4 col-sm-12 text-left text-wrap" [ngStyle]="{'line-height': '20px'}">Hiệu lực
+              từ ngày
+            </nz-form-label>
+            <nz-form-control class="col-lg-8 col-sm-12">
+              <input nz-input type="text" [ngModel]="selectedItem.fromDate" name="fromDate" id="fromDate" disabled>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div class="col-6">
+          <nz-form-item class="row mb-0">
+            <nz-form-label class="col-lg-4 col-sm-12 text-left text-wrap" [ngStyle]="{'line-height': '20px'}">Hiệu lực
+              đến ngày
+            </nz-form-label>
+            <nz-form-control class="col-lg-8 col-sm-12">
+              <input nz-input type="text" [ngModel]="selectedItem.toDate" name="toDate" id="toDate" disabled>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <nz-form-item class="row mb-0">
+            <nz-form-label class="col-lg-2 col-sm-12 text-left">Đơn vị ra QĐ</nz-form-label>
+            <nz-form-control class="col-lg-10 col-sm-12">
+              <input type="text" nz-input [value]="sppname ? sppname : (spp.sppId + ' - ' + spp.name)" disabled>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <nz-form-item class="row mb-0">
+            <nz-form-label class="col-lg-2 col-sm-12 text-left">Ghi chú</nz-form-label>
+            <nz-form-control class="col-lg-10 col-sm-12">
+              <nz-textarea-count [nzMaxCharacterCount]="2000">
+                <textarea rows="4" nz-input [ngModel]="selectedItem.note" disabled></textarea>
+              </nz-textarea-count>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.nzModalContent -->
+  <div *nzModalFooter>
+    <button nz-button nzType="default" type="button" (click)="handleCancel()">{{'back' | translate }}</button>
+  </div>
+</nz-modal>
+
+<div nz-row nzJustify="center">
+  <button nz-button nzType="primary" (click)="goBack()"><i class="fas fa-backward"></i> {{'back' | translate }}
+  </button>
+</div>

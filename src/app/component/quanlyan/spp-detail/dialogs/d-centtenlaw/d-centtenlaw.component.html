@@ -1,0 +1,101 @@
+<nz-modal class="ant-form" nzWidth="1000px" [(nzVisible)]="isVisible" nzTitle="Thêm mới"
+    nzClosable="false" [nzTitle]="title" nzMaskClosable="false">
+    <ng-template #title>
+        Điều luật áp dụng cho bản án
+        <div class="pull-right icon-close">
+            <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+        </div>
+    </ng-template>
+    <ng-container>
+        <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+            <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse()">
+                <i nz-icon [nzType]="isCollapse ? 'minus' : 'plus'"></i>Bổ sung thêm điều luật
+            </legend>
+            <div class="ui-fieldset-content" [ngClass]="isCollapse ? 'show' : 'hide' ">
+                <div style="display: flex">
+                    <table width="65%" class="ui-panelgrid">
+                        <tr>
+                            <td style="width: 100px">
+                                <label>Tên bộ luật</label>
+                            </td>
+                            <td>
+                                <nz-select nzShowSearch style="width:100%" nzPlaceHolder="" [(ngModel)]="codeid">
+                                    <nz-option *ngFor="let option of lstCode" [nzValue]="option.CODEID"
+                                        [nzLabel]="option.CODENAME"></nz-option>
+                                </nz-select>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Tội danh</label>
+                            </td>
+                            <td>
+                                <input title="Nhấn phím space hoặc gõ mã hoặc tên để chọn tội danh" placeholder=""
+                                    nz-input [(ngModel)]="lawObj" (input)="onInputAtxLawWithCode($event)"
+                                    [nzAutocomplete]="autolaw3" />
+                                <nz-autocomplete #autolaw3>
+                                    <nz-auto-option *ngFor="let option of atxResultLaws"
+                                        nzLabel="{{toLawOption(option)}}" [nzValue]="option">{{toLawOption(option)}}
+                                    </nz-auto-option>
+                                </nz-autocomplete>
+                            </td>
+                            <td><label>(Bổ sung thêm điều luật)</label></td>
+                        </tr>
+                    </table>
+                    <table width="35%" class="ui-panelgrid">
+                        <tr>
+                            <td class="action div-btn-right-2">
+                                <a target="_blank" [routerLink]="['/report/caseinfo/', centence?.casecode]" href="">
+                                    <button nz-button nzType="primary">
+                                        <span class="fa fa-fw fa-eye"></span>
+                                        Chi tiết vụ án
+                                    </button>
+                                </a>
+                                <!-- <button nz-button (click)="handleOpenPDFModal()"><span class="fa fa-fw fa-eye"></span>Chi tiết vụ án</button> -->
+                                <button *ngIf="!isVisibleDisable" nz-button (click)="openPopupCenlawcode()"><span class="fa fa-fw fa-search"></span>Tìm kiếm điều luật</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="action div-btn-right-2">
+                                <button nz-button (click)="handleCancel()"><span class="fa fa-fw fa-arrow-left"></span>Quay lại</button>
+                                <button *ngIf="!isVisibleDisable" nz-button [disabled]="!isSelected" nz-popconfirm
+                                nzPopconfirmTitle="Bạn có chắc muốn xóa bản ghi này không?"
+                                nzPopconfirmPlacement="top" nzOkText="Có" nzCancelText="Không"
+                                (nzOnConfirm)="confirmDeleteCenLaw()"><span class="fa fa-fw fa-times"></span>Xóa</button>
+                                <button *ngIf="!isVisibleDisable" nz-button (click)="handleOk()"><span class="fa fa-fw fa-plus"></span>Ghi lại điều luật</button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </fieldset>
+        <nz-table #basicTable class="ui-table" [nzData]="lstCentenLaw" nzSize="small" nzShowSizeChanger
+            nzShowPagination="false">
+            <thead>
+                <tr>
+                    <th class="text-nowrap center" width="7%">Điều</th>
+                    <th class="text-nowrap center" width="8%">Khoản</th>
+                    <th class="text-nowrap center" width="8%">Điểm</th>
+                    <th class="text-nowrap center" width="10%">Tên bộ luật</th>
+                    <th class="text-nowrap center" style="max-width: 45% ; min-width: 22%">Tội danh</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of basicTable.data;let i = index;" (click)="onRowSelect(data)"
+                    ngClass="s-{{data.selected}}">
+                    <td class="center">{{ data.LAWID }}</td>
+                    <td class="center">{{ data.ITEM }}</td>
+                    <td class="center">{{ data.POINT }}</td>
+                    <td class="center" title="{{ data.CODENAME }}">{{ data.CODENAME }}</td>
+                    <td class="center" title="{{ data.LAWNAME }}">{{ data.LAWNAME }}</td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </ng-container>
+    <div *nzModalFooter></div>
+</nz-modal>
+<app-d-centtenlawcode (closeModal)="closePopupCenlawcode($event)" [isVisible]="isVisibleCentenlaw" [centence]="centence"></app-d-centtenlawcode>
+
+<!-- 
+<app-d-report-caseinfo [caseCode]="this.centence?.casecode" [isVisible]="isVisibleModal" (closeModal)="handleCancelModal()"></app-d-report-caseinfo> -->

@@ -1,0 +1,207 @@
+<nz-modal *ngIf="deciJudicial" class="ant-form" nzWidth="1000px" [(nzVisible)]="isVisible" nzTitle="Thêm mới"
+          nzClosable="false" [nzTitle]="title" nzMaskClosable="false" [nzLoading]="loading">
+  <ng-template #title>
+    Cập nhật thông tin quyết định thi hành biện pháp tư pháp
+    <div class="pull-right icon-close">
+      <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+  <ng-container>
+    <table width="100%" class="ui-panelgrid table-4-col">
+      <tr>
+        <td><label>
+          Quyết định số
+        </label></td>
+        <td>
+          <input [disabled]="isVisibleDisable" title="Quyết định số" nz-input
+                 [(ngModel)]="deciJudicial.setnum"/>
+        </td>
+        <td><label>
+          Ngày quyết định <span class="required">*</span>
+        </label></td>
+        <td>
+          <nz-date-picker [required]="isSubmited" [disabled]="isVisibleDisable" (ngModelChange)="indateChange($event)" title="Ngày quyết định"
+                          class="ng-pristine ng-valid" style="width: 100%" [(ngModel)]="deciJudicial.indate"
+                          nzPlaceHolder="dd/MM/yyyy"
+                          nzFormat="dd/MM/yyyy" (input)="onValueDate('indate',$event)"
+                          (keypress)="validateOnlyNumbers($event)"></nz-date-picker>
+        </td>
+      </tr>
+      <tr>
+        <td><label>Cơ quan ban hành</label></td>
+        <td>
+          <nz-select [disabled]="isVisibleDisable" title="Cơ quan ban hành"
+                     class="ng-pristine ng-valid" [(ngModel)]="deciJudicial.decisionAgency" nzAllowClear
+                     nzPlaceHolder="Cơ quan ban hành" (ngModelChange)="onChangeEvent()">
+            <nz-option [nzValue]="'SPP'" nzLabel="Viện kiểm sát"></nz-option>
+            <nz-option [nzValue]="'SPC'" nzLabel="Tòa án"></nz-option>
+          </nz-select>
+        </td>
+        <td><label>
+          <ng-container>
+            Đơn vị ban hành
+          </ng-container>
+        </label></td>
+        <td>
+          <ng-container *ngIf="deciJudicial.decisionAgency === 'SPP'">
+            <input [disabled]="isVisibleDisable" placeholder="" nz-input [(ngModel)]="deciJudicial.decisionUnitId"
+                   (input)="onInputSpp($event)"
+                   [nzAutocomplete]="autoSpp"/>
+            <nz-autocomplete #autoSpp>
+              <nz-auto-option *ngFor="let option of lstSpps" [nzLabel]="option.name"
+                              [nzValue]="option">{{ option.sppid }} - {{ option.name }}</nz-auto-option>
+            </nz-autocomplete>
+          </ng-container>
+          <ng-container *ngIf="deciJudicial.decisionAgency === 'SPC'">
+            <input [disabled]="isVisibleDisable" placeholder="" nz-input [(ngModel)]="deciJudicial.decisionUnitId"
+                   (input)="onInputSpc($event)"
+                   [nzAutocomplete]="autoSpc"/>
+            <nz-autocomplete #autoSpc>
+              <nz-auto-option *ngFor="let option of lstSpcs" [nzLabel]="option.NAME"
+                              [nzValue]="option">{{ option.SPCID }} - {{ option.NAME }}</nz-auto-option>
+            </nz-autocomplete>
+          </ng-container>
+        </td>
+      </tr>
+      <tr>
+        <td><label>
+          Thời hạn/Hiệu lực từ ngày <span class="required">*</span>
+        </label></td>
+        <td>
+          <nz-date-picker [disabled]="isVisibleDisable" (ngModelChange)="fromdateChange($event)"
+                          title="Thời hạn/Hiệu lực từ ngày" [required]="isSubmited"
+                          class="ng-pristine ng-valid" style="width: 100%" [(ngModel)]="deciJudicial.fromDate"
+                          nzPlaceHolder="dd/MM/yyyy"
+                          nzFormat="dd/MM/yyyy" (input)="onValueDate('fromDate',$event)"
+                          (keypress)="validateOnlyNumbers($event)"></nz-date-picker>
+        </td>
+        <td><label>
+          Thời hạn/Hiệu lực đến ngày
+        </label></td>
+        <td>
+          <nz-date-picker [disabled]="isVisibleDisable" title="Thời hạn/Hiệu lực đến ngày"
+                          (ngModelChange)="todateChange($event)" style="width: 100%" [(ngModel)]="deciJudicial.toDate"
+                          nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy"
+                          (input)="onValueDate('toDate',$event)"
+                          (keypress)="validateOnlyNumbers($event)"></nz-date-picker>
+        </td>
+      </tr>
+      <tr>
+        <td><label>Biện pháp thi hành</label></td>
+        <td colspan="3">
+          <nz-select [disabled]="isVisibleDisable" title="Biện pháp thi hành"
+                     class="ng-pristine ng-valid" [(ngModel)]="deciJudicial.enforceMeasure"
+                     nzPlaceHolder="Biện pháp thi hành">
+            <nz-option [nzValue]="'1'" nzLabel="Tịch thu tiền vật, trực tiếp liên quan đến tội phạm"></nz-option>
+            <nz-option [nzValue]="'2'" nzLabel="Trả lại tài sản, sửa chữa hoặc bồi thường thiệt hại"></nz-option>
+            <nz-option [nzValue]="'3'" nzLabel="Buộc công khai xin lỗi"></nz-option>
+            <nz-option [nzValue]="'4'" nzLabel="Bắt buộc chữa bệnh"></nz-option>
+            <nz-option [nzValue]="'5'" nzLabel="Giáo dục tại trường giáo dưỡng"></nz-option>
+          </nz-select>
+        </td>
+      </tr>
+      <tr>
+        <td><label>
+          Đơn vị thi hành BPTP
+        </label></td>
+        <td>
+          <input [disabled]="isVisibleDisable" title="Đơn vị thi hành" nz-input
+                 [(ngModel)]="deciJudicial.enforceMeasureUnit"/>
+        </td>
+        <td><label>
+          Ngày thi hành
+        </label></td>
+        <td>
+          <nz-date-picker [disabled]="isVisibleDisable" title="Ngày thi hành"
+                          class="ng-pristine ng-valid" style="width: 100%" [(ngModel)]="deciJudicial.enforceDate"
+                          nzPlaceHolder="dd/MM/yyyy"
+                          nzFormat="dd/MM/yyyy" (input)="onValueDate('enforceDate',$event)"
+                          (keypress)="validateOnlyNumbers($event)"></nz-date-picker>
+        </td>
+      </tr>
+      <tr>
+        <td><label>
+          Số chứng nhận
+        </label></td>
+        <td>
+          <input [disabled]="isVisibleDisable" title="Số chứng nhận" nz-input
+                 [(ngModel)]="deciJudicial.certificationNumber"/>
+        </td>
+        <td><label>
+          Ngày chứng nhận
+        </label></td>
+        <td>
+          <nz-date-picker [disabled]="isVisibleDisable" title="Ngày chứng nhận"
+                          class="ng-pristine ng-valid" style="width: 100%" [(ngModel)]="deciJudicial.certificationDate"
+                          nzPlaceHolder="dd/MM/yyyy"
+                          nzFormat="dd/MM/yyyy" (input)="onValueDate('certificationDate',$event)"
+                          (keypress)="validateOnlyNumbers($event)"></nz-date-picker>
+        </td>
+      </tr>
+      <tr>
+        <td><label>
+          Người ký <span class="required">*</span>
+        </label></td>
+        <td>
+          <input [disabled]="isVisibleDisable" title="Người ký" [required]="isSubmited" class="ng-pristine ng-valid"
+                 placeholder="" nz-input [(ngModel)]="deciJudicial.signer"/>
+        </td>
+        <td><label>
+          Chức vụ <span class="required">*</span>
+        </label></td>
+        <td>
+          <input [disabled]="isVisibleDisable" [required]="isSubmited" class="ng-pristine ng-valid" placeholder=""
+                 nz-input
+                 [(ngModel)]="deciJudicial.signerPosition"/>
+        </td>
+      </tr>
+      <tr>
+        <td><label>
+          Ghi chú
+        </label></td>
+        <td colspan="3">
+          <textarea [disabled]="isVisibleDisable" [(ngModel)]="deciJudicial.note" nz-input rows="3"></textarea>
+        </td>
+      </tr>
+      <tr>
+        <td><label nz-checkbox [(ngModel)]="deciJudicial.isDead" [disabled]="isVisibleDisable">Đã chết</label></td>
+        <td>
+          <nz-date-picker [disabled]="isVisibleDisable || !deciJudicial.isDead" title="Ngày chết"
+                          class="ng-pristine ng-valid" style="width: 100%" [(ngModel)]="deciJudicial.deathDate"
+                          nzPlaceHolder="dd/MM/yyyy"
+                          [nzDisabledDate]="disabledDeathDate"
+                          nzFormat="dd/MM/yyyy" (input)="onValueDate('deathDate',$event)"
+                          (keypress)="validateOnlyNumbers($event)"></nz-date-picker>
+        </td>
+        <td><label nz-checkbox [(ngModel)]="deciJudicial.escaped" [disabled]="isVisibleDisable">Đã trốn</label></td>
+        <td>
+          <nz-date-picker [disabled]="isVisibleDisable || !deciJudicial.escaped" title="Ngày trốn"
+                          class="ng-pristine ng-valid" style="width: 100%" [(ngModel)]="deciJudicial.escapingDate"
+                          nzPlaceHolder="dd/MM/yyyy"
+                          [nzDisabledDate]="disabledEscapingDate"
+                          nzFormat="dd/MM/yyyy" (input)="onValueDate('escapingDate',$event)"
+                          (keypress)="validateOnlyNumbers($event)"></nz-date-picker>
+        </td>
+      </tr>
+      <tr>
+        <td><label *ngIf="deciJudicial.isDead">Nguyên nhân chết</label></td>
+        <td>
+          <nz-select *ngIf="deciJudicial.isDead" [disabled]="isVisibleDisable" title="Nguyên nhân chết"
+                     class="ng-pristine ng-valid" [(ngModel)]="deciJudicial.causeOfDeathId"
+                     nzPlaceHolder="Nguyên nhân chết">
+            <nz-option [nzValue]="1" nzLabel="Chết do bệnh lý"></nz-option>
+            <nz-option [nzValue]="2" nzLabel="Chết do tự sát"></nz-option>
+            <nz-option [nzValue]="3" nzLabel="Chết do nguyên nhân khác"></nz-option>
+          </nz-select>
+        </td>
+      </tr>
+    </table>
+  </ng-container>
+
+  <div *nzModalFooter>
+    <button *ngIf="!isVisibleDisable" nz-button nzType="primary" (click)="handleOk()"
+            [nzLoading]="loading">{{'save' | translate }}</button>
+    <button *ngIf="!isVisibleDisable" nz-button (click)="handleReset()">{{'add_user' | translate }}</button>
+    <button nz-button (click)="handleCancel()">{{'cancel' | translate }}</button>
+  </div>
+</nz-modal>

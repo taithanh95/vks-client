@@ -1,0 +1,53 @@
+<nz-modal class="ant-form" nzWidth="800px" [(nzVisible)]="isVisible" nzTitle="Chỉ tiêu vụ án"
+          nzClosable="false" [nzTitle]="title" nzMaskClosable="false">
+  <ng-template #title>
+    Chỉ tiêu vụ án
+    <div class="pull-right icon-close">
+      <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+  <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+    <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse()">
+      <i nz-icon [nzType]="isCollapse ? 'minus' : 'plus'"></i>Danh sách điều luật
+    </legend>
+    <div class="ui-fieldset-content" nz-form [ngClass]="isCollapse ? 'hide' : 'show' ">
+      <nz-table [nzData]="lstData" nzSize="small" nzHideOnSinglePage="true"
+                nzShowSizeChanger [nzLoading]="loading">
+        <thead>
+        <tr>
+          <th class="text-nowrap" style="width: 30%">Tội danh</th>
+          <th class="text-nowrap" style="width: 7%">Điều</th>
+          <th class="text-nowrap" style="width: 7%">Khoản</th>
+          <th class="text-nowrap" style="width: 7%">Điểm</th>
+          <th class="text-nowrap" style="width: 13%">Chương luật</th>
+          <th class="text-nowrap" style="width: 13%">Tên bộ luật</th>
+          <th class="text-break center" style="width: 13%">Mức độ nghiêm trọng</th>
+          <th class="text-nowrap" style="width: 10%">Chỉ tiêu</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let data of lstData;let i = index;">
+          <td class="text-break">{{ data.LAWNAME_TXT }}</td>
+          <td class="text-nowrap center">{{ data.LAWID }}</td>
+          <td class="text-nowrap center">{{ data.ITEM }}</td>
+          <td class="text-nowrap center">{{ data.POINT }}</td>
+          <td class="text-nowrap center">{{ data.GROUPNAME }}</td>
+          <td class="text-nowrap center">{{ data.CODENAME }}</td>
+          <td class="text-nowrap center">{{ lawType(data.LAWTYPE) }}</td>
+          <td class="text-nowrap center">
+            <a (click)="showCaseStatisDetail(data)">Chỉ tiêu</a>
+          </td>
+        </tr>
+        </tbody>
+      </nz-table>
+      <div class="btn-right">
+<!--        <button nz-button nzType="primary" (click)="showInsertPreventMeasures()" class="button-submit">Thêm mới BPNC-->
+<!--        </button>-->
+      </div>
+    </div>
+  </fieldset>
+  <div *nzModalFooter>
+    <button nz-button (click)="handleCancel()">Hủy bỏ</button>
+  </div>
+</nz-modal>
+<app-d-cent-statis-case-detail (closeModal)="closePopupCaseStatisDetail()" [isVisible]="isVisibleCaseStatisDetail" [userfor]="userfor" [sppCase]="sppCase" [centence]="centence" [register]="register" [casecode]="sppCase.casecode" [law]="selectedLaw"></app-d-cent-statis-case-detail>

@@ -1,0 +1,71 @@
+<fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+  <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse()">
+    <i nz-icon [nzType]="isCollapse ? 'minus' : 'plus'"></i>{{ userfor !== 'G4' ? 'Kháng nghị' : 'Đề nghị VKS cấp trên kháng nghị GĐT,TT'}}</legend>
+  <div class="ui-fieldset-content" nz-form [ngClass]="isCollapse ? 'show' : 'hide' ">
+    <!--<button nz-button (click)="onRowSelect(1)">Click</button>-->
+    <!--<a nz-button (click)="showUpdate()">Cập nhật</a>-->
+    <nz-table #basicTable [nzData]="datas"
+              [nzScroll]="{ x: '1200px' }"
+              [nzPageSizeOptions]="pageSize" [nzPageSize]="defaultPage" nzSize="small"
+              nzShowSizeChanger [nzShowTotal]="rangeTemplate" [nzLoading]="loading">
+      <thead>
+      <tr>
+        <th class="text-nowrap center" width="55px">STT</th>
+        <th class="text-nowrap">Mã vụ án</th>
+        <th class="text-nowrap">Tên vụ án</th>
+        <th class="text-nowrap">Ngày thụ lý</th>
+        <th class="text-nowrap">Bị cáo bị KN</th>
+        <th class="text-nowrap">{{ userfor !== 'G4' ? 'Loại kháng nghị' : 'Loại đề nghị'}}</th>
+        <th class="text-nowrap">{{ userfor !== 'G4' ? 'Ngày kháng nghị' : 'Ngày đề nghị'}}</th>
+        <th class="text-nowrap">{{ userfor !== 'G4' ? 'Đơn vị kháng nghị' : 'Đơn vị đề nghị'}}</th>
+        <th class="text-nowrap" width="120px">Thao tác</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of basicTable.data;let i = index;" (click)="onRowSelect(data)" ngClass="s-{{data.selected}}">
+        <td class="text-nowrap center">{{getRowIndex(i, page, defaultPage)}}</td>
+        <td class="text-nowrap center">{{ f(data,'casecode') }}</td>
+        <td class="text-nowrap">{{ f(data,'casename') }}</td>
+        <td class="text-nowrap center">{{ f(data,'regis_indate') | dateFormat }} </td>
+        <td class="text-nowrap">
+          {{ f(data,'accuname') }}
+        </td>
+        <td>
+          <div [innerHTML]="f(data,'againstname')"></div>
+        </td>
+        <td class="text-nowrap center">{{ f(data,'indate') | dateFormat }}</td>
+        <td class="text-nowrap">{{ f(data,'sppspc') === 'SPP' ? 'Viện kiểm sát' : 'Tòa án'}}</td>
+        <td class="text-nowrap center">
+          <button nz-tooltip nzTooltipTitle="Sao chép" class="btn-qla" [disabled]="data.EDITABLE === 'N'" (click)="showCopy(data)">
+            <span class="fa fa-fw fa-copy"></span></button>
+          <button nz-tooltip nzTooltipTitle="Sửa" class="btn-qla" [disabled]="data.EDITABLE === 'N'" (click)="showEditForm(data)">
+            <span class="fa fa-fw fa-edit"></span></button>
+          <button nz-tooltip nzTooltipTitle="Xem" class="btn-qla" [disabled]="data.EDITABLE === 'N'" (click)="showDisableForm(data)">
+            <span class="fa fa-fw fa-eye"></span></button>
+          <button nz-tooltip nzTooltipTitle="Xóa" class="btn-qla"
+                  nz-popconfirm
+                  nzPopconfirmTitle="Bạn có chắc muốn xóa bản ghi này không?"
+                  nzPopconfirmPlacement="top"
+                  nzCancelText="Hủy"
+                  nzOkText="Đồng ý"
+                  [disabled]="data.EDITABLE === 'N'"
+                  (nzOnConfirm)="confirm(data)"
+                  (nzOnCancel)="cancel()"
+          >
+            <span class="fa fa-fw fa-times"></span>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
+    <div class="div-btn-right">
+      <!--{{register.editable}} {{register.regicode}}-->
+      <button [disabled]="!register || !register.regicode" *ngIf="userfor === 'G4' || userfor === 'G5'" style="margin-right: 5px" nz-button (click)="showUpdateAgainst()">Cập nhật KQ KN</button>
+      <button [disabled]="!register || !register.regicode" [title]="(register && register.regiclosed) ? register.regiclosed : ''" nz-button (click)="showInsert()">Thêm mới</button>
+    </div>
+  </div>
+  <ng-template #rangeTemplate let-range="range" let-total>
+    {{ range[0] }}-{{ range[1] }} {{'of' | translate }} {{ total }} {{'items' | translate }}
+  </ng-template>
+</fieldset>
+

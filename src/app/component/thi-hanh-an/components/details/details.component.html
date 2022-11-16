@@ -1,0 +1,198 @@
+<nz-modal *ngIf="data" class="ant-form" nzWidth="1200px" [(nzVisible)]="isVisible" nzClosable="false" [nzTitle]="title"
+    nzMaskClosable="false" [nzAutofocus]="null">
+    <ng-template #title>
+        {{isVisibleEdit ? 'Thông tin nhận ủy thác thi hành án' : 'Thông tin ủy thác thi hành án'}}
+        <div class="pull-right icon-close">
+            <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+        </div>
+    </ng-template>
+    <div class="ui-fieldset-content ant-advanced-search-form">
+        <!-- Begin row -->
+        <div nz-row>
+            <div nz-col [nzLg]="10" [nzMd]="12" [nzXs]="12">
+                <nz-form-item>
+                    <nz-form-label [nzSpan]="10">Mã vụ án</nz-form-label>
+                    <nz-form-control [nzSpan]="12">
+                        <input nz-input disabled placeholder="Mã vụ án" [(ngModel)]="data.casecode">
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <div nz-col [nzLg]="10" [nzMd]="12" [nzXs]="12">
+                <nz-form-item>
+                    <nz-form-label [nzSpan]="10">Mã bị can</nz-form-label>
+                    <nz-form-control [nzSpan]="12">
+                        <input nz-input disabled placeholder="Mã bị can" [(ngModel)]="data.accucode">
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+        <!-- End row -->
+        <!-- Begin row -->
+        <div nz-row>
+            <div nz-col [nzLg]="10" [nzMd]="12" [nzXs]="12">
+                <nz-form-item>
+                    <nz-form-label [nzSpan]="10">Tên vụ án</nz-form-label>
+                    <nz-form-control [nzSpan]="12">
+                        <input nz-input disabled placeholder="Tên vụ án" [(ngModel)]="data.casename">
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <div nz-col [nzLg]="10" [nzMd]="12" [nzXs]="12">
+                <nz-form-item>
+                    <nz-form-label [nzSpan]="10">Tên bị can</nz-form-label>
+                    <nz-form-control [nzSpan]="12">
+                        <input nz-input disabled placeholder="Tên bị can" [(ngModel)]="data.accuname">
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+        <!-- End row -->
+        <!-- Begin row -->
+        <div nz-row>
+            <div nz-col [nzLg]="10" [nzMd]="12" [nzXs]="12">
+                <nz-form-item>
+                    <nz-form-label [nzSpan]="10">VKS ủy thác</nz-form-label>
+                    <nz-form-control [nzSpan]="12">
+                        <input nz-input disabled placeholder="VKS ủy thác" [(ngModel)]="data.atxsppidf"
+                            (input)="onInputSppidf($event)" [nzAutocomplete]="autofname">
+                        <nz-autocomplete #autofname>
+                            <nz-auto-option *ngFor="let option of lstSppidf" [nzLabel]="option.name"
+                                [nzValue]="option"></nz-auto-option>
+                        </nz-autocomplete>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <div nz-col [nzLg]="10" [nzMd]="12" [nzXs]="12">
+                <nz-form-item>
+                    <nz-form-label [nzSpan]="10">VKS nhận <span class="required">*</span></nz-form-label>
+                    <nz-form-control [nzSpan]="12">
+                        <input nz-input [disabled]="isEdit || isVisibleDis || isVisibleEdit" placeholder="VKS nhận" [(ngModel)]="data.atxsppidt"
+                            (input)="onInputSppidf($event)" [nzAutocomplete]="autoSppid" [required]="isSubmited">
+                        <nz-autocomplete #autoSppid>
+                            <nz-auto-option *ngFor="let option of lstSppidt" nzLabel="{{option.sppid}} - {{option.name}}"
+                                [nzValue]="option">{{option.sppid}} - {{option.name}}</nz-auto-option>
+                        </nz-autocomplete>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+        <!-- End row -->
+        <!-- Begin row -->
+        <div nz-row>
+            <div nz-col [nzLg]="10" [nzMd]="12" [nzXs]="12">
+                <nz-form-item>
+                    <nz-form-label [nzSpan]="10">Ngày ủy thác <span class="required">*</span></nz-form-label>
+                    <nz-form-control [nzSpan]="12">
+                        <nz-date-picker [disabled]="isEdit || isVisibleDis || isVisibleEdit" style="width: 100%" [(ngModel)]="data.transdate"
+                            nzPlaceHolder="dd/MM/yyyy" [required]="isSubmited" nzFormat="dd/MM/yyyy"
+                            (input)="onValueDate('transdate',$event)" (keypress)="validateOnlyNumbers($event)">
+                        </nz-date-picker>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <div nz-col [nzLg]="10" [nzMd]="12" [nzXs]="12">
+                <nz-form-item>
+                    <nz-form-label [nzSpan]="10">Ngày ra QĐ</nz-form-label>
+                    <nz-form-control [nzSpan]="12">
+                        <nz-date-picker disabled style="width: 100%" [(ngModel)]="data.decidate"
+                            nzPlaceHolder="dd/MM/yyyy" nzFormat="dd/MM/yyyy" (input)="onValueDate('decidate',$event)"
+                            (keypress)="validateOnlyNumbers($event)">
+                        </nz-date-picker>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+        <!-- End row -->
+        <!-- Begin row -->
+        <div nz-row>
+            <div nz-col [nzLg]="10" [nzMd]="12" [nzXs]="12">
+                <nz-form-item>
+                    <nz-form-label [nzSpan]="10">Người chuyển <span class="required">*</span></nz-form-label>
+                    <nz-form-control [nzSpan]="12">
+                        <input nz-input [disabled]="isEdit || isVisibleDis || isVisibleEdit" placeholder="Người chuyển" [(ngModel)]="data.sender"
+                            [required]="isSubmited">
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <div nz-col [nzLg]="10" [nzMd]="12" [nzXs]="12">
+                <nz-form-item>
+                    <nz-form-label [nzSpan]="10">Ghi chú</nz-form-label>
+                    <nz-form-control [nzSpan]="12">
+                        <input nz-input [disabled]="isEdit || isVisibleDis" placeholder="Ghi chú" [(ngModel)]="data.remark">
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+        <!-- End row -->
+        <!-- Begin row -->
+        <ng-container *ngIf="isVisibleEdit">
+            <div nz-row>
+                <div nz-col [nzLg]="10" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">Kết quả</nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <nz-radio-group [disabled]="data.ckresult" [(ngModel)]="data.result">
+                                <label nz-radio nzValue="Y">Nhận ủy thác</label>
+                                <label nz-radio nzValue="N">Từ chối</label>
+                            </nz-radio-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col [nzLg]="10" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item *ngIf="data.result === 'N'">
+                        <nz-form-label [nzSpan]="10">Lí do</nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <input nz-input placeholder="Lí do" [(ngModel)]="data.reason">
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+        <!-- End row -->
+        <!-- Begin row -->
+            <div nz-row>
+                <div nz-col [nzLg]="10" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">{{data.result === 'Y' ? 'Ngày nhận' : 'Ngày từ chối'}} <span
+                                class="required">*</span></nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <nz-date-picker style="width: 100%" [(ngModel)]="data.acceptdate" nzPlaceHolder="dd/MM/yyyy"
+                                [required]="isSubmited" nzFormat="dd/MM/yyyy" (input)="onValueDate('acceptdate',$event)"
+                                (keypress)="validateOnlyNumbers($event)">
+                            </nz-date-picker>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col [nzLg]="10" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">{{data.result === 'Y' ? 'Người nhận' : 'Người từ chối'}} <span
+                                class="required">*</span></nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <input nz-input placeholder="{{data.result === 'Y' ? 'Người nhận' : 'Người từ chối'}}"
+                                [(ngModel)]="data.receipter" [required]="isSubmited">
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+        </ng-container>
+        <!-- End row -->
+    </div>
+    <div *nzModalFooter>
+        <div nz-row class="ui-fieldset-content ant-advanced-search-form">
+            <div nz-col [nzSpan]="24" class="search-area">
+                <button *ngIf="!isVisibleDis" nz-button [nzType]="'primary'" (click)="handleOk()">
+                    <span class="fa fa-fw fa-save"></span>Ghi lại
+                </button>
+                <button nz-button [nzType]="'primary'" (click)="handleCancel()">
+                    <span class="fa fa-fw fa-arrow-left"></span>quay lại
+                </button>
+            </div>
+        </div>
+    </div>
+</nz-modal>

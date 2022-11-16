@@ -1,0 +1,918 @@
+<app-compensation-document [isVisible]="isVisibleDocument"
+                           [selectedItem]="selectedItem"
+                           [listOfData]="compensationDocumentList"
+                           [popupMode]="popupMode"
+                           (closeChange)="onCloseModalDocument($event)"></app-compensation-document>
+<nz-modal nzWidth="960px"
+          [(nzVisible)]="isVisible"
+          [nzTitle]="title"
+          nzAutofocus="auto"
+          nzClosable="false"
+          nzMaskClosable="false">
+  <ng-template #title>
+    <ng-container [ngSwitch]="popupMode">
+      <ng-container *ngSwitchCase="popupModeEnum.VIEW">Chi tiết thông tin yêu cầu bồi thường</ng-container>
+      <ng-container *ngSwitchCase="popupModeEnum.UPDATE">Cập nhật thông tin yêu cầu bồi thường</ng-container>
+      <ng-container *ngSwitchDefault>Thêm mới thông tin yêu cầu bổi thường</ng-container>
+    </ng-container>
+    <div class="pull-right icon-close">
+      <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+  <nz-spin [nzSpinning]="isSpinning">
+    <form nz-form [formGroup]="myForm">
+      <div *nzModalContent>
+        <div class="row mb-1">
+          <div class="col-6">
+            <div class="row">
+              <nz-form-item class="w-100">
+                <nz-form-label class="col-md-4 text-left" nzFor="id">Mã tiếp nhận</nz-form-label>
+                <nz-form-control class="col-md-8">
+                  <input formControlName="id" nz-input name="id" id="id" type="text">
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row">
+              <nz-form-item class="w-100">
+                <nz-form-label class="col-md-4 text-left" nzFor="compensationDate" nzRequired>
+                  Ngày nhận đơn
+                </nz-form-label>
+                <nz-form-control class="col-md-8" [nzErrorTip]="compensationDateErrorTpl">
+                  <nz-date-picker [nzAutoFocus]="true" formControlName="compensationDate" id="compensationDate"
+                                  class="w-100"
+                                  [nzMode]="'date'" nzFormat="dd/MM/yyyy"
+                                  nzPlaceHolder="dd/MM/yyyy"
+                                  [nzDisabledDate]="disabledDate"
+                                  (input)="onDateValueChange($event, myForm.get('compensationDate'))"
+                                  (keypress)="numberOnly($event)"
+                  ></nz-date-picker>
+                  <ng-template #compensationDateErrorTpl let-control>
+                    <ng-container *ngIf="control.hasError('wrongDate')">
+                      <small class="form-text">{{compensationDateErrorMsg}}</small>
+                    </ng-container>
+                  </ng-template>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+        </div><!-- /.row -->
+        <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+          <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse(0)">
+            <i nz-icon [nzType]="arrCollapse[0] ? 'minus' : 'plus'"></i> Thông tin người yêu cầu
+          </legend>
+          <div class="px-3" [ngClass]="arrCollapse[0] ? 'show' : 'hide'">
+            <div class="row mb-1">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-3 text-left" nzFor="claimantName">Họ và tên</nz-form-label>
+                    <nz-form-control class="col-md-9">
+                      <input style="text-transform:capitalize" formControlName="claimantName" nz-input name="claimantName" id="claimantName" type="text">
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-3 text-left" nzFor="claimantCccd">CCCD</nz-form-label>
+                    <nz-form-control class="col-md-9" [nzErrorTip]="cccdError">
+                      <input formControlName="claimantCccd" nz-input name="claimantCccd" id="claimantCccd"
+                             type="text" class="text-right" appNumberic (blur)="convertCccd()">
+                      <ng-template #cccdError let-control>
+                        <ng-container *ngIf="control.hasError('maxlength')">
+                          <small>Độ dài CCCD phải từ 9 đến 12 số, yêu cầu kiểm tra lại</small>
+                        </ng-container>
+                        <ng-container *ngIf="control.hasError('minlength')">
+                          <small>Độ dài CCCD phải từ 9 đến 12 số, yêu cầu kiểm tra lại</small>
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div><!-- /.row -->
+            <div class="row mb-1">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-3 text-left" nzFor="claimantBirthday">
+                      Ngày sinh
+                    </nz-form-label>
+                    <nz-form-control class="col-md-9">
+                      <nz-date-picker [nzAutoFocus]="true" formControlName="claimantBirthday" id="claimantBirthday"
+                                      class="w-100"
+                                      [nzMode]="'date'" nzFormat="dd/MM/yyyy"
+                                      nzPlaceHolder="dd/MM/yyyy"
+                                      (input)="onDateValueChange($event, myForm.get('claimantBirthday'))"
+                                      (keypress)="numberOnly($event)"
+                      ></nz-date-picker>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-3 text-left" nzFor="claimantAddress">Địa chỉ</nz-form-label>
+                    <nz-form-control class="col-md-9">
+                      <input formControlName="claimantAddress" nz-input name="claimantAddress" id="claimantAddress"
+                             type="text">
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div><!-- /.row -->
+          </div><!-- /.px-3 -->
+        </fieldset>
+        <app-compensation-damages-list
+          [listOfData]="compensationDamagesList"
+          (dataChange)="onDataDamageChane($event)"
+          [popupMode]="popupMode"
+        ></app-compensation-damages-list>
+        <!-- <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+          <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse(1)">
+            <i nz-icon [nzType]="arrCollapse[1] ? 'minus' : 'plus'"></i> Thông tin người thiệt hại
+          </legend>
+          <div class="px-3" [ngClass]="arrCollapse[1] ? 'show' : 'hide'">
+            <div class="row mb-1">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="damagesName">Họ và tên</nz-form-label>
+                    <nz-form-control class="col-md-8">
+                      <input formControlName="damagesName" nz-input name="damagesName" id="damagesName" type="text">
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="claimantBirthday">
+                      Ngày sinh
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8">
+                      <nz-date-picker [nzAutoFocus]="true" formControlName="damagesBirthday" id="damagesBirthday"
+                                      class="w-100"
+                                      [nzMode]="'date'" nzFormat="dd/MM/yyyy"
+                                      nzPlaceHolder="dd/MM/yyyy"
+                                      (input)="onDateValueChange($event, myForm.get('damagesBirthday'))"
+                                      (keypress)="numberOnly($event)"
+                      ></nz-date-picker>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-1">
+              <div class="col-12">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-2 text-left" nzFor="damagesAddress">Địa chỉ</nz-form-label>
+                    <nz-form-control class="col-md-10">
+                      <input formControlName="damagesAddress" nz-input name="damagesAddress" id="damagesAddress"
+                             type="text">
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset> -->
+        <div class="row mb-1">
+          <div class="col-12">
+            <div class="row">
+              <nz-form-item class="w-100">
+                <nz-form-label class="col-md-2 text-left" nzFor="petitionDate">
+                  Ngày của đơn yêu cầu
+                </nz-form-label>
+                <nz-form-control class="col-md-10">
+                  <nz-date-picker [nzAutoFocus]="true" formControlName="petitionDate" id="petitionDate"
+                                  class="w-100"
+                                  [nzMode]="'date'" nzFormat="dd/MM/yyyy"
+                                  nzPlaceHolder="dd/MM/yyyy"
+                                  (input)="onDateValueChange($event, myForm.get('petitionDate'))"
+                                  (keypress)="numberOnly($event)"
+                  ></nz-date-picker>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-1">
+          <div class="col-12">
+            <div class="row">
+              <nz-form-item class="w-100">
+                <nz-form-label class="col-md-2 text-left" nzFor="damagesContent">Nội dung YC bồi thường</nz-form-label>
+                <nz-form-control class="col-md-10">
+                  <input formControlName="damagesContent" nz-input name="damagesContent" id="damagesContent"
+                         type="text">
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+        </div><!-- /.row -->
+        <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+          <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse(2)">
+            <i nz-icon [nzType]="arrCollapse[2] ? 'minus' : 'plus'"></i> Thông tin xử lý
+          </legend>
+          <div class="px-3" [ngClass]="arrCollapse[2] ? 'show' : 'hide'">
+            <div class="row mb-1">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="resultCode">Kết quả xử lý</nz-form-label>
+                    <nz-form-control class="col-md-8">
+                      <nz-select formControlName="resultCode" id="resultCode" nzPlaceHolder="Chọn kết quả"
+                                 nzAllowClear>
+                        <nz-option [nzValue]="1" nzLabel="Thuộc thẩm quyền giải quyết"></nz-option>
+                        <nz-option [nzValue]="2" nzLabel="Chuyển VKS có thẩm quyền giải quyết"></nz-option>
+                        <nz-option [nzValue]="3" nzLabel="Chuyển cơ quan khác"></nz-option>
+                        <nz-option [nzValue]="4" nzLabel="Trả lại đơn"></nz-option>
+                        <nz-option [nzValue]="5" nzLabel="Xử lý khác"></nz-option>
+                        <nz-option [nzValue]="6" nzLabel="Bổ sung tài liệu"></nz-option>
+                      </nz-select>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <ng-container *ngIf="checkBtnDocument()">
+                <div class="col-6 text-right">
+                  <button nz-button (click)="onOpenModalDocument()" nzType="primary" type="button">Bổ sung hồ sơ tài
+                    liệu
+                  </button>
+                </div>
+              </ng-container>
+            </div><!-- /.row -->
+            <div class="row mb-1">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="resultNumber">Số xử lý</nz-form-label>
+                    <nz-form-control class="col-md-8">
+                      <input formControlName="resultNumber" nz-input name="resultNumber" id="resultNumber" type="text">
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="resultDate">
+                      Ngày xử lý
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8" [nzErrorTip]="resultDateErrorTpl">
+                      <nz-date-picker [nzAutoFocus]="true" formControlName="resultDate" id="resultDate"
+                                      class="w-100"
+                                      [nzMode]="'date'" nzFormat="dd/MM/yyyy"
+                                      nzPlaceHolder="dd/MM/yyyy"
+                                      [nzDisabledDate]="disabledDate"
+                                      (input)="onDateValueChange($event, myForm.get('resultDate'))"
+                                      (keypress)="numberOnly($event)"
+                      ></nz-date-picker>
+                      <ng-template #resultDateErrorTpl let-control>
+                        <ng-container *ngIf="control.hasError('wrongDate')">
+                          <small class="form-text">{{resultDateErrorMsg}}</small>
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div><!-- /.row -->
+            <div class="row mb-1">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="resultAgency">
+                      Cơ quan xử lý
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8">
+                      <nz-select formControlName="resultAgency" id="resultAgency" nzPlaceHolder="Chọn cơ quan"
+                                 (ngModelChange)="resultAgencyChange($event)"
+                                 nzAllowClear>
+                        <nz-option [nzValue]="'02'" nzLabel="Công an"></nz-option>
+                        <nz-option [nzValue]="'04'" nzLabel="Quân đội"></nz-option>
+                        <nz-option [nzValue]="'06'" nzLabel="Hải quan"></nz-option>
+                        <nz-option [nzValue]="'08'" nzLabel="Kiểm lâm"></nz-option>
+                        <nz-option [nzValue]="'09'" nzLabel="Bộ đội biên phòng"></nz-option>
+                        <nz-option [nzValue]="'10'" nzLabel="Cảnh sát biển"></nz-option>
+                        <nz-option [nzValue]="'12'" nzLabel="Cơ quan khác"></nz-option>
+                        <nz-option [nzValue]="'SPP'" nzLabel="Viện kiểm sát"></nz-option>
+                        <nz-option [nzValue]="'SPC'" nzLabel="Tòa án"></nz-option>
+                      </nz-select>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <div class="col-6" *ngIf="resultAgency.value !== '10' && resultAgency.value !== '12'">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="resultUnitsId">
+                      Đơn vị nhận xử lý
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8">
+                      <ng-container [ngSwitch]="resultAgency.value">
+                        <!--                    02 - Công an-->
+                        <input nz-input *ngSwitchCase="'02'" formControlName="resultUnitsId"
+                               [placeholder]="'Chọn đơn vị'"
+                               (input)="onInputPolice($event)"
+                               [nzAutocomplete]="autoPolice"/>
+                        <nz-autocomplete #autoPolice>
+                          <nz-auto-option *ngFor="let option of lstPolices" [nzLabel]="option.NAME"
+                                          [nzValue]="option">{{ option.POLICEID }} - {{ option.NAME }}</nz-auto-option>
+                        </nz-autocomplete>
+                        <!--                    04 - Quân đội-->
+                        <input nz-input *ngSwitchCase="'04'" formControlName="resultUnitsId"
+                               [placeholder]="'Chọn đơn vị'"
+                               (input)="onInputArmy($event)"
+                               [nzAutocomplete]="autoArmy"/>
+                        <nz-autocomplete #autoArmy>
+                          <nz-auto-option *ngFor="let option of lstArmies" [nzLabel]="option.NAME"
+                                          [nzValue]="option">{{ option.ARMYID }} - {{ option.NAME }}</nz-auto-option>
+                        </nz-autocomplete>
+                        <!--                    06 - Hải quan-->
+                        <input *ngSwitchCase="'06'" nz-input formControlName="resultUnitsId"
+                               [placeholder]="'Chọn đơn vị'"
+                               (input)="onInputCustoms($event)"
+                               [nzAutocomplete]="autoCustom"/>
+                        <nz-autocomplete #autoCustom>
+                          <nz-auto-option *ngFor="let option of lstCustoms" [nzLabel]="option.NAME"
+                                          [nzValue]="option">{{ option.CUSTOMID }} - {{ option.NAME }}</nz-auto-option>
+                        </nz-autocomplete>
+                        <!--                    08 - Kiểm lâm-->
+                        <input *ngSwitchCase="'08'" nz-input formControlName="resultUnitsId"
+                               [placeholder]="'Chọn đơn vị'"
+                               (input)="onInputRangers($event)"
+                               [nzAutocomplete]="autoRanger"/>
+                        <nz-autocomplete #autoRanger>
+                          <nz-auto-option *ngFor="let option of lstRangers" [nzLabel]="option.NAME"
+                                          [nzValue]="option">{{ option.RANGID }} - {{ option.NAME }}</nz-auto-option>
+                        </nz-autocomplete>
+                        <!--                    09 - Bộ đội biên phòng-->
+                        <input *ngSwitchCase="'09'" nz-input formControlName="resultUnitsId"
+                               [placeholder]="'Chọn đơn vị'"
+                               (input)="onInputBorderGuards($event)"
+                               [nzAutocomplete]="autoBorderGuard"/>
+                        <nz-autocomplete #autoBorderGuard>
+                          <nz-auto-option *ngFor="let option of lstBorderGuards" [nzLabel]="option.NAME"
+                                          [nzValue]="option">{{ option.BORGUAID }} - {{ option.NAME }}</nz-auto-option>
+                        </nz-autocomplete>
+                        <!--                    10 - Cảnh sát biển-->
+                        <input *ngSwitchCase="'10'" nz-input formControlName="resultUnitsId"
+                               [placeholder]="'Chọn đơn vị'"
+                               (focus)="onFocusResultUnitsId($event)"/>
+                        <!--                    12 - Cơ quan khác-->
+                        <input *ngSwitchCase="'12'" nz-input formControlName="resultUnitsId"
+                               [placeholder]="'Chọn đơn vị'"
+                               (focus)="onFocusResultUnitsId($event)"/>
+                        <!--                    SPP - Viện kiểm sát-->
+                        <input *ngSwitchCase="'SPP'" nz-input formControlName="resultUnitsId"
+                               [placeholder]="'Chọn đơn vị'"
+                               (input)="onInputSpp($event)"
+                               [nzAutocomplete]="autoSpp"/>
+                        <nz-autocomplete #autoSpp>
+                          <nz-auto-option *ngFor="let option of lstSpps" [nzLabel]="option.name"
+                                          [nzValue]="option">{{ option.sppid }} - {{ option.name }}</nz-auto-option>
+                        </nz-autocomplete>
+                        <!--                    SPC - Tòa án-->
+                        <input *ngSwitchCase="'SPC'" nz-input formControlName="resultUnitsId"
+                               [placeholder]="'Chọn đơn vị'"
+                               (input)="onInputSpc($event)"
+                               [nzAutocomplete]="autoSpc"/>
+                        <nz-autocomplete #autoSpc>
+                          <nz-auto-option *ngFor="let option of lstSpcs" [nzLabel]="option.NAME"
+                                          [nzValue]="option">{{ option.SPCID }} - {{ option.NAME }}</nz-auto-option>
+                        </nz-autocomplete>
+                        <input *ngSwitchDefault nz-input formControlName="resultUnitsId" [placeholder]="'Chọn đơn vị'"
+                               (focus)="onFocusResultUnitsId($event)"/>
+                      </ng-container>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div><!-- /.row -->
+            <div class="row mb-1">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="resultHandler">Người xử lý</nz-form-label>
+                    <nz-form-control class="col-md-8">
+                      <input formControlName="resultHandler" nz-input name="resultHandler" id="resultHandler" type="text"
+                             (ngModelChange)="handleChangeSignname()" [nzAutocomplete]="autoInpector" (input)="onInputInspector($event)">
+                      <nz-autocomplete #autoInpector>
+                        <nz-auto-option *ngFor="let option of lstInpectors" [nzLabel]="option.FULLNAME" [nzValue]="option.FULLNAME">{{ option.INSPCODE }} - {{ option.FULLNAME }}</nz-auto-option>
+                      </nz-autocomplete>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="resultPositionHandler">Chức vụ
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8">
+                      <input formControlName="resultPositionHandler" nz-input name="resultPositionHandler"
+                             id="resultPositionHandler" type="text">
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div><!-- /.row -->
+            <div class="row mb-1">
+              <div class="col-12">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-2 text-left" nzFor="note"> {{ sNote() }}
+                    </nz-form-label>
+                    <nz-form-control class="col-md-10">
+                      <textarea
+                        nz-input
+                        formControlName="note"
+                        [nzAutosize]="{ minRows: 2, maxRows: 6 }"></textarea>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div><!-- /.row -->
+          </div><!-- /.px-3 -->
+        </fieldset>
+        <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+          <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse(3)">
+            <i nz-icon [nzType]="arrCollapse[3] ? 'minus' : 'plus'"></i> Bản án/Quyết định phải bồi thường
+          </legend>
+          <div class="px-3" [ngClass]="arrCollapse[3] ? 'show' : 'hide'">
+            <div class="row mb-1">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="decisionCompensationDate">
+                      Ngày thụ lý
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8" [nzErrorTip]="decisionCompensationDateErrorTpl">
+                      <nz-date-picker [nzAutoFocus]="true" formControlName="decisionCompensationDate"
+                                      id="decisionCompensationDate"
+                                      class="w-100"
+                                      [nzMode]="'date'" nzFormat="dd/MM/yyyy"
+                                      nzPlaceHolder="dd/MM/yyyy"
+                                      [nzDisabledDate]="disabledDate"
+                                      (input)="onDateValueChange($event, myForm.get('decisionCompensationDate'))"
+                                      (keypress)="numberOnly($event)"
+                      ></nz-date-picker>
+                      <ng-template #decisionCompensationDateErrorTpl let-control>
+                        <ng-container *ngIf="control.hasError('wrongDate')">
+                          <small class="form-text">{{decisionCompensationDateErrorMsg}}</small>
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div><!-- /.row -->
+            <div class="row mb-1">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="decisionCompensationNumber">Số QĐ/BA bị oan
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8">
+                      <input formControlName="decisionCompensationNumber" nz-input name="decisionCompensationNumber"
+                             id="decisionCompensationNumber" type="text">
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="decisionCompensationIndate">
+                      Ngày ra QĐ/BA
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8" [nzErrorTip]="decisionCompensationIndateErrorTpl">
+                      <nz-date-picker [nzAutoFocus]="true" formControlName="decisionCompensationIndate"
+                                      id="decisionCompensationIndate"
+                                      class="w-100"
+                                      [nzMode]="'date'" nzFormat="dd/MM/yyyy"
+                                      nzPlaceHolder="dd/MM/yyyy"
+                                      [nzDisabledDate]="disabledDate"
+                                      (input)="onDateValueChange($event, myForm.get('decisionCompensationIndate'))"
+                                      (keypress)="numberOnly($event)"
+                      ></nz-date-picker>
+                      <ng-template #decisionCompensationIndateErrorTpl let-control>
+                        <ng-container *ngIf="control.hasError('wrongDate')">
+                          <small class="form-text">{{decisionCompensationIndateErrorMsg}}</small>
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div><!-- /.row -->
+            <div class="row mb-1">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="detentionInNumberOfDays">Số ngày giam giữ
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8">
+                      <input formControlName="detentionInNumberOfDays" nz-input name="detentionInNumberOfDays"
+                             id="detentionInNumberOfDays" type="text">
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div><!-- /.row -->
+            <div class="row mb-1">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="verificationFromDate">Xác minh từ ngày
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8" [nzErrorTip]="verificationFromDateErrorTpl">
+                      <nz-date-picker [nzAutoFocus]="true" formControlName="verificationFromDate"
+                                      id="verificationFromDate"
+                                      class="w-100"
+                                      [nzMode]="'date'" nzFormat="dd/MM/yyyy"
+                                      nzPlaceHolder="dd/MM/yyyy"
+                                      [nzDisabledDate]="disabledDate"
+                                      (input)="onDateValueChange($event, myForm.get('verificationFromDate'))"
+                                      (keypress)="numberOnly($event)"
+                      ></nz-date-picker>
+                      <ng-template #verificationFromDateErrorTpl let-control>
+                        <ng-container *ngIf="control.hasError('wrongDate')">
+                          <small class="form-text">{{verificationFromDateErrorMsg}}</small>
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="verificationToDate">
+                      Xác minh đến ngày
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8" [nzErrorTip]="verificationToDateErrorTpl">
+                      <nz-date-picker [nzAutoFocus]="true" formControlName="verificationToDate" id="verificationToDate"
+                                      class="w-100"
+                                      [nzMode]="'date'" nzFormat="dd/MM/yyyy"
+                                      nzPlaceHolder="dd/MM/yyyy"
+                                      (input)="onDateValueChange($event, myForm.get('verificationToDate'))"
+                                      (keypress)="numberOnly($event)"
+                      ></nz-date-picker>
+                      <ng-template #verificationToDateErrorTpl let-control>
+                        <ng-container *ngIf="control.hasError('wrongDate')">
+                          <small class="form-text">{{verificationToDateErrorMsg}}</small>
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div><!-- /.row -->
+            <div class="row mb-1">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="negotiateFromDate">
+                      Thương lượng từ ngày
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8" [nzErrorTip]="negotiateFromDateErrorTpl">
+                      <nz-date-picker [nzAutoFocus]="true" formControlName="negotiateFromDate" id="negotiateFromDate"
+                                      class="w-100"
+                                      [nzMode]="'date'" nzFormat="dd/MM/yyyy"
+                                      nzPlaceHolder="dd/MM/yyyy"
+                                      [nzDisabledDate]="disabledDate"
+                                      (input)="onDateValueChange($event, myForm.get('negotiateFromDate'))"
+                                      (keypress)="numberOnly($event)"
+                      ></nz-date-picker>
+                      <ng-template #negotiateFromDateErrorTpl let-control>
+                        <ng-container *ngIf="control.hasError('wrongDate')">
+                          <small class="form-text">{{negotiateFromDateErrorMsg}}</small>
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="negotiateToDate">
+                      Thương lượng đến ngày
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8" [nzErrorTip]="negotiateToDateErrorTpl">
+                      <nz-date-picker [nzAutoFocus]="true" formControlName="negotiateToDate" id="negotiateToDate"
+                                      class="w-100"
+                                      [nzMode]="'date'" nzFormat="dd/MM/yyyy"
+                                      nzPlaceHolder="dd/MM/yyyy"
+                                      [nzDisabledDate]="disabledDate"
+                                      (input)="onDateValueChange($event, myForm.get('negotiateToDate'))"
+                                      (keypress)="numberOnly($event)"
+                      ></nz-date-picker>
+                      <ng-template #negotiateToDateErrorTpl let-control>
+                        <ng-container *ngIf="control.hasError('wrongDate')">
+                          <small class="form-text">{{negotiateToDateErrorMsg}}</small>
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div><!-- /.row -->
+          </div><!-- /.px-3 -->
+        </fieldset>
+        <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+          <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse(4)">
+            <i nz-icon [nzType]="arrCollapse[4] ? 'minus' : 'plus'"></i> Quyết định giải quyết việc bồi thường
+          </legend>
+          <div class="px-3" [ngClass]="arrCollapse[4] ? 'show' : 'hide'">
+            <div class="row mb-1">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="decisionEnforcementNumber">Số quyết định
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8">
+                      <input formControlName="decisionEnforcementNumber" nz-input name="decisionEnforcementNumber"
+                             id="decisionEnforcementNumber" type="text">
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div><!-- /.row -->
+            <div class="row mb-1">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="decisionEnforcementIndate">
+                      Ngày ra quyết định
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8" [nzErrorTip]="decisionEnforcementIndateErrorTpl">
+                      <nz-date-picker [nzAutoFocus]="true" formControlName="decisionEnforcementIndate"
+                                      id="decisionEnforcementIndate"
+                                      class="w-100"
+                                      [nzMode]="'date'" nzFormat="dd/MM/yyyy"
+                                      nzPlaceHolder="dd/MM/yyyy"
+                                      [nzDisabledDate]="disabledDate"
+                                      (input)="onDateValueChange($event, myForm.get('decisionEnforcementIndate'))"
+                                      (keypress)="numberOnly($event)"
+                      ></nz-date-picker>
+                      <ng-template #decisionEnforcementIndateErrorTpl let-control>
+                      <ng-container *ngIf="control.hasError('wrongDate')">
+                        <small class="form-text">{{decisionEnforcementIndateErrorMsg}}</small>
+                      </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="decisionEnforcementSppid">
+                      Đơn vị ra quyết định
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8">
+                      <ng-container>
+                        <nz-select nzShowSearch nzAllowClear
+                                   formControlName="decisionEnforcementSppid">
+                          <nz-option *ngFor="let o of listSpp" [nzValue]="o.sppId" [nzLabel]="o.name"></nz-option>
+                        </nz-select>
+                      </ng-container>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div><!-- /.row -->
+            <div class="row mb-1">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="decisionEnforcementSigner">Người ký</nz-form-label>
+                    <nz-form-control class="col-md-8">
+                      <input style="text-transform:capitalize"  formControlName="decisionEnforcementSigner" nz-input name="decisionEnforcementSigner" id="decisionEnforcementSigner"
+                             type="text">
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="decisionEnforcementPosition">Chức vụ</nz-form-label>
+                    <nz-form-control class="col-md-8">
+                      <input formControlName="decisionEnforcementPosition" nz-input name="decisionEnforcementPosition"
+                             id="decisionEnforcementPosition" type="text">
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div><!-- /.row -->
+            <div class="row mb-1">
+              <div class="col-12">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-2 text-left" nzFor="decisionEnforcementContent">Nội dung giải quyết</nz-form-label>
+                    <nz-form-control class="col-md-10">
+                      <textarea
+                        nz-input
+                        formControlName="decisionEnforcementContent"
+                        [nzAutosize]="{ minRows: 2, maxRows: 6 }"></textarea>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div><!-- /.row -->
+            <div class="row mb-1">
+              <div class="col-6">
+                <div class="row">
+                  <div class="offset-4 col-md-8">
+                    <label nz-checkbox formControlName="indemnifyEnforcement" id="indemnifyEnforcement" [nzValue]="1">Bồi thường</label>
+                  </div>
+                </div>
+              </div>
+              <ng-container *ngIf="checkIndemnifyEnforcement()">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-6 text-left" nzFor="indemnifyEnforcementNumber">Số tiền bồi thường
+                    </nz-form-label>
+                    <nz-form-control class="col-md-6">
+                      <input formControlName="indemnifyEnforcementNumber" nz-input name="indemnifyEnforcementNumber"
+                            mask="separator" thousandSeparator= "," suffix=" đ"
+                             (keypress)="validateOnlyNumbers($event)">
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              </ng-container>
+            </div><!-- /.row -->
+          </div><!-- /.px-3 -->
+        </fieldset>
+        <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+          <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse(5)">
+            <i nz-icon [nzType]="arrCollapse[5] ? 'minus' : 'plus'"></i> Bản án giải quyết bồi thường
+          </legend>
+          <div class="px-3" [ngClass]="arrCollapse[5] ? 'show' : 'hide'">
+            <div class="row mb-1">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="judgmentCompensationNumber">Số bản án
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8">
+                      <input formControlName="judgmentCompensationNumber" nz-input name="judgmentCompensationNumber"
+                             id="judgmentCompensationNumber" type="text">
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="judgmentCompensationDate">
+                      Ngày ra bản án
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8" [nzErrorTip]="judgmentCompensationDateErrorTpl">
+                      <nz-date-picker [nzAutoFocus]="true" formControlName="judgmentCompensationDate"
+                                      id="judgmentCompensationDate"
+                                      class="w-100"
+                                      [nzMode]="'date'" nzFormat="dd/MM/yyyy"
+                                      nzPlaceHolder="dd/MM/yyyy"
+                                      [nzDisabledDate]="disabledDate"
+                                      (input)="onDateValueChange($event, myForm.get('judgmentCompensationDate'))"
+                                      (keypress)="numberOnly($event)"
+                      ></nz-date-picker>
+                      <ng-template #judgmentCompensationDateErrorTpl let-control>
+                        <ng-container *ngIf="control.hasError('wrongDate')">
+                          <small class="form-text">{{judgmentCompensationDateErrorMsg}}</small>
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div><!-- /.row -->
+            <div class="row mb-1">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="levelCompensation">
+                      Cấp ra bản án
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8">
+                        <nz-select formControlName="levelCompensation">
+                          <nz-option nzValue="G3" nzLabel="Sơ thẩm"></nz-option>
+                          <nz-option nzValue="G4" nzLabel="Phúc thẩm"></nz-option>
+                          <nz-option nzValue="G5" nzLabel="GĐT,TT"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="centenceCompensationSppid">
+                      Đơn vị ra bản án
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8">
+                      <ng-container>
+                        <nz-select nzShowSearch nzAllowClear
+                                  formControlName="centenceCompensationSppid">
+                          <nz-option *ngFor="let o of listSpp" [nzValue]="o.sppId" [nzLabel]="o.name"></nz-option>
+                        </nz-select>
+                      </ng-container>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div><!-- /.row -->
+            <div class="row mb-1">
+              <div class="col-12">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-2 text-left" nzFor="judgmentCompensationContent">Nội dung bản án
+                    </nz-form-label>
+                    <nz-form-control class="col-md-10">
+                      <textarea
+                        nz-input
+                        formControlName="judgmentCompensationContent"
+                        [nzAutosize]="{ minRows: 2, maxRows: 6 }"></textarea>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div><!-- /.row -->
+            <div class="row mb-1">
+              <div class="col-6">
+                <div class="row">
+                  <div class="offset-4 col-md-8">
+                    <label nz-checkbox formControlName="indemnifyCompensation" id="indemnifyCompensation" [nzValue]="1">Bồi thường</label>
+                  </div>
+                </div>
+              </div>
+              <ng-container *ngIf="checkIndemnifyCompensation()">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-6 text-left" nzFor="indemnifyCompensationNumber">Số tiền bồi thường
+                    </nz-form-label>
+                    <nz-form-control class="col-md-6">
+                      <input formControlName="indemnifyCompensationNumber" nz-input name="indemnifyCompensationNumber"
+                            mask="separator" thousandSeparator= "," suffix=" đ"
+                             (keypress)="validateOnlyNumbers($event)">
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              </ng-container>
+            </div><!-- /.row -->
+          </div><!-- /.px-3 -->
+        </fieldset>
+        <app-compensation-list
+          [listOfData]="compensationDetailList"
+          (dataChange)="onDataChange($event)"
+          [popupMode]="popupMode"
+        ></app-compensation-list>
+      </div>
+      <div *nzModalFooter>
+        <div class="d-flex align-items-center justify-content-center">
+          <ng-container [ngSwitch]="popupMode">
+            <ng-container *ngSwitchCase="popupModeEnum.VIEW">
+              <button nz-button (click)="handleCancel()">{{ 'back' | translate }}</button>
+            </ng-container>
+            <ng-container *ngSwitchCase="popupModeEnum.VIEW_FROM_PARENT">
+              <button nz-button (click)="handleCancel()">{{ 'back' | translate }}</button>
+            </ng-container>
+            <ng-container *ngSwitchDefault>
+              <button nz-button nzType="primary" type="button" (click)="onSubmit()">
+                <i nz-icon nzType="save" nzTheme="outline"></i>
+                {{'save' | translate }}
+              </button>
+              <button nz-button nzType="default" type="button" (click)="handleCancel()">
+                <i nz-icon nzType="close" nzTheme="outline"></i>
+                {{'cancel' | translate }}</button>
+            </ng-container>
+          </ng-container>
+        </div>
+      </div>
+    </form>
+  </nz-spin>
+</nz-modal>
+<ng-template #confirm>
+  <i nz-icon nzType="question-circle" nzTheme="twotone" nzTwotoneColor="#faad14"></i>
+  &nbsp; Bạn có chắc chắn muốn lưu dữ liệu không?
+</ng-template>
+<ng-template #confirmHeader>
+  Xác nhận
+  <div class="pull-right icon-close">
+    <i (click)="confirmModalRef.close()" nz-icon nzType="close" nzTheme="outline"></i>
+  </div>
+</ng-template>

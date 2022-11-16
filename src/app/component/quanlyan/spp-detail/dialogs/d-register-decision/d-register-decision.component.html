@@ -1,0 +1,48 @@
+<nz-modal class="ant-form" nzWidth="800px" [(nzVisible)]="isVisible" nzTitle="Thêm mới" nzClosable="false" [nzTitle]="title" nzMaskClosable="false">
+    <ng-template #title>
+        Chọn số lệnh/ quyết định đã cấp
+        <div class="pull-right icon-close">
+          <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+        </div>
+      </ng-template>
+    <ng-container>
+        <nz-table style="width: 100%" 
+        #basicTable 
+        [nzData]="datas" 
+        [nzTotal]="total"
+        [nzPageSize]="defaultPage" 
+        nzSize="small"
+        nzShowSizeChanger 
+        [nzShowTotal]="rangeTemplate">
+        <thead>
+            <tr>
+                <th class="text-nowrap center" style="width:5%">Chọn</th>
+                <th class="text-nowrap center" style="width:15%">Giai đoạn</th>
+                <th class="text-nowrap center" style="width:15%">Số Quyết định</th>
+                <th class="text-nowrap center" style="width:20%">Tên Quyết định</th>
+                <th class="text-nowrap center" style="width:15%">Ngày cấp số</th>
+                <th class="text-nowrap center" style="width:15%">Hiệu lực từ ngày</th>
+                <th class="text-nowrap center" style="width:15%">Hiệu lực đến ngày</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of basicTable.data;let i = index;">
+                <td class="text-nowrap center" [nzChecked]="checkSelected(data.id)" (nzCheckedChange)="onItemChecked(i, $event)"></td>
+                <td class="text-nowrap center" nz-tooltip [nzTooltipTitle]="">{{data.stageName}}</td>
+                <td class="text-center center" nz-tooltip [nzTooltipTitle]="">{{data.decisionNum}}</td>
+                <td class="text-nowrap center" nz-tooltip [nzTooltipTitle]="">{{data.decisionName}}</td>
+                <td class="text-nowrap center" nz-tooltip [nzTooltipTitle]="">{{data.issuesDate}}</td>
+                <td class="text-nowrap center" nz-tooltip [nzTooltipTitle]="">{{data.fromDate}}</td>
+                <td class="text-nowrap center" nz-tooltip [nzTooltipTitle]="">{{data.toDate}}</td>
+            </tr>
+        </tbody>
+        </nz-table>
+        <ng-template #rangeTemplate let-range="range" let-total>
+            {{ range[0] }}-{{ range[1] }} {{'of' | translate }} {{ total }} {{'items' | translate }}
+        </ng-template>
+    </ng-container>
+<div *nzModalFooter>
+    <button nz-button nzType="primary" (click)="handleOk()" class="button-submit">{{'save' | translate }}</button>
+    <button nz-button (click)="handleCancel()">{{'cancel' | translate }}</button>
+</div>
+</nz-modal>

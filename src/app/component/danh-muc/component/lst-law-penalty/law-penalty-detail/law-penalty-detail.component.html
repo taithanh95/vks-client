@@ -1,0 +1,123 @@
+<nz-modal *ngIf="data" class="ant-form"
+          nzWidth="1000px" [(nzVisible)]="isVisible" nzClosable="false" [nzTitle]="title" nzMaskClosable="false">
+  <ng-template #title>
+    Thông tin chi tiết
+    <div class="pull-right icon-close">
+      <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+  <div class="data-table">
+    <nz-table class="w-100"
+              [nzNoResult]="noResultTpl"
+              nzSize="small">
+      <thead>
+      <tr>
+        <th class="text-nowrap" nzWidth="30%">Thông tin</th>
+        <th class="text-nowrap" nzWidth="70%">Chi tiết</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>
+          Mã điều luật
+        </td>
+        <td>
+          {{data.lawcode}}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Khung hình phạt từ
+        </td>
+        <td>
+          {{data.fromamount}}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Khung hình phạt đến
+        </td>
+        <td>
+          {{data.toamount}}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Điều
+        </td>
+        <td>
+          {{data.lawid}}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Khoản
+        </td>
+        <td>
+          {{data.item}}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Điểm
+        </td>
+        <td>
+          {{data.point}}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Chương luật
+        </td>
+        <td>
+          {{data.groupname}}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Tên bộ luật
+        </td>
+        <td>
+          {{data.codename}}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Tội danh
+        </td>
+        <td>
+          {{data.lawname}}
+        </td>
+      </tr>
+      <tr>
+        <td>
+         Hình phạt
+        </td>
+        <td>
+          {{data.penaltyname}}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Ngày ban hành
+        </td>
+        <td>
+          {{data.lawdate | dateFormat}}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Mức độ nghiêm trọng
+        </td>
+        <td>
+          {{f(data.lawtype)}}
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
+    <ng-template #noResultTpl>
+    </ng-template>
+  </div>
+  <div *nzModalFooter>
+  </div>
+</nz-modal>

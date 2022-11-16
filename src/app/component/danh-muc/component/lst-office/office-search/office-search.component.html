@@ -1,0 +1,103 @@
+<div>
+  <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+    <div class="ui-fieldset-content ant-advanced-search-form">
+      <div nz-row>
+        <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10">Mã chức vụ</nz-form-label>
+            <nz-form-control [nzSpan]="12">
+              <input [(ngModel)]="filterItem.officeId" nz-input placeholder="Mã chức vụ">
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10">Tên chức vụ chính quyền</nz-form-label>
+            <nz-form-control [nzSpan]="12">
+              <input nz-input placeholder="Chức vụ chính quyền" [(ngModel)]="filterItem.officeName">
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div nz-row>
+        <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10">Cấp chính quyền</nz-form-label>
+            <nz-form-control [nzSpan]="12">
+              <nz-select [(ngModel)]="filterItem.setLevel" nzPlaceHolder="Cấp chính quyền" nzShowSearch>
+                <nz-option [nzValue]="''" nzLabel="Tất cả"></nz-option>
+                <nz-option [nzValue]="'PX'" nzLabel="Phường - Xã"></nz-option>
+                <nz-option [nzValue]="'QH'" nzLabel="Quận - Huyện"></nz-option>
+                <nz-option [nzValue]="'TT'" nzLabel="Tỉnh - Thành phố"></nz-option>
+                <nz-option [nzValue]="'TU'" nzLabel="Trung ương"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</div>
+<div class="ui-panel">
+  <div nz-row>
+    <div nz-col [nzSpan]="24" class="search-area">
+      <button nz-button [nzType]="'primary'" (click)="doSearch()">
+        <span class="fa fa-fw fa-search"></span>
+        Tìm kiếm
+      </button>
+      <button [disabled]="isDetailBtn" nz-button [nzType]="'primary'" (click)="showDetail()">
+        <span class="fa fa-fw fa-eye"></span>Chi tiết
+      </button>
+      <button nz-button [nzType]="'primary'" (click)="showCreateForm()">
+        <span class="fa fa-fw fa-plus"></span> Thêm mới
+      </button>
+      <button [disabled]="isUpdBtn" nz-button [nzType]="'primary'" (click)="showEditForm()">
+        <span class="fa fa-fw fa-edit"></span> Sửa
+      </button>
+      <button [disabled]="isDeleteBtn" nz-button nzType="danger" nz-popconfirm
+              nzPopconfirmTitle="Bạn có chắc chắn muốn xóa dữ liệu không?" nzPopconfirmPlacement="top"
+              nzCancelText="Hủy"
+              nzOkText="Đồng ý" (nzOnConfirm)="doDelete()" nzType="danger">
+        <span class="fa fa-fw fa-times"></span> Xóa
+      </button>
+    </div>
+  </div>
+  <ng-container>
+    <div class="data-table">
+      <nz-table #basicTable nzShowSizeChanger [nzFrontPagination]="false" nzSize="small" [nzData]="datas"
+                [nzScroll]="{ x: '1200px' }" (nzCurrentPageDataChange)="currentPageDataChange($event)"
+                [nzLoading]="loading"
+                [nzShowTotal]="rangeTemplate" [nzPageSize]="defaultPage" [nzTotal]="total" [nzPageIndex]="pageIndex"
+                (nzQueryParams)="onQueryParamsChange($event)">
+        <thead>
+        <tr>
+          <th class="text-nowrap" nzWidth="5%">STT</th>
+          <th class="text-nowrap" nzWidth="15%">Mã chức vụ</th>
+          <th class="text-nowrap" nzWidth="30%">Chức vụ chính quyền</th>
+          <th class="text-nowrap" nzWidth="20%">Cấp chính quyền</th>
+          <th class="text-nowrap" nzWidth="15%">Người tạo</th>
+          <th class="text-nowrap" nzWidth="15%">Ngày tạo</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let data of basicTable.data; let i = index;" class="actived" (click)="onRowSelect(data)"
+            [class.selected]="data === selectedItem">
+          <td style="text-align: center" class="text-nowrap">{{getRowIndex(i, basicTable.nzPageIndex,
+            basicTable.nzPageSize)}}</td>
+          <td class="text-nowrap center">{{ data.officeid }}</td>
+          <td class="text-nowrap">{{ data.officename }}</td>
+          <td class="text-nowrap center">{{ convert(data.setlevel) }}</td>
+          <td class="text-nowrap center">{{ data.crtuser }}</td>
+          <td class="text-nowrap center">{{ data.crtdate | dateFormat }}</td>
+        </tr>
+        </tbody>
+      </nz-table>
+      <ng-template #rangeTemplate let-range="range" let-total>
+        {{ range[0] }}-{{ range[1] }} {{'of' | translate }} {{ total }} {{'items' | translate }}
+      </ng-template>
+    </div>
+  </ng-container>
+</div>
+<app-office-detail (closeModal)="closeDetail($event)" [isVisible]="isVisibleDetail" [data]="selectedItem"></app-office-detail>
+<app-office-create (closeModal)="closeCreateForm($event)" [isVisible]="isVisibleCreate" (reload)="doSearch()"></app-office-create>
+<app-office-edit (closeModal)="closeEditForm($event)" [isVisible]="isVisibleEdit" [data]="data" (reload)="loadDataFromServer()"></app-office-edit>

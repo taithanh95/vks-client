@@ -1,0 +1,1342 @@
+<nz-modal *ngIf="lstAccu" class="ant-form" nzWidth="1000px" [(nzVisible)]="isVisible" nzTitle="Thêm mới"
+    nzClosable="false" [nzTitle]="title" nzMaskClosable="false">
+    <ng-template #title>
+        Điều luật, chỉ tiêu
+        <div class="pull-right icon-close">
+            <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+        </div>
+    </ng-template>
+    <ng-container>
+        <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+            <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse(0)">
+                <i nz-icon [nzType]="arrCollapse[0] ? 'minus' : 'plus'"></i>Bổ sung thêm điều luật
+            </legend>
+            <div class="ui-fieldset-content" [ngClass]="arrCollapse[0] ? 'show' : 'hide' ">
+                <div style="display: flex">
+                    <table width="65%" class="ui-panelgrid">
+                        <tr>
+                            <td style="width: 100px">
+                                <label>{{ isTypeAccu ? 'Pháp nhân' : 'Bị can' }}</label>
+                            </td>
+                            <td>
+                                <nz-select nzShowSearch style="width:100%" nzPlaceHolder="" [(ngModel)]="fullname"
+                                    (ngModelChange)="getLstCenLaw($event)">
+                                    <nz-option *ngFor="let option of lstAccu" [nzValue]="option.FULLNAME"
+                                        [nzLabel]="option.FULLNAME"></nz-option>
+                                </nz-select>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 100px">
+                                <label>Tên bộ luật</label>
+                            </td>
+                            <td>
+                                <nz-select nzShowSearch style="width:100%" nzPlaceHolder="" [(ngModel)]="codeid">
+                                    <nz-option *ngFor="let option of lstCode" [nzValue]="option.CODEID"
+                                        [nzLabel]="option.CODENAME"></nz-option>
+                                </nz-select>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Tội danh</label>
+                            </td>
+                            <td>
+                                <input title="Nhấn phím space hoặc gõ mã hoặc tên để chọn tội danh" placeholder=""
+                                    nz-input [(ngModel)]="resultLaw" (input)="onInputAtxLawWithCode($event)"
+                                    [nzAutocomplete]="autolaw3" />
+                                <nz-autocomplete #autolaw3>
+                                    <nz-auto-option *ngFor="let option of atxResultLaws"
+                                        nzLabel="{{toLawOption(option)}}" [nzValue]="option">{{toLawOption(option)}}
+                                    </nz-auto-option>
+                                </nz-autocomplete>
+                            </td>
+                            <td><label>(Bổ sung thêm điều luật)</label></td>
+                        </tr>
+                    </table>
+                    <table width="35%" class="ui-panelgrid">
+                        <tr>
+                            <td class="action div-btn-right-2">
+                                <a target="_blank" [routerLink]="['/report/caseinfo/', centence?.casecode]" href="">
+                                    <button nz-button nzType="primary">
+                                        <span class="fa fa-fw fa-eye"></span>
+                                        Chi tiết vụ án
+                                    </button>
+                                </a>
+                                <!-- <button nz-button (click)="handleOpenPDFModal()"><span class="fa fa-fw fa-eye"></span>Chi tiết vụ án</button> -->
+                                <button *ngIf="!isVisibleDisable" nz-button (click)="openPopupCenlawcode()"><span class="fa fa-fw fa-search"></span>Tìm kiếm điều luật</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="action div-btn-right-2">
+                                <button nz-button (click)="handleCancel()"><span class="fa fa-fw fa-arrow-left"></span>Quay lại</button>
+                                <button *ngIf="!isVisibleDisable" nz-button [disabled]="!isSelected" nz-popconfirm
+                                nzPopconfirmTitle="Bạn có chắc muốn xóa bản ghi này không?"
+                                nzPopconfirmPlacement="top" nzOkText="Có" nzCancelText="Không"
+                                (nzOnConfirm)="confirmDeleteCenLaw()"><span class="fa fa-fw fa-times"></span>Xóa</button>
+                                <button *ngIf="!isVisibleDisable" nz-button (click)="insUpdateCenlaw()"><span class="fa fa-fw fa-plus"></span>Ghi lại điều luật</button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </fieldset>
+        <nz-table #basicTable class="ui-table" [nzData]="lstCenlaw" nzSize="small" nzShowSizeChanger
+            nzShowPagination="false">
+            <thead>
+                <tr>
+                    <th class="text-nowrap center" width="10%">Họ và tên</th>
+                    <th class="text-nowrap center" width="7%">Điều</th>
+                    <th class="text-nowrap center" width="8%">Khoản</th>
+                    <th class="text-nowrap center" width="8%">Điểm</th>
+                    <th class="text-nowrap center" width="10%">Tên bộ luật</th>
+                    <th class="text-nowrap center" style="max-width: 45% ; min-width: 22%">Tội danh</th>
+                    <th *ngIf="userfor === 'G3'" class="text-nowrap center" width="15%">Mức án VKS đề nghị</th>
+                    <th *ngIf="isCheckUserFor" class="text-nowrap center" width="10%">Hình phạt</th>
+                    <th class="text-nowrap center" width="10%">Chỉ tiêu</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of basicTable.data;let i = index;" (click)="onRowSelect(data)"
+                    ngClass="s-{{data.selected}}">
+                    <td class="center">{{ f(data,'accuname') }}</td>
+                    <td class="center">{{ f(data,'lawid') }}</td>
+                    <td class="center">{{ f(data,'item') }}</td>
+                    <td class="center">{{ f(data,'point') }}</td>
+                    <td class="center" title="{{ f(data,'codename') }}">{{ f(data,'codename') }}</td>
+                    <td class="center" title="{{ f(data,'lawname') }}">{{ f(data,'lawname') }}</td>
+                    <td *ngIf="userfor === 'G3'" class="text-nowrap center">
+                        <a (click)="openView('vks',data)">
+                            <div>Mức án VKS đề nghị</div>
+                        </a>
+                    </td>
+                    <td *ngIf="isCheckUserFor" class="text-nowrap center">
+                        <a (click)="openView('hinhphat',data)">
+                            <div>Hình phạt</div>
+                        </a>
+                    </td>
+                    <td class="text-nowrap center">
+                        <a (click)="openStatic(data)">
+                            <div>Chỉ tiêu</div>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+        <div class="row">
+            <ng-container>
+                <div class="div-btn-right-2">
+                    <button *ngIf="isCheckUserFor" nz-button nzType="primary" style="margin-left: 5px"
+                            (click)="openViewCollect('collectHinhphat')">
+                            <i class="fa fa-fw fa-edit"></i>Xem tổng hợp hình phạt</button>
+                    <button *ngIf="userfor === 'G3'" nz-button nzType="primary" style="margin-left: 5px" (click)="openViewCollect('collectVks')">
+                            <i class="fa fa-fw fa-edit"></i>Xem tổng hợp mức án VKS đề nghị</button>
+                </div>
+            </ng-container>
+        </div>
+        <ng-container *ngIf="isFieldContainer">
+            <fieldset
+                class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+                <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse(1)">
+                    <i nz-icon [nzType]="arrCollapse[1] ? 'minus' : 'plus'"></i>{{ titleField }}
+                </legend>
+                <div class="ui-fieldset-content" [ngClass]="arrCollapse[1] ? 'show' : 'hide' ">
+                    <ng-container *ngIf="(isCheckCollectJudment || isCheckCollectSpppenal) && !isVisibleDisable">
+                        <div class="div-grid-action">
+                            <button style="margin: 5px" nz-button nz-popconfirm
+                                nzPopconfirmTitle="Bạn có chắc muốn tổng hợp lại hình phạt" nzPopconfirmPlacement="top"
+                                nzOkText="Có" nzCancelText="Không" (nzOnConfirm)="confirmSearchAgainJudgement()">
+                                {{ isCheckCollectJudment ? 'Tổng hợp lại mức án VKS đề nghị' : 'Tổng hợp lại hình phạt'}}
+                            </button>
+                            <div class="div-btn-right">
+                                <button nz-button style="margin-left: 5px" (click)="insUpdateJudgement()">
+                                    {{ isCheckCollectJudment ? 'Ghi lại tổng hợp lại mức án VKS đề nghị' :
+                                    'Ghi lại tổng hợp hình phạt'}}
+                                </button>
+                                <button nz-button style="margin-left: 5px" [disabled]="!isCheckLstCenPen" nz-popconfirm
+                                    nzPopconfirmTitle="Bạn có chắc muốn xóa bản ghi này không?"
+                                    nzPopconfirmPlacement="top" nzOkText="Có" nzCancelText="Không"
+                                    (nzOnConfirm)="confirmDeleteJudgement()">
+                                    {{isCheckCollectJudment ? 'Xóa tổng hợp lại mức án VKS đề nghị' : 'Xóa tổng hợp hình phạt'}}
+                                </button>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="(isCheckJudment || isCheckSpppenal) && !isVisibleDisable">
+                        <div class="row">
+                            <div class="div-btn-right-2">
+                                <button nz-button style="margin-left: 5px" [disabled]="!isCheckLstCenPen" nz-popconfirm
+                                    nzPopconfirmTitle="Bạn có chắc muốn xóa bản ghi này không?"
+                                    nzPopconfirmPlacement="top" nzOkText="Có" nzCancelText="Không"
+                                    (nzOnConfirm)="confirmDeleteCenPenalty()">
+                                    {{ isCheckJudment ? 'Xóa mức án VKS đề nghị' : 'Xóa hình phạt'}}
+                                </button>
+                                <button nz-button style="margin-left: 5px" (click)="insUpdateCenPenalty()">
+                                    {{ isCheckJudment ? 'Ghi lại mức án VKS đề nghị' :'Ghi lại hình phạt'}}
+                                </button>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <div *ngIf="isCheckCollectJudment || isCheckCollectSpppenal" class="text-nowrap center font-notif">
+                        {{ infoCollects }}
+                    </div>
+                    <ng-container *ngIf="!isTypeAccu">
+                        <fieldset
+                            class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+                            <legend class="ui-fieldset-legend ui-corner-all ui-state-default"
+                                (click)="toggleCollapse(2)">
+                                <i nz-icon [nzType]="arrCollapse[2] ? 'minus' : 'plus'"></i>Hình phạt chính
+                            </legend>
+                            <div class="ui-fieldset-content" [ngClass]="arrCollapse[2] ? 'show' : 'hide' ">
+                                <table width="100%" class="ui-panelgrid ui-from">
+                                    <nz-radio-group [(ngModel)]="penaltyid">
+                                        <ng-container *ngIf="isCheckSpppenal || isCheckCollectSpppenal">
+                                            <tr>
+                                                <td width="400px"></td>
+                                                <td width="300px"></td>
+                                            </tr>
+                                        </ng-container>
+                                        <ng-container *ngIf="isCheckJudment|| isCheckCollectJudment">
+                                            <tr>
+                                                <td width="400px"></td>
+                                                <td width="200px"></td>
+                                                <td width="30px"></td>
+                                                <td width="200px"></td>
+                                            </tr>
+                                        </ng-container>
+                                        <tr>
+                                            <td>
+                                                <label nz-radio nzValue="00">00 - Cảnh cáo</label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label nz-radio nzValue="01">01 - Phạt tiền</label>
+                                            </td>
+                                            <td>
+                                                <input nz-input width="190px" title="Số tiền phạt (Đơn vị tính: đồng)"
+                                                    [(ngModel)]="lstCenPenalty.pen01.nummoney" (keypress)="validateOnlyNumbers($event)" mask="separator" thousandSeparator= "," suffix=" đ">
+                                            </td>
+                                            <ng-container *ngIf="(isCheckJudment|| isCheckCollectJudment) && userfor === 'G3'">
+                                                <td>
+                                                    <label> đến </label>
+                                                </td>
+                                                <td>
+                                                    <input nz-input width="190px"
+                                                        title="Số tiền phạt (Đơn vị tính: đồng)"
+                                                        [(ngModel)]="lstCenPenalty.pen01.tmoney" (keypress)="validateOnlyNumbers($event)" mask="separator" thousandSeparator= "," suffix=" đ">
+                                                </td>
+                                            </ng-container>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label nz-radio nzValue="02">02 - Cải tạo không giam giữ</label>
+                                            </td>
+                                            <ng-container *ngIf="isCheckSpppenal || isCheckCollectSpppenal">
+                                                <td>
+                                                    <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                        [(ngModel)]="lstCenPenalty.pen02.numyear"
+                                                        [nzFormatter]="lstFormatDate.pen02.from.formatterYear" [nzParser]="lstFormatDate.pen02.from.parserYear"
+                                                        (nzBlur)="nzBlurYear('pen02','form')" (nzFocus)="nzFocusYear('pen02','from')"
+                                                        defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                    </nz-input-number>
+                                                    <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                        [(ngModel)]="lstCenPenalty.pen02.nummonth"
+                                                        [nzFormatter]="lstFormatDate.pen02.from.formatterMonth" [nzParser]="lstFormatDate.pen02.from.parserMonth"
+                                                        (nzBlur)="nzBlurMonth('pen02','from')" (nzFocus)="nzFocusMonth('pen02','from')"
+                                                        defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                    </nz-input-number>
+                                                    <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                        [(ngModel)]="lstCenPenalty.pen02.numday"
+                                                        [nzFormatter]="lstFormatDate.pen02.from.formatterDay" [nzParser]="lstFormatDate.pen02.from.parserDay"
+                                                        (nzBlur)="nzBlurDay('pen02','from')" (nzFocus)="nzFocusDay('pen02','from')"
+                                                        defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                    </nz-input-number>
+                                                </td>
+                                            </ng-container>
+                                            <ng-container *ngIf="isCheckJudment|| isCheckCollectJudment">
+                                                <td>
+                                                    <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                        [(ngModel)]="lstCenPenalty.pen02.fyear"
+                                                        [nzFormatter]="lstFormatDate.pen02.from.formatterYear" [nzParser]="lstFormatDate.pen02.from.parserYear"
+                                                        (nzBlur)="nzBlurYear('pen02','from')" (nzFocus)="nzFocusYear('pen02','from')"
+                                                        defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                    </nz-input-number>
+                                                    <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                        [(ngModel)]="lstCenPenalty.pen02.fmonth"
+                                                        [nzFormatter]="lstFormatDate.pen02.from.formatterMonth" [nzParser]="lstFormatDate.pen02.from.parserMonth"
+                                                        (nzBlur)="nzBlurMonth('pen02','from')" (nzFocus)="nzFocusMonth('pen02','from')"
+                                                        defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                    </nz-input-number>
+                                                </td>
+                                                <td>
+                                                    <label> đến </label>
+                                                </td>
+                                                <td>
+                                                    <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                        [(ngModel)]="lstCenPenalty.pen02.tyear"
+                                                        [nzFormatter]="lstFormatDate.pen02.to.formatterYear" [nzParser]="lstFormatDate.pen02.to.parserYear"
+                                                        (nzBlur)="nzBlurYear('pen02','to')" (nzFocus)="nzFocusYear('pen02','to')"
+                                                        defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                    </nz-input-number>
+                                                    <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                        [(ngModel)]="lstCenPenalty.pen02.tmonth"
+                                                        [nzFormatter]="lstFormatDate.pen02.to.formatterMonth" [nzParser]="lstFormatDate.pen02.to.parserMonth"
+                                                        (nzBlur)="nzBlurMonth('pen02','to')" (nzFocus)="nzFocusMonth('pen02','to')"
+                                                        defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                    </nz-input-number>
+                                                </td>
+                                            </ng-container>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label nz-radio nzValue="03">03 - Trục xuất</label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label nz-radio nzValue="04">04 - Tù có thời hạn</label>
+                                            </td>
+                                            <ng-container *ngIf="isCheckSpppenal || isCheckCollectSpppenal">
+                                                <td>
+                                                    <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                        [(ngModel)]="lstCenPenalty.pen04.numyear"
+                                                        [nzFormatter]="lstFormatDate.pen04.from.formatterYear" [nzParser]="lstFormatDate.pen04.from.parserYear"
+                                                        (nzBlur)="nzBlurYear('pen04','from')" (nzFocus)="nzFocusYear('pen04','from')"
+                                                        defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                    </nz-input-number>
+                                                    <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                        [(ngModel)]="lstCenPenalty.pen04.nummonth"
+                                                        [nzFormatter]="lstFormatDate.pen04.from.formatterMonth" [nzParser]="lstFormatDate.pen04.from.parserMonth"
+                                                        (nzBlur)="nzBlurMonth('pen04','from')" (nzFocus)="nzFocusMonth('pen04','from')"
+                                                        defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                    </nz-input-number>
+                                                    <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                        [(ngModel)]="lstCenPenalty.pen04.numday"
+                                                        [nzFormatter]="lstFormatDate.pen04.from.formatterDay" [nzParser]="lstFormatDate.pen04.from.parserDay"
+                                                        (nzBlur)="nzBlurDay('pen04','from')" (nzFocus)="nzFocusDay('pen04','from')"
+                                                        defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                    </nz-input-number>
+                                                </td>
+                                            </ng-container>
+                                            <ng-container *ngIf="isCheckJudment|| isCheckCollectJudment">
+                                                <td>
+                                                    <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                        [(ngModel)]="lstCenPenalty.pen04.fyear"
+                                                        [nzFormatter]="lstFormatDate.pen04.from.formatterYear" [nzParser]="lstFormatDate.pen04.from.parserYear"
+                                                        (nzBlur)="nzBlurYear('pen04','from')" (nzFocus)="nzFocusYear('pen04','from')"
+                                                        defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                    </nz-input-number>
+                                                    <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                        [(ngModel)]="lstCenPenalty.pen04.fmonth"
+                                                        [nzFormatter]="lstFormatDate.pen04.from.formatterMonth" [nzParser]="lstFormatDate.pen04.from.parserMonth"
+                                                        (nzBlur)="nzBlurMonth('pen04','from')" (nzFocus)="nzFocusMonth('pen04','from')"
+                                                        defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                    </nz-input-number>
+                                                </td>
+                                                <td>
+                                                    <label> đến </label>
+                                                </td>
+                                                <td>
+                                                    <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                        [(ngModel)]="lstCenPenalty.pen04.tyear"
+                                                        [nzFormatter]="lstFormatDate.pen04.to.formatterYear" [nzParser]="lstFormatDate.pen04.to.parserYear"
+                                                        (nzBlur)="nzBlurYear('pen04','to')" (nzFocus)="nzFocusYear('pen04','to')"
+                                                        defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                    </nz-input-number>
+                                                    <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                        [(ngModel)]="lstCenPenalty.pen04.tmonth"
+                                                        [nzFormatter]="lstFormatDate.pen04.to.formatterMonth" [nzParser]="lstFormatDate.pen04.to.parserMonth"
+                                                        (nzBlur)="nzBlurMonth('pen04','to')" (nzFocus)="nzFocusMonth('pen04','to')"
+                                                        defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                    </nz-input-number>
+                                                </td>
+                                            </ng-container>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>
+                                                <label>(Thời gian tù)</label>
+                                            </td>
+                                        </tr>
+                                        <ng-container *ngIf="lstCenPenalty.pen04.numyear < 3">
+                                        <tr>
+                                            <td></td>
+                                            <td>
+                                                <label nz-checkbox [(ngModel)]="lstCenPenalty.pen04.suspended">
+                                                    Hưởng án treo
+                                                </label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <ng-container *ngIf="isCheckSpppenal || isCheckCollectSpppenal">
+                                                <td>
+                                                    <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                        [disabled]="!lstCenPenalty.pen04.suspended"
+                                                        [(ngModel)]="lstCenPenalty.pen04.numyeartest"
+                                                        [nzFormatter]="lstFormatDate.pen04Sup.from.formatterYear" [nzParser]="lstFormatDate.pen04Sup.from.parserYear"
+                                                        (nzBlur)="nzBlurYear('pen04Sup','from')" (nzFocus)="nzFocusYear('pen04Sup','from')"
+                                                        defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                    </nz-input-number>
+                                                    <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                        [disabled]="!lstCenPenalty.pen04.suspended"
+                                                        [(ngModel)]="lstCenPenalty.pen04.nummonthtest"
+                                                        [nzFormatter]="lstFormatDate.pen04Sup.from.formatterMonth" [nzParser]="lstFormatDate.pen04Sup.from.parserMonth"
+                                                        (nzBlur)="nzBlurMonth('pen04Sup','from')" (nzFocus)="nzFocusMonth('pen04Sup','from')"
+                                                        defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                    </nz-input-number>
+                                                    <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                        [disabled]="!lstCenPenalty.pen04.suspended"
+                                                        [(ngModel)]="lstCenPenalty.pen04.numdaytest"
+                                                        [nzFormatter]="lstFormatDate.pen04Sup.from.formatterDay" [nzParser]="lstFormatDate.pen04Sup.from.parserDay"
+                                                        (nzBlur)="nzBlurDay('pen04Sup','from')" (nzFocus)="nzFocusDay('pen04Sup','from')"
+                                                        defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                    </nz-input-number>
+                                                </td>
+                                            </ng-container>
+                                            <ng-container *ngIf="isCheckJudment|| isCheckCollectJudment">
+                                                <td>
+                                                    <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                        [disabled]="!lstCenPenalty.pen04.suspended"
+                                                        [(ngModel)]="lstCenPenalty.pen04.fyeartest"
+                                                        [nzFormatter]="lstFormatDate.pen04Sup.from.formatterYear" [nzParser]="lstFormatDate.pen04Sup.from.parserYear"
+                                                        (nzBlur)="nzBlurYear('pen04Sup','from')" (nzFocus)="nzFocusYear('pen04Sup','from')"
+                                                        defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                    </nz-input-number>
+                                                    <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                        [disabled]="!lstCenPenalty.pen04.suspended"
+                                                        [(ngModel)]="lstCenPenalty.pen04.fmonthtest"
+                                                        [nzFormatter]="lstFormatDate.pen04Sup.from.formatterMonth" [nzParser]="lstFormatDate.pen04Sup.from.parserMonth"
+                                                        (nzBlur)="nzBlurMonth('pen04Sup','from')" (nzFocus)="nzFocusMonth('pen04Sup','from')"
+                                                        defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                    </nz-input-number>
+                                                </td>
+                                                <td>
+                                                    <label> đến </label>
+                                                </td>
+                                                <td>
+                                                    <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                        [disabled]="!lstCenPenalty.pen04.suspended"
+                                                        [(ngModel)]="lstCenPenalty.pen04.tyeartest"
+                                                        [nzFormatter]="lstFormatDate.pen04Sup.to.formatterYear" [nzParser]="lstFormatDate.pen04Sup.to.parserYear"
+                                                        (nzBlur)="nzBlurYear('pen04Sup','to')" (nzFocus)="nzFocusYear('pen04Sup','to')"
+                                                        defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                    </nz-input-number>
+                                                    <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                        [disabled]="!lstCenPenalty.pen04.suspended"
+                                                        [(ngModel)]="lstCenPenalty.pen04.tmonthtest"
+                                                        [nzFormatter]="lstFormatDate.pen04Sup.to.formatterMonth" [nzParser]="lstFormatDate.pen04Sup.to.parserMonth"
+                                                        (nzBlur)="nzBlurMonth('pen04Sup','to')" (nzFocus)="nzFocusMonth('pen04Sup','to')"
+                                                        defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                    </nz-input-number>
+                                                </td>
+                                            </ng-container>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>
+                                                <label>(Thời gian thử thách)</label>
+                                            </td>
+                                        </tr>
+                                        </ng-container>
+                                        <tr>
+                                            <td>
+                                                <label nz-radio nzValue="05">05 - Tù chung thân</label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label nz-radio nzValue="06">06 - Tử hình</label>
+                                            </td>
+                                        </tr>
+                                    </nz-radio-group>
+                                </table>
+                            </div>
+                        </fieldset>
+                        <fieldset
+                            class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+                            <legend class="ui-fieldset-legend ui-corner-all ui-state-default"
+                                (click)="toggleCollapse(3)">
+                                <i nz-icon [nzType]="arrCollapse[3] ? 'minus' : 'plus'"></i>Hình phạt bổ sung
+                            </legend>
+                            <div class="ui-fieldset-content" [ngClass]="arrCollapse[3] ? 'show' : 'hide' ">
+                                <table width="100%" class="ui-panelgrid">
+                                    <ng-container *ngIf="isCheckSpppenal || isCheckCollectSpppenal">
+                                        <tr>
+                                            <td width="340px"></td>
+                                            <td width="250px"></td>
+                                            <td width="200px"></td>
+                                        </tr>
+                                    </ng-container>
+                                    <ng-container *ngIf="isCheckJudment|| isCheckCollectJudment">
+                                        <tr>
+                                            <td width="300px"></td>
+                                            <td width="170px"></td>
+                                            <td width="30px"></td>
+                                            <td width="170px"></td>
+                                        </tr>
+                                    </ng-container>
+                                    <ng-container *ngIf="penaltyid !== '03'">
+                                    <tr>
+                                        <td>
+                                            <label nz-checkbox [(ngModel)]="lstCenPenalty.pen11.isCheck">11 - Cấm đảm nhiệm chức vụ, cấm hành nghề hoặc làm công việc nhất định</label>
+                                        </td>
+                                        <ng-container *ngIf="isCheckSpppenal || isCheckCollectSpppenal">
+                                            <td>
+                                                <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                    [(ngModel)]="lstCenPenalty.pen11.numyear"
+                                                    [nzFormatter]="lstFormatDate.pen11.from.formatterYear" [nzParser]="lstFormatDate.pen11.from.parserYear"
+                                                    (nzBlur)="nzBlurYear('pen11','from')" (nzFocus)="nzFocusYear('pen11','from')" 
+                                                    defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                </nz-input-number>
+                                                <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                    [(ngModel)]="lstCenPenalty.pen11.nummonth"
+                                                    [nzFormatter]="lstFormatDate.pen11.from.formatterMonth" [nzParser]="lstFormatDate.pen11.from.parserMonth"
+                                                    (nzBlur)="nzBlurMonth('pen11','from')" (nzFocus)="nzFocusMonth('pen11','from')"
+                                                    defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                </nz-input-number>
+                                                <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                    [(ngModel)]="lstCenPenalty.pen11.numday"
+                                                    [nzFormatter]="lstFormatDate.pen11.from.formatterDay" [nzParser]="lstFormatDate.pen11.from.parserDay"
+                                                    (nzBlur)="nzBlurDay('pen11','from')" (nzFocus)="nzFocusDay('pen11','from')" 
+                                                    defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                </nz-input-number>
+                                            </td>
+                                        </ng-container>
+                                        <ng-container *ngIf="isCheckJudment|| isCheckCollectJudment">
+                                            <td>
+                                                <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                    [(ngModel)]="lstCenPenalty.pen11.fyear"
+                                                    [nzFormatter]="lstFormatDate.pen11.from.formatterYear" [nzParser]="lstFormatDate.pen11.from.parserYear"
+                                                    (nzBlur)="nzBlurYear('pen11','from')" (nzFocus)="nzFocusYear('pen11','from')" 
+                                                    defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                </nz-input-number>
+                                                <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                    [(ngModel)]="lstCenPenalty.pen11.fmonth"
+                                                    [nzFormatter]="lstFormatDate.pen11.from.formatterMonth" [nzParser]="lstFormatDate.pen11.from.parserMonth"
+                                                    (nzBlur)="nzBlurMonth('pen11','from')" (nzFocus)="nzFocusMonth('pen11','from')"
+                                                    defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                </nz-input-number>
+                                            </td>
+                                            <td>
+                                                <label> đến </label>
+                                            </td>
+                                            <td>
+                                                <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                    [(ngModel)]="lstCenPenalty.pen11.tyear"
+                                                    [nzFormatter]="lstFormatDate.pen11.to.formatterYear" [nzParser]="lstFormatDate.pen11.to.parserYear"
+                                                    (nzBlur)="nzBlurYear('pen11','to')" (nzFocus)="nzFocusYear('pen11','to')" 
+                                                    defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                </nz-input-number>
+                                                <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                    [(ngModel)]="lstCenPenalty.pen11.tmonth"
+                                                    [nzFormatter]="lstFormatDate.pen11.to.formatterMonth" [nzParser]="lstFormatDate.pen11.to.parserMonth"
+                                                    (nzBlur)="nzBlurMonth('pen11','to')" (nzFocus)="nzFocusMonth('pen11','to')"
+                                                    defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                </nz-input-number>
+                                            </td>
+                                        </ng-container>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label nz-checkbox [(ngModel)]="lstCenPenalty.pen12.isCheck">12 - Cấm cư trú</label>
+                                        </td>
+                                        <ng-container *ngIf="isCheckSpppenal || isCheckCollectSpppenal">
+                                            <td>
+                                                <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                    [(ngModel)]="lstCenPenalty.pen12.numyear"
+                                                    [nzFormatter]="lstFormatDate.pen12.from.formatterYear" [nzParser]="lstFormatDate.pen12.from.parserYear"
+                                                    (nzBlur)="nzBlurYear('pen12','from')" (nzFocus)="nzFocusYear('pen12','from')" 
+                                                    defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                </nz-input-number>
+                                                <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                    [(ngModel)]="lstCenPenalty.pen12.nummonth"
+                                                    [nzFormatter]="lstFormatDate.pen12.from.formatterMonth" [nzParser]="lstFormatDate.pen12.from.parserMonth"
+                                                    (nzBlur)="nzBlurMonth('pen12','from')" (nzFocus)="nzFocusMonth('pen12','from')"
+                                                    defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                </nz-input-number>
+                                                <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                    [(ngModel)]="lstCenPenalty.pen12.numday"
+                                                    [nzFormatter]="lstFormatDate.pen12.from.formatterDay" [nzParser]="lstFormatDate.pen12.from.parserDay"
+                                                    (nzBlur)="nzBlurDay('pen12','from')" (nzFocus)="nzFocusDay('pen12','from')" 
+                                                    defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                </nz-input-number>
+                                            </td>
+                                        </ng-container>
+                                        <ng-container *ngIf="isCheckJudment|| isCheckCollectJudment">
+                                            <td>
+                                                <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                    [(ngModel)]="lstCenPenalty.pen12.fyear"
+                                                    [nzFormatter]="lstFormatDate.pen12.from.formatterYear" [nzParser]="lstFormatDate.pen12.from.parserYear"
+                                                    (nzBlur)="nzBlurYear('pen12','from')" (nzFocus)="nzFocusYear('pen12','from')" 
+                                                    defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                </nz-input-number>
+                                                <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                    [(ngModel)]="lstCenPenalty.pen12.fmonth"
+                                                    [nzFormatter]="lstFormatDate.pen12.from.formatterMonth" [nzParser]="lstFormatDate.pen12.from.parserMonth"
+                                                    (nzBlur)="nzBlurMonth('pen12','from')" (nzFocus)="nzFocusMonth('pen12','from')"
+                                                    defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                </nz-input-number>
+                                            </td>
+                                            <td>
+                                                <label> đến </label>
+                                            </td>
+                                            <td>
+                                                <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                    [(ngModel)]="lstCenPenalty.pen12.tyear"
+                                                    [nzFormatter]="lstFormatDate.pen12.to.formatterYear" [nzParser]="lstFormatDate.pen12.to.parserYear"
+                                                    (nzBlur)="nzBlurYear('pen12','to')" (nzFocus)="nzFocusYear('pen12','to')" 
+                                                    defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                </nz-input-number>
+                                                <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                    [(ngModel)]="lstCenPenalty.pen12.tmonth"
+                                                    [nzFormatter]="lstFormatDate.pen12.to.formatterMonth" [nzParser]="lstFormatDate.pen12.to.parserMonth"
+                                                    (nzBlur)="nzBlurMonth('pen12','to')" (nzFocus)="nzFocusMonth('pen12','to')"
+                                                    defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                </nz-input-number>
+                                            </td>
+                                        </ng-container>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label nz-checkbox [(ngModel)]="lstCenPenalty.pen13.isCheck">13 - Quản chế</label>
+                                        </td>
+                                        <ng-container *ngIf="isCheckSpppenal || isCheckCollectSpppenal">
+                                            <td>
+                                                <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                    [(ngModel)]="lstCenPenalty.pen13.numyear"
+                                                    [nzFormatter]="lstFormatDate.pen13.from.formatterYear" [nzParser]="lstFormatDate.pen13.from.parserYear"
+                                                    (nzBlur)="nzBlurYear('pen13','from')" (nzFocus)="nzFocusYear('pen13','from')" 
+                                                    defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                </nz-input-number>
+                                                <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                    [(ngModel)]="lstCenPenalty.pen13.nummonth"
+                                                    [nzFormatter]="lstFormatDate.pen13.from.formatterMonth" [nzParser]="lstFormatDate.pen13.from.parserMonth"
+                                                    (nzBlur)="nzBlurMonth('pen13','from')" (nzFocus)="nzFocusMonth('pen13','from')"
+                                                    defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                </nz-input-number>
+                                                <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                    [(ngModel)]="lstCenPenalty.pen13.numday"
+                                                    [nzFormatter]="lstFormatDate.pen13.from.formatterDay" [nzParser]="lstFormatDate.pen13.from.parserDay"
+                                                    (nzBlur)="nzBlurDay('pen13','from')" (nzFocus)="nzFocusDay('pen13','from')" 
+                                                    defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                </nz-input-number>
+                                            </td>
+                                        </ng-container>
+                                        <ng-container *ngIf="isCheckJudment|| isCheckCollectJudment">
+                                            <td>
+                                                <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                    [(ngModel)]="lstCenPenalty.pen13.fyear"
+                                                    [nzFormatter]="lstFormatDate.pen13.from.formatterYear" [nzParser]="lstFormatDate.pen13.from.parserYear"
+                                                    (nzBlur)="nzBlurYear('pen13','from')" (nzFocus)="nzFocusYear('pen13','from')" 
+                                                    defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                </nz-input-number>
+                                                <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                    [(ngModel)]="lstCenPenalty.pen13.fmonth"
+                                                    [nzFormatter]="lstFormatDate.pen13.from.formatterMonth" [nzParser]="lstFormatDate.pen13.from.parserMonth"
+                                                    (nzBlur)="nzBlurMonth('pen13','from')" (nzFocus)="nzFocusMonth('pen13','from')"
+                                                    defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                </nz-input-number>
+                                            </td>
+                                            <td>
+                                                <label> đến </label>
+                                            </td>
+                                            <td>
+                                                <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                    [(ngModel)]="lstCenPenalty.pen13.tyear"
+                                                    [nzFormatter]="lstFormatDate.pen13.to.formatterYear" [nzParser]="lstFormatDate.pen13.to.parserYear"
+                                                    (nzBlur)="nzBlurYear('pen13','to')" (nzFocus)="nzFocusYear('pen13','to')" 
+                                                    defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                </nz-input-number>
+                                                <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                    [(ngModel)]="lstCenPenalty.pen13.tmonth"
+                                                    [nzFormatter]="lstFormatDate.pen13.to.formatterMonth" [nzParser]="lstFormatDate.pen13.to.parserMonth"
+                                                    (nzBlur)="nzBlurMonth('pen13','to')" (nzFocus)="nzFocusMonth('pen13','to')"
+                                                    defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                </nz-input-number>
+                                            </td>
+                                        </ng-container>
+                                    </tr>
+                                    </ng-container>
+                                    <tr>
+                                        <td>
+                                            <label nz-checkbox [(ngModel)]="lstCenPenalty.pen14.isCheck">14 - Tước một số quyền công dân</label>
+                                        </td>
+                                        <ng-container *ngIf="isCheckSpppenal || isCheckCollectSpppenal">
+                                            <td>
+                                                <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                    [(ngModel)]="lstCenPenalty.pen14.numyear"
+                                                    [nzFormatter]="lstFormatDate.pen14.from.formatterYear" [nzParser]="lstFormatDate.pen14.from.parserYear"
+                                                    (nzBlur)="nzBlurYear('pen14','from')" (nzFocus)="nzFocusYear('pen14','from')" 
+                                                    defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                </nz-input-number>
+                                                <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                    [(ngModel)]="lstCenPenalty.pen14.nummonth"
+                                                    [nzFormatter]="lstFormatDate.pen14.from.formatterMonth" [nzParser]="lstFormatDate.pen14.from.parserMonth"
+                                                    (nzBlur)="nzBlurMonth('pen14','from')" (nzFocus)="nzFocusMonth('pen14','from')"
+                                                    defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                </nz-input-number>
+                                                <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                    [(ngModel)]="lstCenPenalty.pen14.numday"
+                                                    [nzFormatter]="lstFormatDate.pen14.from.formatterDay" [nzParser]="lstFormatDate.pen14.from.parserDay"
+                                                    (nzBlur)="nzBlurDay('pen14','from')" (nzFocus)="nzFocusDay('pen14','from')" 
+                                                    defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                </nz-input-number>
+                                            </td>
+                                        </ng-container>
+                                        <ng-container *ngIf="isCheckJudment|| isCheckCollectJudment">
+                                            <td>
+                                                <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                    [(ngModel)]="lstCenPenalty.pen14.fyear"
+                                                    [nzFormatter]="lstFormatDate.pen14.from.formatterYear" [nzParser]="lstFormatDate.pen14.from.parserYear"
+                                                    (nzBlur)="nzBlurYear('pen14','from')" (nzFocus)="nzFocusYear('pen14','from')" 
+                                                    defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                </nz-input-number>
+                                                <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                    [(ngModel)]="lstCenPenalty.pen14.fmonth"
+                                                    [nzFormatter]="lstFormatDate.pen14.from.formatterMonth" [nzParser]="lstFormatDate.pen14.from.parserMonth"
+                                                    (nzBlur)="nzBlurMonth('pen14','from')" (nzFocus)="nzFocusMonth('pen14','from')"
+                                                    defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                </nz-input-number>
+                                            </td>
+                                            <td>
+                                                <label> đến </label>
+                                            </td>
+                                            <td>
+                                                <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                    [(ngModel)]="lstCenPenalty.pen14.tyear"
+                                                    [nzFormatter]="lstFormatDate.pen14.to.formatterYear" [nzParser]="lstFormatDate.pen14.to.parserYear"
+                                                    (nzBlur)="nzBlurYear('pen14','to')" (nzFocus)="nzFocusYear('pen14','to')" 
+                                                    defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                </nz-input-number>
+                                                <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                    [(ngModel)]="lstCenPenalty.pen14.tmonth"
+                                                    [nzFormatter]="lstFormatDate.pen14.to.formatterMonth" [nzParser]="lstFormatDate.pen14.to.parserMonth"
+                                                    (nzBlur)="nzBlurMonth('pen14','to')" (nzFocus)="nzFocusMonth('pen14','to')"
+                                                    defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                </nz-input-number>
+                                            </td>
+                                        </ng-container>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label nz-checkbox [(ngModel)]="lstCenPenalty.pen15.isCheck">15 - Tịch thu tài sản</label>
+                                        </td>
+                                    </tr>
+
+                                    <ng-container *ngIf="penaltyid !== '01'">
+                                    <tr>
+                                        <td>
+                                            <label nz-checkbox [(ngModel)]="lstCenPenalty.pen16.isCheck">16 - Phạt tiền</label>
+                                        </td>
+                                        <td>
+                                            <input nz-input width="150px" placeHolder="Số tiền phạt (Đơn vị tính: đồng)"
+                                                [(ngModel)]="lstCenPenalty.pen16.nummoney" (keypress)="validateOnlyNumbers($event)" mask="separator" thousandSeparator= "," suffix=" đ">
+                                        </td>
+                                        <ng-container *ngIf="(isCheckJudment|| isCheckCollectJudment) && userfor === 'G3'">
+                                            <td>
+                                                <label> đến </label>
+                                            </td>
+                                            <td>
+                                                <input nz-input width="150px" placeHolder="Số tiền phạt (Đơn vị tính: đồng)"
+                                                    [(ngModel)]="lstCenPenalty.pen16.tmoney" (keypress)="validateOnlyNumbers($event)" mask="separator" thousandSeparator= "," suffix=" đ">
+                                            </td>
+                                        </ng-container>
+                                    </tr>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="penaltyid !== '03'">
+                                    <tr>
+                                        <td>
+                                            <label nz-checkbox [(ngModel)]="lstCenPenalty.pen17.isCheck">17 - Trục xuất</label>
+                                        </td>
+                                    </tr>
+                                    </ng-container>
+                                    <ng-container *ngIf="userfor === 'G4'" >
+                                        <tr>
+                                            <td>
+                                                <label nz-checkbox [(ngModel)]="lstCenPenalty.pen18.isCheck">18 - Cải phụ xử</label>
+                                            </td>
+                                        </tr>
+                                    </ng-container>
+                                </table>
+                            </div>
+                        </fieldset>
+                        <fieldset
+                            class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+                            <legend class="ui-fieldset-legend ui-corner-all ui-state-default"
+                                (click)="toggleCollapse(3)">
+                                <i nz-icon [nzType]="arrCollapse[5] ? 'minus' : 'plus'"></i>Biện pháp tư pháp
+                            </legend>
+                            <div class="ui-fieldset-content" [ngClass]="arrCollapse[5] ? 'show' : 'hide' ">
+                                <table width="100%" class="ui-panelgrid">
+                                    <ng-container *ngIf="isCheckSpppenal || isCheckCollectSpppenal">
+                                        <tr>    
+                                            <td width="340px"></td>
+                                            <td width="250px"></td>
+                                            <td width="200px"></td>
+                                        </tr>
+                                    </ng-container>
+                                    <ng-container *ngIf="isCheckJudment|| isCheckCollectJudment">
+                                        <tr>
+                                            <td width="300px"></td>
+                                            <td width="170px"></td>
+                                            <td width="30px"></td>
+                                            <td width="170px"></td>
+                                        </tr>
+                                    </ng-container>
+                                    <tr>
+                                        <td>
+                                            <label nz-checkbox [(ngModel)]="lstCenPenalty.pen21.isCheck">21 - Tịch thu vật, tiền trực tiếp liên quan đến tội phạm</label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <label nz-checkbox [(ngModel)]="lstCenPenalty.pen22.isCheck">22 - Trả lại tài sản, sửa chữa hoặc bồi thường thiệt hại; buộc công khai xin lỗi;</label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label nz-checkbox [(ngModel)]="lstCenPenalty.pen23.isCheck">23 - Bắt buộc chữa bệnh</label>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </fieldset>
+                        <fieldset
+                            class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+                            <legend class="ui-fieldset-legend ui-corner-all ui-state-default"
+                                (click)="toggleCollapse(4)">
+                                <i nz-icon [nzType]="arrCollapse[4] ? 'minus' : 'plus'"></i>Quyết định khác
+                            </legend>
+                            <div class="ui-fieldset-content" [ngClass]="arrCollapse[4] ? 'show' : 'hide' ">
+                                <table width="100%" class="ui-panelgrid">
+                                    <nz-radio-group [(ngModel)]="penaltyid">
+                                        <tr>
+                                            <td>
+                                                <label nz-radio nzValue="30">30 - Không có tội</label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label nz-radio nzValue="31">31 - Không có tội (Do VKS rút quyết định
+                                                    truy
+                                                    tố)</label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label nz-radio nzValue="32">32 - Miễn trách nhiệm hình sự</label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label nz-radio nzValue="33">33 - Miễn hình phạt</label>
+                                            </td>
+                                        </tr>
+                                    </nz-radio-group>
+                                </table>
+                            </div>
+                        </fieldset>
+                    </ng-container>
+                    <ng-container *ngIf="isTypeAccu">
+                        <table width="100%" class="ui-panelgrid ui-from">
+                            <ng-container *ngIf="isCheckSpppenal || isCheckCollectSpppenal">
+                                <tr>
+                                    <td width="400px"></td>
+                                    <td width="300px"></td>
+                                </tr>
+                            </ng-container>
+                            <ng-container *ngIf="isCheckJudment|| isCheckCollectJudment">
+                                <tr>
+                                    <td width="300px"></td>
+                                    <td width="250px"></td>
+                                    <td width="30px"></td>
+                                    <td width="250px"></td>
+                                </tr>
+                            </ng-container>
+                            <tr>
+                                <td>
+                                    <label class="color-forec">Hình phạt chính đối với pháp nhân</label>
+                                </td>
+                                <td>
+                                    <label nz-checkbox [(ngModel)]="cenPenalForced[0]">Có cưỡng chế</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">
+                                    <table width="100%">
+                                        <nz-radio-group [(ngModel)]="penaltyid">
+                                            <ng-container *ngIf="isCheckSpppenal || isCheckCollectSpppenal">
+                                                <tr>
+                                                    <td width="400px"></td>
+                                                    <td width="300px"></td>
+                                                </tr>
+                                            </ng-container>
+                                            <ng-container *ngIf="isCheckJudment|| isCheckCollectJudment">
+                                                <tr>
+                                                    <td width="300px"></td>
+                                                    <td width="250px"></td>
+                                                    <td width="30px"></td>
+                                                    <td width="250px"></td>
+                                                </tr>
+                                            </ng-container>
+                                            <tr>
+                                                <td>
+                                                    <label nz-radio nzValue="41">41 - Đình chỉ hoạt động có thời
+                                                        hạn</label>
+                                                </td>
+                                                <ng-container *ngIf="isCheckSpppenal || isCheckCollectSpppenal">
+                                                    <td>
+                                                        <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                            [(ngModel)]="lstCenPenalty.pen41.numyear"
+                                                            [nzFormatter]="lstFormatDate.pen41.from.formatterYear" [nzParser]="lstFormatDate.pen41.from.parserYear"
+                                                            (nzBlur)="nzBlurYear('pen41','from')" (nzFocus)="nzFocusYear('pen41','from')"
+                                                            defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                        </nz-input-number>
+                                                        <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                            [(ngModel)]="lstCenPenalty.pen41.nummonth"
+                                                            [nzFormatter]="lstFormatDate.pen41.from.formatterMonth" [nzParser]="lstFormatDate.pen41.from.parserMonth"
+                                                            (nzBlur)="nzBlurMonth('pen41','from')" (nzFocus)="nzFocusMonth('pen41','from')"
+                                                            defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                        </nz-input-number>
+                                                        <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                            [(ngModel)]="lstCenPenalty.pen41.numday"
+                                                            [nzFormatter]="lstFormatDate.pen41.from.formatterDay" [nzParser]="lstFormatDate.pen41.from.parserDay"
+                                                            (nzBlur)="nzBlurDay('pen41','from')" (nzFocus)="nzFocusDay('pen41','from')"
+                                                            defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                        </nz-input-number>
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container *ngIf="isCheckJudment|| isCheckCollectJudment">
+                                                    <td>
+                                                        <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                            [(ngModel)]="lstCenPenalty.pen41.fyear"
+                                                            [nzFormatter]="lstFormatDate.pen41.from.formatterYear" [nzParser]="lstFormatDate.pen41.from.parserYear"
+                                                            (nzBlur)="nzBlurYear('pen41','from')" (nzFocus)="nzFocusYear('pen41','from')"
+                                                            defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                        </nz-input-number>
+                                                        <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                            [(ngModel)]="lstCenPenalty.pen41.fmonth"
+                                                            [nzFormatter]="lstFormatDate.pen41.from.formatterMonth" [nzParser]="lstFormatDate.pen41.from.parserMonth"
+                                                            (nzBlur)="nzBlurMonth('pen41','from')" (nzFocus)="nzFocusMonth('pen41','from')"
+                                                            defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                        </nz-input-number>
+                                                        <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                            [(ngModel)]="lstCenPenalty.pen41.fday"
+                                                            [nzFormatter]="lstFormatDate.pen41.from.formatterDay" [nzParser]="lstFormatDate.pen41.from.parserDay"
+                                                            (nzBlur)="nzBlurDay('pen41','from')" (nzFocus)="nzFocusDay('pen41','from')"
+                                                            defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                        </nz-input-number>
+                                                    </td>
+                                                    <td>
+                                                        <label> đến </label>
+                                                    </td>
+                                                    <td>
+                                                        <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                            [(ngModel)]="lstCenPenalty.pen41.tyear"
+                                                            [nzFormatter]="lstFormatDate.pen41.to.formatterYear" [nzParser]="lstFormatDate.pen41.to.parserYear"
+                                                            (nzBlur)="nzBlurYear('pen41','to')" (nzFocus)="nzFocusYear('pen41','to')"
+                                                            defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                        </nz-input-number>
+                                                        <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                            [(ngModel)]="lstCenPenalty.pen41.tmonth"
+                                                            [nzFormatter]="lstFormatDate.pen41.to.formatterMonth" [nzParser]="lstFormatDate.pen41.to.parserMonth"
+                                                            (nzBlur)="nzBlurMonth('pen41','to')" (nzFocus)="nzFocusMonth('pen41','to')"
+                                                            defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                        </nz-input-number>
+                                                        <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                                            [(ngModel)]="lstCenPenalty.pen41.tday"
+                                                            [nzFormatter]="lstFormatDate.pen41.to.formatterDay" [nzParser]="lstFormatDate.pen41.to.parserDay"
+                                                            (nzBlur)="nzBlurDay('pen41','to')" (nzFocus)="nzFocusDay('pen41','to')"
+                                                            defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                                        </nz-input-number>
+                                                    </td>
+                                                </ng-container>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <label nz-radio nzValue="42"> 42 - Đình chỉ hoạt động vĩnh
+                                                        viễn</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <label nz-radio nzValue="43"> 43 - Phạt tiền</label>
+                                                </td>
+                                                <td>
+                                                    <input nz-input width="190px" placeHolder="Số tiền phạt (Đơn vị tính: đồng)"
+                                                        [(ngModel)]="lstCenPenalty.pen43.nummoney" (keypress)="validateOnlyNumbers($event)" mask="separator" thousandSeparator= "," suffix=" đ">
+                                                </td>
+                                                <ng-container *ngIf="(isCheckJudment|| isCheckCollectJudment) && userfor === 'G3'">
+                                                    <td>
+                                                        <label> đến </label>
+                                                    </td>
+                                                    <td>
+                                                        <input nz-input width="190px"
+                                                            placeHolder="Số tiền phạt (Đơn vị tính: đồng)"
+                                                            [(ngModel)]="lstCenPenalty.pen43.tmoney" (keypress)="validateOnlyNumbers($event)" mask="separator" thousandSeparator= "," suffix=" đ">
+                                                    </td>
+                                                </ng-container>
+                                            </tr>
+                                        </nz-radio-group>
+                                    </table>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <label class="color-forec">Hình phạt bổ sung đối với pháp nhân</label>
+                                </td>
+                            </tr>
+                            <ng-container *ngIf="penaltyid !== '43'">
+                                <tr>
+                                    <td>
+                                        <label nz-checkbox [(ngModel)]="lstCenPenalty.pen51.isCheck">51 - Phạt tiền</label>
+                                    </td>
+                                    <td>
+                                        <input nz-input width="150px" placeHolder="Số tiền phạt (Đơn vị tính: đồng)"
+                                            [(ngModel)]="lstCenPenalty.pen51.nummoney" (keypress)="validateOnlyNumbers($event)" mask="separator" thousandSeparator= "," suffix=" đ">
+                                    </td>
+                                    <ng-container *ngIf="(isCheckJudment|| isCheckCollectJudment) && userfor === 'G3'">
+                                        <td>
+                                            <label> đến </label>
+                                        </td>
+                                        <td>
+                                            <input nz-input width="150px" placeHolder="Số tiền phạt (Đơn vị tính: đồng)"
+                                                [(ngModel)]="lstCenPenalty.pen51.tmoney" (keypress)="validateOnlyNumbers($event)" mask="separator" thousandSeparator= "," suffix=" đ">
+                                        </td>
+                                    </ng-container>
+                                </tr>
+                                </ng-container>
+                            <!-- <tr>
+                                <td>
+                                    <label nz-checkbox [(ngModel)]="lstCenPenalty.pen51.isCheck">51 - Cấm kinh
+                                        doanh</label>
+                                </td>
+                                <ng-container *ngIf="isCheckSpppenal || isCheckCollectSpppenal">
+                                    <td>
+                                        <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                            [(ngModel)]="lstCenPenalty.pen51.numyear" [nzFormatter]="lstFormatDate.pen51.from.formatterYear"
+                                            [nzParser]="lstFormatDate.pen51.from.parserYear" (nzBlur)="nzBlurYear('pen51','from')" (nzFocus)="nzFocusYear('pen51','from')"
+                                            defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                        </nz-input-number>
+                                        <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                            [(ngModel)]="lstCenPenalty.pen51.nummonth" [nzFormatter]="lstFormatDate.pen51.from.formatterMonth"
+                                            [nzParser]="lstFormatDate.pen51.from.parserMonth" (nzBlur)="nzBlurMonth('pen51','from')" (nzFocus)="nzFocusMonth('pen51','from')"
+                                            defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                        </nz-input-number>
+                                        <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                            [(ngModel)]="lstCenPenalty.pen51.numday" [nzFormatter]="lstFormatDate.pen51.from.formatterDay"
+                                            [nzParser]="lstFormatDate.pen51.from.parserDay" (nzBlur)="nzBlurDay('pen51','from')" (nzFocus)="nzFocusDay('pen51','from')"
+                                            defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                        </nz-input-number>
+                                    </td>
+                                </ng-container>
+                                <ng-container *ngIf="isCheckJudment|| isCheckCollectJudment">
+                                    <td>
+                                        <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                            [(ngModel)]="lstCenPenalty.pen51.fyear" [nzFormatter]="lstFormatDate.pen51.from.formatterYear"
+                                            [nzParser]="lstFormatDate.pen51.from.parserYear" (nzBlur)="nzBlurYear('pen51','from')" (nzFocus)="nzFocusYear('pen51','from')"
+                                            defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                        </nz-input-number>
+                                        <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                            [(ngModel)]="lstCenPenalty.pen51.fmonth" [nzFormatter]="lstFormatDate.pen51.from.formatterMonth"
+                                            [nzParser]="lstFormatDate.pen51.from.parserMonth" (nzBlur)="nzBlurMonth('pen51','from')" (nzFocus)="nzFocusMonth('pen51','from')"
+                                            defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                        </nz-input-number>
+                                        <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                            [(ngModel)]="lstCenPenalty.pen51.fday" [nzFormatter]="lstFormatDate.pen51.from.formatterDay"
+                                            [nzParser]="lstFormatDate.pen51.from.parserDay" (nzBlur)="nzBlurDay('pen51','from')" (nzFocus)="nzFocusDay('pen51','from')"
+                                            defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                        </nz-input-number>
+                                    </td>
+                                    <td>
+                                        <label> đến </label>
+                                    </td>
+                                    <td>
+                                        <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                            [(ngModel)]="lstCenPenalty.pen51.tyear" [nzFormatter]="lstFormatDate.pen51.to.formatterYear"
+                                            [nzParser]="lstFormatDate.pen51.to.parserYear" (nzBlur)="nzBlurYear('pen51','to')" (nzFocus)="nzFocusYear('pen51','to')"
+                                            defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                        </nz-input-number>
+                                        <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                            [(ngModel)]="lstCenPenalty.pen51.tmonth" [nzFormatter]="lstFormatDate.pen51.to.formatterMonth"
+                                            [nzParser]="lstFormatDate.pen51.to.parserMonth" (nzBlur)="nzBlurMonth('pen51','to')" (nzFocus)="nzFocusMonth('pen51','to')"
+                                            defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                        </nz-input-number>
+                                        <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                            [(ngModel)]="lstCenPenalty.pen51.tday" [nzFormatter]="lstFormatDate.pen51.to.formatterDay"
+                                            [nzParser]="lstFormatDate.pen51.to.parserDay" (nzBlur)="nzBlurDay('pen51','to')" (nzFocus)="nzFocusDay('pen51','to')"
+                                            defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                        </nz-input-number>
+                                    </td>
+                                </ng-container>
+                            </tr> -->
+                            <tr>
+                                <td>
+                                    <label nz-checkbox [(ngModel)]="lstCenPenalty.pen52.isCheck">52 - Cấm kinh doanh, Cấm hoạt động trong một số lĩnh vực nhất định</label>
+                                </td>
+                                <ng-container *ngIf="isCheckSpppenal || isCheckCollectSpppenal">
+                                    <td>
+                                        <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                            [(ngModel)]="lstCenPenalty.pen52.numyear" [nzFormatter]="lstFormatDate.pen52.from.formatterYear"
+                                            [nzParser]="lstFormatDate.pen52.from.parserYear" (nzBlur)="nzBlurYear('pen52','from')" (nzFocus)="nzFocusYear('pen52','from')"
+                                            defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                        </nz-input-number>
+                                        <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                            [(ngModel)]="lstCenPenalty.pen52.nummonth" [nzFormatter]="lstFormatDate.pen52.from.formatterMonth"
+                                            [nzParser]="lstFormatDate.pen52.from.parserMonth" (nzBlur)="nzBlurMonth('pen52','from')" (nzFocus)="nzFocusMonth('pen52','from')"
+                                            defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                        </nz-input-number>
+                                        <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                            [(ngModel)]="lstCenPenalty.pen52.numday" [nzFormatter]="lstFormatDate.pen52.from.formatterDay"
+                                            [nzParser]="lstFormatDate.pen52.from.parserDay" (nzBlur)="nzBlurDay('pen52','from')" (nzFocus)="nzFocusDay('pen52','from')"
+                                            defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                        </nz-input-number>
+                                    </td>
+                                </ng-container>
+                                <ng-container *ngIf="isCheckJudment|| isCheckCollectJudment">
+                                    <td>
+                                        <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                            [(ngModel)]="lstCenPenalty.pen52.fyear" [nzFormatter]="lstFormatDate.pen52.from.formatterYear"
+                                            [nzParser]="lstFormatDate.pen52.from.parserYear" (nzBlur)="nzBlurYear('pen52','from')" (nzFocus)="nzFocusYear('pen52','from')"
+                                            defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                        </nz-input-number>
+                                        <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                            [(ngModel)]="lstCenPenalty.pen52.fmonth" [nzFormatter]="lstFormatDate.pen52.from.formatterMonth"
+                                            [nzParser]="lstFormatDate.pen52.from.parserMonth" (nzBlur)="nzBlurMonth('pen52','from')" (nzFocus)="nzFocusMonth('pen52','from')"
+                                            defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                        </nz-input-number>
+                                        <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                            [(ngModel)]="lstCenPenalty.pen52.fday" [nzFormatter]="lstFormatDate.pen52.from.formatterDay"
+                                            [nzParser]="lstFormatDate.pen52.from.parserDay" (nzBlur)="nzBlurDay('pen52','from')" (nzFocus)="nzFocusDay('pen52','from')"
+                                            defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                        </nz-input-number>
+                                    </td>
+                                    <td>
+                                        <label> đến </label>
+                                    </td>
+                                    <td>
+                                        <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                            [(ngModel)]="lstCenPenalty.pen52.tyear" [nzFormatter]="lstFormatDate.pen52.to.formatterYear"
+                                            [nzParser]="lstFormatDate.pen52.to.parserYear" (nzBlur)="nzBlurYear('pen52','to')" (nzFocus)="nzFocusYear('pen52','to')"
+                                            defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                        </nz-input-number>
+                                        <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                            [(ngModel)]="lstCenPenalty.pen52.tmonth" [nzFormatter]="lstFormatDate.pen52.to.formatterMonth"
+                                            [nzParser]="lstFormatDate.pen52.to.parserMonth" (nzBlur)="nzBlurMonth('pen52','to')" (nzFocus)="nzFocusMonth('pen52','to')"
+                                            defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                        </nz-input-number>
+                                        <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                            [(ngModel)]="lstCenPenalty.pen52.tday" [nzFormatter]="lstFormatDate.pen52.to.formatterDay"
+                                            [nzParser]="lstFormatDate.pen52.to.parserDay" (nzBlur)="nzBlurDay('pen52','to')" (nzFocus)="nzFocusDay('pen52','to')"
+                                            defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                        </nz-input-number>
+                                    </td>
+                                </ng-container>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label nz-checkbox [(ngModel)]="lstCenPenalty.pen53.isCheck"> 53 - Cấm huy động
+                                        vốn</label>
+                                </td>
+                                <ng-container *ngIf="isCheckSpppenal || isCheckCollectSpppenal">
+                                    <td>
+                                        <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                            [(ngModel)]="lstCenPenalty.pen53.numyear" [nzFormatter]="lstFormatDate.pen53.from.formatterYear"
+                                            [nzParser]="lstFormatDate.pen53.from.parserYear" (nzBlur)="nzBlurYear('pen53','from')" (nzFocus)="nzFocusYear('pen53','from')"
+                                            defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                        </nz-input-number>
+                                        <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                            [(ngModel)]="lstCenPenalty.pen53.nummonth" [nzFormatter]="lstFormatDate.pen53.from.formatterMonth"
+                                            [nzParser]="lstFormatDate.pen53.from.parserMonth" (nzBlur)="nzBlurMonth('pen53','from')" (nzFocus)="nzFocusMonth('pen53','from')"
+                                            defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                        </nz-input-number>
+                                        <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                            [(ngModel)]="lstCenPenalty.pen53.numday" [nzFormatter]="lstFormatDate.pen53.from.formatterDay"
+                                            [nzParser]="lstFormatDate.pen53.from.parserDay" (nzBlur)="nzBlurDay('pen53','from')" (nzFocus)="nzFocusDay('pen53','from')"
+                                            defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                        </nz-input-number>
+                                    </td>
+                                </ng-container>
+                                <ng-container *ngIf="isCheckJudment|| isCheckCollectJudment">
+                                    <td>
+                                        <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                            [(ngModel)]="lstCenPenalty.pen53.fyear" [nzFormatter]="lstFormatDate.pen53.from.formatterYear"
+                                            [nzParser]="lstFormatDate.pen53.from.parserYear" (nzBlur)="nzBlurYear('pen53','from')" (nzFocus)="nzFocusYear('pen53','from')"
+                                            defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                        </nz-input-number>
+                                        <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                            [(ngModel)]="lstCenPenalty.pen53.fmonth" [nzFormatter]="lstFormatDate.pen53.from.formatterMonth"
+                                            [nzParser]="lstFormatDate.pen53.from.parserMonth" (nzBlur)="nzBlurMonth('pen53','from')" (nzFocus)="nzFocusMonth('pen53','from')"
+                                            defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                        </nz-input-number>
+                                        <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                            [(ngModel)]="lstCenPenalty.pen53.fday" [nzFormatter]="lstFormatDate.pen53.from.formatterDay"
+                                            [nzParser]="lstFormatDate.pen53.from.parserDay" (nzBlur)="nzBlurDay('pen53','from')" (nzFocus)="nzFocusDay('pen53','from')"
+                                            defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                        </nz-input-number>
+                                    </td>
+                                    <td>
+                                        <label> đến </label>
+                                    </td>
+                                    <td>
+                                        <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                            [(ngModel)]="lstCenPenalty.pen53.tyear" [nzFormatter]="lstFormatDate.pen53.to.formatterYear"
+                                            [nzParser]="lstFormatDate.pen53.to.parserYear" (nzBlur)="nzBlurYear('pen53','to')" (nzFocus)="nzFocusYear('pen53','to')"
+                                            defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                        </nz-input-number>
+                                        <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                            [(ngModel)]="lstCenPenalty.pen53.tmonth" [nzFormatter]="lstFormatDate.pen53.to.formatterMonth"
+                                            [nzParser]="lstFormatDate.pen53.to.parserMonth" (nzBlur)="nzBlurMonth('pen53','to')" (nzFocus)="nzFocusMonth('pen53','to')"
+                                            defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                        </nz-input-number>
+                                        <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1"
+                                            [(ngModel)]="lstCenPenalty.pen53.tday" [nzFormatter]="lstFormatDate.pen53.to.formatterDay"
+                                            [nzParser]="lstFormatDate.pen53.to.parserDay" (nzBlur)="nzBlurDay('pen53','to')" (nzFocus)="nzFocusDay('pen53','to')"
+                                            defaultValue="1" (keypress)="validateOnlyNumbers($event)">
+                                        </nz-input-number>
+                                    </td>
+                                </ng-container>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label class="color-forec">Biện pháp tư pháp đối với pháp nhân</label>
+                                </td>
+                                <td>
+                                    <label nz-checkbox [(ngModel)]="cenPenalForced[1]">Có cưỡng chế</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label nz-checkbox [(ngModel)]="lstCenPenalty.pen61.isCheck">61 - Trả lại tài
+                                        sản</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label nz-checkbox [(ngModel)]="lstCenPenalty.pen62.isCheck"> 62 - Sửa chữa hoặc
+                                        bồi
+                                        thường thiệt hại</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label nz-checkbox [(ngModel)]="lstCenPenalty.pen63.isCheck"> 63 - Buộc công khai
+                                        xin lỗi</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label nz-checkbox [(ngModel)]="lstCenPenalty.pen64.isCheck"> 64 - Khôi phục lại
+                                        tình trạng ban đầu</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <label nz-checkbox [(ngModel)]="lstCenPenalty.pen65.isCheck"> 65 - Thực hiện một
+                                        số
+                                        biện pháp nhằm khắc phục, ngăn chặn hậu quả tiếp tục xảy ra</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label nz-checkbox [(ngModel)]="lstCenPenalty.pen66.isCheck"> 66 - Tháo dỡ công trình</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <label nz-checkbox [(ngModel)]="lstCenPenalty.pen67.isCheck"> 67 - Tịch thu vật hoặc tiền do phạm tội hoặc do mua bán, đổi chác những thứ ấy mà có; khoản thu lợi bất chính từ việc phạm tội;...</label>
+                                </td>
+                            </tr>
+                        </table>
+                    </ng-container>
+                </div>
+            </fieldset>
+        </ng-container>
+        <ng-container *ngIf="isFieldStaticContainer">
+            <fieldset
+                class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+                <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse(1)">
+                    <i nz-icon [nzType]="arrCollapse[1] ? 'minus' : 'plus'"></i>{{ titleField }}
+                </legend>
+                <table width="100%" class="ui-panelgrid ui-panel-6-col">
+                    <tr>
+                        <td><label>
+                                Nơi xảy ra<span class="required">*</span>
+                            </label>
+                        </td>
+                        <td>
+                            <input title="Gõ mã hoặc tên để chọn nơi ở hiện tại (Nhấn dấu cách để chọn tất cả)"
+                                placeholder="" nz-input [(ngModel)]="data.axtLoca" (input)="onInputLoca($event)"
+                                [nzAutocomplete]="autoLoca" />
+                            <nz-autocomplete #autoLoca>
+                                <nz-auto-option *ngFor="let option of lstLoca"
+                                    nzLabel="{{ option.LOCAID }} - {{ option.REMARK }}" [nzValue]="option">{{
+                                    option.LOCAID }} - {{ option.REMARK }}</nz-auto-option>
+                            </nz-autocomplete>
+                        </td>
+                        <td>
+                            <label>
+                                Ngày xảy ra
+                            </label>
+                        </td>
+                        <td>
+                            <nz-date-picker [(ngModel)]="data.CRIMDATE" nzFormat="dd/MM/yyyy" nzPlaceHolder="dd/MM/yyyy"
+                                (input)="onValueCrimdate($event)" (keypress)="validateOnlyNumbers($event)">
+                            </nz-date-picker>
+                        </td>
+                        <td>
+                            <label>
+                                Giờ
+                            </label>
+                        </td>
+                        <td>
+                            <input nz-input [(ngModel)]="data.CRIMTIME" mask="Hh:m0" />
+                        </td>
+                    </tr>
+                    <ng-container *ngIf="!isVisibleDisable">
+                        <tr>
+                            <td colspan="3"></td>
+                            <td colspan="3">
+                                <button  nz-button nzType="primary" style="margin: 5px 5px; float: right;"
+                                    (click)="insUpdateStatics()">
+                                    Ghi lại chỉ tiêu thống kê bị can</button>
+                            </td>
+                        </tr>
+                    </ng-container>
+                </table>
+                <nz-table #basicTable class="ui-table" [nzData]="LstStatistics" nzSize="small" nzShowSizeChanger
+                    nzShowPagination="false" [nzPageSize]="page" [nzLoading]="loading">
+                    <thead>
+                        <tr>
+                            <th [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
+                                (nzCheckedChange)="onAllChecked($event)"></th>
+                            <th class="text-nowrap center" width="10%">Mã</th>
+                            <th class="text-nowrap center" width="80%">Chỉ tiêu thống kê</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of basicTable.data;let i = index;"
+                            ngClass="s-{{setOfCheckedId.has(data.STATID)}}">
+                            <td [nzChecked]="setOfCheckedId.has(data.STATID)"
+                                (nzCheckedChange)="onItemChecked(data.STATID, $event)"
+                                [nzDisabled]="data.STATUS === 'Y' ? false : true"></td>
+                            <td class="text-nowrap center">{{ f(data,'statid') }}</td>
+                            <td class="text-nowrap">{{ f(data,'statname') }}</td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </fieldset>
+        </ng-container>
+    </ng-container>
+    <div *nzModalFooter></div>
+</nz-modal>
+<app-d-cenlawcode (closeModal)="closePopupCenlawcode()" [isVisible]="isVisibleCenlawcode" [accuCode]="accuCode"
+    [userfor]="userfor" [centence]="centence" [register]="register"></app-d-cenlawcode>
+<!-- <app-d-report-caseinfo [caseCode]="this.centence?.casecode" [isVisible]="isVisibleModal" (closeModal)="handleCancelModal()"></app-d-report-caseinfo> -->
+

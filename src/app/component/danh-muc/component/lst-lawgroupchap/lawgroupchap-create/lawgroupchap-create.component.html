@@ -1,0 +1,89 @@
+<nz-modal nzWidth="1000px" [(nzVisible)]="isVisible" nzClosable="false" [nzTitle]="title" nzMaskClosable="false">
+    <ng-template #title>
+        {{ titleName }} Nhóm tội
+        <div class="pull-right icon-close">
+            <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+        </div>
+    </ng-template>
+    <div>
+        <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+            <div class="ui-fieldset-content ant-advanced-search-form">
+                <div nz-row>
+                    <div nz-col [nzLg]="10" [nzMd]="12" [nzXs]="12">
+                        <nz-form-item>
+                            <nz-form-label [nzSpan]="10">Mã</nz-form-label>
+                            <nz-form-control [nzSpan]="12">
+                                <input nz-input placeholder="Hệ thống tự sinh" [(ngModel)]="data.id" disabled>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                    <div nz-col [nzLg]="10" [nzMd]="12" [nzXs]="12">
+                        <nz-form-item>
+                            <nz-form-label [nzSpan]="10">Tên nhóm tội <span style="color: red">&nbsp;*</span></nz-form-label>
+                            <nz-form-control [nzSpan]="12">
+                                <input nz-input placeholder="Tên nhóm tội" [(ngModel)]="data.fullname"
+                                    [required]="isSubmited">
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+    <div class="ui-panel">
+        <div nz-row>
+            <div nz-col [nzSpan]="24" class="search-area">
+                <button nz-button [nzType]="'primary'" (click)="handleOk()">
+                    <span class="fa fa-fw fa-save"></span>Ghi lại
+                </button>
+                <ng-container *ngIf="!data.isEdit">
+                    <button nz-button [nzType]="'primary'" (click)="doReset()">
+                        <span class="fa fa-fw fa-plus"></span>Thêm mới
+                    </button>
+                </ng-container>
+                <button nz-button [nzType]="'primary'" (click)="handleCancel()">
+                    <span class="fa fa-fw fa-arrow-left"></span>Quay lại
+                </button>
+            </div>
+        </div>
+    </div>
+    <ng-container>
+        <div class="data-table">
+            <nz-table #basicTable style="width: 100%" nzShowSizeChanger [nzFrontPagination]="false" nzSize="small" [nzData]="datas"
+                [nzScroll]="{y: '300px' }" [nzShowPagination]="false" [nzLoading]="loading">
+                <thead>
+                    <tr>
+                        <th class="text-nowrap" nzWidth="5%">STT</th>
+                        <th nzWidth="5%"
+                            [(nzChecked)]="checked"
+                            [nzIndeterminate]="indeterminate"
+                            (nzCheckedChange)="onAllChecked($event)">
+                        </th>
+                        <th class="text-nowrap" nzWidth="5%">Mã</th>
+                        <th class="text-nowrap" nzWidth="50%">Chương luật</th>
+                        <th class="text-nowrap" nzWidth="15%">Tên bộ luật</th>
+                        <th class="text-nowrap" nzWidth="10%">Người tạo</th>
+                        <th class="text-nowrap" nzWidth="10%">Ngày tạo</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let data of basicTable.data;let i = index;" (click)="onRowSelect(data)" ngClass="s-{{setOfCheckedId.has(data.groupid)}}">
+                        <td style="text-align: center" class="text-nowrap">{{getRowIndex(i, basicTable.nzPageIndex,
+                          basicTable.nzPageSize)}}</td>
+                          <td [nzChecked]="setOfCheckedId.has(data.groupid)" (nzCheckedChange)="onItemChecked(data.groupid, $event)"></td>
+                        <td class="text-nowrap center">{{ data.groupid }}</td>
+                        <td nzEllipsis >{{ data.groupname }}</td>
+                        <td class="text-nowrap center">{{ convert(data.codeid) }}</td>
+                        <td class="text-nowrap center">{{ data.crtuser }}</td>
+                        <td class="text-nowrap center">{{ data.crtdate | dateFormat }}</td>
+                      </tr>
+                </tbody>
+            </nz-table>
+            <ng-template #rangeTemplate let-range="range" let-total>
+                {{ range[0] }}-{{ range[1] }} {{'of' | translate }} {{ total }} {{'items' | translate }}
+            </ng-template>
+        </div>
+    </ng-container>
+    <div *nzModalFooter></div>
+</nz-modal>

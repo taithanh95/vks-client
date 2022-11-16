@@ -1,0 +1,171 @@
+<nz-modal nzWidth="1300px"
+          [(nzVisible)]="isVisibleDialog"
+          [nzAutofocus]="'auto'"
+          nzClosable="false"
+          [nzTitle]="title"
+          nzMaskClosable="false">
+  <ng-template #title>Chi tiết hoạt động của CQĐT tiến hành
+    <div class="pull-right icon-close">
+      <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+
+  <form id="investigationActivityForm" [formGroup]="investigationActivityForm" focusInvalidInput>
+    <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+      <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse()">
+        <i nz-icon [nzType]="isCollapse ? 'minus' : 'plus'"></i>Chi tiết hoạt động của CQĐT tiến hành
+      </legend>
+
+      <div class="ui-fieldset-content" [ngClass]="isCollapse ? 'show' : 'hide'">
+        <div nz-form class="ant-advanced-search-form" [ngClass]="isCollapse ? 'show' : 'hide' ">
+          <div class="col-12">
+            <div class="row">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="investigationActivityType">Hoạt động điều tra
+                      <span style="color: red">&nbsp;*</span>
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8">
+                      <nz-select formControlName="investigationActivityType">
+                        <nz-option *ngFor="let activityType of investigationActivityType"
+                                   [nzValue]="activityType['paramValue']"
+                                   [nzLabel]="activityType['paramName']"></nz-option>
+                      </nz-select>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="procuracyParticipated">VKS tham gia
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8">
+                      <label nz-checkbox [(ngModel)]="procuracyParticipated" formControlName="procuracyParticipated"></label>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+
+            <div class="row" *ngIf="!procuracyParticipated">
+              <div class="col-12">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-2 text-left" nzFor="reasonForNotParticipating">Lý do VKS không tham gia</nz-form-label>
+                    <nz-form-control class="col-md-10">
+                      <textarea formControlName="reasonForNotParticipating" nz-input name="reasonForNotParticipating"
+                                id="reasonForNotParticipating" [nzAutosize]="true"></textarea>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="executionDate">Ngày thực hiện</nz-form-label>
+                    <nz-form-control class="col-md-8">
+                      <nz-date-picker class="w-100 custom-datepicker-align"
+                                      nzPlaceHolder="dd/MM/yyyy"
+                                      formControlName="executionDate"
+                                      nzFormat="dd/MM/yyyy">
+                      </nz-date-picker>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="investigator">ĐTV thực hiện</nz-form-label>
+                    <nz-form-control class="col-md-8">
+                      <input formControlName="investigator" nz-input name="investigator" type="text"
+                             id="investigator">
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-4 text-left" nzFor="assessment">Nhận định đánh giá</nz-form-label>
+                    <nz-form-control class="col-md-8">
+                      <input formControlName="assessment" nz-input name="job" type="text"
+                             id="assessment">
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+
+              <div class="col-6">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <input type="hidden" formControlName="participatedProcurator">
+                    <input type="hidden" formControlName="participatedProcuratorId">
+                    <nz-form-label class="col-md-4 text-left" nzFor="participatedProcuratorTemp">KSV tham gia
+                    </nz-form-label>
+                    <nz-form-control class="col-md-8">
+                      <input formControlName="participatedProcuratorTemp" nz-input type="text"
+                             id="participatedProcuratorTemp" [nzAutocomplete]="autoProcuratorList" >
+                      <nz-autocomplete #autoProcuratorList [compareWith]="compareProcurator">
+                        <nz-auto-option *ngFor="let procurator of procuratorsSuggestion"
+                                        [nzLabel]="procurator['fullName']"
+                                        [nzValue]="procurator">{{procurator['fullName']}}
+                        </nz-auto-option>
+                      </nz-autocomplete>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-2 text-left" nzFor="note">Kết quả thực hiện</nz-form-label>
+                    <nz-form-control class="col-md-10">
+                      <textarea formControlName="result" nz-input name="result"
+                                id="result" [nzAutosize]="true"></textarea>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12">
+                <div class="row">
+                  <nz-form-item class="w-100">
+                    <nz-form-label class="col-md-2 text-left" nzFor="note">Ghi chú</nz-form-label>
+                    <nz-form-control class="col-md-10">
+                      <textarea formControlName="note" nz-input name="note"
+                                id="note" [nzAutosize]="true"></textarea>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+
+  <div *nzModalFooter>
+    <div class="d-flex align-items-center justify-content-center">
+          <button nz-button (click)="handleCancel()">{{ 'Thoát' }}</button>
+    </div>
+  </div>
+</nz-modal>

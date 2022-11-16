@@ -1,0 +1,54 @@
+<nz-modal class="ant-form" nzWidth="700px" [(nzVisible)]="isVisible" nzTitle="Thêm mới hành vi vi phạm"
+          nzClosable="false" [nzTitle]="title" nzMaskClosable="false">
+  <ng-template #title>
+    {{ titleName }}
+    <div class="pull-right icon-close">
+      <em (click)="handleCancelViolation()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+  <ng-container>
+    <table class="ui-panelgrid table-4-col" style="width: 100%">
+      <tr>
+        <td><label>
+          Loại vi phạm
+        </label></td>
+        <td>
+          <nz-select nzShowSearch style="width:100%" nzPlaceHolder="" [(ngModel)]="selectedVio.typeOfViolations">
+            <nz-option [nzValue]="1" nzLabel="Nghĩa vụ"></nz-option>
+            <nz-option [nzValue]="2" nzLabel="Kỷ luật"></nz-option>
+          </nz-select>
+        </td>
+        <td><label>
+          Ngày vi phạm <span class="required">*</span>
+        </label></td>
+        <td>
+          <nz-date-picker [required]="isSubmited" style="width: 100%" nzPlaceHolder="dd/MM/yyyy" [required]="isSubmited" title="dd/MM/yyyy"
+                          [(ngModel)]="selectedVio.dateOfViolation" required nzFormat="dd/MM/yyyy"
+                          (input)="onValueDateOfViolation($event)" (keypress)="validateOnlyNumbers($event)"></nz-date-picker>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>
+            Hình thức xử lý
+          </label>
+        </td>
+        <td colspan="3">
+          <input nz-input [(ngModel)]="selectedVio.processing"/>
+        </td>
+      </tr>
+      <tr>
+        <td><label>
+          Nội dung vi phạm
+        </label></td>
+        <td colspan="3">
+          <textarea nz-input rows="3" [(ngModel)]="selectedVio.contentViolations"></textarea>
+        </td>
+      </tr>
+    </table>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button (click)="handleSubmitViolation(selectedVio)" [nzLoading]="loading">Ghi lại</button>
+    <button nz-button (click)="handleCancelViolation()">Hủy bỏ</button>
+  </div>
+</nz-modal>

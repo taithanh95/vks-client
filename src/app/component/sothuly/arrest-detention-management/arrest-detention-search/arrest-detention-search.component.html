@@ -1,0 +1,160 @@
+<fieldset  class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+  <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse()">
+    <i nz-icon [nzType]="isCollapse ? 'minus' : 'plus'"></i>Thông tin tìm kiếm
+  </legend>
+  <div class="ui-fieldset-content">
+    <div nz-form class="ant-advanced-search-form px-3" [ngClass]="isCollapse ? 'show' : 'hide' ">
+      <div class="row mb-2">
+        <div class="col-md-2">
+          Mã
+        </div>
+        <div class="col-md-2">
+          <input autofocus pattern="[0-9]+" title="Vui lòng nhập số" nz-input (keypress)="numberOnly($event)"  placeholder="Mã" [(ngModel)]="filterItem.dataRequest.codeDetention"/>
+        </div>
+        <div class="col-md-2">
+          Người bị bắt giữ
+        </div>
+        <div class="col-md-2">
+          <input nz-input placeholder="Người bị bắt giữ" [(ngModel)]="filterItem.dataRequest.arresteeName"/>
+        </div>
+        <div class="col-md-2">
+          Số QĐ tạm giữ
+        </div>
+        <div class="col-md-2">
+          <input nz-input placeholder="Số QĐ tạm giữ"
+                 [(ngModel)]="filterItem.dataRequest.decisionNumber"/>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          Bắt giữ từ ngày
+        </div>
+        <div class="col-md-2">
+          <nz-date-picker class="w-100 custom-datepicker-align" [ngStyle]="{width: '100%'}" nzSize="large"
+                          [(ngModel)]="filterItem.dataRequest.fromDate"
+                          (input)="onFromDateValueChange($event)"
+                          (keypress)="numberOnly($event)"
+                          nzPlaceHolder="Bắt giữ từ ngày" nzFormat="dd/MM/yyyy">
+          </nz-date-picker>
+          <div class="text-danger margin-top-5" *ngIf="requiredFromDate">
+            <small>Sai định dạng ngày tháng hoặc ngày tháng không hợp lệ</small>
+          </div>
+        </div>
+        <div class="col-md-2">
+          Bắt giữ đến ngày
+        </div>
+        <div class="col-md-2">
+          <nz-date-picker class="w-100 custom-datepicker-align" [ngStyle]="{width: '100%'}" nzSize="large"
+                          [(ngModel)]="filterItem.dataRequest.toDate"
+                          (input)="onToDateValueChange($event)"
+                          (keypress)="numberOnly($event)"
+                          nzPlaceHolder="Bắt giữ đến ngày" nzFormat="dd/MM/yyyy">
+          </nz-date-picker>
+        </div>
+      </div>
+    </div>
+  </div>
+</fieldset>
+<div class="ui-panel">
+  <div nz-row>
+    <div nz-col [nzSpan]="24" class="custom-from-btn">
+      <nz-page-header-subtitle class="custom-total-arrest " >Tổng số bản ghi: {{ pageResponse.totalElements }}
+        Trang: {{ pageResponse.pageNumber }}/{{ pageResponse.totalPages }}
+      </nz-page-header-subtitle>
+      <button nz-button  (click)="doSearch()" [nzType]="'primary'">
+        <span class="fa fa-fw fa-search"></span>
+        Tìm kiếm
+      </button>
+      <button nz-button nzType="primary" (click)="showModalAdd()">
+        <span class="fa fa-fw fa-plus"></span>Thêm mới
+      </button>
+
+      <button [disabled]="isBtnUpd"
+              nz-button nzType="primary" (click)="showModalUpdate()">
+        <span class="fa fa-fw fa-edit"></span>Cập nhật thông tin
+      </button>
+
+      <button  [disabled]="isBtnDelete"
+               nz-button nzType="nzDanger" (click)="onDelete()">
+        <span class="fa fa-fw fa-times"></span>Xóa
+      </button>
+      <button [disabled]="isBtnDetail"
+              nz-button nzType="primary" (click)="showModalDetail()">
+        <span class="fa fa-fw fa-eye"></span>Xem chi tiết
+      </button>
+    </div>
+  </div>
+</div>
+<div class="data-table">
+  <section *ngIf="datas.length; else nodata">
+    <nz-table #basicTable [nzData]="datas"
+              [nzScroll]="{ x: '1200px' }"
+              [nzFrontPagination]="false"
+              [nzTotal]="pageResponse.totalElements"
+              [nzPageSize]="pageResponse.pageSize"
+              [nzPageIndex]="pageResponse.pageNumber"
+              nzSize="small"
+              nzShowSizeChanger [nzShowTotal]="rangeTemplate" [nzLoading]="loading"
+              (nzQueryParams)="onQueryParamsChange($event)"
+              [nzPageSizeOptions]="pageSize"
+    >
+      <thead>
+      <tr>
+        <th nzWidth="5%">Chọn</th>
+        <th nzWidth="5%">STT</th>
+        <th nzWidth="10%">Mã</th>
+        <th nzWidth="15%">Đơn vị bắt giữ</th>
+        <th nzWidth="15%">Thời gian đơn vị điều tra thụ lý</th>
+        <th nzWidth="20%">Người bị bắt giữ</th>
+        <th nzWidth="30%">Nội dung bắt giữ</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of basicTable.data;let i = index;" class="actived" ngClass="s-{{data.checked}}" (click)="onRowSelect(data)">
+        <td nzShowCheckbox [(nzChecked)]="data.checked"
+            (nzCheckedChange)="onItemChecked(data, $event)"></td>
+        <td nzAlign="center">{{ data['stt'] }}</td>
+        <td nzAlign="center">{{ data['id'] }}</td>
+        <td nzEllipsis nz-tooltip [nzTooltipTitle]="data['arrestingUnitName']">{{ data['arrestingUnitName'] }}</td>
+        <td nzAlign="center">{{ data['procuracyTakenOverDate'] ? (data['procuracyTakenOverDate'] | dateFormat) : '' }}</td>
+        <td nzEllipsis nz-tooltip [nzTooltipTitle]="data['arresteeName']">{{ data['arresteeName'] }}</td>
+        <td nzEllipsis nz-tooltip [nzTooltipTitle]="data['arrestContent']"><div class="text-wrap-content">{{ data['arrestContent'] }}</div></td>
+      </tr>
+      </tbody>
+    </nz-table>
+    <ng-template #rangeTemplate let-range="range" let-total>
+      {{ range[0] }}-{{ range[1] }} {{' của ' | translate }} {{ pageResponse.totalElements }} {{ ' bản ghi' }}
+    </ng-template>
+  </section>
+  <ng-template #nodata>
+    <nz-empty
+      nzNotFoundImage="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+      [nzNotFoundContent]="contentTpl"
+    >
+      <ng-template #contentTpl>
+        <p>Không tìm thấy kết quả
+        </p>
+      </ng-template>
+    </nz-empty>
+  </ng-template>
+</div>
+<app-arrest-detention-create [isVisibleAdd]="isVisibleAdd" (closeModal)="closeModalAdd($event)">
+</app-arrest-detention-create>
+<app-arrest-detention-update [isVisibleUpdate]="isVisibleUpdate" (closeModal)="closeModalUpdate($event)"
+                             [mode]="modeEnum.UPDATE" [arrestDetentionInfoId]="selectedItem?.id">
+
+</app-arrest-detention-update>
+<app-arrest-detention-update [isVisibleUpdate]="isVisibleDetail"  (closeModal)="closeModalDetail()"
+                             [mode]="modeEnum.VIEW_FROM_PARENT" [arrestDetentionInfoId]="selectedItem?.id">
+
+</app-arrest-detention-update>
+<ng-template #confirm>
+  <i nz-icon nzType="question-circle"  nzTheme="twotone" nzTwotoneColor="#faad14"></i>
+  &nbsp; Bạn có chắc chắn xóa thông tin không?
+</ng-template>
+<ng-template #confirmHeader>
+  Xác nhận
+  <div class="pull-right icon-close">
+    <em (click)="confirmModalRef.close()" nz-icon nzType="close" nzTheme="outline"></em>
+  </div>
+</ng-template>

@@ -1,0 +1,105 @@
+<div>
+    <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+        <div class="ui-fieldset-content ant-advanced-search-form">
+            <div nz-row>
+                <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">Mã nhóm NSD</nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <input nz-input placeholder="Mã nhóm NSD" [(ngModel)]="filterItem.groupid">
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+            <div nz-row>
+                <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="10">Tên nhóm NSD</nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <input nz-input placeholder="Tên nhóm NSD" [(ngModel)]="filterItem.groupname">
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+</div>
+<div class="ui-panel">
+    <div nz-row>
+        <div nz-col [nzSpan]="12" class="float-left">
+            <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu">
+                <button nz-button [nzType]="'primary'" [disabled]="isBtnUpdDisabled">
+                    <span nz-icon nzType="caret-down"></span>
+                    Phần quyền
+                </button>
+            </a>
+            <nz-dropdown-menu #menu="nzDropdownMenu">
+                <ul nz-menu>
+                    <li nz-menu-item nz-tooltip nzTooltipTitle="Phân quyền cho nhóm NSD">
+                        <a (click)="showAdmGrant()">
+                            <span nz-icon nzType="setting"></span>
+                            Phân quyền cho nhóm NSD
+                        </a>
+                    </li>
+                </ul>
+            </nz-dropdown-menu>
+        </div>
+        <div nz-col [nzSpan]="12" class="search-area">
+            <button nz-button [nzType]="'primary'" (click)="doSearch()">
+                <span class="fa fa-fw fa-search"></span>
+                Tìm kiếm
+            </button>
+            <button [disabled]="isDetailBtn" nz-button [nzType]="'primary'" (click)="showDetail()">
+                <span class="fa fa-fw fa-eye"></span>Chi tiết
+            </button>
+            <button nz-button [nzType]="'primary'" (click)="showCreateForm()">
+                <span class="fa fa-fw fa-plus"></span> Thêm mới
+            </button>
+            <button [disabled]="isUpdBtn" nz-button [nzType]="'primary'" (click)="showEditForm()">
+                <span class="fa fa-fw fa-edit"></span> Sửa
+            </button>
+            <button [disabled]="isDeleteBtn" nz-button nzType="danger" nz-popconfirm
+                nzPopconfirmTitle="Bạn có chắc chắn muốn xóa dữ liệu không?" nzPopconfirmPlacement="top"
+                nzCancelText="Hủy" nzOkText="Đồng ý" (nzOnConfirm)="doDelete()" nzType="danger">
+                <span class="fa fa-fw fa-times"></span> Xóa
+            </button>
+        </div>
+    </div>
+</div>
+<ng-container>
+    <div class="data-table">
+        <nz-table #basicTable nzShowSizeChanger [nzFrontPagination]="false" nzSize="small" [nzData]="datas"
+            [nzScroll]="{ x: '1200px' }" [nzLoading]="loading" [nzShowTotal]="rangeTemplate" [nzPageSize]="defaultPage"
+            [nzTotal]="total" [nzPageIndex]="pageIndex" (nzQueryParams)="onQueryParamsChange($event)">
+            <thead>
+                <tr>
+                    <th class="text-nowrap" nzWidth="5%">STT</th>
+                    <th class="text-nowrap" nzWidth="10%">Mã nhóm NSD</th>
+                    <th class="text-nowrap" nzWidth="30%">Tên nhóm NSD</th>
+                    <th class="text-nowrap" nzWidth="30%">VKS tạo</th>
+                    <th class="text-nowrap" nzWidth="10%">Người tạo</th>
+                    <th class="text-nowrap" nzWidth="15%">Ngày tạo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of basicTable.data; let i = index;" class="actived" (click)="onRowSelect(data)"
+                    [class.selected]="data === selectedItem">
+                    <td style="text-align: center" class="text-nowrap">{{getRowIndex(i, basicTable.nzPageIndex,
+                        basicTable.nzPageSize)}}</td>
+                    <td class="text-nowrap center">{{ data.GROUPID }}</td>
+                    <td class="text-nowrap">{{ data.GROUPNAME }}</td>
+                    <td class="text-nowrap center">{{ data.SPPNAME }}</td>
+                    <td class="text-nowrap center">{{ data.CRTUSER }}</td>
+                    <td class="text-nowrap center">{{ data.CRTDATE | dateFormat }}</td>
+                </tr>
+            </tbody>
+        </nz-table>
+        <ng-template #rangeTemplate let-range="range" let-total>
+            {{ range[0] }}-{{ range[1] }} {{'of' | translate }} {{ total }} {{'items' | translate }}
+        </ng-template>
+    </div>
+</ng-container>
+<app-admgroups-create [data]="data" [isVisible]="isVisibleCreate" (closeModal)="closeModalCreate($event)" (reloadModal)="reloadModalCreate($event)">
+</app-admgroups-create>
+<app-admgroups-detail [data]="data" [isVisible]="isVisibleDetail" (closeModal)="closeModalDetail($event)">
+</app-admgroups-detail>

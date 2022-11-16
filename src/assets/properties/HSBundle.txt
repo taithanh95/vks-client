@@ -1,0 +1,2017 @@
+#SppCase
+SpcCase.key=Vụ án
+SppCase.title=Vụ án
+button.sppcase.add=Thêm mới
+button.sppcase.edit=Cập nhật
+button.sppcase.close=Đóng lại
+SppCase.casecode=Mã vụ án
+SppCase.casecode.label=Mã vụ án
+SppCase.casename.label=Tên vụ án
+SppCase.casecode.title=Mã vụ án
+SppCase.casename.title=Tên vụ án
+SppCase.casetype.title=Loại tội phạm
+SppCase.casetype.label=Loại tội phạm
+SppCase.lawcode.label=Điều luật vụ
+SppCase.lawcode_txt.label=Điều luật vụ
+SppCase.casetypename.label=Loại tội phạm
+SppCase.casetype.L0.value=
+SppCase.casetype.L1.value=L1
+SppCase.casetype.L2.value=L2
+SppCase.casetype.L3.value=L3
+SppCase.casetype.L4.value=L4
+SppCase.casetype.L0.label=Chưa xác định
+SppCase.casetype.L1.label=Ít nghiêm trọng
+SppCase.casetype.L2.label=Nghiêm trọng
+SppCase.casetype.L3.label=Rất nghiêm trọng
+SppCase.casetype.L4.label=Đặc biệt nghiêm trọng
+SppCase.casetype.option=CaseType
+SppCase.sid.label=Cơ quan ra quyết định
+SppCase.sppspcid.label=Đơn vị ra quyết định
+SppCase.spccasecode.label=Mã vụ của Tòa án
+SppCase.spccasecode.title=Trường này được nhập liệu khi phần mềm quản lý án hình sự kết nối với hệ thống phần mềm của ngành Tòa án
+SppCase.crimwhere.label=Nơi xảy ra
+SppCase.crimwhere1.label=Chi tiết nơi xảy ra
+SppCase.checkcrimdate.label=Ngày xảy ra không chính xác
+SppCase.crimdate.label=Ngày xảy ra
+SppCase.crimdate1.label=Ngày xảy ra không chính xác
+SppCase.crimtime.label=Giờ
+SppCase.address.label=Địa chỉ lưu trữ hồ sơ
+SppCase.remark.label=Ghi chú
+SppCase.begin_setnum.label=Quyết định khởi tố vụ án số
+SppCase.begin_indate.label=Ngày quyết định khởi tố vụ án
+SppCase.begin_indate.styleClass=center
+SppCase.sid_txt.label=Cơ quan ra quyết định
+SppCase.casetype_txt.label=Loại tội phạm
+SppCase.crimwhere_txt.label=Nơi xảy ra
+SppCase.firstacc.label=Bị can đầu vụ
+SppCase.firstacc_txt.label=Bị can đầu vụ
+SppCase.crimdate_from.label=Ngày xảy ra từ ngày
+SppCase.crimdate_to.label=Ngày xảy ra đến ngày
+SppCase.begin_indatefrom.label=Ngày QĐ khởi tố từ ngày
+SppCase.begin_indateto.label=Ngày QĐ khởi tố đến ngày
+SppCase.accuage.label=Tuổi bị can đầu vụ
+SppCase.accuage.title=Tuổi bị can đầu vụ tại thời điểm xảy ra vụ án
+SppCase.casestatus.label=Tình trạng vụ án
+SppCase.caselaw.code.label=Bộ luật
+
+CaseLaw.choisebuttion.label=Cập nhật
+CaseLaw.onlyseebutton.label=Xem chi tiết
+CaseLaw.stat.label=Chỉ tiêu
+CaseLaw.heroin.label=Ma túy
+CaseLaw.exhibit.label=Vật chứng
+SppCase.resultTable.displayColumns=casecode,casename,begin_setnum,begin_indate,sid_txt,casetypename,firstacc_txt,crimdate
+SppCase.detailInfo.exceptFields=sid,casetype,crimwhere,begin_spp,begin_spc,begin_pol,accuage,firstacc,crimdate1,checkcrimdate,crimdate_from,crimdate_to,sppspcid,lawcode
+
+sppCaseLaw.title=Điều luật
+sppCaseLaw.lawcode.label=Mã
+sppCaseLaw.lawcode.title=Mã
+sppCaseLaw.lawid.label=Điều
+sppCaseLaw.lawid.styleClass=right
+sppCaseLaw.point.styleClass=right
+sppCaseLaw.item.styleClass=right
+sppCaseLaw.lawid.title=Điều
+sppCaseLaw.item.label=Khoản
+sppCaseLaw.item.title=Khoản
+sppCaseLaw.point.label=Điểm
+sppCaseLaw.point.title=Điểm
+sppCaseLaw.lawiditempoint.label=Điều */ Khoản/ Điểm
+sppCaseLaw.lawname.label=Tội danh
+sppCaseLaw.lawname.title=Tội danh
+sppCaseLaw.lawnamedetail.label=Chi tiết tội danh
+sppCaseLaw.lawnamedetail.title=Chi tiết tội danh
+sppCaseLaw.lawdate.label=Ngày ban hành
+sppCaseLaw.lawdate.styleClass=center
+sppCaseLaw.lawdate.title=Ngày ban hành
+sppCaseLaw.priority.label=Độ ưu tiên
+sppCaseLaw.priority.title=Độ ưu tiên
+sppCaseLaw.setorder.label=Thứ tự
+sppCaseLaw.setorder.title=Thứ tụ
+sppCaseLaw.status.label=Trạng thái
+sppCaseLaw.status.title=Trạng thái
+sppCaseLaw.lawtype.label=Mức độ nguy hiểm
+sppCaseLaw.lawtype.title=Mức độ nguy hiểm
+sppCaseLaw.codeid.label=Mã bộ luật
+sppCaseLaw.codeid.title=Mã bộ luật
+sppCaseLaw.codename.label=Tên bộ luật
+sppCaseLaw.codename.title=Tên bộ luật
+sppCaseLaw.groupid.label=Mã chương luật
+sppCaseLaw.groupid.title=Mã chương luật
+sppCaseLaw.groupname.label=Chương luật
+sppCaseLaw.groupname.title=Chương luật
+sppCaseLaw.lawtypename.label=Mức độ nghiêm trọng
+sppCaseLaw.lawtypename.title=Mức độ nghiêm trọng
+sppCaseLaw.lawtypename.styleClass=left
+sppCaseLaw.resultTable.displayColumns=lawid,item,point,lawname,lawdate,codename,lawtypename
+
+caseExhibit.title=Chỉ tiêu vật chứng
+caseExhibit.exhid.label=Mã
+caseExhibit.exhname.label=Chỉ tiêu thống kê
+caseExhibit.amount.label=Số lượng
+caseHeroin.title=Chỉ tiêu ma túy
+caseHeroin.heroinid.label=Loại ma túy
+caseHeorin.heroinname.label=Tên ma túy
+caseHeroin.amount.label=Số lượng
+caseHeroin.unit.label=Đơn vị
+
+caseStaticc.title=Chỉ tiêu thống kê vụ án
+caseStaticc.statid.label=Mã
+caseStaticc.statname.label=Chỉ tiêu thống kê
+caseStaticc.amount.label=Số lượng
+
+SppCase.autocomplete.tooltip=Nhấn phím space hoặc gõ mã hoặc tên để chọn
+SppCase.selectonemenu.tooltip=Nhấn chuột để chọn
+
+###### SPC_ACCUSED
+
+SpcAccused.error.delete=Không thể xóa được bị can vì:
+SppAccused.error.cannotDeleteOnlyOneAccu=Vụ án này chỉ còn duy nhất 1 bị can
+SppAccused.error.accusedNoLaw=Bạn phải nhập điều luật cho bị can
+SppAccused.error.1416yoAccuseOnlyL3L4=Bị can từ 14 đến 16 tuổi chỉ phải chịu trách nhiệm hình sự về tội phạm rất nghiêm trọng hoặc đặc biệt nghiêm trọng
+
+SpcAccused.key=Bị can
+SppAccused.legend.accusedInfo=Thông tin bị can
+SppAccused.legend.mainProperty=Chỉ tiêu chính
+SppAccused.legend.caseInfo=Thông tin vụ án
+SppAccused.legend.beginDecision=Quyết định khởi tố bị can
+SppAccused.legend.lawcode=Điều luật khởi tố
+
+
+SppAccused.casecode.label=Mã vụ án
+SppAccused.casename.label=Tên vụ án
+SppAccused.indatefrom.label=Ngày xảy ra từ
+SppAccused.indateto.label=Ngày xảy ra đến
+SppAccused.accucode.label=Mã bị can
+SppAccused.fullname.label=Họ và tên
+SppAccused.birthday.label=Ngày sinh
+SppAccused.birthdayfrom.label=Ngày sinh từ
+SppAccused.birthdayto.label=Ngày sinh đến
+SppAccused.othername.label=Tên khác
+SppAccused.aliasname.label=Bí danh
+SppAccused.sex.label=Giới tính
+SppAccused.identify.label=Số CMND
+SppAccused.identifyd.label=Ngày cấp
+SppAccused.locaid.label=Nơi ĐKHKTT
+SppAccused.begin_setnum.label=Quyết định số
+SppAccused.begin_indate.label=Ngày ra quyết định
+SppAccused.begin_police.label=Đơn vị công an
+SppAccused.begin_army.label=Đơn vị quân đội
+SppAccused.begin_ranger.label=Đơn vị kiểm lâm
+SppAccused.begin_customs.label=Đơn vị hải quan
+SppAccused.begin_border.label=Đơn vị bộ đội biên phòng
+SppAccused.begin_pol.label=Đơn vị ra quyết định
+SppAccused.begin_spp.label=Viện kiểm sát
+SppAccused.begin_spc.label=Tòa án
+SppAccused.counid.label=Quốc tịch
+SppAccused.religion.label=Tôn giáo
+SppAccused.natiid.label=Dân tộc
+SppAccused.locaname.label=Chi tiết nơi ĐKHKTT
+SppAccused.address.label=Nơi ở hiện tại
+SppAccused.addrname.label=Chi tiết nơi ở hiện tại
+SppAccused.occuid.label=Nghề nghiệp
+SppAccused.knowledge.label=Học vấn
+SppAccused.inparty.label=Đảng viên
+SppAccused.office.label=Chức vụ chính quyền
+SppAccused.unoccupation.label=Nghề nghiệp không ổn định
+SppAccused.heroin.label=Nghiện hút
+SppAccused.occuteler.label=Hành nghề tôn giáo
+SppAccused.occudishonest.label=Lưu manh chuyên nghiệp
+SppAccused.occureeducate.label=Tập trung, cải tạo và tù hình sự
+SppAccused.occusoldier.label=Thương binh, bộ đội phục viên
+SppAccused.occuofficer.label=Cán bộ, công nhân viên chức
+SppAccused.occustudent.label=Học sinh các trường chuyên nghiệp
+SppAccused.wander.label=Đối tượng lang thang
+SppAccused.conviction.label=Số tiền án
+SppAccused.offence.label=Số tiền sự
+SppAccused.bday.label=Ngày sinh
+SppAccused.bmonth.label=Tháng sinh
+SppAccused.byear.label=Năm sinh
+SppAccused.partyid.label=Đảng viên
+SppAccused.partyid.title=Đảng viên
+
+SppAccused.casecode.title=Mã vụ án
+SppAccused.casename.title=Tên vụ án
+SppAccused.indatefrom.title=Ngày xảy ra từ
+SppAccused.indateto.title=Ngày xảy ra đến
+SppAccused.accucode.title=Mã bị can
+SppAccused.fullname.title=Họ và tên
+SppAccused.birthday.title=Ngày sinh
+SppAccused.birthdayfrom.title=Ngày sinh từ
+SppAccused.birthdayto.title=Ngày sinh đến
+SppAccused.othername.title=Tên khác
+SppAccused.aliasname.title=Bí danh
+SppAccused.sex.title=Giới tính
+SppAccused.identify.title=Số CMND
+SppAccused.identifyd.title=Ngày cấp
+SppAccused.locaid.title=Gõ mã hoặc tên để chọn Nơi ĐKHKTT (nhấn dấu cách để chọn tất cả)
+SppAccused.begin_setnum.title=Quyết định số
+SppAccused.begin_police.title=Gõ mã hoặc tên để chọn Đơn vị công an (nhấn dấu cách để chọn tất cả)
+SppAccused.begin_army.title=Gõ mã hoặc tên để chọn Đơn vị quân đội (nhấn dấu cách để chọn tất cả)
+SppAccused.begin_ranger.title=Gõ mã hoặc tên để chọn Đơn vị kiểm lâm (nhấn dấu cách để chọn tất cả)
+SppAccused.begin_customs.title=Gõ mã hoặc tên để chọn Đơn vị hải quan (nhấn dấu cách để chọn tất cả)
+SppAccused.begin_border.title=Gõ mã hoặc tên để chọn Đơn vị bộ đội biên phòng (nhấn dấu cách để chọn tất cả)
+SppAccused.begin_indate.title=Ngày ra quyết định
+SppAccused.begin_pol.title=Đơn vị ra quyết định
+SppAccused.begin_spp.title=Gõ mã hoặc tên để chọn Viện kiểm sát (nhấn dấu cách để chọn tất cả)
+SppAccused.begin_spc.title=Gõ mã hoặc tên để chọn Tòa án (nhấn dấu cách để chọn tất cả)
+SppAccused.counid.title=Gõ mã hoặc tên để chọn Quốc tịch (nhấn dấu cách để chọn tất cả)
+SppAccused.religion.title=Tôn giáo
+SppAccused.natiid.title=Dân tộc
+SppAccused.locaname.title=Chi tiết nơi ĐKHKTT
+SppAccused.address.title=Gõ mã hoặc tên để chọn Nơi ở hiện tại (nhấn dấu cách để chọn tất cả)
+SppAccused.addrname.title=Chi tiết nơi ở hiện tại
+SppAccused.occuid.title=Nghề nghiệp
+SppAccused.knowledge.title=Học vấn
+SppAccused.inparty.title=Đảng viên
+SppAccused.office.title=Chức vụ chính quyền
+SppAccused.unoccupation.title=Nghề nghiệp không ổn định
+SppAccused.heroin.title=Nghiện hút
+SppAccused.occuteler.title=Hành nghề tôn giáo
+SppAccused.occudishonest.title=Lưu manh chuyên nghiệp
+SppAccused.occureeducate.title=Tập trung, cải tạo và tù hình sự
+SppAccused.occusoldier.title=Thương binh, bộ đội phục viên
+SppAccused.occuofficer.title=Cán bộ, công nhân viên chức
+SppAccused.occustudent.title=Học sinh các trường chuyên nghiệp
+SppAccused.wander.title=Đối tượng lang thang
+SppAccused.conviction.title=Số tiền án
+SppAccused.offence.title=Số tiền sự
+SppAccused.bday.title=Ngày sinh
+SppAccused.bmonth.title=Tháng sinh
+SppAccused.byear.title=Năm sinh
+
+SppAccused.resultTable.displayColumns=casecode,casename,accucode,fullname,aliasname,birthday
+SppAccused.resultTable.displayColumns.1=accucode,fullname,aliasname,birthday
+
+SppAccused.warn.indateFromAfterIndateto=Ngày xảy ra từ không được trước Ngày xảy ra đến
+SppAccused.warn.indateAccuBeforeIndateCase=Ngày ra QĐ khởi tố bị can không được trước ngày ra QĐ khởi tố vụ án
+SppAccused.warn.accusedTooYoung=Bị can/bị cáo chưa đủ tuổi phải chịu trách nhiệm hình sự (chưa đủ 14 tuổi)
+SppAccused.warn.accusedTooOld=Bị can/bị cáo đã quá cao tuổi trái với tự nhiên, đề nghị kiểm tra lại!
+SppAccused.error.cannotDeleteOnlyOneAccu=Vụ án này chỉ còn 1 bị can duy nhất
+SppAccused.error.duplicateAccused=Trùng bị can
+
+#SppRegister
+#spp: VKS
+#spc:tòa án
+SppRegister.type.label=Loại
+SppRegister.legend.registerInfo=Thông tin thụ lý
+
+SppRegister.regicode.label=Mã thụ lý
+SppRegister.regicode.title=Mã thụ lý
+SppRegister.sppid.label=Mã VKS
+SppRegister.sppid.title=Mã VKS
+SppRegister.sppname.label=Tên VKS
+SppRegister.sppname.title=Tên VKS
+
+SppRegister.fromdate.label=Từ ngày
+SppRegister.todate.label=Đến ngày
+SppRegister.begin_setnum.label=Quyết định số
+SppRegister.begin_setnum.title=Quyết định số
+SppRegister.setnum.label=Thụ lý số
+SppRegister.setnum.title=Thụ lý số
+SppRegister.casecode.label=Mã vụ án
+SppRegister.casecode.title=Mã vụ án
+SppRegister.casename.label=Tên vụ án
+SppRegister.casename.title=Tên vụ án
+SppRegister.fullname.label=Bị can đầu vụ
+SppRegister.fullname.title=Bị can đầu vụ
+SppRegister.status.label=Đã thụ lý
+SppRegister.status.title=Đã thụ lý
+SppRegister.transfer.label=Loại
+SppRegister.transfer.title=Loại thụ lý
+
+SppRegister.fromdate.label=từ ngày
+SppRegister.fromdate.title=từ ngày
+SppRegister.todate.label=đến ngày
+SppRegister.todate.title=đến ngày
+SppRegister.indate.label=Ngày thụ lý
+SppRegister.indate.title=Ngày thụ lý
+SppRegister.remark.label=Ghi chú
+SppRegister.case.label=Án điểm
+SppRegister.special.label=Là án điểm
+SppRegister.unspecial.label=Không phải án điểm
+SppRegister.spcindate.label=Ngày thụ lý Tòa án
+SppRegister.spcindate.title=Ngày thụ lý của Tòa án
+SppRegister.spcsetnum.label=Số thụ lý của Tòa án
+SppRegister.spcsetnum.title=Số thụ lý của Tòa án
+
+SppRegister.warn.indateFromAfterIndateto=Thời hạn đến ngày không được trước thời hạn từ ngày
+SppRegister.warn.indateBeforeBegindate=Ngày thụ lý không được trước ngày ra quyết định khởi tố
+SppRegister.warn.indateBeforeMinIndateG1=Ngày thụ lý không được trước ngày ra quyết định khởi tố
+SppRegister.warn.indateBeforeMinIndateG1_1=Ngày thụ lý không được trước ngày nhận án
+SppRegister.warn.indateBeforeMinIndateG2=Ngày thụ lý không được trước ngày bàn giao hồ sơ
+SppRegister.warn.indateBeforeMinIndateG2_1=Ngày thụ lý không được trước ngày nhận án
+SppRegister.warn.indateBeforeMinIndateG3=Ngày thụ lý không được trước ngày bàn giao hồ sơ
+SppRegister.warn.indateBeforeMinIndateG3_1=Ngày thụ lý không được trước ngày nhận án
+SppRegister.warn.indateBeforeMinIndateG4=Ngày thụ lý không được trước ngày nhận án
+SppRegister.warn.indateBeforeMinIndateG5=Ngày thụ lý không được trước ngày nhận án
+SppRegister.warn.spcindateBeforeIndate=Ngày thụ lý của Tòa án không được sau ngày thụ lý của Viện kiểm sát
+SppRegister.warn.spcindateFuture=Ngày thụ lý của Tòa án không được sau ngày hiện tại
+SppRegister.warn.indateFuture=Ngày thụ lý không được sau ngày hiện tại
+SppRegister.error.setnumDuplicate=Trùng số thụ lý
+SppRegister.error.delete=Không thể xóa được thụ lý vì:
+SppRegister.error.hasDecision=Thụ lý đã có quyết định vụ án hoặc quyết định bị can
+SppRegister.error.hasCentenceG1=Thụ lý đã có kết luận điều tra
+SppRegister.error.hasCentenceG2=Thụ lý đã có bản cáo trạng
+SppRegister.error.hasCentence=Thụ lý đã có bản án
+SppRegister_G6.error.hasExecution=Thụ lý đã có quyết định thi hành án
+SppRegister_G6.error.hasRegins=Thụ lý đã phân công Điều tra viên/Kiểm sát viên
+SppRegister_G6.error.hasDecision_G6=Thụ lý đã có quyết định khác
+SppRegister.resultTable.displayColumns=casecode,casename,regicode,indate,setnum,fullname
+
+# SppAccusedSplit: Tách vụ án
+spp_AccuSplit.title=tách vụ án
+spp_AccuSplit.Title=Tách vụ án
+spp_AccuSplit.casecode.label=Mã vụ án
+spp_AccuSplit.casename.label=Tên vụ án
+spp_AccuSplit.casecode2.label=Mã vụ án mới
+spp_AccuSplit.casename2.label=Tên vụ án mới
+spp_AccuSplit.accucode.label=Mã bị can
+spp_AccuSplit.fullname.label=Tên bị can
+spp_AccuSplit.remark.label=Nơi cư trú
+spp_AccuSplit.remark.title=Nhập mã hoặc tên nơi cư trú
+spp_AccuSplit.identify.label=CMND
+spp_AccuSplit.identify.title=Số chứng minh thư nhân dân
+spp_AccuSplit.birthday.label=Ngày sinh
+spp_AccuSplit.birthdayfrom.label=Ngày sinh từ ngày
+spp_AccuSplit.birthdayto.label=Đến ngày
+spp_AccuSplit.locaname.label=Nơi ĐKHKTT
+spp_AccuSplit.locaname.title=Nhập mã hoặc tên nơi đăng ký hộ khẩu thường trú
+spp_AccuSplit.natiname.label=Dân tộc
+spp_AccuSplit.natiname.title=Nhập mã hoặc tên của dân tộc
+spp_AccuSplit.counname.label=Quốc tịch
+spp_AccuSplit.counname.title=Nhập mã hoặc tên quốc tịch
+spp_AccuSplit.levelname.label=Trình độ học vấn
+spp_AccuSplit.levelname.title=Nhập mã hoặc tên của trình độ học vấn
+spp_AccuSplit.splitdate.label=Ngày tách
+spp_AccuSplit.occuname.label=Nghề nghiệp
+spp_AccuSplit.occuname.title=Nhập mã hoặc tên của nghề nghiệp
+spp_AccuSplit.resultTable.displayColumns=casecode,casename,accucode,fullname,identify,birthday,remark
+spp_AccuSplit.detailInfo.exceptFields=rnum,birthdayfrom,birthdayto,splitdate
+
+spp_AccuSplit.warn.BirthdayfromAfterBirthdayto=Ngày sinh từ ngày không được sau đến ngày.
+spp_AccuSplit.warn.CrimdatefromAfterCrimdateto=Ngày xảy ra từ ngày không được sau đến ngày.
+spp_AccuSplit.warn.splitdateBeforeCrimdate=Ngày tách vụ án không được trước ngày xảy ra vụ án.
+spp_AccuSplit.error.CaseNotExist=Vụ án không tồn tại.
+spp_AccuSplit.error.CaseDuplicate=Không được tách vụ án sang cùng một vụ án!
+
+spp_AccuSplit.case.casecode.label=Mã vụ án
+spp_AccuSplit.case.casename.label=Tên vụ án
+spp_AccuSplit.case.crimdate.label=Ngày xảy ra vụ án
+spp_AccuSplit.case.crimdatef.label=Ngày xảy ra vụ án từ ngày
+spp_AccuSplit.case.crimdatet.label=Đến ngày
+spp_AccuSplit.case.resultTable.displayColumns=casecode, casename, crimdate
+spp_AccuSplit.case.detailInfo.exceptFields=rnum
+
+spp_AccuSplit.case.2.casecode1.label=Mã vụ án cũ
+spp_AccuSplit.case.2.casename1.label=Tên vụ án cũ
+spp_AccuSplit.case.2.casecode2.label=Mã vụ án mới
+spp_AccuSplit.case.2.casename2.label=Tên vụ án mới
+spp_AccuSplit.case.2.splitdate.label=Ngày tách vụ án
+spp_AccuSplit.case.2.resultTable.displayColumns=casecode1, casename1, casecode2, casename2, splitdate
+spp_AccuSplit.case.2.detailInfo.exceptFields=rnum, mdfdate, mdfuser
+
+spp_AccuSplit.2.casecode1.label=Mã vụ án cũ
+spp_AccuSplit.2.casename1.label=Tên vụ án cũ
+spp_AccuSplit.2.fullname.label=Tên bị can
+spp_AccuSplit.2.casecode2.label=Mã vụ án mới
+spp_AccuSplit.2.casename2.label=Tên vụ án mới
+spp_AccuSplit.2.splitdate.label=Ngày tách vụ án
+spp_AccuSplit.2.resultTable.displayColumns=fullname, casecode1, casename1, casecode2, casename2, splitdate
+spp_AccuSplit.2.detailInfo.exceptFields=rnum, mdfdate, mdfuser
+spp_AccuSplit.messages.insert.case.success=Thêm mới vụ án thành công
+# END SppAccusedSplit: Tách vụ án
+
+# Spp_UpInfo: Cập nhật thông tin mới
+spp_UpInfo.title=cập nhật thông tin mới
+spp_UpInfo.Title=Cập nhật thông tin mới
+spp_UpInfo.casecode.label=Mã vụ án
+spp_UpInfo.casename.label=Tên vụ án
+spp_UpInfo.setnum.label=Số thụ lý
+spp_UpInfo.status.label=TT vụ án trả HS ĐTBS
+spp_UpInfo.status.title=Trạng thái cập nhật thông tin vụ án trả hồ sơ điều tra bổ sung
+spp_UpInfo.updnum.label=Số lần trả HS ĐTBS
+spp_UpInfo.indate.label=Ngày thụ lý
+spp_UpInfo.userfor.label=Giai đoạn
+spp_UpInfo.userforname.label=Giai đoạn
+spp_UpInfo.indatefrom.label=Ngày thụ lý từ ngày
+spp_UpInfo.indateto.label=Đến ngày
+spp_UpInfo.resultTable.displayColumns=casecode, casename, setnum, indate, userforname, updnum
+spp_UpInfo.detailInfo.exceptFields=rnum, userfor, status
+spp_UpInfo.updnum.styleClass=right
+
+spp_UpInfo.confirm.title=Cập nhật thông tin
+spp_UpInfo.confirm.question=Bạn có muốn cập nhật bản ghi này không?
+spp_UpInfo.warn.IndatefromAfterIndateto=Ngày thụ lý từ ngày không được sau đến ngày.
+# END Spp_UpInfo: Cập nhật thông tin mới
+
+#Lookup(Tra cứu thông tin)
+menu.lookup=Tra cứu thông tin
+lookup.sppid.label=Viện kiểm sát
+lookup.sppid.title=Gõ mã hoặc tên để chọn Viện kiểm sát (nhấn dấu cách để chọn tất cả)
+lookup.underlevel.label=Xem cấp trực thuộc
+lookup.casetype.label=Mức độ
+lookup.underlevel.title=Xem cấp trực thuộc của Viện kiểm sát hiện tại
+lookup.err.fdate>tdate=Từ ngày phải trước hoặc bằng đến ngày
+tab.register=Thụ lý
+tab.decision=Quyết định
+tab.against=Kháng nghị
+tab.appeal=Kháng cáo
+tab.accused=Bị can
+tab.law=Điều luật
+tab.penalty=Hình phạt
+tab.transfer=Bàn giao
+tabdetail.inspector=Kiểm sát viên
+tabdetail.transfer=Bàn giao HS
+tabdetail.centence=KL điều tra
+tabdetail.centence1=Bản cáo trạng
+
+#TabRegister
+lookupSpp_Register.regicode.label=Mã thụ lý
+lookupSpp_Register.userfor.label=Giai đoạn
+lookupSpp_Register.setnum.label=Số thụ lý
+lookupSpp_Register.indate.label=Ngày thụ lý
+lookupSpp_Register.casecode.label=Mã vụ án
+lookupSpp_Register.casename.label=Tên vụ án
+lookupSpp_Register.fromdate.label=Từ ngày
+lookupSpp_Register.fromdate.title=Ngày khởi tố từ ngày
+lookupSpp_Register.todate.label=Đến ngày
+lookupSpp_Register.todate.title=Ngày khởi tố đến ngày
+lookupSpp_Register.sppid.label=Đơn vị thụ lý
+lookupSpp_Register.finishdate.label=Ngày kết thúc
+lookupSpp_Register.statusname.label=Tình trạng
+lookupSpp_Register.remark.label=Ghi chú
+lookupSpp_Register.resultTable.displayColumns=casecode,casename,regicode,setnum,indate
+lookupSpp_Register.regicode.styleClass=center
+lookupSpp_Register.casecode.styleClass=center
+lookupSpp_Register.setnum.styleClass=right
+lookupSpp_Register.indate.styleClass=center
+Spp_Register.fromdate.label=Từ ngày
+Spp_Register.todate.label=Đến ngày
+Spp_Register.case.label=Vụ án
+lookup.title.milestones=Giai đoạn
+spp_decision_error_THA=Đã có quyết định thi hành án, không thể thêm mới quyết định ủy thác.
+spp_decision_error_UT=Đã có quyết định ủy thác, không thể thêm mới quyết định ủy thác.
+
+#TabDecision
+lookupSpp_Decision.casecode.label=Mã vụ án
+lookupSpp_Decision.casename.label=Tên vụ án
+lookupSpp_Decision.regicode.label=Mã thụ lý
+lookupSpp_Decision.applyfor.label=Loại quyết định
+lookupSpp_Decision.decicode.label=Mã quyết định
+lookupSpp_Decision.deciname.label=Tên quyết định
+lookupSpp_Decision.setnum.label=Quyết định số
+lookupSpp_Decision.fdecidate.label=Từ ngày
+lookupSpp_Decision.fdecidate.title=Ngày quyết định từ ngày
+lookupSpp_Decision.tdecidate.label=Đến ngày
+lookupSpp_Decision.tdecidate.title=Ngày quyết định đến ngày
+lookupSpp_Decision.indate.label=Ngày quyết định
+lookupSpp_Decision.resultTable.displayColumns=casecode,casename,regicode,decicode, deciname,setnum,indate
+lookupSpp_Decision.decicode.styleClass=center
+lookupSpp_Decision.regicode.styleClass=center
+lookupSpp_Decision.indate.styleClass=center
+#Tab_Decision detail
+Decision_detail.regicode.label=Mã thụ lý
+Decision_detail.applyfor.label=Loại quyết định
+Decision_detail.decicode.label=Mã quyết định
+Decision_detail.deciname.label=Tên quyết định
+Decision_detail.setnum.label=Quyết định số
+Decision_detail.fdecidate.label=Từ ngày
+Decision_detail.fdecidate.title=Ngày quyết định từ ngày
+Decision_detail.tdecidate.label=Đến ngày
+Decision_detail.tdecidate.title=Ngày thụ lý đến ngày
+Decision_detail.indate.label=Ngày quyết định
+Decision_detail.finishdate.label=Ngày kết thúc
+Decision_detail.accuname.label=Bị can
+Decision_detail.signname.label=Người ký
+Decision_detail.signoffice.label=Chức vụ
+Decision_detail.fromdate.label=Từ ngày
+Decision_detail.todate.label=Đến ngày
+Decision_detail.setnum.styleClass=center
+#Decision_detail.resultTable.displayColumns=decicode,deciname,setnum,indate
+#,fromdate,todate,finishdate,accuname,signname,signoffice
+
+# Lookup Accused: Tra cứu thông tin theo Bị can
+lookup_Accused.casecode.label=Mã vụ án
+lookup_Accused.casename.label=Tên vụ án
+lookup_Accused.accucode.label=Mã bị can
+lookup_Accused.fullname.label=Tên bị can
+lookup_Accused.birthday.label=Ngày sinh
+lookup_Accused.resultTable.displayColumns=casecode, casename, accucode, fullname, birthday
+
+lookup_Accused.detail.accucode.label=Mã bị can
+lookup_Accused.detail.fullname.label=Tên bị can
+lookup_Accused.detail.remark.label=Nơi cư trú
+lookup_Accused.detail.identify.label=Số CMT
+lookup_Accused.detail.sex.label=Giới tính
+lookup_Accused.detail.resultTable.displayColumns=accucode, fullname, remark, identify, sex
+lookup_Accused.detail.identify.styleClass=center
+# END Lookup Accused: Tra cứu thông tin theo Bị can
+
+# Lookup Law: Tra cứu thông tin theo Điều luật
+lookup_Law.setnum.label=Số QĐ khởi tố
+lookup_Law.casename.label=Tên vụ án
+lookup_Law.actdate.label=Ngày hiệu lực
+lookup_Law.indate.label=Ngày bản án
+lookup_Law.indatef.label=Ngày bản án từ ngày
+lookup_Law.indatet.label=Đến ngày
+lookup_Law.indatet.title=Ngày bản án đến ngày
+lookup_Law.lawid.label=Điều
+lookup_Law.codeid.label=Bộ luật áp dụng
+lookup_Law.begin_indate.label=Ngày khởi tố
+lookup_Law.begin_setnum.label=Số QĐ khởi tố
+lookup_Law.begin_indate_from.label=Ngày khởi tố từ ngày
+lookup_Law.begin_indate_to.label=Ngày khởi tố đến ngày
+lookup_Law.resultTable.displayColumns=begin_setnum, casename, begin_indate, lawid
+lookup_Law.actdate.styleClass=center
+lookup_Law.indate.styleClass=center
+
+
+lookup_Law.warn.IndateCentenceFromTo=Ngày bản án từ ngày không được sau đến ngày.
+# END Lookup Law: Tra cứu thông tin theo Điều luật
+
+# Lookup Penalty: Tra cứu thông tin theo Hình phạt
+lookup_Penalty.penalty.label=Hình phạt
+lookup_Penalty.penalty.title=Nhập mã hoặc tên của hình phạt
+lookup_Penalty.casecode.label=Mã vụ án
+lookup_Penalty.casename.label=Tên vụ án
+lookup_Penalty.setnum.label=Số bản án
+lookup_Penalty.penaltyname.label=Hình phạt
+lookup_Penalty.actdate.label=Ngày hiệu lực
+lookup_Penalty.resultTable.displayColumns=casecode, casename, setnum, penaltyname, actdate
+lookup_Penalty.actdate.styleClass=center
+# END Lookup Penalty: Tra cứu thông tin theo Hình phạt
+
+# Lookup Transfer: Tra cứu thông tin theo Bàn giao
+lookup_Transfer.casetrans.label=T/H bàn giao
+lookup_Transfer.transtype.label=T/H bàn giao
+lookup_Transfer.transfrom.label=Đơn vị giao
+lookup_Transfer.transto.label=Đơn vị nhận
+lookup_Transfer.polid.title=Nhập mã hoặc tên của đơn vị
+lookup_Transfer.spp.title=Nhập mã hoặc tên của tòa án
+lookup_Transfer.spc.title=Nhập mã hoặc tên của viện kiểm sát
+lookup_Transfer.transdatef.label=Ngày bàn giao từ ngày
+lookup_Transfer.transdatet.label=Đến ngày
+lookup_Transfer.transdatet.title=Ngày bàn giao đến ngày
+lookup_Transfer.casecode.label=Mã vụ án
+lookup_Transfer.casename.label=Tên vụ án
+lookup_Transfer.regicode.label=Mã thụ lý
+lookup_Transfer.transdate.label=Ngày bàn giao
+lookup_Transfer.resultTable.displayColumns=casecode, casename, transdate, transfrom, transto
+lookup_Transfer.transdate.styleClass=center
+
+lookup_Transfer.warn.IndateCentenceFromTo=Ngày bàn giao từ ngày không được sau đến ngày.
+
+lookup_Transfer.detail.transtype.label=Loại bàn giao
+lookup_Transfer.detail.transfrom.label=Đơn vị giao
+lookup_Transfer.detail.transto.label=Đơn vị nhận
+lookup_Transfer.detail.transdate.label=Ngày bàn giao
+lookup_Transfer.detail.sender.label=Người giao
+lookup_Transfer.detail.receipter.label=Người nhận
+lookup_Transfer.detail.resultTable.displayColumns=transtype, transfrom, transto, transdate, sender, receipter
+lookup_Transfer.detail.transdate.styleClass=center
+# END Lookup Transfer: Tra cứu thông tin theo Bàn giao
+
+# Lookup Detail Inspector: Chi tiết tra cứu thông tin kiểm sát viên
+lookup_Inspector.detail.fullname.label=Kiểm sát viên
+lookup_Inspector.detail.address.label=Địa chỉ
+lookup_Inspector.detail.tel.label=Số ĐT
+lookup_Inspector.detail.jobtitle.label=Chức vụ
+lookup_Inspector.detail.stt.label=Tình trạng
+lookup_Inspector.detail.resultTable.displayColumns=fullname,address,tel,jobtitle,stt
+# END Lookup Detail Inspector: Chi tiết tra cứu thông tin kiểm sát viên
+
+# Lookup Detail Centence: Chi tiết tra cứu thông tin kết luận điều tra
+lookup_Centence.detail.setnum.label=Số
+lookup_Centence.detail.indate.label=Ngày bản án
+lookup_Centence.detail.actdate.label=Ngày hiệu lực
+lookup_Centence.detail.resultTable.displayColumns=setnum,indate,actdate
+lookup_Centence.detail.indate.styleClass=center
+lookup_Centence.detail.actdate.styleClass=center
+
+lookup_Centence.detail1.setnum.label=Số
+lookup_Centence.detail1.indate.label=Ngày ra kết luận điều tra
+lookup_Centence.detail1.actdate.label=Ngày hiệu lực
+lookup_Centence.detail1.signname.label=Người ký
+lookup_Centence.detail1.signoffice.label=Chức vụ người ký
+lookup_Centence.detail1.content.label=Nội dung
+lookup_Centence.detail1.remark.label=Ghi chú
+lookup_Centence.detail1.resultTable.displayColumns=setnum,indate,actdate,signname,signoffice,content,remark
+lookup_Centence.detail2.setnum.label=Số
+lookup_Centence.detail2.indate.label=Ngày ra bản cáo trạng
+lookup_Centence.detail2.actdate.label=Ngày hiệu lực
+lookup_Centence.detail2.signname.label=Người ký
+lookup_Centence.detail2.signoffice.label=Chức vụ người ký
+lookup_Centence.detail2.content.label=Nội dung
+lookup_Centence.detail2.remark.label=Ghi chú
+lookup_Centence.detail2.resultTable.displayColumns=setnum,indate,actdate,signname,signoffice,content,remark
+lookup_Centence.detail3.setnum.label=Số
+lookup_Centence.detail3.indate.label=Ngày bản án
+lookup_Centence.detail3.actdate.label=Ngày hiệu lực
+lookup_Centence.detail3.signname.label=Người ký
+lookup_Centence.detail3.signoffice.label=Chức vụ người ký
+lookup_Centence.detail3.content.label=Nội dung
+lookup_Centence.detail3.remark.label=Ghi chú
+lookup_Centence.detail3.resultTable.displayColumns=setnum,indate,actdate,signname,signoffice,content,remark
+# END Lookup Detail Centence: Chi tiết tra cứu thông tin kết luận điều tra
+
+# TabAgainst (Tra cứu thông tin - Kháng nghị)
+lookupSpp_Against.casecode.label=Mã vụ án
+lookupSpp_Against.casename.label=Tên vụ án
+lookupSpp_Against.regicode.label=Mã thụ lý
+lookupSpp_Against.indate.label=Ngày KN
+lookupSpp_Against.sppspc.label=Đơn vị KN
+lookupSpp_Against.sppspc.title=Đơn vị kháng nghị
+lookupSpp_Against.usefor.label=Giai đoạn
+lookupSpp_Against.fagainstdate.label=Từ ngày
+lookupSpp_Against.fagainstdate.title=Kháng nghị từ ngày
+lookupSpp_Against.tagainstdate.label=Đến ngày
+lookupSpp_Against.tagainstdate.title=Kháng nghị đến ngày
+lookupSpp_Against.setnum.label=Số KN
+lookupSpp_Against.setnum.title=Số kháng nghị
+lookupSpp_Against.resultTable.displayColumns=casecode,casename,regicode,setnum,indate
+
+Against_detail.setnum.label=Số KN
+Against_detail.indate.label=Ngày KN
+Against_detail.sppspc.label=Đơn vị KN
+Against_detail.setnumcen.label=BA/QĐ KN
+Against_detail.userforname.label=Giai đoạn
+Against_detail.content.label=Nội dung
+Against_detail.resultTable.displayColumns=setnum,indate,userforname,setnumcen,content
+# END TabAgainst (Tra cứu thông tin - Kháng nghị)
+
+#Tab Appeal (Tra cứu thông tin - Kháng cáo)
+lookupSpp_Appeal.casecode.label=Mã vụ án
+lookupSpp_Appeal.casename.label=Tên vụ án
+lookupSpp_Appeal.indate.label=Ngày KC
+lookupSpp_Appeal.appeaforname.label=Kháng cáo
+lookupSpp_Appeal.appealname.label=Loại kháng cáo
+lookupSpp_Appeal.fromdateappeal.label=Từ ngày
+lookupSpp_Appeal.fromdateappeal.title=Kháng cáo từ ngày
+lookupSpp_Appeal.todateappeal.label=Đến ngày
+lookupSpp_Appeal.perapp.label=Người KC
+lookupSpp_Appeal.todateappeal.title=Kháng cáo đến ngày
+lookupSpp_Appeal.resultTable.displayColumns=casecode,casename,perapp,indate,appealname,appeaforname
+
+Appeal_detail.perapp.label=Người KC
+Appeal_detail.appeaforname.label=Kháng cáo
+Appeal_detail.appealname.label=Loại KC
+Appeal_detail.indate.label=Ngày KC
+Appeal_detail.content.label=Nội dung
+Appeal_detail.resultTable.displayColumns=perapp,appeaforname,appealname,indate,content
+# END Tab Appeal (Tra cứu thông tin - Kháng cáo)
+
+#SppRegister_G6
+SppRegister_G6.title= Vụ án
+SppRegister_G6.themmoi.label= Lựa chọn
+SppRegister_G6.casecode.label=Mã vụ án
+SppRegister_G6.casecode.title=Mã vụ án
+SppRegister_G6.casename.label=Tên vụ án
+SppRegister_G6.casename.title=Tên vụ án
+SppRegister_G6.regicode.label=Mã thụ lý
+SppRegister_G6.regicode.title=Mã thụ lý
+SppRegister_G6.crimdate_from.label=Từ ngày
+SppRegister_G6.crimdate_from.title=Từ ngày
+SppRegister_G6.crimdate_to.title=Đến ngày
+SppRegister_G6.crimdate_to.label=Đến ngày
+SppRegister_G6.fullname.label=Người chấp hành án
+SppRegister_G6.fullname.title=Người chấp hành án
+SppRegister_G6.trangthaithuly.label=Trạng thái thụ lý
+SppRegister_G6.themthuly.title=Thêm thụ lý
+menu.spc.qlahs.spc_register.G6.title=thụ lý thi hành án
+SppRegister_G6.ngayketthuc.title=Ngày kết thúc thụ lý
+SppRegister_G6.ngayketthuc.label=Ngày kết thúc thụ lý
+sppRegister_G6.tab.tabQuyetDinhThiHanhAn.title=Quyết định thi hành án
+# dacnv cap nhat TT
+spcCaseEditRegister.resultTable.displayColumns=casecode, regicode, casename, spcname, fullname, crimdate, setnum, indate, juryname,acceptdate,setnum_centence,setnum_decision
+spcCaseEditRegister.detailInfo.exceptFields=crimdate_from, crimdate_to, crimwhere, crimdate, numaccused, finishdate, setnumregis,fullname,crimwhere_name,juryname,casecode,regicode
+spcCaseEditRegister.casecode.title=Mã vụ án
+spcCaseEditRegister.casecode.label=Mã vụ án
+spcCaseEditRegister.regicode.title=Mã thụ lý
+spcCaseEditRegister.regicode.label=Mã thụ lý
+spcCaseEditRegister.casename.title=Tên vụ án
+spcCaseEditRegister.casename.label=Tên vụ án
+spcCaseEditRegister.juryname.label= Tên Thẩm phán
+spcCaseEditRegister.juryname.title= Tên Thẩm phán
+spcCaseEditRegister.crimdate.title=Từ ngày
+spcCaseEditRegister.crimdate.label=Từ ngày
+spcCaseEditRegister.fullname.title=Tên bị can
+spcCaseEditRegister.fullname_G6.title=Người chấp hành án
+spcCaseEditRegister.fullname_G6.label=Người chấp hành án
+spcCaseEditRegister.fullname.label=Tên bị can
+spcCaseEditRegister.crimdate.title=Ngày phạm tội
+spcCaseEditRegister.crimdate.label=Ngày xảy ra vụ án
+spcCaseEditRegister.crimwhere_name.title=Nơi xảy ra vụ án
+spcCaseEditRegister.crimwhere_name.label=Nơi xảy ra vụ án
+spcCaseEditRegister.acceptdate.title=Ngày nhận án
+spcCaseEditRegister.spcname.title=Nơi
+spcCaseEditRegister.indate.label=Ngày thụ lý
+spcCaseEditRegister.indate.title=Ngày thụ lý
+spcCaseEditRegister.setnum.label=Số thụ lý
+spcCaseEditRegister.setnum.title=Số thụ lý
+spcCaseEditRegister.setnumregis.label=Số thụ lý
+spcCaseEditRegister.setnumregis.title=Số thụ lý
+spcCaseEditRegister.setnum_centence.label=Số bản án bị kc/kn
+spcCaseEditRegister.setnum_centence.title=Số bản án bị kc/kn
+spcCaseEditRegister.setnum_decision.label=Số quyết định bị kc/kn
+spcCaseEditRegister.setnum_decision.title=Số quyết định bị kc/kn
+spcCaseEditRegister.casecode2.title=Mã vụ án
+spcCaseEditRegister.casecode2.label=Mã vụ án
+spcCaseEditRegister.regicode2.title=Mã thụ lý
+spcCaseEditRegister.regicode2.label=Mã thụ lý
+
+spcCaseEditRegister.numaccused.title=Số bị can
+spcCaseEditRegister.numaccused.label=Số bị can
+spcCaseEditRegister.finishdate.title=Ngày kết thúc
+spcCaseEditRegister.finishdate.label=Ngày kết thúc
+spcCaseEditRegister.setnum.title=Số bản án
+spcCaseEditRegister.actdate.title=Ngày bản án có hiệu lực
+spcCaseEditRegister.indate_BA.title=Ngày ra bản án
+spcCaseEditRegister.spcid.title=VKS nhập bản án
+spcRegister.button.capnhapthongtin.title=Cập nhật thông tin
+menu.spc.qlahs.spc_register.case.title=thụ lý
+spcRegister.tab.tabBiCanBiCao.title=Bị can
+spcRegister.tab.tabNguoiThuly.title=Người thụ lý
+spcRegister.tab.tabsppDecision_Case.title=Quyết định vụ án
+sppRegister.tab.tabCentence.G1.title=Kết luận điều tra
+sppRegister.tab.tabCentence.G2.title=Bản cáo trạng
+sppRegister.tab.tabCentence.G3.title=Bản án
+spcRegisterCapNhapTT.casecode.label=Mã vụ án
+spcRegisterCapNhapTT.casename.label=Tên vụ án
+spcRegisterCapNhapTT.regicode.label=Mã thụ lý
+spcRegisterCapNhapTT.setnum.label=Số thụ lý
+spcRegisterCapNhapTT.indate.label=Ngày thụ lý
+spcRegisterCapNhapTT.txt_closed.label=Tình trạng
+spcRegisterCapNhapTT.finishdate.label=Ngày kết thúc
+spcRegisterCapNhapTT.warm.title=Trường thụ lý từ ngày không được lớn hơn trường thụ lý đến ngày
+spcRegisterCapNhapTT.key=Cập nhật thông tin
+# end cap nhat tt
+
+#Giám sát thực hiện
+menu.monitor=Giám sát thực hiện
+monitor.sppid.label=Viện kiểm sát
+monitor.sppid.label=Đơn vị
+monitor.underlevel.label=Xem cả cấp trực thuộc
+monitor.underlevel.title=Xem cả cấp trực thuộc
+monitor.fdate.label=Từ ngày
+monitor.tdate.label=Đến ngày
+monitor.flagdate.label=Tính đến ngày
+monitor.flagdate.title=Thụ lý tính đến ngày
+monitor.userforname.label=Giai đoạn thụ lý
+monitor.jurycode.label=Kiểm sát viên
+monitor.jurycode.title=Nhập mã Kiểm sát viên
+monitor.title.case=Báo cáo thông tin về vụ án hình sự
+spcCase.monitor.casecode.label=Mã vụ án
+spcCase.monitor.casename.label=Tên vụ án
+spcCase.monitor.locaname.label=Nơi xảy ra
+spcCase.monitor.numaccused.label=Số bị can
+spcCase.monitor.spcname.label=Tòa án thụ lý vụ án
+spcCase.monitor.indate.label=Ngày thụ lý
+spcCase.monitor.name.label=Tòa án thêm mới vụ án
+spcCase.monitor.resultTable.displayColumns=casecode,casename,locaname,indate,numaccused,name,spcname
+#detail table for DS các vụ án chưa xử lý trong các giai đoạn (số còn lại)
+spcCaseDGTK.monitor.casecode.label=Mã vụ án
+spcCaseDGTK.monitor.casecode.styleClass=center
+spcCaseDGTK.monitor.casename.label=Tên vụ án
+spcCaseDGTK.monitor.locaname.label=Nơi xảy ra
+spcCaseDGTK.monitor.indate.label=Thụ lý
+spcCaseDGTK.monitor.indate.styleClass=center
+spcCaseDGTK.monitor.fullname.label=Kiểm sát viên
+spcCaseDGTK.monitor.sobican.label=Số BC
+spcCaseDGTK.monitor.sobican.styleClass=center
+spcCaseDGTK.monitor.setnum.label=Số thụ lý
+spcCaseDGTK.monitor.setnum.styleClass=left
+spcCaseDGTK.monitor.fromdate.label=Từ ngày
+spcCaseDGTK.monitor.fromdate.styleClass=center
+spcCaseDGTK.monitor.todate.label=Đến ngày
+spcCaseDGTK.monitor.todate.styleClass=center
+spcCaseDGTK.monitor.resultTable.displayColumns=casecode,casename,fullname,sobican,setnum,indate,fromdate,todate
+
+#detail table for DS các vụ án Công an đã đề nghị truy tố mà VKS không thụ lý cùng tháng
+spcCaseCA.monitor.casecode.label=Mã vụ án
+spcCaseCA.monitor.casecode.styleClass=center
+spcCaseCA.monitor.casename.label=Tên vụ án
+spcCaseCA.monitor.indate.label=Thụ lý
+spcCaseCA.monitor.indate.styleClass=center
+spcCaseCA.monitor.fromdate.label=Từ ngày
+spcCaseCA.monitor.fromdate.styleClass=center
+spcCaseCA.monitor.todate.label=Đến ngày
+spcCaseCA.monitor.todate.styleClass=center
+spcCaseCA.monitor.finishdate.label=Ngày xử lý
+spcCaseCA.monitor.finishdate.styleClass=font-color-red
+spcCaseCA.monitor.resultTable.displayColumns=casecode,casename,indate,fromdate,todate,finishdate
+
+#detail table for DS các vụ án VKS đã truy tố mà Tòa không thụ lý cùng tháng
+spcCaseVKSTT_TAKTL.monitor.casecode.label=Mã vụ án
+spcCaseVKSTT_TAKTL.monitor.casecode.styleClass=center
+spcCaseVKSTT_TAKTL.monitor.casename.label=Tên vụ án
+spcCaseVKSTT_TAKTL.monitor.indate.label=Thụ lý
+spcCaseVKSTT_TAKTL.monitor.indate.styleClass=center
+spcCaseVKSTT_TAKTL.monitor.fromdate.label=Từ ngày
+spcCaseVKSTT_TAKTL.monitor.fromdate.styleClass=center
+spcCaseVKSTT_TAKTL.monitor.todate.label=Đến ngày
+spcCaseVKSTT_TAKTL.monitor.todate.styleClass=center
+spcCaseVKSTT_TAKTL.monitor.finishdate.label=Ngày xử lý
+spcCaseVKSTT_TAKTL.monitor.finishdate.styleClass=font-color-red
+spcCaseVKSTT_TAKTL.monitor.resultTable.displayColumns=casecode,casename,indate,fromdate,todate,finishdate
+
+# Điều luật
+monitor.law.lawid.label=Điều
+monitor.law.appliedLaw.label=Bộ luật áp dụng
+monitor.fdatet.label=Thụ lý từ ngày
+monitor.tdatet.label=Thụ lý đến ngày
+
+# Detail table for Báo cáo thông tin điều luật
+BCTTDL.monitor.law.casecode.label=Mã vụ án
+BCTTDL.monitor.law.casecode.styleClass=center
+BCTTDL.monitor.law.casename.label=Tên vụ án
+BCTTDL.monitor.law.setnum.label=Số KLĐT/BCT/BA
+BCTTDL.monitor.law.setnum.styleClass=left
+BCTTDL.monitor.law.indate.label=Ngày ra KLĐT/BCT/BA
+BCTTDL.monitor.law.indate.styleClass=center
+BCTTDL.monitor.law.actdate.label=Ngày hiệu lực
+BCTTDL.monitor.law.actdate.styleClass=center
+BCTTDL.monitor.law.fullname.label=Bị can/Bị cáo
+BCTTDL.monitor.law.fullname.styleClass=left
+BCTTDL.monitor.law.lawid.label=Điều
+BCTTDL.monitor.law.lawid.styleClass=center
+BCTTDL.monitor.law.item.label=Khoản
+BCTTDL.monitor.law.item.styleClass=center
+BCTTDL.monitor.law.point.label=Điểm
+BCTTDL.monitor.law.point.styleClass=center
+BCTTDL.monitor.law.resultTable.displayColumns=casecode,casename,setnum,indate,actdate,fullname,lawid,item,point
+
+#Giám sát thự hiện - Thụ lý
+monitor.inspcode.title=Nhập mã hoặc tên để chọn Kiểm sát viên hoặc nhấn dấu cách để chọn tất cả
+sppRegister.monitor.typeRegister.label=Loại giám sát
+sppRegister.monitor.typeRegister.title=Loại giám sát thực hiện theo thụ lý
+sppRegister.monitor.1.casecode.label=Mã vụ án
+sppRegister.monitor.1.casename.label=Tên vụ án
+sppRegister.monitor.1.regicode.label=Mã thụ lý
+sppRegister.monitor.1.setnum.label=Số thụ lý
+sppRegister.monitor.1.indate.label=Ngày thụ lý
+sppRegister.monitor.1.sppname.label=Viện KS
+sppRegister.monitor.1.fromdate.label=Từ ngày
+sppRegister.monitor.1.todate.label=Đến ngày
+sppRegister.monitor.1.fullname.label=Kiểm sát viên
+sppRegister.monitor.1.finishdate.label=Ngày kết thúc
+sppRegister.monitor.1.rnumday.label=Số ngày sắp đến hạn
+sppRegister.monitor.1.special.label=Án điểm
+sppRegister.monitor.1.lawyer.label=Có luật sư tham gia
+sppRegister.monitor.1.movement.label=Xét xử lưu động
+sppRegister.monitor.1.resultTable.displayColumns=casecode,casename,sppname,setnum,indate,fromdate,todate,rnumday,fullname,special,lawyer,movement
+sppRegister.monitor.1.casecode.styleClass=center
+sppRegister.monitor.1.setnum.styleClass=right
+sppRegister.monitor.1.fromdate.styleClass=center
+sppRegister.monitor.1.todate.styleClass=center
+sppRegister.monitor.1.finishdate.styleClass=center
+sppRegister.monitor.1.rnumday.styleClass=right
+
+sppRegister.monitor.2.casecode.label=Mã vụ án
+sppRegister.monitor.2.casename.label=Tên vụ án
+sppRegister.monitor.2.regicode.label=Mã thụ lý
+sppRegister.monitor.2.setnum.label=Số thụ lý
+sppRegister.monitor.2.sppname.label=Viện KS
+sppRegister.monitor.2.fromdate.label=Từ ngày
+sppRegister.monitor.2.todate.label=Đến ngày
+sppRegister.monitor.2.fullname.label=Kiểm sát viên
+sppRegister.monitor.2.finishdate.label=Ngày kết thúc
+sppRegister.monitor.2.rnumday.label=Số ngày quá hạn
+sppRegister.monitor.2.special.label=Án điểm
+sppRegister.monitor.2.lawyer.label=Có luật sư tham gia
+sppRegister.monitor.2.movement.label=Xét xử lưu động
+sppRegister.monitor.2.resultTable.displayColumns=casecode,casename,setnum,sppname,fromdate,todate,rnumday,fullname,special,lawyer,movement
+sppRegister.monitor.2.casecode.styleClass=center
+sppRegister.monitor.2.setnum.styleClass=right
+sppRegister.monitor.2.fromdate.styleClass=center
+sppRegister.monitor.2.todate.styleClass=center
+sppRegister.monitor.2.finishdate.styleClass=center
+sppRegister.monitor.2.rnumday.styleClass=right
+
+sppRegister.monitor.3.casecode.label=Mã vụ án
+sppRegister.monitor.3.casename.label=Tên vụ án
+sppRegister.monitor.3.regicode.label=Mã thụ lý
+sppRegister.monitor.3.setnum.label=Số thụ lý
+sppRegister.monitor.3.indate.label=Ngày thụ lý
+sppRegister.monitor.3.sppname.label=Viện KS
+sppRegister.monitor.3.fromdate.label=Từ ngày
+sppRegister.monitor.3.todate.label=Đến ngày
+sppRegister.monitor.3.fullname.label=Kiểm sát viên
+sppRegister.monitor.3.finishdate.label=Ngày kết thúc
+#sppRegister.monitor.3.rnumday.label=Số ngày sắp đến hạn
+sppRegister.monitor.3.resultTable.displayColumns=casecode,casename,setnum,sppname,fromdate,todate,indate,fullname
+sppRegister.monitor.3.casecode.styleClass=center
+sppRegister.monitor.3.setnum.styleClass=right
+sppRegister.monitor.3.fromdate.styleClass=center
+sppRegister.monitor.3.todate.styleClass=center
+sppRegister.monitor.3.finishdate.styleClass=center
+sppRegister.monitor.3.rnumday.styleClass=right
+
+#SppDecision - TruongPV
+SppDecision.key=Cập nhật thông tin quyết định bị can
+SppDecision.decicode.label=Mã quyết định
+SppDecision.decicode.title=(Hệ thống tự sinh)
+SppDecision.indate.label=Ngày
+SppDecision.indate.title=Ngày ra quyết định
+SppDecision.polid.label=Đơn vị ra quyết định
+SppDecision.polid.title=Đơn vị ra quyết định
+SppDecision.sppid.label=Viện kiểm sát
+SppDecision.sppid.title=Gõ mã hoặc tên để chọn Viện kiểm sát (nhấn dấu cách để chọn tất cả)
+SppDecision.armyid.label=Đơn vị quân đội
+SppDecision.armyid.title=Gõ mã hoặc tên để chọn Đơn vị quân đội (nhấn dấu cách để chọn tất cả)
+SppDecision.policeid.label=Đơn vị công an
+SppDecision.policeid.title=Gõ mã hoặc tên để chọn Đơn vị công an (nhấn dấu cách để chọn tất cả)
+SppDecision.rangerid.label=Đơn vị kiểm lâm
+SppDecision.rangerid.title=Gõ mã hoặc tên để chọn Đơn vị kiểm lâm (nhấn dấu cách để chọn tất cả)
+SppDecision.spcid.label=Tòa án
+SppDecision.spcid.title=Gõ mã hoặc tên để chọn Tòa án (nhấn dấu cách để chọn tất cả)
+SppDecision.customsid.label=Đơn vị hải quan
+SppDecision.customsid.title=Gõ mã hoặc tên để chọn Đơn vị hải quan (nhấn dấu cách để chọn tất cả)
+SppDecision.borderid.label=Đơn vị bộ đội biên phòng
+SppDecision.borderid.title=Gõ mã hoặc tên để chọn Đơn vị bộ đội biên phòng (nhấn dấu cách để chọn tất cả)
+SppDecision.content.label=Nội dung
+SppDecision.content.title=Nội dung
+SppDecision.fromdate.label=Thời hạn/Hiệu lực từ ngày
+SppDecision.fromdate.title=Thời hạn/Hiệu lực từ ngày
+SppDecision.todate.label=Thời hạn/Hiệu lực đến ngày
+SppDecision.todate.title=Thời hạn/Hiệu lực đến ngày
+SppDecision.finishdate.label=Ngày kết thúc
+SppDecision.finishdate.title=Ngày kết thúc
+SppDecision.reasonid.title=Lý do
+SppDecision.reasonid.label=Lý do
+SppDecision.accucode.title=Bị can
+SppDecision.accucode.label=Bị can
+SppDecision.accuname.title=Bị can
+SppDecision.accuname.label=Bị can
+SppDecision.signname.label=Người ký
+SppDecision.signname.title=Người ký
+SppDecision.signoffice.label=Chức vụ
+SppDecision.signoffice.title=Chức vụ
+SppDecision.setnum.label=Quyết định số
+SppDecision.setnum.title=Quyết định số
+SppDecision.deciname.label=Quyết định
+SppDecision.deciname.title=Quyết định
+SppDecision.reasonname.label=Lý do
+SppDecision.decitype.label=Loại quyết định
+SppDecision.decitype.title=Loại quyết định
+SppDecision.deciid.label=Quyết định
+SppDecision.deciid.title=Quyết định
+SppDecision.reasonid.label=Lý do
+SppDecision.reasonid.title=Lý do
+SppDecision.resultTable.displayColumns=setnum,accuname,indate,deciname,reasonname
+SppDecision.error.caseOnHold=Không thể thêm quyết định vì vụ án đang đình chỉ
+SppDecision.error.caseOnTemporaryHold=Không thể thêm quyết định vì vụ án đang tạm đình chỉ
+SppDecision.error.caseOnReInquire=Không thể thêm quyết định vì vụ án đang trả hồ sơ điều tra bổ sung
+SppDecision.error.caseOnCancel=Không thể thêm quyết định vì vụ án đang hoãn xét xử
+SppDecision.error.caseFinish=Không thể thêm quyết định vì vụ án đã kết thúc
+SppDecision.error.indateFuture=Ngày ra quyết định không được trước ngày hiện tại
+SppDecision.error.indateBeforeRegidate=Ngày ra quyết định không được trước ngày thụ lý
+SppDecision.error.fromdateBeforeIndate=Thời hạn/Hiệu lực từ ngày không được trước ngày ra quyết định
+SppDecision.error.todateBeforeFromdate=Thời hạn/Hiệu lực từ ngày không được sau đến ngày
+SppDecision.error.setnumDuplicate=Trùng số quyết định
+SppDecision.error.execution=Ngày ra quyết định khác không thể trước ngày ra quyết định thi hành án
+SppAccused.error.hasDecision=Bị can này đã có quyết định
+SppAccused.error.hasExecute=Bị can này đã có thông tin thi hành án
+SppAccused.error.hasStatistica=Bị can này đã có chỉ tiêu thống kê
+SppAccused.error.hasCentLawPenalty=Bị can này đã có hình phạt
+SppAccused.error.hasJudgement=Bị can này đã có tổng hợp hình phạt
+SppAccused.error.hasPrevent=Bị can này đã có biện pháp ngăn chặn
+
+#verify data
+
+monitor.verify.casecode.label=Mã vụ án
+monitor.verify.casecode.styleClass=center
+monitor.verify.casename.label=Tên vụ án
+monitor.verify.setnum.label=Số thụ lý
+#monitor.verify.regicode.styleClass=center
+monitor.verify.indate.label=Ngày thụ lý
+monitor.verify.indate.styleClass=center
+monitor.verify.userfor.label=Giai đoạn
+monitor.verify.firstacc_txt.label=Bị can đầu vụ
+monitor.verify.crimdate.label=Ngày xảy ra
+monitor.verify.crimdate.styleClass=center
+monitor.verify.crimwhere_txt.label=Nơi xảy ra
+
+Constants.CATEGORIES.StatusOption.KTVA.value=KTVA
+Constants.CATEGORIES.StatusOption.KTVA.text=Kết thúc thụ lý
+Constants.CATEGORIES.StatusOption.DCVA.value=DCVA
+Constants.CATEGORIES.StatusOption.DCVA.text=Đình chỉ vụ án
+Constants.CATEGORIES.StatusOption.TDCVA.value=TDCVA
+Constants.CATEGORIES.StatusOption.TDCVA.text=Tạm đình chỉ vụ án
+Constants.CATEGORIES.StatusOption.THSDTBS.value=THSDTBS
+Constants.CATEGORIES.StatusOption.THSDTBS.text=Trả hồ sơ điều tra bổ sung
+Constants.CATEGORIES.StatusOption.CHSVATTQ.value=CHSVATTQ
+Constants.CATEGORIES.StatusOption.CHSVATTQ.text=Chuyển hồ sơ vụ án thuộc thẩm quyền
+Constants.CATEGORIES.StatusOption.CVATT.value=CVATT
+Constants.CATEGORIES.StatusOption.CVATT.text=Chuyển hồ sơ vụ án theo ủy quyền
+Constants.CATEGORIES.StatusOption.XXXX.value=XXXX
+Constants.CATEGORIES.StatusOption.XXXX.text=Chưa xác định
+
+Constants.CATEGORIES.StatusOptionName.DCBC.value=DCBC
+Constants.CATEGORIES.StatusOptionName.DCBC.text=Đình chỉ bị can
+Constants.CATEGORIES.StatusOptionName.TDCBC.value=TDCBA
+Constants.CATEGORIES.StatusOptionName.TDCBC.text=Tạm đình chỉ bị can
+Constants.CATEGORIES.StatusOptionName.XXXX.value=XXXX
+Constants.CATEGORIES.StatusOptionName.XXXX.text=Chưa xác định
+Constants.CATEGORIES.StatusOptionName.KHONG_KT.value=KHONG_KT
+Constants.CATEGORIES.StatusOptionName.KHONG_KT.text=Không khởi tố
+
+#CuongNV16 Loc theo ngay khoi to
+spcCaseNKT.monitor.casecode.label=Mã vụ án
+spcCaseNKT.monitor.casename.label=Tên vụ án
+spcCaseNKT.monitor.begin_indate.label=Ngày khởi tố
+spcCaseNKT.monitor.namespp.label=Tên viện kiểm sát
+spcCaseNKT.monitor.locaname.label=Nơi xảy ra
+spcCaseNKT.monitor.resultTable.displayColumns=casecode,casename,locaname,begin_indate,namespp
+
+#Sonnn7 Thong tin bi can moi khoi to la dang vien
+monitor.accused.3.resultTable.displayColumns=casecode,casename,fullname,birthday,address
+monitor.accused.3.casecode.label=Mã vụ án
+monitor.accused.3.casecode.styleClass=center
+monitor.accused.3.casename.label=Tên vụ án
+monitor.accused.3.fullname.label=Tên bị can
+monitor.accused.3.address.label=Cơ quan ra QĐ khởi tố
+monitor.accused.3.birthday.label=Ngày sinh
+monitor.accused.3.birthday.styleClass=center
+monitor.accused.title.3=Báo cáo thông tin bị can mới khởi tố là đảng viên
+
+#Sonnn7 DS các BC VKS không truy tố mà Tòa thụ lý
+monitor.accused.5.resultTable.displayColumns=casecode,casename,fullname,birthday,fromdate
+monitor.accused.5.casecode.label=Mã vụ án
+monitor.accused.5.casecode.styleClass=center
+monitor.accused.5.casename.label=Tên vụ án
+monitor.accused.5.fullname.label=Tên bị can
+monitor.accused.5.fromdate.label=Ngày thụ lý
+monitor.accused.5.fromdate.styleClass=center
+monitor.accused.5.birthday.label=Ngày sinh
+monitor.accused.5.birthday.styleClass=center
+monitor.accused.title.5=Danh sách các bị can VKS không truy tố mà Tòa thụ lý
+
+#DuongLQ Thong tin ve bi can
+monitor.accused.1.casecode.label=Mã vụ án
+monitor.accused.1.casename.label=Tên vụ án
+monitor.accused.1.fullname.label=Họ và tên
+monitor.accused.1.remark.label=Nơi cư trú
+monitor.accused.1.birthday.label=Ngày sinh
+monitor.accused.1.sex_txt.label=Giới tính
+monitor.accused.1.identify.label=Chứng minh thư
+monitor.accused.1.resultTable.displayColumns=casecode,casename,fullname,remark,birthday,sex_txt,identify
+monitor.accused.title.1=Thông tin bị can bị cáo
+monitor.err.fdate>tdate="Từ ngày" phải nhỏ hơn hoặc bằng "Đến ngày"
+
+#DuongLQ BC thông tin bị can mới  khởi tố
+monitor.accused.2.casecode.label=Mã vụ án
+monitor.accused.2.casename.label=Tên vụ án
+monitor.accused.2.fullname.label=Họ và tên
+monitor.accused.2.birthday.label=Ngày sinh
+monitor.accused.2.address.label=Cơ quan ra QĐ khởi tố
+monitor.accused.2.resultTable.displayColumns=casecode,casename,fullname,birthday,address
+monitor.accused.title.2=Báo cáo thông tin bị can mới khởi tố
+
+#DuongLQ DS các BC Công an đã đề nghị truy tố mà VKS không thụ lý cùng tháng
+monitor.accused.4.casecode.label=Mã vụ án
+monitor.accused.4.casename.label=Tên vụ án
+monitor.accused.4.fullname.label=Họ và tên
+monitor.accused.4.birthday.label=Ngày sinh
+monitor.accused.4.finishdate.label=Ngày xử lý
+monitor.accused.4.resultTable.displayColumns=casecode,casename,fullname,birthday,finishdate
+monitor.accused.title.4=Danh sách các bị can công an đã đề nghị truy tố mà viện kiểm sát không thụ lý cùng tháng
+
+#DuongLQ DS các BC VKS đã truy tố mà Tòa không thụ lý cùng tháng
+monitor.accused.8.casecode.label=Mã vụ án
+monitor.accused.8.casename.label=Tên vụ án
+monitor.accused.8.fullname.label=Họ và tên
+monitor.accused.8.birthday.label=Ngày sinh
+monitor.accused.8.finishdate.label=Ngày xử lý
+monitor.accused.8.resultTable.displayColumns=casecode,casename,fullname,birthday,finishdate
+monitor.accused.title.8=Danh sách các báo cáo viện kiểm sát đã truy tố mà tòa không thụ lý cùng tháng
+
+#DuongLQ DS các BC DS các BC Công an không đề nghị truy tố mà VKS thụ lý
+monitor.accused.10.casecode.label=Mã vụ án
+monitor.accused.10.casename.label=Tên vụ án
+monitor.accused.10.fullname.label=Họ và tên
+monitor.accused.10.birthday.label=Ngày sinh
+monitor.accused.10.fromdate.label=Ngày xử lý
+monitor.accused.10.resultTable.displayColumns=casecode,casename,fullname,birthday,fromdate
+monitor.accused.title.10=Danh sách các báo cáo công an không đề nghị truy tố mà viện kiểm sát thụ lý
+
+#DuongLQ BC thông tin bị can mới theo án
+monitor.accused.6.casecode.label=Mã vụ án
+monitor.accused.6.casename.label=Tên vụ án
+monitor.accused.6.fullname.label=Họ và tên
+monitor.accused.6.birthday.label=Ngày sinh
+monitor.accused.6.address.label=Cơ quan ra QĐ khởi tố
+monitor.accused.6.resultTable.displayColumns=casecode,casename,fullname,birthday,address
+monitor.accused.title.6=Báo cáo thông tin bị can mới theo án
+
+#TRUONGNN thong tin khang cao, khang nghi
+# Bundle dùng cho Load info Detail Appeal
+monitor.appeal.casecode.label=Mã vụ án
+monitor.appeal.casename.label=Tên vụ án
+monitor.appeal.indate.label=Ngày K.C
+monitor.appeal.appealname.label=Lý do
+monitor.appeal.sppname.label=VKS thụ lý
+monitor.appeal.perapp.label=Người K.C
+monitor.appeal.appeaforname.label=Kháng cáo
+monitor.appeal.casecode.value=Mã vụ án
+monitor.appeal.casename.value=Tên vụ án
+monitor.appeal.indate.value=Ngày K.C
+monitor.appeal.appealname.value=Lý do
+monitor.appeal.sppname.value=Tòa án thụ lý
+
+monitor.appeal.resultTable.displayColumns=casecode,casename,indate,perapp,appeaforname,appealname,sppname
+
+
+#Bundle dùng cho Load info Detail Againsts
+
+monitor.against.casecode.label=Mã vụ án
+monitor.against.casename.label=Tên vụ án
+monitor.against.setnum.label=Số K.N
+monitor.against.indate.label=Ngày kháng nghị
+monitor.against.forsetnum.label=Số BA/QĐ
+monitor.against.forindate.label=Ngày QĐ/ BA
+monitor.against.sppname.label=VKS thụ lý
+monitor.against.resultname.label=Kết quả
+monitor.against.againstname.label=Lý do
+
+monitor.against.casecode.value=Mã vụ án
+monitor.against.casename.value=Tên vụ án
+monitor.against.setnum.value=Số K.N
+monitor.against.indate.value=Ngày kháng nghị
+monitor.against.forsetnum.value=Số BA/QĐ
+monitor.against.forindate.value=Ngày QĐ/ BA
+monitor.against.sppname.value=VKS thụ lý
+monitor.against.resultname.value=Kết quả
+monitor.against.againstname.value=Lý do
+
+monitor.against.resultTable.displayColumns=casecode,casename,indate,setnum,forsetnum,forindate,sppname,againstname,resultname
+
+
+#SppAppeal
+SppAppeal.key=Kháng cáo
+SppAppeal.title=kháng cáo
+SppAppeal.appecode.label=Mã kháng cáo
+SppAppeal.casecode.label=Mã vụ án
+SppAppeal.casename.label=Tên vụ án
+SppAppeal.sppname.label=Tên Viện kiểm sát
+SppAppeal.indate.label=Ngày kháng cáo
+SppAppeal.content.label=Nội dung kháng cáo
+SppAppeal.appealname.label=Tên loại kháng cáo
+SppAppeal.crimdate_from.label=Từ ngày
+SppAppeal.crimdate.tooltil=Ngày xảy ra vụ án
+SppAppeal.crimdate_to.label=Đến ngày
+SppAppeal.status.label=Trạng thái
+SppAppeal.acctype.label=Người kháng cáo
+SppAppeal.perapp.label=Họ và tên
+SppAppeal.accuname.label=Tên bị can
+####
+SppAppeal.appecode.value=Mã kháng cáo
+SppAppeal.casecode.value=Mã vụ án
+SppAppeal.casename.value=Tên vụ án
+SppAppeal.sppname.value=Tên Viện kiểm sát
+SppAppeal.indate.value=Ngày kháng cáo
+SppAppeal.content.value=Nội dung kháng cáo
+SppAppeal.appealname.value=Tên loại kháng cáo
+SppAppeal.acctype.value=Người kháng cáo
+SppAppeal.perapp.value=Họ và tên
+SppAppeal.accuname.value=Tên bị can
+SppAppeal.detailInfo.exceptFields=acctype,accuname,perapp
+##error
+sppAppeal1=Kháng cáo đã được chuyển cho đơn vị khác, không được sửa xóa. Đề nghị kiểm tra lại
+sppAppeal2=Kháng cáo đã được thụ lý phúc thẩm, không được sửa MÃ VỤ ÁN. Đề nghị kiểm tra lại
+sppAppeal3=Kháng cáo đã được thụ lý phúc thẩm. Đề nghị kiểm tra lại
+sppAppeal4=Ngày kháng cáo không thể trước ngày xảy ra vụ án:
+sppAppeal5=. Đề nghị kiểm tra lại
+sppAppeal6=Bản án bị kháng cáo không có trong hệ thống. Đề nghị kiểm tra lại
+sppAppeal7=Quyết định bị kháng cáo không có trong hệ thống. Đề nghị kiểm tra lại
+sppAppeal9=Vụ án đang được thụ lý phúc thẩm(GDT, TT). Đề nghị kiểm tra lại
+sppAppeal10=Kháng cáo đã được giải quyết. Đề nghị kiểm tra lại
+sppAppeal11=Vụ án đã được chuyển. Không thể cập nhật giải quyết kháng cáo
+sppAppeal12=Kháng cáo đã được giải quyết tại 1 tòa khác. Đề nghị kiểm tra lại
+sppAppeal13=Bị án đã có thụ lý thi hành án. Đề nghị kiểm tra lại.
+sppAppeal.warn.inDateBeforeInstanceTime=Ngày kháng cáo không thể lớn hơn ngày hiện tại
+
+#Cuongnv16 Thu ly vu an moi
+sppCaseLVA.monitor.casetype.label= Loại vụ án
+sppCaseLVA.monitor.casecode.label= Mã vụ án
+sppCaseLVA.monitor.casename.label= Tên vụ án
+sppCaseLVA.monitor.sobican.label= Số BC
+sppCaseLVA.monitor.fromdate.label=Từ ngày
+sppCaseLVA.monitor.todate.label=Đến ngày
+sppCaseLVA.monitor.finishdate.label=Kết thúc
+sppCaseLVA.monitor.indate.label=Thụ lý
+sppCaseLVA.monitor.fullname.label=Kiểm sát viên
+sppCaseLVA.monitor.setnum.label=Số thụ lý
+sppCaseLVA.monitor.resultTable.displayColumns=casecode,casename,fullname,sobican,setnum,indate,fromdate,todate,finishdate
+sppCaseLVA.monitor.lawname.label=Điều luật
+#Sonnn7 BC thông tin bị can mới khởi tố chưa thành niên
+monitor.accused.7.resultTable.displayColumns=casecode,casename,fullname,birthday,address
+monitor.accused.7.casecode.label=Mã vụ án
+monitor.accused.7.casecode.styleClass=center
+monitor.accused.7.casename.label=Tên vụ án
+monitor.accused.7.fullname.label=Tên bị can
+monitor.accused.7.address.label=Cơ quan ra QĐ khởi tố
+monitor.accused.7.birthday.label=Ngày sinh
+monitor.accused.7.birthday.styleClass=center
+monitor.accused.title.7=BC thông tin bị can mới khởi tố chưa thành niên
+
+monitor.accused.fdate.title=QĐ khởi tố bị can từ ngày
+monitor.accused.tdate.title=QĐ khởi tố bị can đến ngày
+
+
+#TuTD2 (Quyết định vụ án - SppDecision_Case)
+spcDecision_Case.title=Thông tin quyết định vụ án
+sppDecision_Case.decicode.label=Mã quyết định
+sppDecision_Case.deciname.label=Tên quyết định
+sppDecision_Case.setnumdeci.label=Quyết định số
+sppDecision_Case.indate.label=Ngày quyết định
+sppDecision_Case.indate.title=Ngày ra quyết định
+sppDecision_Case.decitype.label=Loại quyết định
+sppDecision_Case.reasonid.label=Lý do
+sppDecision_Case.reasonid.title=Lý do quyết định
+sppDecision_Case.decioffice.label=Đơn vị ra QĐ
+sppDecision_Case.spc.label=Tòa án
+sppDecision_Case.spp.label=Viện kiểm sát
+sppDecision_Case.pol.label=Tên ĐV ra QĐ
+sppDecision_Case.fromdate.label=Thời hạn/Hiệu lực từ ngày
+sppDecision_Case.todate.label=Thời hạn/Hiệu lực đến ngày
+sppDecision_Case.todate.title=Ngày kết thúc thực tế
+sppDecision_Case.finishdate.label=Ngày kết thúc
+sppDecision_Case.finishdate.title=Ngày kết thúc theo luật định
+sppDecision_Case.signname.label=Người ký
+sppDecision_Case.signoffice.label=Chức vụ
+sppDecision_Case.content.label=Ghi chú
+sppDecision_Case.resultTable.displayColumns=decicode,deciname,setnumdeci,indate
+sppDecision_Case.setnumdeci.styleClass=right
+sppDecision_Case.indate.styleClass=center
+fromdate.compare.todate="Hiệu lực từ ngày" phải trước "Đến ngày"
+sppDecision_Case.setnum.error=Số quyết định đã có trong CSDL.
+spp.decision.DC=Thụ lý đã có quyết định đình chỉ. Không thể thêm mới quyết định.
+
+#BacNV Bản án SppCentence
+SppCentenceG1.key=Cập nhật thông tin kết luận điều tra
+SppCentence.G1.title=Kết luận điều tra
+SppCentence.G1.centcode.label=Mã kết luận
+SppCentence.G1.centcode.title=Mã kết luận điều tra (tự sinh)
+SppCentence.G1.setnum.label=Kết luận điều tra số
+SppCentence.G1.setnum.title=Kết luận điều tra số
+SppCentence.G1.setnum.styleClass=center
+SppCentence.G1.indate.label=Ngày CQ ra KLĐT
+SppCentence.G1.indate.title=Ngày cơ quan ra kết luận điều tra
+SppCentence.G1.actdate.label=Ngày hiệu lực
+SppCentence.G1.actdate.title=Ngày hiệu lực kết luận điều tra
+SppCentence.G1.receivedate.label=Ngày VKS nhận hồ sơ
+SppCentence.G1.receivedate.title=Ngày Viện kiểm sát nhận hồ sơ
+SppCentence.G1.content.label=Nội dung
+SppCentence.G1.content.title=Nội dung kết luận điều tra
+SppCentence.G1.signoffice.label=Chức vụ
+SppCentence.G1.signoffice.title=Chức vụ
+SppCentence.G1.signname.label=Người ký
+SppCentence.G1.signname.title=Người ký
+SppCentence.G1.remark.label=Ý kiến của VKS
+SppCentence.G1.remark.title=Ý kiến của viện kiểm sát
+SppCentence.G1.status.label=Tình trạng
+SppCentence.G1.statusname.label=Tình trạng
+SppCentence.G1.statusname.styleClass=center
+SppCentence.G1.status.title=Tình trạng kết luận điều tra
+SppCentence.G1.resultTable.displayColumns=centcode,setnum,indate,signname,statusname
+SppCentence.G1.detailInfo.exceptFields=status
+SppCentence.G1.staticc.button=Chỉ tiêu thống kê vụ án
+SppCentence.G1.cenlaw.statica.button=Điều luật khởi tố, chỉ tiêu
+
+SppCentenceG2.key=Cập nhật thông tin bản cáo trạng
+SppCentence.G2.title=Bản cáo trạng
+SppCentence.G2.centcode.label=Mã bản cáo trạng
+SppCentence.G2.centcode.title=Mã bản cáo trạng (tự sinh)
+SppCentence.G2.setnum.label=Bản cáo trạng số
+SppCentence.G2.setnum.title=Bản cáo trạng số
+SppCentence.G2.setnum.styleClass=center
+SppCentence.G2.indate.label=Ngày VKS ra cáo trạng
+SppCentence.G2.indate.title=Ngày Viện kiểm sát ra cáo trạng
+SppCentence.G2.actdate.label=Ngày hiệu lực
+SppCentence.G2.actdate.title=Ngày hiệu lực bản cáo trạng
+SppCentence.G2.receivedate.label=Ngày TA nhận hồ sơ của VKS
+SppCentence.G2.receivedate.title=Ngày Tòa án nhận hồ sơ của Viện kiểm sát
+SppCentence.G2.content.label=Nội dung
+SppCentence.G2.content.title=Nội dung bản cáo trạng
+SppCentence.G2.signoffice.label=Chức vụ
+SppCentence.G2.signoffice.title=Chức vụ
+SppCentence.G2.signname.label=Người ký
+SppCentence.G2.signname.title=Người ký
+SppCentence.G2.centtype.label=Án rút gọn
+SppCentence.G2.centtype.title=Tích vào để xác định là án rút gọn
+SppCentence.G2.remark.label=Ý kiến của VKS
+SppCentence.G2.remark.title=Ý kiến của viện kiểm sát
+SppCentence.G2.status.label=Tình trạng
+SppCentence.G2.statusname.label=Tình trạng
+SppCentence.G2.statusname.styleClass=center
+SppCentence.G2.status.title=Tình trạng bản cáo trạng
+SppCentence.G2.resultTable.displayColumns=centcode,setnum,indate,signname,statusname
+SppCentence.G2.detailInfo.exceptFields=status
+SppCentence.G2.staticc.button=Chỉ tiêu thống kê vụ án
+SppCentence.G2.cenlaw.statica.button=Điều luật truy tố, chỉ tiêu
+
+SppCentence.key=Cập nhật thông tin bản án
+SppCentence.G3.title=Bản án
+SppCentence.G3.centcode.label=Mã bản án
+SppCentence.G3.centcode.title=Mã bản án (tự sinh)
+SppCentence.G3.setnum.label=Bản án số
+SppCentence.G3.setnum.title=Bản án số
+SppCentence.G3.setnum.styleClass=center
+SppCentence.G3.indate.label=Ngày ra bản án
+SppCentence.G3.indate.title=Ngày ra bản án
+SppCentence.G3.peracc.label=Người KC/đơn vị KN
+SppCentence.G3.actdate.label=Ngày hiệu lực
+SppCentence.G3.actdate.title=Ngày hiệu lực bản án
+SppCentence.G3.content.label=Nội dung
+SppCentence.G3.content.title=Nội dung bản án
+SppCentence.G3.signoffice.label=Chức vụ
+SppCentence.G3.signoffice.title=Chức vụ
+SppCentence.G3.signname.label=Người ký
+SppCentence.G3.signname.title=Người ký
+SppCentence.G3.remark.label=Ý kiến của VKS
+SppCentence.G3.remark.title=Ý kiến của viện kiểm sát
+SppCentence.G3.status.label=Tình trạng
+SppCentence.G3.statusname.label=Tình trạng
+SppCentence.G3.statusname.styleClass=center
+SppCentence.G3.status.title=Tình trạng bản cáo trạng
+SppCentence.G3.movement.label=Xét xử lưu động
+SppCentence.G3.movement.title=Xét xử lưu động
+SppCentence.G3.movementname.label=Xét xử lưu động
+SppCentence.G3.movementname.styleClass=center
+SppCentence.G3.spcdiffspp.label=Số bị cáo Tòa xử theo khoản khác với khoản mà Viện kiểm sát đã truy tố
+SppCentence.G3.spcdiffspp.title=Số bị cáo Tòa xử theo khoản khác với khoản mà Viện kiểm sát đã truy tố
+SppCentence.G3.sppnext.label=Số bị cáo Tòa xử khác với mức đề nghị của Viện kiểm sát
+SppCentence.G3.sppnext.title=Số bị cáo Tòa xử khác với mức đề nghị của Viện kiểm sát
+SppCentence.G3.sppback.label=Số bị cáo Viện kiểm sát kháng nghị
+SppCentence.G3.sppback.title=Số bị cáo Viện kiểm sát kháng nghị
+SppCentence.G3.spcid.label=Tòa án ra bản án
+SppCentence.G3.spcid.title=Tòa án ra bản án
+SppCentence.G3.resultTable.displayColumns=centcode,setnum,indate,signname,statusname,movementname
+SppCentence.G3.detailInfo.exceptFields=status,movement
+SppCentence.G3.staticc.button=Chỉ tiêu thống kê vụ án
+SppCentence.G3.cenlaw.statica.button=Điều luật, hình phạt, chỉ tiêu
+SppCentence.G3.lawpanalty.button=Hình phạt tổng hợp
+SppCentence.movement.Y.text=Phiên tòa xét xử lưu động
+SppCentence.movement.N.text=Phiên tòa không xét xử lưu động
+
+SppCentence.G4.title=Bản án
+SppCentence.G4.centcode.label=Mã bản án
+SppCentence.G4.centcode.title=Mã bản án (tự sinh)
+SppCentence.G4.setnum.label=Bản án số
+SppCentence.G4.setnum.title=Bản án số
+SppCentence.G4.setnum.styleClass=center
+SppCentence.G4.indate.label=Ngày ra bản án
+SppCentence.G4.indate.title=Ngày ra bản án
+SppCentence.G4.actdate.label=Ngày hiệu lực
+SppCentence.G4.actdate.title=Ngày hiệu lực bản án
+SppCentence.G4.concid.label=Kết luận Tòa án
+SppCentence.G4.concid.title=Kết luận bản án của Tòa án
+SppCentence.G4.concidspp.label=Quan điểm của VKS
+SppCentence.G4.concidspp.title=Quan điểm của Viện kiểm sát
+SppCentence.G4.concid_txt.label=Kết luận bản án
+SppCentence.G4.concid_txt.title=Kết luận bản án
+SppCentence.G4.content.label=Nội dung
+SppCentence.G4.content.title=Nội dung bản án
+SppCentence.G4.signoffice.label=Chức vụ
+SppCentence.G4.signoffice.title=Chức vụ
+SppCentence.G4.signname.label=Người ký
+SppCentence.G4.signname.title=Người ký
+SppCentence.G4.remark.label=Ý kiến của VKS
+SppCentence.G4.remark.title=Ý kiến của viện kiểm sát
+SppCentence.G4.status.label=Tình trạng
+SppCentence.G4.statusname.label=Tình trạng
+SppCentence.G4.statusname.styleClass=center
+SppCentence.G4.status.title=Tình trạng bản cáo trạng
+SppCentence.G4.movement.label=Xét xử lưu động
+SppCentence.G4.movement.title=Xét xử lưu động
+SppCentence.G4.movementname.label=Xét xử lưu động
+SppCentence.G4.movementname.styleClass=center
+SppCentence.G4.spcdiffspp.label=Số bị cáo Tòa xử khác với mức đề nghị của Viện kiểm sát
+SppCentence.G4.spcdiffspp.title=Số bị cáo Tòa xử khác với mức đề nghị của Viện kiểm sát
+SppCentence.G4.sppnext.label=Số bị cáo có báo cáo đề nghị GĐT, TT
+SppCentence.G4.sppnext.title=Số bị cáo có báo cáo đề nghị GĐT, TT
+SppCentence.G4.sppback.label=Số bị cáo Viện kiểm sát rút kháng nghị
+SppCentence.G4.sppback.title=Số bị cáo Viện kiểm sát rút kháng nghị
+SppCentence.G4.resultTable.displayColumns=centcode,setnum,indate,signname,statusname,movementname
+SppCentence.G4.detailInfo.exceptFields=status,movement,concid
+SppCentence.G4.staticc.button=Chỉ tiêu thống kê vụ án
+SppCentence.G4.lawpanalty.button=Hình phạt tổng hợp
+SppCentence.G4.cenlaw.button=Điều luật áp dụng cho Bản án
+
+SppCentence.G5.title=Quyết định Giám đốc thẩm/Tái thẩm
+SppCentence.G5.centcode.label=Mã QĐ GĐT/TT
+SppCentence.G5.centcode.title=Mã quyết định Giám đốc thẩm/Tái thẩm (tự sinh)
+SppCentence.G5.setnum.label=Quyết định số
+SppCentence.G5.setnum.title=Quyết định Giám đốc thẩm/Tái thẩm số
+SppCentence.G5.setnum.styleClass=center
+SppCentence.G5.indate.label=Ngày ra QĐ
+SppCentence.G5.indate.title=Ngày ra quyết định
+SppCentence.G5.actdate.label=Ngày hiệu lực
+SppCentence.G5.actdate.title=Ngày hiệu lực Quyết định
+SppCentence.G5.concid.label=Kết luận Tòa án
+SppCentence.G5.concid.title=Kết luận Tòa án
+SppCentence.G5.concid_txt.label=Kết luận Tòa án
+SppCentence.G5.concid_txt.title=Kết luận Tòa án
+SppCentence.G5.content.label=Nội dung
+SppCentence.G5.content.title=Nội dung Quyết định
+SppCentence.G5.signoffice.label=Chức vụ
+SppCentence.G5.signoffice.title=Chức vụ
+SppCentence.G5.signname.label=Người ký
+SppCentence.G5.signname.title=Người ký
+SppCentence.G5.remark.label=Ý kiến của VKS
+SppCentence.G5.remark.title=Ý kiến của viện kiểm sát
+SppCentence.G5.status.label=Tình trạng
+SppCentence.G5.statusname.label=Tình trạng
+SppCentence.G5.statusname.styleClass=center
+SppCentence.G5.status.title=Tình trạng quyết định
+SppCentence.G5.spcid.label=Tòa án ra quyết định
+SppCentence.G5.spcid.title=Tòa án ra quyết định
+SppCentence.G5.movement.label=Xét xử lưu động
+SppCentence.G5.movement.title=Xét xử lưu động
+SppCentence.G5.movementname.label=Xét xử lưu động
+SppCentence.G5.movementname.styleClass=center
+SppCentence.G5.spcdiffspp.label=Số bị cáo tòa xử khác với mức đề nghị của Viện kiểm sát
+SppCentence.G5.spcdiffspp.title=Số bị cáo tòa xử khác với mức đề nghị của Viện kiểm sát
+SppCentence.G5.sppnext.label=Số bị cáo có báo cáo đề nghị GĐT, TT tiếp
+SppCentence.G5.sppnext.title=Số bị cáo có báo cáo đề nghị GĐT, TT tiếp
+SppCentence.G5.resultTable.displayColumns=centcode,setnum,indate,signname,statusname,movementname
+SppCentence.G5.detailInfo.exceptFields=status,movement,concid
+SppCentence.G5.cenlaw.button=Điều luật áp dụng
+
+SppCentence.error.delete=Không thể xóa được bản án vì:
+SppCentence.G1.error.delete=Không thể xóa được Kết luận điều tra vì:
+SppCentence.G2.error.delete=Không thể xóa được Bản cáo trạng vì:
+SppCentence.G5.error.delete=Không thể xóa được Quyết định GĐT/TT vì:
+SppCentlaw.error.add=Không thể ghi lại được vì:
+
+#SPC_CENLAWPENALTY
+sppCentLawPenalty.title=Nhập hình phạt áp dụng cho bị can
+sppCentLawPenalty.numyear.label=Năm
+sppCentLawPenalty.nummonth.label=Tháng
+sppCentLawPenalty.numday.label=Ngày
+sppCentLawPenalty.btn.save.title=Lưu hình phạt
+sppCentLawPenalty.btn.reset.title=Xóa trắng hình phạt
+sppCentLawPenalty.btn.delete.title=Xóa hình phạt
+#Tổng hợp hình phạt
+sppCentLawPenalty.notfound.title=Chưa có hình phạt cho điều luật
+sppCentJudmentPenalty.notfound.title=Chưa có thông tin tổng hợp hình phạt
+sppCentLawPenaltyspp.notfound.title=Chưa có mức án Viện kiểm sát đề nghị cho điều luật
+sppCentJudmentPenalspp.notfound.title=Chưa có thông tin tổng hợp mức án Viện kiểm sát đề nghị
+sppJudement.title=Tổng hợp hình phạt
+
+
+# Tra cứu thông tin theo quyết định
+monitor.decision.1.casecode.label=Mã vụ án
+monitor.decision.1.casename.label=Tên vụ án
+monitor.decision.1.setnum.label=QĐ số
+monitor.decision.1.indate.label=Ngày QĐ
+monitor.decision.1.deciname.label=Tên quyết định
+monitor.decision.1.accuname.label=Bị can/ bị cáo
+monitor.decision.1.resultTable.displayColumns=casecode,casename,setnum,indate,deciname,accuname
+monitor.decision.1.casecode.styleClass=center
+monitor.decision.1.indate.styleClass=center
+
+monitor.decision.utildate=Tính đến ngày
+monitor.decision.utildate.requiremessage=Bạn phải nhập giá trị cho trường tính đến ngày
+monitor.decision.2.casecode.label=Mã vụ án
+monitor.decision.2.casename.label=Tên vụ án
+monitor.decision.2.setnum.label=Số QĐ
+monitor.decision.2.indate.label=Ngày QĐ
+monitor.decision.2.todate.label=Đến ngày
+monitor.decision.2.numday.label=Số ngày sắp đến hạn
+monitor.decision.2.deciname.label=Tên quyết định
+monitor.decision.2.resultTable.displayColumns=casecode,casename,setnum,indate,todate,numday,deciname
+monitor.decision.2.casecode.styleClass=center
+monitor.decision.2.indate.styleClass=center
+monitor.decision.2.todate.styleClass=center
+
+monitor.decision.3.casecode.label=Mã vụ án
+monitor.decision.3.casename.label=Tên vụ án
+monitor.decision.3.setnum.label=Số QĐ
+monitor.decision.3.indate.label=Ngày QĐ
+monitor.decision.3.todate.label=Đến ngày
+monitor.decision.3.numday.label=Số ngày quá hạn
+monitor.decision.3.deciname.label=Tên quyết định
+monitor.decision.3.resultTable.displayColumns=casecode,casename,setnum,indate,todate,numday,deciname
+monitor.decision.3.casecode.styleClass=center
+monitor.decision.3.indate.styleClass=center
+monitor.decision.3.todate.styleClass=center
+
+monitor.decision.4.casecode.label=Mã vụ án
+monitor.decision.4.accuname.label=Tên bị can
+monitor.decision.4.lawname.label=Tội danh
+monitor.decision.4.userfor.label=Giai đoạn
+monitor.decision.4.fromdate.label=Từ ngày
+monitor.decision.4.todate.label=Đến ngày
+monitor.decision.4.numday_char.label=Số ngày
+monitor.decision.4.fullname.label=Kiểm sát viên
+monitor.decision.4.resultTable.displayColumns=casecode,accuname,lawname,userfor,fromdate,todate,numday_char,fullname
+monitor.decision.4.casecode.styleClass=center
+monitor.decision.4.fromdate.styleClass=center
+monitor.decision.4.todate.styleClass=center
+monitor.decision.4.numday_char.styleClass=center
+
+monitor.decision.5.casecode.label=Mã vụ án
+monitor.decision.5.accuname.label=Tên bị can
+monitor.decision.5.lawname.label=Tội danh
+monitor.decision.5.userfor.label=Giai đoạn
+monitor.decision.5.fromdate.label=Từ ngày
+monitor.decision.5.todate.label=Đến ngày
+monitor.decision.5.numday_char.label=Số ngày
+monitor.decision.5.fullname.label=Kiểm sát viên
+monitor.decision.5.resultTable.displayColumns=casecode,accuname,lawname,userfor,fromdate,todate,numday_char,fullname
+monitor.decision.5.casecode.styleClass=center
+monitor.decision.5.fromdate.styleClass=center
+monitor.decision.5.todate.styleClass=center
+monitor.decision.5.numday_char.styleClass=center
+
+# END Tra cứu thông tin theo quyết định
+
+# Tra cứu thông tin theo loại bàn giao
+monitor.transfer.transtype=Loại bàn giao
+monitor.transfer.spptransfer=Viện kiểm sát giao
+monitor.transfer.sppreceive=Viện kiểm sát nhận
+monitor.transfer.spptitle=Nhập mã hoặc tên của viện kiểm sát
+
+monitor.transfer.1.casecode.label=Mã vụ án
+monitor.transfer.1.casename.label=Tên vụ án
+monitor.transfer.1.transtype.label=Loại bàn giao
+monitor.transfer.1.transfrom.label=Đơn vị giao
+monitor.transfer.1.transto.label=Đơn vị nhận
+monitor.transfer.1.transdate.label=Ngày bàn giao
+monitor.transfer.1.sender.label=Người giao
+monitor.transfer.1.receipter.label=Người nhận
+monitor.transfer.1.resultTable.displayColumns=casecode, casename, transtype, transfrom, transto, transdate, sender, receipter
+monitor.transfer.1.transdate.styleClass=center
+
+monitor.transfer.2.casecode.label=Mã vụ án
+monitor.transfer.2.casename.label=Tên vụ án
+monitor.transfer.2.transfrom.label=Đơn vị giao
+monitor.transfer.2.transto.label=Đơn vị nhận
+monitor.transfer.2.transdate.label=Ngày bàn giao
+monitor.transfer.2.sender.label=Người giao
+monitor.transfer.2.receipter.label=Người nhận
+monitor.transfer.2.resultTable.displayColumns=casecode, casename, transfrom, transto, transdate, sender, receipter
+monitor.transfer.2.transdate.styleClass=center
+# END Tra cứu thông tin theo loại bàn giao
+
+#Sonnn7 BC thong tin bi can khong chon dieu luat chinh
+monitor.accused.9.resultTable.displayColumns=casecode,casename,fullname,birthday
+monitor.accused.9.casecode.label=Mã vụ án
+monitor.accused.9.casecode.styleClass=center
+monitor.accused.9.casename.label=Tên vụ án
+monitor.accused.9.fullname.label=Tên bị can
+monitor.accused.9.birthday.label=Ngày sinh
+monitor.accused.9.birthday.styleClass=center
+monitor.accused.title.9=BC thông tin bị can không chọn điều luật chính
+
+#SppAgainst
+SppAgainst.key=Kháng nghị
+SppAgainst.title=kháng nghị
+SppAgainst.againstcode.label=Mã kháng nghị
+SppAgainst.casecode.label=Mã vụ án
+SppAgainst.casename.label=Tên vụ án
+SppAgainst.sppname.label=Tên Viện kiểm sát
+SppAgainst.setnum.label=Số kháng nghị
+SppAgainst.indate.label=Ngày kháng nghị
+SppAgainst.content.label=Nội dung kháng nghị
+SppAgainst.sppspc.label=Đơn vị kháng nghị
+SppAgainst.againstname.label=Tên loại kháng nghị
+SppAgainst.forsetnum.label=Số bản án
+SppAgainst.forindate.label=Ngày bản án
+SppAgainst.crimdate_from.label=Từ ngày
+SppAgainst.crimdate.tooltil=Ngày xảy ra vụ án
+SppAgainst.crimdate_to.label=Đến ngày
+SppAgainst.status.label=Trạng thái
+SppAgainst.resultid.label=Kết quả
+SppAgainst.resultname.label=Kết quả
+SppAgainst.gd_tt.label=Giai đoạn kháng nghị
+SppAgainst.accuname.label=Tên bị cáo
+####
+SppAgainst.againstcode.value=Mã kháng nghị
+SppAgainst.casecode.value=Mã vụ án
+SppAgainst.casename.value=Tên vụ án
+SppAgainst.sppname.value=Tên Viện kiểm sát
+SppAgainst.setnum.value=Số kháng nghị
+SppAgainst.indate.value=Ngày kháng nghị
+SppAgainst.content.value=Nội dung kháng nghị
+SppAgainst.sppspc.value=Đơn vị kháng nghị
+SppAgainst.againstname.value=Tên loại kháng nghị
+SppAgainst.forsetnum.value=Số bản án
+SppAgainst.forindate.value=Ngày bản án
+SppAgainst.crimdate_from.value=Từ ngày
+SppAgainst.crimdate.tooltil=Ngày xảy ra vụ án
+SppAgainst.crimdate_to.value=Đến ngày
+SppAgainst.status.value=Trạng thái
+SppAgainst.resultid.value=Kết quả
+SppAgainst.resultname.value=Kết quả
+SppAgainst.gd_tt.label=Giai đoạn kháng nghị
+SppAgainst.agalevel.label=Cấp kháng nghị
+SppAgainst.detailInfo.exceptFields=crimdate_from,crimdate_to,status,gd_tt,resultid
+#Error for Against
+
+spp.againsts=Kháng nghị đã được thụ lý phúc thẩm (GĐT, TT), không sửa được
+spp.againsts2=Kháng nghị đã được thụ lý phúc thẩm (GĐT, TT), không xóa được
+spp.againsts3=Bản án bị kháng nghị không có trong hệ thống
+spp.againsts4=Quyết định bị kháng nghị không có trong hệ thống
+spp.againsts5=BA, QĐ bị KN đã có hiệu lực pháp luật => Giai đoạn KN phải là GĐT hoặc TT
+spp.againsts6=BA, QĐ chưa có hiệu lực pháp luật => Giai đoạn KN phải là Phúc thẩm
+spp.againsts7=Vụ án đã có KN PT(GĐT, TT) chưa được thụ lý
+spp.againsts8=Vụ án có KN đang được thụ lý PT (GĐT, TT)
+spp.againsts9=Lỗi phát sinh. Liên hệ quản trị hệ thống
+spp.againsts10=Ngày Kháng nghị phải trước ngày hiện tại
+spp.againsts11=Vụ án đã được chuyển, không thể Thêm, Sửa kháng nghị
+spp.againsts.delete=Kháng nghị đã được thụ lý phúc thẩm (GĐT, TT), không xóa được
+spp.againsts12=Vụ án đã được chuyển, không thể Thêm mới hay Sửa, Xoá kháng nghị
+spp.againsts13=Đã tồn tại số kháng nghị trong năm
+spp.againsts14=Vụ án đã kháng nghị phúc thẩm. Giai đoạn kháng nghị phải là GĐT, TT
+spp.againsts15=Bản án, Quyết định chưa có hiệu lực pháp luật. Đề nghị kiểm tra lại.
+spp.againsts16=Kháng nghị đã được giải quyết. Đề nghị kiểm tra lại phần cập nhật giải quyết kháng nghị.
+spp.againsts17=Vụ án đã được chuyển, không thể Cập nhật giải quyết kháng nghị
+spp.againsts18=Kháng nghị đã được cập nhật tại 1 tòa khác. Đề nghị kiểm tra lại
+spp.againsts19=Vụ án đã có thụ lý thi hành án. Đề nghị kiểm tra lại.
+sppAgainst.warn.inDateBeforeInstanceTime=Ngày kháng nghị không thể lớn hơn ngày hiện tại
+#Chuyển án
+SppSppSend.key=Chuyển án
+SppSppSendRequest.key=Chuyển án theo yêu cầu
+SppSppSend.title=Chuyển án
+SppSppReceive.key=Nhận án
+SppSppReceive.title=Nhận án
+SppSppSend.status.label=Trạng thái
+SppSppSend.add.label=Chuyển án
+
+SppSppSend.detailInfo.exceptFields=transid,deciDate_from,deciDate_to,centDate_from,centDate_to,deciDate,centDate,deciSetnum,centSetnum
+SppSppSend.transcode.label=Mã giao nhận
+SppSppSend.casecode.label=Mã vụ án
+SppSppSend.casename.label=Tên vụ án
+SppSppSend.sppnamef.label=Tên VKS giao
+SppSppSend.sppnamet.label=Tên VKS nhận
+SppSppSend.transdate.label=Ngày giao
+SppSppSend.sender.label=Người giao
+SppSppSend.acceptdate.label=Ngày nhận
+SppSppSend.receipter.label=Người nhận
+SppSppSend.transname.label=Trường hợp giao nhận
+SppSppSend.transid.label=Mã TH giao nhận
+SppSppSend.remark.label=Ghi chú
+SppSppSend.acceptdate.label=Ngày nhận
+SppSppSend.deciDate_from.label=Ngày ra QĐ(Từ ngày)
+SppSppSend.deciDate_to.label=Ngày ra QĐ(Đến ngày)
+SppSppSend.centDate_from.label=Ngày ra BA(Từ ngày)
+SppSppSend.centDate_to.label=Ngày ra BA(Đến ngày)
+SppSppSend.deciDate.label=Ngày quyết định
+SppSppSend.centDate.label=Ngày bản án
+SppSppSend.deciSetnum.label=Quyết định số
+SppSppSend.centSetnum.label=Số bản án
+SppSppSend.crimdate_from.label=Từ ngày
+SppSppSend.crimdate_to.label=Đến ngày
+SppSppSend.crimdate.tooltil=Ngày xảy ra vụ án
+SppSppSend.userfor.label=Giai đoạn
+
+SppSppSend.userfor.value=Giai đoạn
+SppSppSend.transcode.value=Mã giao nhận
+SppSppSend.casecode.value=Mã vụ án
+SppSppSend.casename.value=Tên vụ án
+SppSppSend.spcnamef.value=Tên VKS giao
+SppSppSend.spcnamet.value=Tên VKS nhận
+SppSppSend.transdate.value=Ngày giao
+SppSppSend.sender.value=Người giao
+SppSppSend.acceptdate.value=Ngày nhận
+SppSppSend.receipter.value=Người nhận
+SppSppSend.transname.value=Trường hợp giao nhận
+SppSppSend.transid.value=Mã TH giao nhận
+SppSppSend.remark.value=Ghi chú
+SppSppSend.deciDate_from.value=Ngày ra QĐ(Từ ngày)
+SppSppSend.deciDate_to.value=Ngày ra QĐ(Đến ngày)
+SppSppSend.centDate_from.value=Ngày ra BA(Từ ngày)
+SppSppSend.centDate_to.value=Ngày ra BA(Đến ngày)
+SppSppSend.deciDate.value=Ngày quyết định
+SppSppSend.centDate.value=Ngày bản án
+SppSppSend.deciSetnum.value=Quyết định số
+SppSppSend.centSetnum.value=Số bản án
+##Error
+SppsppSend1=Vụ án đang thụ lí không cho phép bàn giao hồ sơ. Đề nghị kiểm tra lại.
+SppsppSend2=Chưa có quyết định chuyển vụ án do không thuộc thẩm quyền. Đề nghị kiểm tra lại.
+SppsppSend2_uq=Chưa có quyết định chuyển vụ án theo ủy quyền, đề nghị kiểm tra lại.
+SppsppSend3=Chưa có kháng cáo. Đề nghị kiểm tra lại.
+SppsppSend15=Chưa có kháng nghị. Đề nghị kiểm tra lại.
+SppsppSend16=Chưa có kháng cáo và kháng nghị. Đề nghị kiểm tra lại.
+SppsppSend4=Chưa có kháng nghị Giám đốc thẩm. Đề nghị kiểm tra lại.
+SppsppSend17=Vụ án đã có kháng cáo và kháng nghị. Đề nghị kiểm tra lại.
+SppsppSend5=Chưa có kháng nghị Tái thẩm. Đề nghị kiểm tra lại.
+SppsppSend19=Chưa có bản án Phúc thẩm. Đề nghị kiểm tra lại.
+SppsppSend6=Vụ án bàn giao đã được thụ lý, không xóa được.
+SppsppSend7=Lỗi phát sinh. Liên hệ quản trị hệ thống.
+SppsppSend8=Vụ án đã chuyển sang toà khác, không thế sửa xoá.
+SppsppSend9=Ngày chuyển án phải lớn hơn ngày kháng cáo, kháng nghị sau cùng.
+SppsppSend10=Ngày chuyển án phải lớn hơn ngày kháng cáo
+SppsppSend100=Ngày chuyển án không được nhỏ hơn ngày chấp nhận kháng cáo quá hạn
+SppsppSend11=Ngày chuyển án phải lớn hơn ngày kháng nghị
+SppsppSend18=Ngày chuyển án phải lớn hơn ngày ra quyết định
+SppsppSend12=Không thể chuyển án do KHÔNG chấp nhận kháng nghị
+SppsppSend13=Không thể chuyển án do KHÔNG chấp nhận kháng cáo
+SppsppSend14=Ngày chuyển án phải lớn hơn ngày bản án.
+SppsppSend20=Không thể chuyển án do tất cả các cập nhật giải quyết kháng cáo đều không được chấp nhận.
+SppsppSend21=Không thể chuyển án do người chấp hành án đã có thụ lý thi hành án. Cần xóa thụ lý thi hành án để chuyển án.
+SppsppSend22=Không thể chuyển án do chưa có quyết định Chuyển vụ án để điều tra lại.
+SppsppReceive1=Vụ án đã thụ lý, không thể sửa xoá.
+
+
+#Sonnn7 BC thong tin bi can XXST nhung chua nhap hinh phat
+monitor.accused.11.resultTable.displayColumns=casecode,casename,fullname,birthday
+monitor.accused.11.casecode.label=Mã vụ án
+monitor.accused.11.casecode.styleClass=center
+monitor.accused.11.casename.label=Tên vụ án
+monitor.accused.11.fullname.label=Tên bị can
+monitor.accused.11.birthday.label=Ngày sinh
+monitor.accused.11.birthday.styleClass=center
+monitor.accused.title.11=BC thông tin bị can đã XXST không nhập hình phạt
+
+#Cuongnv16 BC xu ly thu ly vu an theo giai doan
+sppCaseXLVA.monitor.casetype.label= Loại vụ án
+sppCaseXLVA.monitor.casecode.label= Mã vụ án
+sppCaseXLVA.monitor.casename.label= Tên vụ án
+sppCaseXLVA.monitor.sobican.label= Số BC
+sppCaseXLVA.monitor.fromdate.label=Từ ngày
+sppCaseXLVA.monitor.todate.label=Đến ngày
+sppCaseXLVA.monitor.finishdate.label=Xử lý
+sppCaseXLVA.monitor.indate.label=Thụ lý
+sppCaseXLVA.monitor.fullname.label=Kiểm sát viên
+sppCaseXLVA.monitor.setnum.label=Số thụ lý
+sppCaseXLVA.monitor.status.label=Tình Trạng
+sppCaseXLVA.monitor.resultTable.displayColumns=casecode,casename,fullname,sobican,setnum,indate,fromdate,todate,finishdate,status
+UpdateInspectorBean.key=Cập nhật người thụ lý
+UpdateAccusedBean.key=Cập nhật bị can
+
+# BC thông tin hình phạt
+monitor.rptpenalty.hinhphat.label=Chọn khung hình phạt
+
+BCTTHP.monitor.penalty.casecode.label=Mã vụ án
+BCTTHP.monitor.penalty.casecode.styleClass=center
+BCTTHP.monitor.penalty.casename.label=Tên vụ án
+BCTTHP.monitor.penalty.setnum.label=Số bản án
+BCTTHP.monitor.penalty.setnum.styleClass=center
+BCTTHP.monitor.penalty.indate.label=Ngày ra bản án
+BCTTHP.monitor.penalty.indate.styleClass=center
+BCTTHP.monitor.penalty.actdate.label=Ngày hiệu lực
+BCTTHP.monitor.penalty.actdate.styleClass=center
+BCTTHP.monitor.penalty.fullname.label=Bị can/Bị cáo
+BCTTHP.monitor.penalty.fullname.styleClass=left
+BCTTHP.monitor.penalty.penaltyname.label=Hình phạt
+BCTTHP.monitor.penalty.penaltyname.styleClass=left
+BCTTHP.monitor.penalty.numyear.label=Số năm
+BCTTHP.monitor.penalty.numyear.styleClass=center
+BCTTHP.monitor.penalty.nummonth.label=Số tháng
+BCTTHP.monitor.penalty.nummonth.styleClass=center
+BCTTHP.monitor.penalty.numday.label=Số ngày
+BCTTHP.monitor.penalty.numday.styleClass=center
+BCTTHP.monitor.penalty.suspended.label=Án treo
+BCTTHP.monitor.penalty.resultTable.displayColumns=casecode,casename,setnum,indate,actdate,fullname,penaltyname,numyear,nummonth,numday
+
+#giao nha ho so
+Spp_SppSpc.key=Giao nhận hồ sơ vụ án
+Spp_SppSpc.resultTable.displayColumns=casecode,casename,sppid,sppname,spcid,spcname,transdate,transtypeName
+Spp_SppSpc.detailInfo.exceptFields=transtype
+Spp_SppSpc.transcode.label=Mã giao nhận
+Spp_SppSpc.transcode.title=Mã giao nhận
+Spp_SppSpc.casecode.label=Mã vụ án
+Spp_SppSpc.casecode.title=Mã vụ án
+Spp_SppSpc.casename.label=Tên vụ án
+Spp_SppSpc.casename.title=Tên vụ án
+Spp_SppSpc.sppid.label=Mã VKS
+Spp_SppSpc.sppid.title=Mã VKS
+Spp_SppSpc.sppname.label=Tên VKS
+Spp_SppSpc.sppname.title=Tên VKS
+Spp_SppSpc.spcid.label=Mã tòa án
+Spp_SppSpc.spcid.title=Mã tòa án
+Spp_SppSpc.spcname.label=Tên tòa án
+Spp_SppSpc.spcname.title=Tên tòa án
+Spp_SppSpc.fromdate.label=Từ ngày
+Spp_SppSpc.fromdate.title=Từ ngày
+Spp_SppSpc.todate.label=Đến ngày
+Spp_SppSpc.todate.title=Đến ngày
+Spp_SppSpc.sender.title=Người giao
+Spp_SppSpc.sender.label=Người giao
+Spp_SppSpc.receipter.title=Người nhận
+Spp_SppSpc.receipter.label=Người nhận
+Spp_SppSpc.remark.title=Ghi chú
+Spp_SppSpc.remark.label=Ghi chú
+Spp_SppSpc.transdate.label=Ngày giao
+Spp_SppSpc.transdate.title=Ngày giao
+Spp_SppSpc.transdate.message=Ngày giao không thể lớn hơn ngày hiện tại
+Spp_SppSpc.transtype.label=Đơn vị giao nhận
+Spp_SppSpc.transtype.title=Đơn vị giao nhận
+Spp_SppSpc.transtypeName.label=Đơn vị giao nhận
+Spp_SppSpc.transtypeName.title=Đơn vị giao nhận
+
+Spp_SppCase.resultTable.displayColumns=casecode,casename,sppid,sppname,crimdate
+Spp_SppCase.casecode.label=Mã vụ án
+Spp_SppCase.casecode.title=Mã vụ án
+Spp_SppCase.casename.label=Tên vụ án
+Spp_SppCase.casename.title=Tên vụ án
+Spp_SppCase.sppid.label=Mã VKS
+Spp_SppCase.sppid.title=Mã VKS
+Spp_SppCase.sppname.label=Tên VKS
+Spp_SppCase.sppname.title=Tên VKS
+Spp_SppCase.crimdate.label=Ngày xảy ra vụ án
+Spp_SppCase.crimdate.title=Ngày xảy ra vụ án
+Spp_SppCase.crimdate.styleClass=center
+
+Spp_SppPol.key=VKS-CQDT
+Spp_SppPol.resultTable.displayColumns=casecode,casename,sppid,sppname,polid,polname,transdate,transtypeName
+Spp_SppPol.detailInfo.exceptFields=transtype
+Spp_SppPol.transcode.label=Mã giao nhận
+Spp_SppPol.transcode.title=Mã giao nhận
+Spp_SppPol.casecode.label=Mã vụ án
+Spp_SppPol.casecode.title=Mã vụ án
+Spp_SppPol.casename.label=Tên vụ án
+Spp_SppPol.casename.title=Tên vụ án
+Spp_SppPol.sppid.label=Mã VKS
+Spp_SppPol.sppid.title=Mã VKS
+Spp_SppPol.sppname.label=Tên VKS
+Spp_SppPol.sppname.title=Tên VKS
+Spp_SppPol.polid.label=Mã CQĐT
+Spp_SppPol.polid.title=Mã CQĐT
+Spp_SppPol.polname.label=Tên CQĐT
+Spp_SppPol.polname.title=Tên CQĐT
+Spp_SppPol.fromdate.label=Từ ngày
+Spp_SppPol.fromdate.title=Từ ngày
+Spp_SppPol.todate.label=Đến ngày
+Spp_SppPol.todate.title=Đến ngày
+Spp_SppPol.sender.title=Người giao
+Spp_SppPol.sender.label=Người giao
+Spp_SppPol.receipter.title=Người nhận
+Spp_SppPol.receipter.label=Người nhận
+Spp_SppPol.remark.title=Ghi chú
+Spp_SppPol.remark.label=Ghi chú
+Spp_SppPol.transdate.label=Ngày giao
+Spp_SppPol.transdate.title=Ngày giao
+Spp_SppPol.transtype.label=Đơn vị giao nhận
+Spp_SppPol.transtype.title=Đơn vị giao nhận
+Spp_SppPol.transtypeName.label=Đơn vị giao nhận
+Spp_SppPol.transtypeName.title=Đơn vị giao nhận
+
+#SPP_Execution Duyvv___Quyết định thi hành án
+
+sppExecution.key=Hình sự - Cập nhật thông tin - Quyết định thi hành án
+sppExecution.G6.indate.label=Ngày quyết định
+sppExecution.G6.setnum.label=Quyết định số
+sppExecution.G6.exedate.label=Ngày thi hành
+sppExecution.G6.noichap.label=Nơi chấp hành án
+
+sppExecution.G6.delete.label=Hủy thi hành án
+sppExecution.G6.fromdate.label=Từ ngày
+sppExecution.G6.todate.label=Đến ngày
+sppExecution.G6.fromdate02.label=Từ ngày hình phạt cải tạo
+sppExecution.G6.todate02.label=Đến ngày hình phạt cải tạo
+sppExecution.G6.fromdate04.label=Từ ngày hình phạt tù
+sppExecution.G6.todate04.label=Đến ngày hình phạt tù
+
+sppExecution.numyear.label=Năm
+sppExecution.nummonth.label=Tháng
+sppExecution.numday.label=Ngày
+sppExecution.hinhphat.label=Hình Phạt
+sppExecution.canhcao.label=Cảnh cáo
+sppExecution.phattien.label=Phạt tiền
+sppExecution.caitaokhonggiamgiu.label=Cải tạo không giam giữ
+sppExecution.trucxuat.label=Trục xuất
+sppExecution.tucothoihan.label=Tù có thời hạn
+sppExecution.tuchungthan.label=Tù chung thân
+sppExecution.tuhinh.label=Tử hình
+SpcRegister.warn.indatefAfterIndatet=Từ ngày phải trước Đến ngày
+spcRegister.tab.tabQuyetDinhThiHanhAn.id=tabQuyetDinhThiHanhAn
+spcRegister.tab.tabQuyetDinhThiHanhAn.title=Quyết định thi hành án
+sppExecution1=Ngày ra quyết định phải trước ngày thụ lý thi hành án, đề nghị kiểm tra lại
+sppExecution2=Ngày ra quyết định phải nhỏ hơn hoặc bằng ngày hiện tại, đề nghị kiểm tra lại
+sppExecution3=Ngày thi hành án phải lớn hơn ngày ra quyết định, đề nghị kiểm tra lại
+sppExecution4=Chưa có quyết định thi hành án, đề nghị kiểm tra lại
+spp_execution_error_THA=Đã có quyết định ủy thác thi hành án, đề nghị kiểm tra lại.
+#
+SppPropoAssign.casecode.label=Mã vụ án
+SppPropoAssign.casecode.title=Mã vụ án
+SppPropoAssign.casename.label=Tên vụ án
+SppPropoAssign.casename.title=Tên vụ án
+SppPropoAssign.firstacc.label=Bị can đầu vụ
+SppPropoAssign.firstacc.title=Bị can đầu vụ
+SppPropoAssign.crimdate.label=Ngày xảy ra
+SppPropoAssign.crimdate.title=Ngày xảy ra
+SppPropoAssign.resultTable.displayColumns=casecode,casename,firstacc,crimdate
+SppPropoAssignBean.key=Phân công Kiểm sát viên / Điều tra viên
+#
+SppRegister_G6.error.setnumDuplicate=Trùng số thụ lý
+SppRegister_G6.error.Aftersystemdate=Ngày thụ lý không thể sau ngày hiện tại
+SppRegister_G6.error.Beforecrimedate=Ngày thụ lý không thể trước ngày xảy ra vụ án
+SppRegister_G6.error.Afterindatecentence=Ngày thụ lý phải sau ngày ra bản án
+SppRegister_G6.error.Afterindateregins=Ngày thụ lý không thể sau ngày phân công KSV/ĐTV
+
+
+sppPrevent.error.fromdateBeforeIndate=Hiệu lực từ ngày không được trước ngày ra quyết định
+sppPrevent.error.todateBeforeFromdate=Hiệu lực tới ngày không được trước hiệu lực từ ngày
+sppPrevent.error.delete=Không thể xóa Biện pháp ngăn chặn vì:
+sppPrevent.preventcode.label=Mã BPNC
+sppPrevent.accucode.label=Bị can
+sppPrevent.polid.label=Đơn vị ra quyết định
+sppPrevent.policeid.label=Đơn vị công an
+sppPrevent.armyid.label=Đơn vị quân đội
+sppPrevent.rangerid.label=Đơn vị kiểm lâm
+sppPrevent.sppid.label=Viện kiểm sát
+sppPrevent.spcid.label=Tòa án
+sppPrevent.indate.label=Ngày ra QĐ
+sppPrevent.preventid.label=Biện pháp ngăn chặn
+sppPrevent.fromdate.label=Hiệu lực từ ngày
+sppPrevent.todate.label=Hiệu lực đến ngày
+sppPrevent.remark.label=Ghi chú
+
+sppPrevent.preventcode.title=Mã BPNC hệ thống tự sinh
+sppPrevent.accucode.title=Bị can
+sppPrevent.polid.title=Đơn vị ra quyết định
+sppPrevent.policeid.title=Gõ mã hoặc tên để chọn Đơn vị công an (nhấn dấu cách để chọn tất cả)
+sppPrevent.armyid.title=Gõ mã hoặc tên để chọn Đơn vị quân đội (nhấn dấu cách để chọn tất cả)
+sppPrevent.rangerid.title=Gõ mã hoặc tên để chọn Đơn vị kiểm lâm (nhấn dấu cách để chọn tất cả)
+sppPrevent.sppid.title=Gõ mã hoặc tên để chọn Viện kiểm sát (nhấn dấu cách để chọn tất cả)
+sppPrevent.spcid.title=Gõ mã hoặc tên để chọn Tòa án (nhấn dấu cách để chọn tất cả)
+sppPrevent.indate.title=Ngày ra QĐ
+sppPrevent.preventid.title=Biện pháp ngăn chặn
+sppPrevent.fromdate.title=Hiệu lực từ ngày
+sppPrevent.todate.title=Hiệu lực đến ngày
+sppPrevent.remark.title=Ghi chú
+
+#SppSpcPol
+SppSpcPol.key=Giao nhận hồ sơ
+SppSpcPol.G1.transcode.label=Mã giao nhận
+SppSpcPol.G1.transcode.title=Mã giao nhận
+SppSpcPol.G1.transdate.label=Ngày giao nhận
+SppSpcPol.G1.transdate.title=Ngày giao nhận
+SppSpcPol.G1.regisetnum.label=Số thụ lý
+SppSpcPol.G1.regisetnum.title=Số thụ lý
+SppSpcPol.G1.spcname.label=Tòa án
+SppSpcPol.G1.spcname.title=Tòa án
+SppSpcPol.G1.sppname.label=Viện kiểm sát
+SppSpcPol.G1.sppname.title=Viện kiểm sát
+SppSpcPol.G1.polname.label=Cơ quan điều tra
+SppSpcPol.G1.polname.title=Cơ quan điều tra
+SppSpcPol.G1.spcpol.label=Đơn vị giao nhận
+SppSpcPol.G1.changeid_txt.label=Loại giao nhận
+SppSpcPol.G1.changeid_txt.title=Loại giao nhận
+SppSpcPol.G1.sender.label=Người giao
+SppSpcPol.G1.sender.title=Người giao
+SppSpcPol.G1.receipter.label=Người nhận
+SppSpcPol.G1.receipter.title=Người nhận
+SppSpcPol.G1.remark.label=Ghi chú
+SppSpcPol.G1.remark.title=Ghi chú
+SppSpcPol.G1.status.label=Giao nhận hồ sơ để truy tố
+SppSpcPol.G1.status.title=Giao nhận hồ sơ để truy tố
+SppSpcPol.G2.status.label=Giao nhận hồ sơ để xét xử
+SppSpcPol.G2.status.title=Giao nhận hồ sơ để xét xử
+SppsppSendG1=Thụ lý giai đoạn Kiểm sát điều tra chưa kết thúc. Đề nghị kiểm tra lại.
+SppsppSendG2=Thụ lý giai đoạn KSĐT - Truy tố chưa kết thúc. Đề nghị kiểm tra lại.
+SppsppSendG3=Thụ lý giai đoạn Sơ thẩm chưa kết thúc. Đề nghị kiểm tra lại.
+SppSpcPol.G1.transdate.centindate.warn=Trong luật TTHS quy định trong thời gian 02 ngày kể từ ngày ra KLĐT, CQĐT phải gửi bản KLĐT đề nghị truy tố cho VKS
+SppSpcPol.G2.transdate.centindate.warn=Trong trường thời hạn 03 ngày, kể từ ngày ra quyết định truy tố bằng bản cáo trạng, Viện kiểm sát phải gửi hồ sơ và bản cáo trạng đến Tòa án.
+SppSpcPol.G1.transdate.centindate.before=Ngày giao nhận trước ngày ra Kết luận điều tra. Đề nghị kiểm tra lại.
+SppSpcPol.G2.transdate.centindate.before=Ngày giao nhận trước ngày ra Bản cáo trạng. Đề nghị kiểm tra lại.
+
+#Cập nhật Vụ án
+SppCaseReport.key=Cập nhật Vụ án
+SppCaseReport.casecode.label=Mã vụ án
+SppCaseReport.casename.label=Tên vụ án
+SppCaseReport.casecode.styleClass=center
+SppCaseReport.begin_setnum.label=QĐ khởi tố vụ án số
+SppCaseReport.begin_indate.label=Ngày QĐ khởi tố vụ án
+SppCaseReport.sid.label=Cơ quan ra QĐ
+SppCaseReport.sid_txt.label=Cơ quan ra QĐ
+SppCaseReport.casetype.label=Loại tội phạm
+SppCaseReport.casetypename.label=Loại tội phạm
+SppCaseReport.firstacc.label=Bị can đầu vụ
+SppCaseReport.firstacc_txt.label=Bị can đầu vụ
+SppCaseReport.crimdate.label=Ngày xảy ra
+SppCaseReport.begin_setnum.label=QĐ khởi tố vụ án số
+SppCaseReport.crimdate_from.label=Ngày xảy ra từ ngày
+SppCaseReport.crimdate_to.label=Ngày xảy ra đến ngày
+SppCaseReport.caseisnew.label=Cập nhật BCTK
+SppCaseReport.resultTable.displayColumns=caseisnew,casecode,casename,begin_setnum,begin_indate,sid_txt,casetypename,firstacc_txt,crimdate
+SppCaseReport.detailInfo.exceptFields=crimdate_from,crimdate_to,sid,firstacc
+
+#Nhap vu an
+spp_JoinCase.casecode.title=Mã vụ án
+spp_JoinCase.casecode.label=Mã vụ án
+spp_JoinCase.casename.title=Tên vụ án
+spp_JoinCase.casename.label=Tên vụ án
+spp_JoinCase.begin_indate.title=Quyết định khởi tố
+spp_JoinCase.begin_indate.label=Quyết định khởi tố
+spp_JoinCase.indatefrom.title=Quyết định khởi tố từ ngày
+spp_JoinCase.indatefrom.label=Quyết định khởi tố từ ngày
+spp_JoinCase.indateto.title=Quyết định khởi tố đến ngày
+spp_JoinCase.indateto.label=Quyết định khởi tố đến ngày
+spp_JoinCase.crimdate.title=Ngày xảy ra
+spp_JoinCase.crimdate.label=Ngày xảy ra
+spp_JoinCase.case.crimdatef.label=Ngày xảy ra từ ngày
+spp_JoinCase.case.crimdatef.title=Ngày xảy ra từ ngày
+spp_JoinCase.case.crimdatef.label=Ngày xảy ra từ ngày
+spp_JoinCase.case.crimdatet.title=Ngày xảy ra đến ngày
+spp_JoinCase.case.crimdatet.label=Ngày xảy ra đến ngày
+spp_JoinCase.setnum.title=Số quyết định khởi tố
+spp_JoinCase.setnum.label=Số quyết định khởi tố
+spp_JoinCase.begin_setnum.title=Số quyết định khởi tố
+spp_JoinCase.begin_setnum.label=Số quyết định khởi tố
+err_received_not_delete=Vụ án này đã nhận, bạn không thể xóa
+
+SppExecutrans.error.cantDeleteTransAccepted=Ủy thác đã được nhận, không thể xóa thông tin ủy thác

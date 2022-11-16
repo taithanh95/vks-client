@@ -1,0 +1,28 @@
+<div nz-col [nzMd]="{ span: 24, offset: 0 }" [nzLg]="{ span: 12, offset: 6 }" [nzXXl]="{ span: 8, offset: 8 }">
+  <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+    <nz-form-item *ngFor="let control of keys; let i = index">
+      <ng-container *ngIf="control !== 'id'">
+        <nz-form-label [nzSm]="14" [nzXs]="24" [nzFor]="control">{{ control | translate}} </nz-form-label>
+        <nz-form-control [nzSm]="8" [nzXs]="24">
+          <input *ngIf="!control.includes('ngay')" [attr.id]="control" [placeholder]="control" nz-input [formControlName]="control" [id]="control" />
+          <nz-date-picker *ngIf="control.includes('ngay')" [nzFormat]="dateFormat"  formControlName="{{control}}"></nz-date-picker>
+          <!--<label *ngIf="control.preference.type === 'checkbox'" nz-checkbox formControlName="{{control}}"></label>-->
+        </nz-form-control>
+      </ng-container>
+      <ng-container *ngIf="control === 'id'">
+        <div class="div-hidden">
+          <nz-form-label [nzSm]="14" [nzXs]="24" [nzFor]="control">{{ control | translate}} </nz-form-label>
+          <nz-form-control [nzSm]="8" [nzXs]="24">
+            <input *ngIf="!control.includes('ngay')" [attr.id]="control" [placeholder]="control" nz-input [formControlName]="control" [id]="control" />
+          </nz-form-control>
+        </div>
+      </ng-container>
+    </nz-form-item>
+    <hr>
+    <nz-form-item nz-row class="register-area">
+      <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzMd]="{ span: 8, offset: 14 }">
+        <button style="margin: auto" nz-button nzType="primary">{{'save' | translate}}</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</div>

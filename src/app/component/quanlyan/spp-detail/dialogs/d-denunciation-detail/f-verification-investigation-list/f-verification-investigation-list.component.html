@@ -1,0 +1,58 @@
+<app-d-verification-investigation-detail [isVisibleDialog]="isDialogVisible" [mode]="mode"
+                                       [model]="verificationInvestigationForEdit"
+                                       [procurators]="procurators"
+                                       (cancelEmitter)="this.isDialogVisible = false">
+</app-d-verification-investigation-detail>
+<fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+  <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse()">
+    <i nz-icon [nzType]="isCollapse ? 'minus' : 'plus'"></i>Yêu cầu của Viện kiểm sát
+  </legend>
+
+  <div class="px-3" [ngClass]="isCollapse ? 'show' : 'hide'">
+    <div class="data-table mt-0 mb-2">
+      <nz-table #basicTable class="custom-table" [nzData]="visibleInvestigationList" [nzShowPagination]="false"
+                nzSize="small" nzShowSizeChanger [nzTableLayout]="'fixed'" [nzLoading]="loading" [nzPageSize]="5"
+                [nzPageSizeOptions]="pageSize" [nzFrontPagination]="true" [nzShowTotal]="rangeTemplate">
+        <thead>
+        <tr>
+          <th style="width: 10%">Số yêu cầu</th>
+          <th style="width: 10%">Ngày yêu cầu</th>
+          <th style="width: 15%">Loại yêu cầu</th>
+          <th style="width: 15%">KSV yêu cầu</th>
+          <th style="width: 20%">Nội dung yêu cầu</th>
+          <th style="width: 15%">Kết quả thực hiện yêu cầu</th>
+          <th style="width: 15%">Thao tác</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let data of basicTable.data;let i = index;" class="actived"
+            ngClass="s-{{data.selected}}">
+          <td nzAlign="right" nzEllipsis nz-tooltip [nzTooltipTitle]="data['verificationInvestigationCode']">
+            {{ data['verificationInvestigationCode'] }}</td>
+          <td nzEllipsis nz-tooltip
+              [nzTooltipTitle]="(data['verificationDate'] != null) ? (data['verificationDate'] | dateFormat) : ''" class="text-center">
+            {{ (data['verificationDate'] != null) ? (data['verificationDate'] | dateFormat) : '' }}</td>
+          <td nzEllipsis nz-tooltip [nzTooltipTitle]="data['type'] | typeOfVerification">
+            {{ data['type'] | typeOfVerification }}</td>
+          <td nzEllipsis nz-tooltip [nzTooltipTitle]="data['procuratorsRequest']">
+            {{ data['procuratorsRequest'] }}</td>
+          <td nzEllipsis nz-tooltip [nzTooltipTitle]="data['contentRequest']">
+            {{ data['contentRequest'] }}</td>
+          <td nzEllipsis nz-tooltip [nzTooltipTitle]="data['result']">
+            {{ data['result'] }}</td>
+          <td class="text-center">
+              <button nz-button class="mx-1" type="button" [nzGhost]="true" style="padding-left: 8px !important;"
+                      nz-tooltip nzTooltipTitle="Xem"
+                      (click)="openDetailDialog(modeEnum.VIEW_FROM_PARENT, i)">
+                <i nz-icon nzType="file" nzTheme="twotone"></i>
+              </button>
+          </td>
+        </tr>
+        </tbody>
+      </nz-table>
+      <ng-template #rangeTemplate let-range="range" let-total>
+        {{ range[0] }}-{{ range[1] }} {{' của ' | translate }} {{ visibleInvestigationList.length }} {{ ' bản ghi' }}
+      </ng-template>
+    </div>
+  </div>
+</fieldset>

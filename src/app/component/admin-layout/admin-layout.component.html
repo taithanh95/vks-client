@@ -1,0 +1,61 @@
+<div class="qla-header ui-widget-header">
+  PHẦN MỀM QUẢN LÝ SỔ THỤ LÝ NGHIỆP VỤ (GIAI ĐOẠN 1 - HÌNH SỰ)
+</div>
+<div class="top_menu">
+  <ul nz-menu nzMode="horizontal" nzTheme="light" [nzInlineCollapsed]="isCollapsed">
+    <ng-container *ngTemplateOutlet="menuTpl; context: { $implicit: menus }">
+    </ng-container>
+    <ng-template #menuTpl let-menus>
+      <ng-container *ngFor="let menu of menus">
+        <li *ngIf="!menu.children" nz-menu-item nz-tooltip nzTooltipPlacement="right">
+          <div hidden *ngIf="menu.path; then internal else external"></div>
+          <ng-template #internal>
+            <a [routerLink]="menu.path" [state]="{ environment: true }">
+              <span> {{ menu.funcname}}</span>
+            </a>
+          </ng-template>
+          <ng-template #external>
+<!--            <a href="http://45.122.253.178:4200/#/dashboard" routerLinkActive="active">-->
+            <a href="https://baocao.vksndtc.gov.vn/#/dashboard" routerLinkActive="active">
+              <span> {{ menu.funcname}}</span>
+            </a>
+          </ng-template>
+        </li>
+        <li *ngIf="menu.funcname === 'Trang chủ'" nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="false ? 'Navigation One' : ''"
+          nzSelected>
+          <a [routerLink]="menu.path">
+            <i nz-icon nzType="home"></i>
+            <span>Trang chủ</span>
+          </a>
+        </li>
+        <li *ngIf="menu.children && !(menu.funcname === 'Trang chủ')" nz-submenu [nzTitle]="menu.funcname" nzIcon="appstore">
+          <ul>
+            <ng-container *ngTemplateOutlet="menuTpl; context: { $implicit: menu.children};">
+            </ng-container>
+          </ul>
+        </li>
+      </ng-container>
+    </ng-template>
+  </ul>
+</div>
+<nz-layout>
+
+  <nz-content>
+    <!--<nz-page-header class="site-page-header" [nzTitle]="pageName"></nz-page-header>-->
+    <nz-breadcrumb [nzAutoGenerate]="true" nzSeparator="/">
+      <nz-breadcrumb-item>
+        <a nzTooltipTitle="prompt text"><span>Trang chủ</span></a>
+      </nz-breadcrumb-item>
+    </nz-breadcrumb>
+    <div class="inner-content">
+
+      <router-outlet></router-outlet>
+    </div>
+  </nz-content>
+  <nz-footer>
+    <button nz-button (click)="logout()"><span class="fa fa-sign-out"></span>Đăng xuất</button>
+    &nbsp;&nbsp;&nbsp;
+    Vks (VKS nhân dân Tối Cao)
+    thao tác dữ liệu VKS nhân dân Tối Cao
+  </nz-footer>
+</nz-layout>

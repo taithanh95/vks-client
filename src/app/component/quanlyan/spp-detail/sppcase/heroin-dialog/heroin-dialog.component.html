@@ -1,0 +1,124 @@
+<nz-modal nzWidth="700px" class="ant-form" [(nzVisible)]="isVisible" nzClosable="false" [nzTitle]="title" nzMaskClosable="false">
+  <ng-template #title>
+    Chỉ tiêu ma túy
+    <div class="pull-right icon-close">
+      <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+  <ng-container>
+    <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+      <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse()">
+        <i nz-icon [nzType]="isCollapse ? 'minus' : 'plus'"></i>Điều luật
+      </legend>
+      <div class="ui-fieldset-content" [ngClass]="isCollapse ? 'show' : 'hide' " *ngIf="law">
+        <table width="100%" class="ui-panelgrid">
+          <tr>
+            <td style="width: 100px;"></td>
+            <td></td>
+          <tr>
+          <tr *ngIf="law.LAWID">
+            <td>Điều:</td>
+            <td>{{law.LAWID}}</td>
+          <tr>
+          <tr *ngIf="law.ITEM">
+            <td>Khoản:</td>
+            <td>{{law.ITEM}}</td>
+          </tr>
+          <tr *ngIf="law.POINT">
+            <td>Điểm:</td>
+            <td>{{law.POINT}}</td>
+          </tr>
+          <tr>
+            <td>Tội danh:</td>
+            <td>{{law.LAWNAME}}</td>
+          </tr>
+        </table>
+      </div>
+    </fieldset>
+
+    <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+      <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapseHeroin()">
+        <i nz-icon [nzType]="isCollapseHeroin ? 'minus' : 'plus'"></i>Ma túy
+      </legend>
+      <div class="ui-fieldset-content" [ngClass]="isCollapseHeroin ? 'show' : 'hide' " *ngIf="law">
+        <table width="100%" class="ui-panelgrid">
+          <tr>
+            <td style="width: 100px;"></td>
+            <td></td>
+            <td style="width: 100px;"></td>
+            <td></td>
+          <tr>
+          <tr>
+            <td><label>Tên ma túy <span class="required">*</span></label></td>
+            <td>
+              <nz-select nzShowSearch  style="width:100%" nzPlaceHolder="" [(ngModel)]="item.HEROINID">
+                <nz-option *ngFor="let option of lstHeroins" [nzValue]="option.HEROINID" [nzLabel]="option.HEROINNAME"></nz-option>
+              </nz-select>
+            </td>
+            <td><label>Loại ma túy</label></td>
+            <td>
+              <input nz-input type="text" [(ngModel)]="item.HEROINID">
+            </td>
+          <tr>
+          <tr>
+            <td><label>Số lượng <span class="required">*</span></label></td>
+            <td>
+              <nz-input-number style="width: 100%;" title="Số lượng" [(ngModel)]="item.AMOUNT" [nzMin]="0" [nzMax]="20" [nzStep]="1"></nz-input-number>
+            </td>
+            <td><label>Đơn vị</label></td>
+            <td>
+              <nz-select nzShowSearch  style="width:100%" nzPlaceHolder="" [(ngModel)]="item.UNIT">
+                <nz-option *ngFor="let option of lstHeroinUnit" [nzValue]="option.value" [nzLabel]="option.name"></nz-option>
+              </nz-select>
+            </td>
+          <tr>
+        </table>
+      </div>
+    </fieldset>
+    <div class="div-button">
+      <button nz-button (click)="handleCancel()">Quay lại</button>
+      <button nz-button
+              nz-popconfirm
+              nzPopconfirmTitle="Bạn có chắc muốn xóa bản ghi này không?"
+              nzPopconfirmPlacement="top"
+              nzCancelText="Hủy"
+              nzOkText="Đồng ý"
+              [disabled]="!selectedItem"
+              (nzOnConfirm)="confirm()"
+              (nzOnCancel)="cancel()"
+      >
+        Xóa
+      </button>
+      <button nz-button (click)="handleOk()">Ghi lại</button>
+    </div>
+    <nz-table #basicTable [nzData]="datas"
+              nzShowPagination="false" [nzPageSize]="100" nzSize="small" [nzLoading]="loading">
+      <thead>
+      <tr>
+        <th class="text-nowrap center" style="width: 70px">STT</th>
+        <th class="text-nowrap">Chỉ tiêu thống kê</th>
+        <th class="text-nowrap center" style="width: 120px">Số lượng</th>
+        <th class="text-nowrap center" style="width: 120px">Đơn vị</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of basicTable.data;let i = index;" class="{{selectedItem && selectedItem.HEROINID === data.HEROINID ? 'actived' : ''}}" (click)="onRowSelect(data)">
+        <td class="text-nowrap center">
+          {{data.HEROINID}}
+        </td>
+        <td class="text-nowrap">{{ data.HEROINNAME }}</td>
+        <td class="text-nowrap">
+          {{data.AMOUNT}}
+        </td>
+        <td class="text-nowrap">
+          {{toUnitName(data.UNIT)}}
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+  <div *nzModalFooter>
+    <!--<button nz-button (click)="handleOk()">Ghi lại</button>
+    <button nz-button (click)="handleCancel()">Quay lại</button>-->
+  </div>
+</nz-modal>

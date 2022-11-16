@@ -1,0 +1,68 @@
+  <app-f-case [sppCase]="sppCase" [userfor]="userfor" (reload)="reloadForm($event)"></app-f-case>
+  <app-f-caselaw [datas]="lstCaseLaw" [sppCase]="sppCase" (deleteRow)="deleteCaseLaw($event)"></app-f-caselaw>
+  <app-f-register [registerable]="registerable" (showPopup)="showPopupRegister($event)" (deleteRow)="deleteRegister($event)" (registerChange)="registerChange($event)" [sppCase]="sppCase" [datas]="lstRegister" (showPopupDisable)="showPopupRegisterDisable($event)"></app-f-register>
+  <app-f-regins [register]="selectedRegister" (showPopup)="showPopupRegins($event)" (deleteRow)="deleteRegins($event)" [sppCase]="sppCase" [datas]="lstRegins" (showPopupDisable)="showPopupReginsDisable($event)"></app-f-regins>
+  <app-f-accu [register]="selectedRegister" [accus]="lstAccu" (updateBC)="updateBC($event)" (showPopupDecisionAcc)="showPopupDecisionAcc($event)" (showPopupLegal)="showPopupAccuLegal($event)" (showPopup)="showPopupAccu($event)" (deleteRow)="deleteAccu($event)" [sppCase]="sppCase" [datas]="lstAccu" (showPopupLegalDisabled)="showPopupLegalDisabled($event)" (showPopupDisabled) ="showPopupDisabled($event)"></app-f-accu>
+  <app-f-spp-damaged [register]="selectedRegister" [lstSppDamaged]="lstSppDamaged" (updateBC)="updateBC($event)" (showPopupDecisionAcc)="showPopupDecisionAcc($event)" (showPopupLegal)="showPopupAccuLegal($event)" (showPopup)="showPopupVictim($event)" (showPopupDisable)="showPopupVictimDisable($event)" (deleteRow)="deleteVictim($event)" [sppCase]="sppCase" [datas]="lstSppDamaged"></app-f-spp-damaged>
+<!--  <app-f-victim [register]="selectedRegister" [victims]="lstVictim" (updateBC)="updateBC($event)" (showPopupDecisionAcc)="showPopupDecisionAcc($event)" (showPopupLegal)="showPopupAccuLegal($event)" (showPopup)="showPopupVictim($event)" (deleteRow)="deleteVictim($event)" [sppCase]="sppCase" [datas]="lstVictim"></app-f-victim>-->
+
+  <app-f-decision-case [register]="selectedRegister" (showPopup)="showPopupDecisionCase($event)" (deleteRow)="deleteDecisionCase($event)" [sppCase]="sppCase" [datas]="lstDecisionCase" (showPopupDisable)="showPopupDecisionCaseDisable($event)"></app-f-decision-case>
+
+  <app-f-centence-g1 *ngIf="!selectedRegister || regiCheckAll || userfor === 'G1'" (showPopup)="showPopupCenG1($event)" (deleteRow)="deleteCenG1($event)" [sppCase]="sppCase" [datas]="lstCenG1" [registerable]="registerable" [register]="selectedRegister" (showPopupDisable)="showPopupCenG1Disable($event)"></app-f-centence-g1>
+
+  <app-f-centence *ngIf="userfor === 'G3' || userfor === 'G4'" (showCentApped)="showCentApped($event)" (showPopup)="showPopupCentence($event)" (deleteRow)="deleteCentence($event)" [userfor]="userfor" [sppCase]="sppCase" [datas]="lstCentence" [registerable]="registerable" [register]="selectedRegister" (showPopupDisable)="showPopupCentenceDisable($event)"></app-f-centence>
+  <app-f-appeal *ngIf="userfor === 'G3'" (showPopup)="showPopupAppeal($event)" (deleteRow)="deleteAppeal($event)" (showPopupCopy)="showPopupAppealCopy($event)" [sppCase]="sppCase" [datas]="lstAppeal" [registerable]="registerable" [register]="selectedRegister" (showPopupDisable)="showPopupAppealDisable($event)"></app-f-appeal>
+  <app-f-against *ngIf="userfor === 'G3' || userfor === 'G4' || userfor === 'G5'" [userfor]="userfor" (showPopupAgainstResult)="showPopupAgainstResult($event)" (showPopupCopy)="showPopupAgainstCopy($event)" (showPopup)="showPopupAgainst($event)" (deleteRow)="deleteAgainst($event)" [sppCase]="sppCase" [datas]="lstAgainst" [registerable]="registerable" [register]="selectedRegister" (showPopupDisable)="showPopupAgainstDisable($event)"></app-f-against>
+  <app-f-centence *ngIf="userfor === 'G5'" (showCentApped)="showCentApped($event)" (showPopup)="showPopupCentence($event)" (deleteRow)="deleteCentence($event)" [userfor]="userfor" [sppCase]="sppCase" [datas]="lstCentence" [registerable]="registerable" [register]="selectedRegister" (showPopupDisable)="showPopupCentenceDisable($event)"></app-f-centence>
+  <app-f-report *ngIf="userfor === 'G5'" (showPopup)="showPopupReport($event)" (deleteRow)="deleteReport($event)" [sppCase]="sppCase" [datas]="lstReportAppeal" [register]="selectedRegister" (showPopupDisable)="showPopupReportDisable($event)"></app-f-report>
+  <app-f-sppspcpol *ngIf="!selectedRegister || regiCheckAll || userfor === 'G1'" (showPopup)="showPopupSppSpcPol($event)" (deleteRow)="deleteSppSpcPol($event)" [sppCase]="sppCase" [datas]="lstSppSpcPolG1" [registerable]="registerable" [register]="selectedRegister" [lstCentG1]="lstCenG1" (showPopupDisable)="showPopupSppSpcPolDisable($event)"></app-f-sppspcpol>
+
+  <app-f-centence-g2 *ngIf="!selectedRegister || regiCheckAll || userfor === 'G2'" (showPopup)="showPopupCenG1($event)" (deleteRow)="deleteCenG1($event)" [sppCase]="sppCase" [datas]="lstCenG2" [registerable]="registerable" [register]="selectedRegister" (showPopupDisable)="showPopupCenG1Disable($event)"></app-f-centence-g2>
+  <app-f-sppspcpol-g2 *ngIf="!selectedRegister || regiCheckAll || userfor === 'G2'" (showPopup)="showPopupSppSpcPol($event)" (deleteRow)="deleteSppSpcPol($event)" [sppCase]="sppCase" [datas]="lstSppSpcPolG2" [registerable]="registerable" [register]="selectedRegister" [lstCentG2]="lstCenG2" (showPopupDisable)="showPopupSppSpcPolDisable($event)"></app-f-sppspcpol-g2>
+
+
+  <!--<app-f-centenceG1 [sppCase]="sppCase"></app-f-centenceG1>-->
+<ng-container *ngIf="sppCase">
+  <app-d-register [userfor]="userfor" (submitForm)="submitRegister($event)" (closeModal)="closePopupRegister()" [isVisible]="isShowPopupRegister" [data]="selectedRegister"></app-d-register>
+  <app-d-register-disable [userfor]="userfor" (submitForm)="submitRegister($event)" (closeModal)="closePopupRegister()" [isVisible]="isShowPopupRegisterDisable" [data]="selectedRegister"></app-d-register-disable>
+
+  <app-d-regins [userfor]="userfor" (submitForm)="submitRegins($event)" (closeModal)="closePopupRegins()" [isVisible]="isShowPopupRegins" [data]="selectedRegins"></app-d-regins>
+  <app-d-regins-disable [userfor]="userfor" (submitForm)="submitRegins($event)" (closeModal)="closePopupRegins()" [isVisible]="isShowPopupReginsDisable" [data]="selectedRegins"></app-d-regins-disable>
+
+  <app-d-accu [register]="selectedRegister" [lstLaw]="lstCaseLaw" [sppCase]="sppCase" [userfor]="userfor" (submitForm)="submitAccu($event)" (closeModal)="closePopupAccu()" [isVisible]="isShowPopupAccu" [data]="selectedAccu" (loadPage)="loadPageAccu($event)"></app-d-accu>
+  <app-d-accu-disable [register]="selectedRegister" [lstLaw]="lstCaseLaw" [sppCase]="sppCase" [userfor]="userfor" (submitForm)="submitAccu($event)" (closeModal)="closePopupAccu()" [isVisible]="isShowPopupAccuDisable" [data]="selectedAccu"></app-d-accu-disable>
+
+  <app-d-spp-damaged [register]="selectedRegister" [sppCase]="sppCase" [userfor]="userfor" (submitForm)="submitVictim($event)" (closeModal)="closePopupVictim()" [isVisible]="isShowPopupVictim" [data]="selectedVictim"></app-d-spp-damaged>
+  <app-d-spp-damaged-disable [register]="selectedRegister" [sppCase]="sppCase" [userfor]="userfor" (submitForm)="submitVictimDisable($event)" (closeModal)="closePopupVictimDisable()" [isVisible]="isShowPopupVictimDisable" [data]="selectedVictim"></app-d-spp-damaged-disable>
+<!--  <app-d-victim [register]="selectedRegister" [lstLaw]="lstCaseLaw" [sppCase]="sppCase" [userfor]="userfor" (submitForm)="submitVictim($event)" (closeModal)="closePopupVictim()" [isVisible]="isShowPopupVictim" [data]="selectedVictim"></app-d-victim>-->
+
+  <app-d-accu-legal [lstLaw]="lstCaseLaw" [sppCase]="sppCase" [userfor]="userfor" (submitForm)="submitAccu($event)" (closeModal)="closePopupAccu()" [isVisible]="isShowPopupAccuLegal" [data]="selectedAccuLegal"></app-d-accu-legal>
+  <app-d-accu-legal-disable [lstLaw]="lstCaseLaw" [sppCase]="sppCase" [userfor]="userfor" (submitForm)="submitAccu($event)" (closeModal)="closePopupAccu()" [isVisible]="isShowPopupAccuLegalDisable" [data]="selectedAccuLegal"></app-d-accu-legal-disable>
+
+  <app-d-decision-acc [onlyAccu]="false" [sppCase]="sppCase" [register]="selectedRegister" [userfor]="userfor" (closeModal)="closePopupDecisionAcc()" (reload)="reloadDecisionAcc()" [isVisible]="isShowPopupDecisionAcc" [accus]="lstAccu"></app-d-decision-acc>
+
+  <app-d-decision-case [sppCase]="sppCase" [register]="selectedRegister" [userfor]="userfor" (submitForm)="submitDecisionCase($event)" (closeModal)="closePopupDecisionCase()" [isVisible]="isShowPopupDecisionCase" [data]="selectedDecisionCase" [datas]="lstDecisionCase"></app-d-decision-case>
+  <app-d-decision-case-disable [sppCase]="sppCase" [register]="selectedRegister" [userfor]="userfor" (submitForm)="submitDecisionCase($event)" (closeModal)="closePopupDecisionCase()" [isVisible]="isShowPopupDecisionCaseDisable" [data]="selectedDecisionCase"></app-d-decision-case-disable>
+
+  <app-d-centence-g1 [register]="selectedRegister" [loading]="cenG1Loading" [sppCase]="sppCase" [userfor]="userfor" (submitForm)="submitCenG1($event)" (closeModal)="closePopupCenG1()" [isVisible]="isShowPopupCenG1" [data]="selectedCenG1"></app-d-centence-g1>
+  <app-d-centence-g1-disable [register]="selectedRegister" [loading]="cenG1Loading" [sppCase]="sppCase" [userfor]="userfor" (submitForm)="submitCenG1($event)" (closeModal)="closePopupCenG1()" [isVisible]="isShowPopupCenG1Disable" [data]="selectedCenG1"></app-d-centence-g1-disable>
+
+  <app-d-sppspcpol [register]="selectedRegister" [sppCase]="sppCase" [userfor]="userfor" (submitForm)="submitSppSpcPol($event)" (closeModal)="closePopupSppSpcPol()" [isVisible]="isShowPopupSppSpcPol" [data]="selectedSppSpcPol" [selectedCen]="selectedCenG1"></app-d-sppspcpol>
+  <app-d-sppspcpol-disable [register]="selectedRegister" [sppCase]="sppCase" [userfor]="userfor" (submitForm)="submitSppSpcPol($event)" (closeModal)="closePopupSppSpcPol()" [isVisible]="isShowPopupSppSpcPolDisable" [data]="selectedSppSpcPol"></app-d-sppspcpol-disable>
+
+  <app-d-centence [lstAccu]="userfor === 'G3' ? lstAccu : lstInfoAccu" [loading]="cenLoading" [sppCase]="sppCase" [userfor]="userfor" (submitForm)="submitCentence($event)" (closeModal)="closePopupCentence($event)" [isVisible]="isShowPopupCentence" [isVisibleDisable]="isShowPopupCentenceDisable" [data]="selectedCentence" [register]="selectedRegister"></app-d-centence>
+  <app-d-report [sppCase]="sppCase" [userfor]="userfor" (submitForm)="submitReport($event)" (closeModal)="closePopupReport($event)" [isVisible]="isShowPopupReportAppeal" [isVisibleDisable]="isShowPopupReportAppealDisable" [data]="selectedReportAppeal" [register]="selectedRegister"></app-d-report>
+  <app-d-appeal [lstAccu]="userfor === 'G3' ? lstAccu : lstInfoAccu" [lstCentence]="lstCentence" [lstDecisionCase]="lstDecisionCase" [loading]="appealLoading" [sppCase]="sppCase" [userfor]="userfor" (submitForm)="submitAppeal($event)" (closeModal)="closePopupAppeal($event)" [isVisible]="isShowPopupAppeal" [data]="selectedAppeal" [register]="selectedRegister"></app-d-appeal>
+  <app-d-appeal-disable [lstAccu]="userfor === 'G3' ? lstAccu : lstInfoAccu" [lstCentence]="lstCentence" [lstDecisionCase]="lstDecisionCase" [loading]="appealLoading" [sppCase]="sppCase" [userfor]="userfor" (submitForm)="submitAppeal($event)" (closeModal)="closePopupAppeal($event)" [isVisible]="isShowPopupAppealDisable" [data]="selectedAppeal" [register]="selectedRegister"></app-d-appeal-disable>
+  <app-d-against [lstAccu]="userfor === 'G3' ? lstAccu : lstInfoAccu" [lstCentence]="lstCentence" [lstDecisionCase]="lstDecisionCase" [loading]="appealLoading" [sppCase]="sppCase" [userfor]="userfor" (submitForm)="submitAgainst($event)" (closeModal)="closePopupAgainst($event)" [isVisible]="isShowPopupAgainst" [data]="selectedAgainst" [register]="selectedRegister"></app-d-against>
+  <app-d-against-disable [lstAccu]="userfor === 'G3' ? lstAccu : lstInfoAccu" [lstCentence]="lstCentence" [lstDecisionCase]="lstDecisionCase" [loading]="appealLoading" [sppCase]="sppCase" [userfor]="userfor" (submitForm)="submitAgainst($event)" (closeModal)="closePopupAgainst($event)" [isVisible]="isShowPopupAgainstDisable" [data]="selectedAgainst" [register]="selectedRegister"></app-d-against-disable>
+  <app-d-against-result [lstAccu]="userfor === 'G3' ? lstAccu : lstInfoAccu" [lstCentence]="lstCentence" [lstDecisionCase]="lstDecisionCase" [loading]="appealLoading" [sppCase]="sppCase" [userfor]="userfor"(closeModal)="closePopupAgainstResult($event)" (submitForm)="submitAgainstResult($event)" [isVisible]="isShowPopupAgainstResult" [register]="selectedRegister"></app-d-against-result>
+  <app-d-centapped [isVisible]="isShowPopupCentApped" [register]="selectedRegister" (closeModal)="closeCentApped($event)"></app-d-centapped>
+
+</ng-container>
+  <a class="btn-back ant-btn ant-btn-primary" (click)="goToRollBack()">
+    <span class="fa fa-fw fa-arrow-left"></span>
+    Quay lại
+  </a>
+<!--
+ABC-->

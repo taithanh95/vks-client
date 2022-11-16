@@ -1,0 +1,174 @@
+#QLAHS.SPC_REGISTER - Loi xay ra khi delete
+spcRegister.error.constraint.decision=Bạn phải xóa thông tin Quyết định trước
+spcRegister.error.constraint.regacc=Bạn phải bỏ chọn Bị can, bị cáo trước
+spcRegister.error.constraint.regacc1=Bạn phải bỏ chọn Người bị kết án trước
+spcRegister.error.constraint.regvic=Bạn phải bỏ chọn Người tham gia tố tụng trước
+spcRegister.error.constraint.regind=Bạn phải xóa thông tin Bản cáo trạng trước
+spcRegister.error.constraint.regjur=Bạn phải xóa thông tin Người tiến hành tố tụng trước
+spcRegister.error.constraint.execution=Bạn phải xóa quyết định thi hành án trước
+spcRegister.error.constraint.decision_UT=Bạn phải xóa quyết định ủy thác thi hành án trước
+spcRegister.error.constraint.decision_G6=Bạn phải xóa quyết định khác trước
+sppRegister.error.constraint.Inspector=Bạn phải xóa thông tin người thụ lý trước
+spcRegister.setnum.error=Đã tồn tại Số thụ lý trong hệ thống (Chú ý: không được nhập trùng Số thụ lý trong cùng năm) 
+spcRegister.warning.indate01=Ngày thụ lý không được lớn hơn ngày hiện tại
+spcRegister.warning.indate02=Ngày thụ lý không được nhỏ hơn ngày bản án có hiệu lực pháp luật
+#QLAHS.LST_LOCATION
+lstLocation.error.constraint=Dữ liệu địa chính đã được sử dụng tại các bảng nghiệp vụ
+
+#QLAHS.SPC_ACCUSED
+spcAccused.error.centence.error=Bị cáo trong lần thụ lý này đã có bản án. Bạn không bỏ chọn được
+#SPC_INDICTMENT
+spcIndictment.error.constraint.indlaw=Bạn phải xóa thông tin bản cáo trạng tại bảng tội danh trước 
+spcIndictment.setnum.error=Đã tồn tại Số bản cáo trạng trong hệ thống (Chú ý: không được nhập trùng số bản cáo trạng trong cùng năm) 
+#QLAHS.SPC_CENLAWPENALTY
+spcCenlawpenalty.warning.warn00=Cảnh báo: Không có hình phạt cảnh cáo đối với điều luật này
+spcCenlawpenalty.warning.warn01=Cảnh báo: Không có hình phạt tiền đối với điều luật này
+spcCenlawpenalty.warning.warn02=Cảnh báo: Không có hình phạt cải tạo không giam giữ với điều luật này
+spcCenlawpenalty.warning.warn03=Cảnh báo: Không có hình phạt trục xuất với điều luật này
+spcCenlawpenalty.warning.warn04=Cảnh báo: Không có hình phạt tù với điều luật này
+spcCenlawpenalty.warning.warn04_nhehon=Cảnh báo: Hình phạt nhẹ hơn khung hình phạt quy định
+spcCenlawpenalty.warning.warn04_nanghon=Cảnh báo: Hình phạt vượt quá khung hình phạt quy định
+spcCenlawpenalty.warning.warn05=Cảnh báo: Không có hình phạt chung thân với điều luật này
+spcCenlawpenalty.warning.warn06=Cảnh báo: Không có hình phạt tử hình với điều luật này
+
+#QLAHS.SPC_DESUBPENALTY
+spcDesubpenalty.error.01=Thời gian được giảm phải nhỏ hơn hoặc bằng (<=) mức hình phạt từ
+spcDesubpenalty.error.02=Thời gian được giảm phải nhỏ hơn hoặc bằng (<=) thời gian chấp hành còn lại
+
+#QLAHS.SPC_DECISION
+spcDecision.transfer.error=Bạn không thể sửa/xóa khi vụ án: bị chuyển, hoặc bị trả hồ sơ cho VKS
+spcDecision.close.error=Bạn không thể thêm mới quyết định khi vụ án đã bị đình chỉ
+spcDecision.setnum.error=Đã tồn tại Số quyết định trong hệ thống (Chú ý: không được nhập trùng Số quyết định trong cùng năm) 
+#spcDecision.indate_before.error=Các quyết định trong giai đoạn chuẩn bị xét xử không được ra sau ngày ra QĐXX
+#spcDecision.indate_after.error=Các quyết định trong giai đoạn xét xử không được ra trước ngày ra QĐXX
+spcDecision.indate_after.error=Các quyết định trong giai đoạn xét xử không được ra trước ngày ra QĐ thuộc giai đoạn CBXX
+spcDecision.indate_before.error=Các QĐ trong giai đoạn chuẩn bị xét xử không được ra sau ngày ra các QĐ thuộc giai đoạn XX
+spcDecision.appeal_againsts.error=Quyết định đã có kháng cáo (hoặc kháng nghị)
+spcDecision.regjur.error=Bạn phải Phân công thẩm phán trước khi ra quyết định
+spcDecision.suspend.error=Bạn không được thay đổi qđ đình chỉ hoặc tạm đình chỉ sang qđ khác khi đã có kháng cáo (hoặc kháng nghị)
+LOI_CHUACO_XX=Quyết định này là quyết định trong giai đoạn xét xử, vụ án chưa được đem ra xét xử nên bạn không thể sử dụng
+LOI_DACO_XX=Quyết định này là quyết định trong giai đoạn chuẩn bị xét xử, bạn không thể sử dụng vì vụ án đã được mang ra xét xử
+#QLAHS.SPC_JURY
+loi_date=Ngày phân công các thẩm phán sau phải sau ngày nhận phân công các thẩm phán trước
+err_thamgia_ketthuc=Ngày phân công thẩm phán sau phải sau ngày kết thúc của các Thẩm phán trước
+err_thamgia_thamgia=Ngày phân công người tiến hành tố tụng phải đảm bảo sau ngày phân công thẩm phán đầu tiên
+err_thamgia_thamgia_ksv=Ngày tham gia của Kiểm Sát Viên phải sau ngày phân công thẩm phán đầu tiên
+#spcJury.daxetxu.error=Thẩm phán này đã từng tham gia xét xử vụ án này
+err_chua_PCTP=Chưa có thẩm phán được phân công
+err_ngay_ra_QD=Ngày ra QĐ phải sau ngày phân công thẩm phán đầu tiên
+ngayketthuc_nhohon_ngaythamgia=Ngày kết thúc nhỏ hơn ngày tham gia vụ án
+ngaynhan_nho_hon_ngayphancong=Ngày nhận phân công nhỏ hơn ngày phân công
+ngaykettuc_ngayhientai=Ngày kết thúc phải nhỏ hơn ngày hiện tại
+ngaynhanpc_ngayhientai=Ngày nhận phân công phải nhỏ hơn ngày hiện tại
+spcJury.daxetxu.error=Thẩm phán này đang tham gia trong thụ lý này
+spcJury.daphancong.error=Người tiến hành tố tụng đã được phân công
+spcJury.indate_acceptdate.error=Ngày nhận phân công phải sau Ngày thụ lý vụ án
+spcJury.indate_assigndate.error=Ngày phân công phải sau Ngày thụ lý vụ án 
+ngaykettuc_ngayhientai=Ngày kết thúc phải nhỏ hơn ngày hiện tại
+ngaythamgia_ngayhientai=Ngày tham gia phải nhỏ hơn ngày hiện tại
+phai_xoa_het=Bạn phải xóa hết người tiến hành tố tụng trước
+phai_xoa_cacTP_va_KSV=Bạn phải xóa các Thẩm Phán khác và các kiểm sát viên trước
+phai_xoa_TP_va_HTTK=Bạn phải xóa các Thẩm Phán khác và Hội Thẩm Nhân Dân hoặc thư kí trước
+phai_xoa_HT_va_KSV=Bạn phải xóa các Hội Thẩm hoặc Thư Ký và kiểm Sát Viên trước
+phai_xoa_HT_TK=Bạn phải xóa các hội thẩm hoặc Thư Ký trước
+phai_xoa_KSV=Bạn phải xóa các Kiểm Sát Viên trước
+phai_xoa_cacTP=Bạn phải xóa các Thẩm Phán khác trước
+da_co_chu_toa_ko_dc_phancong=Đã có chủ tọa phiên tòa, không được phân công "thẩm phán được phân công"
+loi_trung_ten=Thẩm phán này đang là "Thẩm phán được phân công" hoặc là "Chủ tọa phiên tòa", đề nghị xem xét lại
+#QLAHS.SPC_CENTENCE
+spcCentence.centence.decision.notfound=<br>Chưa thể thêm mới / cập nhật bản án vì một trong những lý do sau:</br><br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp- Vụ việc chưa có quyết định đưa ra xét xử</br><br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp- Vụ việc đã kết thúc bằng quyết định đình chỉ</br><br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp- Vụ việc đã kết thúc bằng quyết định công nhận sự thỏa thuận giữa các đương sự</br><br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp- Vụ việc đã kết thúc bằng quyết định chuyển vụ án</br><br>&nbsp&nbsp&nbspĐề nghị kiểm tra lại.</br>
+
+#QLAHS.SPC_REGAGA
+spcRegaga.finish.error=Thụ lý đã kết thúc, không xóa được kháng nghị
+
+#QLAHS.SPC_REGAPP
+spcRegapp.finish.error=Thụ lý đã kết thúc, không xóa được kháng cáo
+
+#SPPCASE
+SppStaticcBegin.valmin.amount.error=Số lượng không được nhỏ hơn giá trị nhỏ nhất
+SppStaticcBegin.valmax.amount.error=Số lượng không được lớn hơn giá trị lớn nhất
+warn.sppcase.crimtimeInvalid=Sai định dạng giờ
+spcCase.warning.beginindate="Ngày quyết định" không được sau ngày hiện tại
+spcCase.warning.beginindate.crimdate="Ngày quyết định" không được trước "Ngày xảy ra"
+spcCase.warning.crimdate="Ngày xảy ra" không được sau ngày hiện tại
+spcCase.warning.crimdate.beginindate="Ngày xảy ra" không được sau "Ngày quyết định"
+sppCase.warning.crimdatefrom.crimdateto="Ngày xảy ra từ ngày" sau "Ngày xảy ra đến ngày"
+sppCase.warning.crimdateto.crimdatefrom="Ngày xảy ra đến ngày" trước "Ngày xảy ra từ ngày"
+sppCase.error.cyear.null=Bạn phải nhập giá trị cho trường "Năm"
+sppCase.warn.sppid.l4.casetype=Lưu ý: Cấp quận/huyện chỉ có thẩm quyền với vụ án ít nghiêm trọng, nghiêm trọng, rất nghiêm trọng
+sppCase.warn.sppid.lawid.casetype=Lưu ý: Cấp quận/huyện không có thẩm quyền giải quyết vụ án đối với một trong số tội danh đã nhập
+#SPPCENTENCE
+sppCentence.warning.indate="Ngày quyết định" không được sau ngày hiện tại
+sppCentence.warning.indate.actdate="Ngày quyết định" không được sau "Ngày hiệu lực"
+sppCentence.warning.actdate.indate="Ngày hiệu lực" không được trước "Ngày quyết định"
+sppCentence.G3.warning.actdate.indate="Ngày hiệu lực" không được trước "Ngày ra bản án"
+sppCentence.G2.warning.actdate.indate="Ngày hiệu lực" không được trước "Ngày VKS ra cáo trạng"
+sppCentence.G1.warning.actdate.indate="Ngày hiệu lực" không được trước "Ngày CQ ra KLĐT"
+sppCentence.G3.warning.indate.actdate="Ngày ra bản án" không được sau "Ngày hiệu lực"
+sppCentence.G2.warning.indate.actdate="Ngày VKS ra cáo trạng" không sau trước "Ngày hiệu lực"
+sppCentence.G1.warning.indate.actdate="Ngày CQ ra KLĐT" không được sau "Ngày hiệu lực"
+sppCentence.G1.warning.indate="Ngày CQ ra KLĐT" không được sau ngày hiện tại
+sppCentence.G2.warning.indate="Ngày VKS ra cáo trạng" không được sau ngày hiện tại
+sppCentence.G3.warning.indate="Ngày ra bản án" không được sau ngày hiện tại
+sppCentence.G1.warning.indate.notfound=Bạn chưa nhập "Ngày CQ ra KLĐT"
+sppCentence.G2.warning.indate.notfound=Bạn chưa nhập "Ngày VKS ra cáo trạng"
+sppCentence.G3.warning.indate.notfound=Bạn chưa nhập "Ngày ra bản án"
+Sppcentence.cenlaw.lawid.null=Bạn phải nhập giá trị cho trường "Điều"
+SppCentence.insert.centenlaw.lawcode=Chưa nhập giá trị cho trường "Tội danh"
+sppCentence.G1.warning.receivedate.indate="Ngày VKS nhận hồ sơ" không được trước "Ngày CQ ra KLĐT"
+sppCentence.G2.warning.receivedate.indate="Ngày TA nhận hồ sơ của VKS" không được trước "Ngày VKS ra cáo trạng"
+sppCentence.G1.warning.indate.receivedate="Ngày CQ ra KLĐT" không được sau "Ngày VKS nhận hồ sơ"
+sppCentence.G2.warning.indate.receivedate="Ngày VKS ra cáo trạng" không được sau "Ngày TA nhận hồ sơ của VKS"
+sppCentence.G1.warning.receivedate.indate.notfound=Chưa có "Ngày CQ ra KLĐT"
+sppCentence.G2.warning.receivedate.indate.notfound=Chưa có "Ngày VKS ra cáo trạng"
+
+SppAccused.warn.accuedFuture.crimdate=Bị can chưa sinh ra tại thời điểm gây án
+SppAccused.warn.accusedTooYoung.accuage=Bị can chưa đủ tuổi chịu trách nhiệm hình sự (Dưới 14 tuổi so với tuổi bị can vào thời điểm gây án)
+
+#QLABTK.SPC_CASELAW
+spcCaselaw.khongtontaidl.error=Không tồn tại điều luật
+lstLawgroup.error.exist=Tên chương luật đã tồn tại, hãy chọn tên khác
+daco_table_sudung=Không được xóa vì đã có chức năng khác sử dụng dữ liệu này
+#QLABTK.SPC_ACCUSED
+spcAccused.warning.calBirthday=Ngày sinh không được lớn hơn ngày hiện tại
+spcAccused.err.lawrelationid=Bạn chưa chọn Tư cách tố tụng
+
+#QTHT: change password
+adm_Users.changePassword.success=Đổi mật khẩu thành công.
+error_exist_record=Kiểm sát hoặc Điều tra viên này đã được phân công, hãy chọn Kiểm sát hoặc Điều tra viên khác
+
+SppSpcPol.error.transdate="Ngày giao nhận" không được sau ngày hiện tại
+
+#chi tieu thong ke vu an
+sppcase.casestatic.warn.pp06.notfound=Chưa nhập tổng số nạn nhân
+sppcase.casestatic.warn.pp01.pp06=Số đồng phạm nhiều hơn tổng số nạn nhân
+sppcase.casestatic.warn.pp02.pp06=Số đồng phạm có tổ chức nhiều hơn tổng số nạn nhân
+sppcase.casestatic.warn.pp07.pp06=Số thiệt hại về danh dự, nhân phẩm nhiều hơn tổng số nạn nhân
+sppcase.casestatic.warn.pp08.pp06=Số người bị thương nhiều hơn tổng số nạn nhân
+sppcase.casestatic.warn.pp10.pp06=Số người chết nhiều hơn tổng số nạn nhân
+sppcase.casestatic.warn.pp12.pp06=Số đối tượng bị hại là nam nhiều hơn tổng số nạn nhân
+sppcase.casestatic.warn.pp14.pp06=Số đối tượng bị hại là nữ nhiều hơn tổng số nạn nhân
+sppcase.casestatic.warn.pp16.pp06=Số đối tượng bị hại là trẻ em nhiều hơn tổng số nạn nhân
+sppcase.casestatic.warn.pp18.pp06=Số đối tượng bị hại là người già, không có khả năng tự vệ nhiều hơn tổng số nạn nhân
+sppcase.casestatic.warn.pp12pp14.pp06=Tổng số bị hại nam và nữ khác với tổng số nạn nhân
+sppcase.casestatic.warn.pp08pp10.pp06=Tổng số bị thương và người chết nhiều hơn tổng số nạn nhân
+sppcase.casestatic.warn.pp16pp18.pp06=Tổng số bị hại là trẻ em và người già nhiều hơn tổng số nạn nhân
+##########################
+sppcentence.staticc.warn.pp06.notfound=Chưa nhập tổng số nạn nhân
+sppcentence.staticc.warn.pp01.pp06=Số đồng phạm nhiều hơn tổng số nạn nhân
+sppcentence.staticc.warn.pp02.pp06=Số đồng phạm có tổ chức nhiều hơn tổng số nạn nhân
+sppcentence.staticc.warn.pp07.pp06=Số thiệt hại về danh dự, nhân phẩm nhiều hơn tổng số nạn nhân
+sppcentence.staticc.warn.pp08.pp06=Số người bị thương nhiều hơn tổng số nạn nhân
+sppcentence.staticc.warn.pp10.pp06=Số người chết nhiều hơn tổng số nạn nhân
+sppcentence.staticc.warn.pp12.pp06=Số đối tượng bị hại là nam nhiều hơn tổng số nạn nhân
+sppcentence.staticc.warn.pp14.pp06=Số đối tượng bị hại là nữ nhiều hơn tổng số nạn nhân
+sppcentence.staticc.warn.pp16.pp06=Số đối tượng bị hại là trẻ em nhiều hơn tổng số nạn nhân
+sppcentence.staticc.warn.pp18.pp06=Số đối tượng bị hại là người già, không có khả năng tự vệ nhiều hơn tổng số nạn nhân
+sppcentence.staticc.warn.pp12pp14.pp06=Tổng số bị hại nam và nữ khác với tổng số nạn nhân
+sppcentence.staticc.warn.pp08pp10.pp06=Tổng số bị thương và người chết nhiều hơn tổng số nạn nhân
+sppcentence.staticc.warn.pp16pp18.pp06=Tổng số bị hại là trẻ em và người già nhiều hơn tổng số nạn nhân
+
+Spp_ChangeSppid.sppidt.null=Chưa chọn Viện kiểm sát cần chuyển đến
+Spp_ChangeSppid.sppidt.null=Chưa chọn Viện kiểm sát đang lưu vụ án
+Spp_ChangeSppid.sppidf.sppidt.equals=Viện kiểm sát đang lưu vụ án bị trùng với Viện kiểm sát cần chuyển đến
+messages.err.missregicode=Thụ lý chưa được chọn, bạn hãy chọn thụ lý

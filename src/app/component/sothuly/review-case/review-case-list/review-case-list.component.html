@@ -1,0 +1,177 @@
+<div class="create-denouncement" *ngIf="formReviewCase">
+
+  <nz-modal nzWidth="1300px"
+            [(nzVisible)]="isVisibleList"
+            nzTitle="Thêm mới"
+            nzClosable="false"
+            [nzTitle]="title"
+            nzMaskClosable="false">
+
+    <ng-template #title>
+      Danh sách những bản án xem xét lại quyết định HĐTP của TANDTC
+      <div class="pull-right icon-close">
+        <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+      </div>
+    </ng-template>
+
+    <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+      <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse()">
+        <i nz-icon [nzType]="isCollapse ? 'minus' : 'plus'"></i>Thông tin tìm kiếm
+      </legend>
+      <div class="ui-fieldset-content" (keyup.enter)="doSearch()">
+        <div nz-form class="ant-advanced-search-form px-3" [ngClass]="isCollapse ? 'show' : 'hide' ">
+          <div class="form-group row">
+            <label class="col-md-2 col-form-label" for="caseCode">Mã vụ án</label>
+            <div class="col-md-4">
+              <input autofocus nz-input appNumberic [maxLength]="50" id="caseCode" name="caseCode"
+                     class="form-control border-success"
+                     placeholder="Mã vụ án" [(ngModel)]="searchModel.caseCode">
+            </div>
+            <label class="col-md-2 col-form-label" for="caseName">Tên vụ án</label>
+            <div class="col-md-4">
+              <input autofocus nz-input [maxLength]="200" id="caseName" name="caseName"
+                     class="form-control border-success"
+                     placeholder="Tên vụ án" [(ngModel)]="searchModel.caseName">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-2 col-form-label" for="accusedCode">Mã bị cáo</label>
+            <div class="col-md-4">
+              <input autofocus nz-input appNumberic [maxLength]="50" id="accusedCode" name="accusedCode"
+                     class="form-control border-success"
+                     placeholder="Mã bị cáo" [(ngModel)]="searchModel.accusedCode">
+            </div>
+            <label class="col-md-2 col-form-label" for="accusedName">Tên bị cáo</label>
+            <div class="col-md-4">
+              <input autofocus nz-input [maxLength]="200" id="accusedName" name="accusedName"
+                     class="form-control border-success"
+                     placeholder="Tên bị cáo" [(ngModel)]="searchModel.accusedName">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-2 col-form-label" for="judgmentNum">Số bản án</label>
+            <div class="col-md-4">
+              <input autofocus nz-input [maxLength]="50" id="judgmentNum" name="judgmentNum"
+                     class="form-control border-success"
+                     placeholder="Số bản án" [(ngModel)]="searchModel.judgmentNum">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-2 col-form-label">Bản án ra từ ngày</label>
+            <div class="col-md-4">
+              <nz-date-picker [ngStyle]="{width: '100%'}" nzSize="large" [(ngModel)]="searchModel.fromDate"
+                              nzPlaceHolder="Bản án ra từ ngày" nzFormat="dd/MM/yyyy">
+              </nz-date-picker>
+              <div class="text-danger margin-top-5" *ngIf="requiredFromDate">
+                <small>Bản án từ ngày phải nhỏ hơn hoặc bằng Bản án đến ngày</small>
+              </div>
+            </div>
+            <label class="col-md-2 col-form-label">Bản án ra đến ngày</label>
+            <div class="col-md-4">
+              <nz-date-picker [ngStyle]="{width: '100%'}" [(ngModel)]="searchModel.toDate"
+                              nzPlaceHolder="Bản án ra đến ngày" nzFormat="dd/MM/yyyy"></nz-date-picker>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+    <div class="ui-panel text-center">
+      <div nz-row>
+        <div nz-col [nzSpan]="24" class="search-area">
+          <button nz-button (click)="doSearch()" [nzType]="'primary'">
+            <span class="fa fa-fw fa-search"></span>&nbsp;Tìm kiếm
+          </button>
+          <button [disabled]="!selectedItem"
+                  nz-button nzType="primary" (click)="showModalDetail()">
+            <span class="fa fa-fw fa-eye"></span>&nbsp;Xem chi tiết
+          </button>
+          <button nz-popconfirm
+                  nzPopconfirmTitle="Bạn có chắc chắn xóa thông tin không?"
+                  [disabled]="!selectedItem"
+                  nzPopconfirmPlacement="top"
+                  nzCancelText="Không"
+                  nzOkText="Có"
+                  (nzOnConfirm)="confirmDelete()"
+                  nz-button nzType="danger"><i class="fa fa-fw fa-delete"></i>Xóa
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="data-table">
+      <section *ngIf="dataList && dataList.length; else noResultTpl">
+        <nz-page-header>
+          <nz-page-header-subtitle [style]="'color: red; font-weight: bold'">Tổng số bản ghi: {{ pageResponse.totalElements }}
+            Trang: {{ pageResponse.pageNumber }}/{{ pageResponse.totalPages }}</nz-page-header-subtitle>
+        </nz-page-header>
+        <nz-table #basicTable [nzData]="dataList"
+                  [nzScroll]="{ x: '1200px' }"
+                  [nzFrontPagination]="false"
+                  [nzTotal]="pageResponse.totalElements"
+                  [nzPageSize]="pageResponse.pageSize"
+                  [nzPageIndex]="pageResponse.pageNumber"
+                  nzSize="small"
+                  nzShowSizeChanger [nzShowTotal]="rangeTemplate" [nzLoading]="loading"
+                  (nzQueryParams)="onQueryParamsChange($event)"
+                  [nzPageSizeOptions]="pageSize"
+                  [nzNoResult]="noResultTpl"
+        >
+          <thead>
+          <tr>
+            <th nzLeft="0" nzWidth="50px"></th>
+            <th nzWidth="50px">STT</th>
+            <th class="text-nowrap" nzColumnKey="caseCode" [nzSortFn]="true" style="width: 5%">Mã vụ án</th>
+            <th class="text-nowrap" nzColumnKey="caseName" [nzSortFn]="true" style="width: 15%">Tên vụ án</th>
+            <th class="text-nowrap" nzColumnKey="accusedCode" [nzSortFn]="true" style="width: 5%">Mã bị cáo</th>
+            <th class="text-nowrap" nzColumnKey="accusedName" [nzSortFn]="true" style="width: 15%">Tên bị cáo</th>
+            <th class="text-nowrap" nzColumnKey="judgmentNum" [nzSortFn]="true" style="width: 5%">Số bản án</th>
+            <th class="text-nowrap" nzColumnKey="judgmentDate" [nzSortFn]="true" style="width: 8%">Ngày ra bản án</th>
+          </tr>
+          </thead>
+          <tbody>
+
+          <tr *ngFor="let data of basicTable.data;let i = index;" class="actived" ngClass="s-{{data.checked}}">
+            <td nzShowCheckbox [(nzChecked)]="data.checked"
+                (nzCheckedChange)="onItemChecked(data, $event)" nzLeft="0px"
+                nzWidth="50px"></td>
+            <td class="text-center">{{ (i + 1) + (pageResponse.pageNumber - 1) * pageResponse.pageSize }}</td>
+            <td class="text-right">{{ data['caseCode'] }}</td>
+            <td class="text-left">{{ data['caseName'] }}</td>
+            <td class="text-right">{{ data['accusedCode'] }}</td>
+            <td class="text-left">{{ data['accusedName'] }}</td>
+            <td class="text-left">{{ data['judgmentNum'] }}</td>
+            <td class="text-center">{{ data['judgmentDate'] }}</td>
+
+          </tr>
+          </tbody>
+        </nz-table>
+        <ng-template #rangeTemplate let-range="range" let-total>
+          <!--    {{ range[0] }}-{{ range[1] }} {{'của' | translate }} {{ total }} {{ 'bản ghi' }}-->
+          {{ range[0] }}-{{ range[1] }} {{' của ' | translate }} {{ pageResponse.totalElements }} {{ ' bản ghi' }}
+        </ng-template>
+      </section>
+
+      <ng-template #noResultTpl>
+        <nz-empty nzNotFoundImage="./assets/image/empty.svg" [nzNotFoundContent]="contentTpl">
+          <ng-template #contentTpl>
+            <p>Không tìm thấy kết quả.</p>
+          </ng-template>
+        </nz-empty>
+      </ng-template>
+    </div>
+    <div *nzModalFooter>
+      <div class="d-flex align-items-center justify-content-center">
+        <nz-form-item>
+          <nz-form-control>
+            <button nz-button type="button" (click)="handleCancel()">
+              <span class="fa fa-fw fa-backward"></span>
+              {{'back' | translate }}</button>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+  </nz-modal>
+</div>
+<app-review-case-update [isVisibleUpdate]="isVisibleDetail" [mode]="modeEnum.VIEW_FROM_PARENT"
+                        (closeModal)="closeModalDetail()" [selectedCase]="selectedItem">
+</app-review-case-update>

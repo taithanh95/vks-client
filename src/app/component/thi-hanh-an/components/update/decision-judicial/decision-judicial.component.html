@@ -1,0 +1,57 @@
+<fieldset
+  class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+  <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse()">
+    <i nz-icon [nzType]="isCollapse ? 'minus' : 'plus'"></i>Quyết định thi hành biện pháp tư pháp
+  </legend>
+  <div class="ui-fieldset-content" nz-form [ngClass]="isCollapse ? 'show' : 'hide' ">
+    <nz-table #basicTable [nzData]="listOfData"
+              [nzScroll]="{ x: '1200px' }"
+              [nzPageSizeOptions]="pageSize" [nzPageSize]="defaultPage" nzSize="small"
+              nzShowSizeChanger [nzShowTotal]="rangeTemplate" [nzLoading]="loading">
+      <thead>
+      <tr>
+        <th class="text-nowrap" nzWidth="10%">Quyết định số</th>
+        <th class="text-nowrap" nzWidth="15%">Ngày ra quyết định</th>
+        <th class="text-nowrap" nzWidth="25%">Biện pháp thi hành</th>
+        <th class="text-center" nzWidth="25%">Đơn vị ban hành</th>
+        <th class="text-center" nzWidth="15%">Ngày thi hành</th>
+        <th class="text-nowrap" nzWidth="10%">Thao tác</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of basicTable.data;let i = index;" ngClass="s-{{data.selected}}">
+        <td class="text-center"> {{ data.setnum }}</td>
+        <td class="text-center"> {{ data.indate | dateFormat }}</td>
+        <td class="text-nowrap"> {{ f(data.enforceMeasure) }}</td>
+        <td class="text-nowrap"> {{ data.decisionUnitName }}</td>
+        <td class="text-center"> {{ data.enforceDate | dateFormat }}</td>
+        <td class="text-nowrap center">
+          <button nz-tooltip nzTooltipTitle="Sửa" class="btn-qla" (click)="showEditForm(data)">
+            <span class="fa fa-fw fa-edit"></span></button>
+          <button nz-tooltip nzTooltipTitle="Xem" class="btn-qla" (click)="showDisableForm(data)">
+            <span class="fa fa-fw fa-eye"></span></button>
+          <button nz-tooltip nzTooltipTitle="Xóa" class="btn-qla"
+                  nz-popconfirm
+                  nzPopconfirmTitle="Bạn có chắc muốn xóa bản ghi này không?"
+                  nzPopconfirmPlacement="top"
+                  nzCancelText="Hủy"
+                  nzOkText="Đồng ý"
+                  (nzOnConfirm)="confirm(data.deciJudicialId)"
+                  (nzOnCancel)="cancel()">
+            <span class="fa fa-fw fa-times"></span>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
+    <div class="div-btn-right">
+      <button [disabled]="!this.register || !this.register.regicode || checkDeciJudicial" (click)="showInsert()" nz-button nzType="primary">
+        <i class="fa fa-fw fa-plus"></i> Thêm
+        mới
+      </button>
+    </div>
+  </div>
+  <ng-template #rangeTemplate let-range="range" let-total>
+    {{ range[0] }}-{{ range[1] }} {{'of' | translate }} {{ total }} {{'items' | translate }}
+  </ng-template>
+</fieldset>

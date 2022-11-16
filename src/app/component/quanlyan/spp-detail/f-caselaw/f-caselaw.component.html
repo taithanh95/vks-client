@@ -1,0 +1,51 @@
+<fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+  <legend class="ui-fieldset-legend ui-corner-all ui-state-default" (click)="toggleCollapse()">
+    <i nz-icon [nzType]="isCollapse ? 'minus' : 'plus'"></i>Điều luật khởi tố vụ án</legend>
+  <div class="ui-fieldset-content" nz-form [ngClass]="isCollapse ? 'show' : 'hide' ">
+    <nz-table #basicTable [nzData]="datas"
+              [nzScroll]="{ x: '1200px' }" nzShowPagination="false"
+              [nzPageSizeOptions]="pageSize" [nzPageSize]="100" nzSize="small"
+              nzShowSizeChanger [nzShowTotal]="rangeTemplate" [nzLoading]="loading">
+      <thead>
+      <tr>
+        <th class="text-nowrap center" style="width: 60px">STT</th>
+        <th class="text-nowrap center" style="width: 60px">Điều</th>
+        <th class="text-nowrap center" style="width: 60px">Khoản</th>
+        <th class="text-nowrap center" style="width: 60px">Điểm</th>
+        <th class="text-nowrap">Tội danh</th>
+        <th class="text-nowrap" style="width: 120px">Tên bộ luật</th>
+        <ng-container *ngIf="datas && datas.length > 1">
+          <th class="text-nowrap" style="width: 120px">Thao tác</th>
+        </ng-container>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of basicTable.data;let i = index;" class="actived">
+        <td class="text-nowrap center">{{getRowIndex(i, basicTable.nzPageIndex, basicTable.nzPageSize)}}</td>
+        <td class="text-nowrap center">{{ data.LAWID }}</td>
+        <td class="text-nowrap center">{{ data.ITEM }}</td>
+        <td class="text-nowrap center">{{ data.POINT }}</td>
+        <td class="text-nowrap">{{ data.LAWNAME }}</td>
+        <td class="text-nowrap">{{ data.CODENAME }}</td>
+        <ng-container *ngIf="datas && datas.length > 1">
+          <td class="text-nowrap center">
+            <button nz-tooltip nzTooltipTitle="Xóa" class="btn-qla"
+            nz-popconfirm
+            nzPopconfirmTitle="Bạn có chắc muốn xóa bản ghi này không?"
+            nzPopconfirmPlacement="top"
+            nzCancelText="Hủy"
+            nzOkText="Đồng ý"
+            (nzOnConfirm)="confirm(data)"
+            (nzOnCancel)="cancel()">
+            <span class="fa fa-fw fa-times"></span>
+            </button>
+          </td>
+        </ng-container>
+      </tr>
+      </tbody>
+    </nz-table>
+  </div>
+  <ng-template #rangeTemplate let-range="range" let-total>
+    {{ range[0] }}-{{ range[1] }} {{'of' | translate }} {{ total }} {{'items' | translate }}
+  </ng-template>
+</fieldset>

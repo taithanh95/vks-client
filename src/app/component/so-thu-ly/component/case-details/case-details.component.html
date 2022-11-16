@@ -1,0 +1,58 @@
+<section class="mb-2">
+  <fieldset class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+    <legend class="ui-fieldset-legend ui-corner-all ui-state-default mb-0" (click)="toggleCollapse()">
+      <i nz-icon [nzType]="collapse ? 'minus' : 'plus'"></i> Thông tin vụ án
+    </legend>
+    <div class="ui-fieldset-content ant-advanced-search-form p-2" [ngClass]="collapse ? 'show' : 'hide' ">
+      <form *ngIf="case">
+        <table class="table table-borderless table-sm w-auto">
+          <tbody>
+          <tr>
+            <td><label for="caseCode">Mã vụ án</label></td>
+            <td>
+              <input type="text" nz-input [value]="case.caseCode" id="caseCode" placeholder="Mã vụ án"
+                     disabled>
+            </td>
+            <td><label for="caseName">Tên vụ án</label></td>
+            <td>
+              <input type="text" nz-input [value]="case.caseName" id="caseName" placeHolder="Tên vụ án"
+                     disabled>
+            </td>
+          </tr>
+          <tr>
+            <td><label for="fullname">Bị can đầu vụ</label></td>
+            <td>
+              <input type="text" nz-input [value]="case.firstAccused?.fullName" id="fullname"
+                     placeholder="Bị can đầu vụ" disabled>
+            </td>
+            <td><label for="lawName">Điều luật khởi tố</label></td>
+            <td [title]="(case.law?.lawId ? 'Điều ' + case.law?.lawId : '') +
+                       (case.law?.item ? '- Khoản ' + case.law?.item : '') +
+                       (case.law?.point ? '- Điểm ' + case.law?.point : '') +
+                       (case.law?.lawName ? ' - ' + case.law?.lawName : '')">
+              <input type="text" nz-input [value]="(case.law?.lawId ? 'Điều ' + case.law?.lawId : '') +
+                       (case.law?.item ? '- Khoản ' + case.law?.item : '') +
+                       (case.law?.point ? '- Điểm ' + case.law?.point : '') +
+                       (case.law?.lawName ? ' - ' + case.law?.lawName : '')"
+                     id="lawName"
+                     placeholder="Điều luật khởi tố" disabled>
+            </td>
+          </tr>
+          <tr>
+            <td><label for="beginIndate">Ngày quyết định khởi tố</label></td>
+            <td>
+              <input type="text" nz-input [value]="case.beginIndate"
+                     id="beginIndate" placeholder="Ngày quyết định khởi tố" disabled>
+            </td>
+            <td><label for="beginSetnum">Quyết định khởi tố số</label></td>
+            <td>
+              <input type="text" nz-input [value]="case.beginSetnum" id="beginSetnum"
+                     placeholder="Quyết định khởi tố số" disabled>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </form>
+    </div>
+  </fieldset>
+</section>

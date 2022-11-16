@@ -1,0 +1,45 @@
+.ui-panel-10-col {
+    table-layout: fixed;
+}
+
+.ui-panel-10-col td {
+    padding: 2px !important;
+}
+
+.ui-panel-10-col label {
+    font-size: 12px;
+}
+
+.ui-panel-10-col td:nth-child(1){
+    width: 5%;
+}
+.ui-panel-10-col td:nth-child(2){
+    width: 6%;
+}
+
+.ui-panel-10-col td:nth-child(3),
+.ui-panel-10-col td:nth-child(5),
+.ui-panel-10-col td:nth-child(7){
+    width: 7%;
+}
+
+.ui-panel-10-col td:nth-child(4),
+.ui-panel-10-col td:nth-child(9){
+    width: 10%;
+}
+
+.ui-panel-10-col td:nth-child(6),
+.ui-panel-10-col td:nth-child(8){
+    width: 13%;
+}
+
+.ui-panel-10-col td:nth-child(10){
+    width: 23%;
+}
+
+.error{
+    border:1px solid #cd0a0a !important;
+}
+.overflow{
+  overflow-x: hidden;
+}

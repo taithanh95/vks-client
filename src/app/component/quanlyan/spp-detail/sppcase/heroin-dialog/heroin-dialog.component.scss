@@ -1,0 +1,16 @@
+.ui-panelgrid td, .ui-panelgrid label {
+  font-size: 12px;
+}
+.div-button{
+  margin-bottom: 10px;
+  display: block;
+  clear: both;
+  overflow: hidden;
+}
+.div-button button{
+  float: right;
+  margin-left: 10px;
+}
+tr.actived td{
+  background: #ffef8f;
+}

@@ -1,0 +1,47 @@
+import {ViolationLegislationDocument} from '../../violation-management/model/violation-legislation-document';
+import {CompensationDocument} from './compensation-document';
+import {CompensationDetail} from './compensation-detail';
+
+export interface Compensation {
+  id?: number;
+  compensationDate?: Date | string;
+  petitionDate?: Date | string;
+  claimantName?: string;
+  claimantBirthday?: Date | string;
+  claimantAddress?: string;
+  claimantCccd?: number;
+  damagesName?: string;
+  damagesBirthday?: Date | string;
+  damagesAddress?: string;
+  damagesContent?: string;
+  damagesCccd?: number;
+  decisionCompensationDate?: Date | string;
+  decisionCompensationNumber?: number;
+  decisionCompensationIndate?: Date | string;
+  detentionInNumberOfDays?: number;
+  verificationFromDate?: Date | string;
+  verificationToDate?: Date | string;
+  negotiateFromDate?: Date | string;
+  negotiateToDate?: Date | string;
+  decisionEnforcementNumber?: number;
+  decisionEnforcementContent?: string;
+  decisionEnforcementIndate?: Date | string;
+  decisionEnforcementSppid?: string;
+  decisionEnforcementSigner?: string;
+  decisionEnforcementPosition?: string;
+  judgmentCompensationNumber?: number;
+  judgmentCompensationDate?: Date | string;
+  judgmentCompensationContent?: string;
+  resultCode?: number;
+  resultName?: number;
+  resultNumber?: number;
+  resultDate?: Date | string;
+  fromDate?: string;
+  toDate?: string;
+  resultHandler?: string;
+  resultPositionHandler?: string;
+  note?: string;
+  sppid?: string;
+  compensationDocumentList?: CompensationDocument[];
+  compensationDetailList?: CompensationDetail[];
+}

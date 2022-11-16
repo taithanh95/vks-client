@@ -1,0 +1,15 @@
+<div class="row">
+  <div class="col-md-3"></div>
+  <div class="col-md-6">
+    <div style="display: flex">
+      <h5>DỮ LIỆU THAO TÁC: &nbsp;</h5>
+      <nz-spin nzTip="" [nzSpinning]="isLoading">
+        <nz-select nzShowSearch nzPlaceHolder="" style="width:300px" [(ngModel)]="selectedSppId"
+                   (ngModelChange)="sppChange($event)">
+          <nz-option *ngFor="let option of lstSpp" [nzValue]="option.SPPID"
+                     nzLabel="{{option.SPPID}} - {{option.NAME}}"></nz-option>
+        </nz-select>
+      </nz-spin>
+    </div>
+  </div>
+</div>
